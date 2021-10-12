@@ -1,8 +1,11 @@
-public class Schedule{
+import java.util.ArrayList;
+import java.util.List;
+
+public class Schedule {
 
     private String name;
 
-    private List<Workout>[] plan = new ArrayList<>[7];
+    private List<Workout>[] plan = new ArrayList[7];
 
     /**
      * Construct an Schedule, giving the name.
@@ -16,8 +19,8 @@ public class Schedule{
         return name;
     }
 
-    public String setName() {
-        return name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     // TODO: Possibly track the exact hour of the workout

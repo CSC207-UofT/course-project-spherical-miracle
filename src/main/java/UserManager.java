@@ -1,10 +1,11 @@
 import java.util.HashMap;
 
 public class UserManager {
-    private HashMap<String, User> userMap;
+    //TODO: replace with database
+    public HashMap<String, User> userMap;
 
     /**
-     * Construct a UserMap given a HashMap.
+     * Construct a userMap given a HashMap.
      *
      * @param userMap HashMap of users.
      */
@@ -13,27 +14,11 @@ public class UserManager {
     }
 
     /**
-     * Construct a new UserMap.
+     * Construct a new userMap.
      *
      *
      */
     public UserManager(){
         this.userMap = new HashMap<>();
     }
-
-    /**
-     * Return the User based on username.
-     *
-     * @return User
-     **/
-    public User getUser(String username){ return userMap.get(username); }
-
-    /**
-     * Add a new user to the HashMap.
-     *
-     *
-     **/
-    public void addUser(User newUser){ userMap.put(newUser.getUsername(), newUser);}
-
-
 }
