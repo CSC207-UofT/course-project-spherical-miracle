@@ -8,8 +8,8 @@ public class UserLogin {
      *
      * @param userMap HashMap of users.
      */
-    public UserLogin(HashMap<String, User> userMap){
-        this.userMap = userMap;
+    public UserLogin(UserManager manager){
+        this.userMap = manager.userMap;
     }
 
     /**
