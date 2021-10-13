@@ -21,6 +21,10 @@ public class ScheduleDatabase {
         this.scheduleMap = new HashMap<>();
     }
 
+    public HashMap<String, Schedule> getScheduleMap() {
+        return scheduleMap;
+    }
+
     /**
      * Return the Schedule based on name.
      *

@@ -2,7 +2,7 @@ import java.util.HashMap;
 
 public class UserDatabase {
     //TODO: replace with database
-    public HashMap<String, User> userMap;
+    private HashMap<String, User> userMap;
 
     /**
      * Construct a userMap given a HashMap.
@@ -11,6 +11,10 @@ public class UserDatabase {
      */
     public UserDatabase(HashMap<String, User> userMap){
         this.userMap = userMap;
+    }
+
+    public HashMap<String, User> getUserMap() {
+        return userMap;
     }
 
     /**

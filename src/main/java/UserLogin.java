@@ -6,10 +6,10 @@ public class UserLogin {
     /**
      * Construct a userMap given a HashMap.
      *
-     * @param userMap HashMap of users.
+     * @param manager HashMap of users.
      */
     public UserLogin(UserDatabase manager){
-        this.userMap = manager.userMap;
+        this.userMap = manager.getUserMap();
     }
 
     /**
@@ -19,7 +19,7 @@ public class UserLogin {
      **/
     public boolean CheckUser(String username, String password){
         if (userMap.containsKey(username)) {
-            return password == userMap.get(username).getPassword();
+            return password.equals(userMap.get(username).getPassword());
         }
         return false;
     }

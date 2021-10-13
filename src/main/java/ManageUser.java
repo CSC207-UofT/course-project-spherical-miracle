@@ -30,13 +30,13 @@ public class ManageUser {
         boolean is_valid = Arrays.stream(user).anyMatch(n -> (n == null));
         if (is_valid) {
             User new_User = new User(user[0], user[1], user[2], user[3]);
-            manager.userMap.put(user[0], new_User);
+            manager.getUserMap().put(user[0], new_User);
             return true;
         }
         return false;
     }
     public void RemoveUser(String username) {
         //TODO: validating inputs
-        manager.userMap.remove(username);
+        manager.getUserMap().remove(username);
     }
 }
