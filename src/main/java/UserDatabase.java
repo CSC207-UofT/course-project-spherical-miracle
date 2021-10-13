@@ -1,6 +1,6 @@
 import java.util.HashMap;
 
-public class UserManager {
+public class UserDatabase {
     //TODO: replace with database
     public HashMap<String, User> userMap;
 
@@ -9,7 +9,7 @@ public class UserManager {
      *
      * @param userMap HashMap of users.
      */
-    public UserManager(HashMap<String, User> userMap){
+    public UserDatabase(HashMap<String, User> userMap){
         this.userMap = userMap;
     }
 
@@ -18,7 +18,7 @@ public class UserManager {
      *
      *
      */
-    public UserManager(){
+    public UserDatabase(){
         this.userMap = new HashMap<>();
     }
 }

@@ -1,27 +1,27 @@
 import java.util.Arrays;
 
-public class AddUser {
+public class ManageUser {
 
     private String[] user;
-    private UserManager manager;
+    private UserDatabase manager;
 
 
     /**
-     * Construct a list of the information needed to create a new user and the UserManager data.
+     * Construct a list of the information needed to create a new user and the UserDatabase data.
      *
      * @param username string of username.
      * @param password string of password.
      * @param email string of email.
      * @param name string of name.
-     * @param manager UserManager object.
+     * @param manager UserDatabase object.
      */
-    public AddUser(String username, String password, String email, String name, UserManager manager){
+    public ManageUser(String username, String password, String email, String name, UserDatabase manager){
         this.manager = manager;
         this.user = new String[]{username, password, email, name};
     }
 
     /**
-     * If the information is valid, add the user to the UserManager object then return true. Otherwise, return false.
+     * If the information is valid, add the user to the UserDatabase object then return true. Otherwise, return false.
      *
      * @return boolean
      **/
@@ -34,5 +34,9 @@ public class AddUser {
             return true;
         }
         return false;
+    }
+    public void RemoveUser(String username) {
+        //TODO: validating inputs
+        manager.userMap.remove(username);
     }
 }

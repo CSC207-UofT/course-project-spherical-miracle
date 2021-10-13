@@ -1,6 +1,6 @@
 import java.util.HashMap;
 
-public class ScheduleManager {
+public class ScheduleDatabase {
     private HashMap<String, Schedule> scheduleMap;
 
     /**
@@ -8,7 +8,7 @@ public class ScheduleManager {
      *
      * @param scheduleMap HashMap of users.
      */
-    public ScheduleManager(HashMap<String, Schedule> scheduleMap){
+    public ScheduleDatabase(HashMap<String, Schedule> scheduleMap){
         this.scheduleMap = scheduleMap;
     }
 
@@ -17,7 +17,7 @@ public class ScheduleManager {
      *
      *
      */
-    public ScheduleManager(){
+    public ScheduleDatabase(){
         this.scheduleMap = new HashMap<>();
     }
 
