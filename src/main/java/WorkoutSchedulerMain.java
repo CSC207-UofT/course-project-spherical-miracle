@@ -3,16 +3,15 @@ import java.util.Scanner;
 
 public class WorkoutSchedulerMain {
     public static void main(String[] args) {
-        Workout[] plan = new Workout[7];
-        System.out.println(plan[0] == null);
         UserDatabase userDatabase = new UserDatabase();
+        ScheduleDatabase scheduleDatabase = new ScheduleDatabase();
         boolean quit = false;
         Scanner in = new Scanner(System.in);
         while (!quit) {
             //InOut.out.println();
             // would rather have this for ease of refactoring,
             // make this class later.
-            System.out.println("Type 'l' to login and 's' to signup or q to quit");
+            System.out.println("Type 'l' to login and 's' to signup or 'q' to quit");
             String input = in.nextLine();
             switch(input) {
                 case "l":
@@ -37,27 +36,41 @@ public class WorkoutSchedulerMain {
                     quit = true;
                     break;
             }
-            while (!quit) { // TODO add a quit optino to this loop
-                System.out.println("Type 'w' to add a workout:");
+            while (!quit) {
+                System.out.println("Type 's' to make a schedule or 'q' to quit:");
                 input = in.nextLine();
                 switch (input) {
-                    case "w":
+                    case "s":
                         System.out.println("Enter the name of the schedule:");
                         String scheduleName = in.nextLine();
                         Schedule schedule = new Schedule(scheduleName);
                         while (!Objects.equals(input, "f")) {
                             System.out.println("Enter the type of workout you would like to add or 'f' if you are finished.");
-                            String workoutName = in.nextLine(); // will this cause errors by overriding switch argument inside switch case?
-                            if (!workoutName.equals("f")) {
+                            input = in.nextLine(); // will this cause errors by overriding switch argument inside switch case?
+                            if (input.equals("f")) {
                                 // ask for the day the user wants the workout on, and the calories burnt for the workout.
                                 // then add it to the day of the workout.
+                                scheduleDatabase.addSchedule(schedule);
+                                System.out.println("This is your workout for day 0:");
+                                Workout firstWorkout = schedule.getWorkout(0);
+                                if (firstWorkout == null) {
+                                    System.out.println("Rest Day");
+                                } else {
+                                    System.out.println(schedule.getWorkout(0).getName());
+                                }
+
+                            } else {
                                 System.out.println("Enter the day of the workout as an integer (0-6, where 0 is Sunday):");
                                 int day = in.nextInt();
-                                // in.nextLine(); // get rid of endline char from last input
                                 System.out.println("Enter the estimated calories burnt for the workout:");
                                 int calories = in.nextInt();
-                                schedule.addWorkout(day, new Workout(workoutName, calories));
+                                schedule.addWorkout(day, new Workout(input, calories));
+                                in.nextLine(); // get rid of endline char from last input
+                                }
                             }
+                        break;
+                    case "q":
+                        quit = true;
                         }
                 }
 
@@ -65,4 +78,3 @@ public class WorkoutSchedulerMain {
 
         }
     }
-}

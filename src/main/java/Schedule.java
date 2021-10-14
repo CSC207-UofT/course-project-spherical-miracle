@@ -40,4 +40,8 @@ public class Schedule {
         plan[day] = null;
     }
 
+    public Workout getWorkout(int day) {
+        return plan[day];
+    }
+
 }

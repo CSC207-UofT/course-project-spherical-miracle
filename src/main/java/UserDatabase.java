@@ -13,10 +13,6 @@ public class UserDatabase {
         this.userMap = userMap;
     }
 
-    public HashMap<String, User> getUserMap() {
-        return userMap;
-    }
-
     /**
      * Construct a new userMap.
      *
@@ -24,5 +20,9 @@ public class UserDatabase {
      */
     public UserDatabase(){
         this.userMap = new HashMap<>();
+    }
+
+    public HashMap<String, User> getUserMap() {
+        return userMap;
     }
 }
