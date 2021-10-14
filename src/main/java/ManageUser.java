@@ -25,17 +25,18 @@ public class ManageUser {
      *
      * @return boolean
      **/
-    public boolean AddUser() {
+    public boolean addUser() {
         //TODO: validating inputs
-        boolean is_valid = Arrays.stream(user).anyMatch(n -> (n == null));
-        if (is_valid) {
+        boolean invalid = Arrays.stream(user).anyMatch(n -> (n == null));
+
+        if (!invalid) {
             User new_User = new User(user[0], user[1], user[2], user[3]);
             manager.getUserMap().put(user[0], new_User);
             return true;
         }
         return false;
     }
-    public void RemoveUser(String username) {
+    public void removeUser(String username) {
         //TODO: validating inputs
         manager.getUserMap().remove(username);
     }
