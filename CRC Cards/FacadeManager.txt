@@ -1,0 +1,10 @@
+Class name: FacadeManager
+
+Responsibilities:
+* Recieves user inputs
+* Delegates task to relevant use case based on given input
+
+Collaborators:
+* ManageUser
+* ManageSchedule
+* UserLogin
