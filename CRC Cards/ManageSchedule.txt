@@ -1,8 +1,0 @@
-Class name: ManageSchedule
-
-Responsibilities:
-* Add/Remove schedules from HashMap in ScheduleDatabase
-
-Collaborators:
-* Schedule
-* ScheduleDatabase

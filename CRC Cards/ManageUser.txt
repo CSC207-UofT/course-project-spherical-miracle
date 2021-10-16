@@ -1,9 +1,0 @@
-Class name: ManageUser
-
-Responsibilities:
-* Create new User and add to HashMap in UserDatabase if new User is valid
-* Remove User
-
-Collaborators:
-* UserDatabase
-* User

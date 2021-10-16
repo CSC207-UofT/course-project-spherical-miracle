@@ -1,9 +1,0 @@
-Class name: UserLogin
-
-Responsibilities:
-* Lets user login to their account(username, password)
-* Verify login is correct
-
-Collaborators:
-* UserManager
-* UserDatabase

@@ -1,9 +1,0 @@
-Class name: User
-
-Responsibilities:
-* Store username, password, email, and name of user
-* Getter for everything above
-* Setters for when users want to change information
-
-Collaborators:
-* UserManager

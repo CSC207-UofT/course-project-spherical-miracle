@@ -1,8 +1,0 @@
-Class name: UserDatabase
-
-Responsibilities:
-* Keep track of all users in a HashMap
-
-Collaborators:
-* User
-* ManageUser
