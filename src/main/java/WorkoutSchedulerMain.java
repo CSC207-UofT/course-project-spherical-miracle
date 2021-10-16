@@ -11,30 +11,40 @@ public class WorkoutSchedulerMain {
             //InOut.out.println();
             // would rather have this for ease of refactoring,
             // make this class later.
-            System.out.println("Type 'l' to login and 's' to signup or 'q' to quit");
-            String input = in.nextLine();
-            switch(input) {
-                case "l":
-                    break;
-                case "s":
-                    System.out.println("Enter a username:");
-                    String username = in.nextLine();
-                    System.out.println("Enter an email:"); // TODO if needed, validate the email address
-                    String email = in.nextLine();
-                    System.out.println("Enter a password:");
-                    String password = in.nextLine();
-                    System.out.println("Enter a name:");
-                    String name = in.nextLine();
-                    ManageUser manageuser = new ManageUser(username, password, email, name, userDatabase);
-                    if (manageuser.addUser()) {
-                        System.out.println("Successfully signed up!");
-                    } else {
-                        System.out.println("Unsuccessful signup. Username is already taken.");
-                    }
-                    break;
-                case "q":
-                    quit = true;
-                    break;
+            String input;
+            boolean valid_input = false;
+            while (!valid_input) {
+                System.out.println("Type 'l' to login and 's' to signup or 'q' to quit");
+                input = in.nextLine();
+                switch (input) {
+                    case "l":
+                        valid_input = true;
+                        break;
+                    case "s":
+                        System.out.println("Enter a username:");
+                        String username = in.nextLine();
+                        System.out.println("Enter an email:"); // TODO if needed, validate the email address
+                        String email = in.nextLine();
+                        System.out.println("Enter a password:");
+                        String password = in.nextLine();
+                        System.out.println("Enter a name:");
+                        String name = in.nextLine();
+                        ManageUser manageuser = new ManageUser(username, password, email, name, userDatabase);
+                        if (manageuser.addUser()) {
+                            System.out.println("Successfully signed up!");
+                        } else {
+                            System.out.println("Unsuccessful signup. Username is already taken.");
+                        }
+                        valid_input = true;
+                        break;
+                    case "q":
+                        quit = true;
+                        valid_input = true;
+                        break;
+                    default:
+                        System.out.println("Invalid input; Please try again");
+                        break;
+                }
             }
             while (!quit) {
                 System.out.println("Type 's' to make a schedule or 'q' to quit:");
@@ -66,15 +76,15 @@ public class WorkoutSchedulerMain {
                                 int calories = in.nextInt();
                                 schedule.addWorkout(day, new Workout(input, calories));
                                 in.nextLine(); // get rid of endline char from last input
-                                }
                             }
+                        }
                         break;
                     case "q":
                         quit = true;
-                        }
                 }
-
             }
 
         }
+
     }
+}
