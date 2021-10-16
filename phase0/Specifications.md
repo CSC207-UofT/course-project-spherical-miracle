@@ -1,27 +1,42 @@
-## Specifications:
+## Specification
 
-## Main focus
+### Phase 0
+Implemented Use Case: UserRegister (Walk through)
+User enters their name, username, email and password
+If their input are valid, give the user access to create a schedule or quit
+Let the user input the schedule name
+Create a workout (input name and estimated calories burnt) and store it in a day of the week in the schedule
+Repeat 4 until everything is planned.
+After planning everything, outputs the schedule for the week
 
-Users should be able to create an account and login
 
-The app will alert them on each of these days at whatever time they prefer to do the workout. A mix of cardio/weightlifting/calisthenics.
+### Phase 1
+#### Users can create workout plans
+User can add workouts to their plan for each day of the week
+Inputs: WorkoutName, CaloriesBurnt, Day of Week
+Output: Workout object is created and added to a plan
 
-A calendar where they can set specific days for workouts (legs for mondays, triceps + chests for wednesdays, etc)
+#### Reminder prompt on Login
+Upon login, users are prompted with their plan(s) of the day 
+Inputs: Day of the week, LoginSUCCESS/FAILURE
+Output: String output of workout object(s)
 
-## Nice to have(After Phase 0)
 
-Provide workout routine/schedule templates (a few from the internet) to get user started
+#### Create workout routine/schedule templates to get user started 
+Input: 
+Output: Schedules for user to choose
 
-User should be able to store information like height, weight, age, sex (BMI calculated based on these) and similar to MyFitnessPal based on if the user wants to lose/gain weight, it will give a specific number of calories for the user to reach
+#### Admin-level interface
+Interface to remove user/workouts/edit schedule templates
 
-Set goals(short term/ long term goals) for personal records of weights lifted/amount of the exercise done
 
-During each of the days with workouts, user can create a routine to do, and save it for if they want to use the same routine later
+### Phase 2
+#### User can track height, weight, BMI, over time
+Inputs: Weight, Height, Date
+Output: 
+#### Weight loss/gain helper
+User will receive a suggested calorie intake based on their workout schedule and their height + height
+Input: User health info, target weight
+Output: Suggested calorie intake, target amount of daily calories burned 
 
-Users should be able to save the amount of calorie intake for the day
-
-Predictor/calculator for each week’s goal?
-
-A feature to track how much sleep you get and when (could also do recommended sleep length but it’s different for everyone)
-
-Set reminders for workouts / events / goals
+#### Implement UI - web app/android app
