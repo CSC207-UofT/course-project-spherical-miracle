@@ -2,22 +2,16 @@ import java.util.Arrays;
 
 public class ManageUser {
 
-    private String[] user;
-    private UserDatabase manager;
+    private final UserDatabase users;
 
 
     /**
      * Construct a list of the information needed to create a new user and the UserDatabase data.
      *
-     * @param username string of username.
-     * @param password string of password.
-     * @param email string of email.
-     * @param name string of name.
-     * @param manager UserDatabase object.
+     * @param users UserDatabase object.
      */
-    public ManageUser(String username, String password, String email, String name, UserDatabase manager){
-        this.manager = manager;
-        this.user = new String[]{username, password, email, name};
+    public ManageUser(UserDatabase users) {
+        this.users = users;
     }
 
     /**
@@ -25,19 +19,36 @@ public class ManageUser {
      *
      * @return boolean
      **/
-    public boolean addUser() {
+    public boolean addUser(String username, String password, String name, String email) {
         //TODO: validating inputs
-        boolean invalid = Arrays.stream(user).anyMatch(n -> (n == null));
-
-        if (!invalid) {
-            User new_User = new User(user[0], user[1], user[2], user[3]);
-            manager.getUserMap().put(user[0], new_User);
-            return true;
-        }
-        return false;
+        if (!userInfoIsValid(username, password, name, email))
+            return false;
+        User user = new User(username, password, name, email);
+        // TODO: eventually next line will be done through an interface?
+        users.save(user);
+        return true;
     }
+
     public void removeUser(String username) {
         //TODO: validating inputs
-        manager.getUserMap().remove(username);
+        users.remove(username);
+    }
+
+    /**
+     * Return true iff information is valid.
+     * @param username
+     * @param password
+     * @param name
+     * @param email
+     * @return
+     */
+    private boolean userInfoIsValid(String username, String password, String name, String email) {
+        String[] userInfo = {username, password, name, email};
+        for (String info : userInfo) {
+            // Could add more checks
+            if (info.isBlank())
+                return false;
+        }
+        return true;
     }
 }
