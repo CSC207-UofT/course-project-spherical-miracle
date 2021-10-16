@@ -1,0 +1,10 @@
+Class name: Schedule
+
+Responsibilities:
+* Store plan for each week
+* Add/Remove workouts and meals for the week
+
+Collaborators:
+* ScheduleManager
+* Workout
+* Meal
