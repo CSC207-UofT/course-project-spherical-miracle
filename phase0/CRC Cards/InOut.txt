@@ -1,4 +1,4 @@
-Class name: FacadeManager
+Class name: InOut
 
 Responsibilities:
 * Recieves user inputs
