@@ -1,8 +1,0 @@
-Class name: CreateUserUseCase
-
-Responsibilities:
-* Create new users and save to database.
-
-Collaborators:
-* User
-* UserDatabase
