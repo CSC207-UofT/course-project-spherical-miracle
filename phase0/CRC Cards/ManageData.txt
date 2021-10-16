@@ -1,0 +1,9 @@
+Class name: ManageData
+
+Responsibilities:
+* Retrieve relevant User from data storage
+* Save new User information to data storage
+
+Collaborators:
+* ManageSchedule
+* ManageUser
