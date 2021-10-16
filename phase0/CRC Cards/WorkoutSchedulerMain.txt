@@ -1,0 +1,8 @@
+Interface name: WorkoutSchedulerMain
+
+Responsibilities:
+* Interact with user via command line
+* Transfer input to controller if valid input
+
+Collaborators:
+* FacadeManager
