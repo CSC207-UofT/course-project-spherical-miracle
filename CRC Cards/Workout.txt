@@ -1,8 +1,0 @@
-Class name: Workout
-
-Responsibilities:
-* Store name of workout
-* How many estimated kcal will be burnt
-
-Collaborators:
-* Schedule

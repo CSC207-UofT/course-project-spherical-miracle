@@ -1,9 +1,0 @@
-Class name: Meal
-
-Responsibilities:
-* Stores name of the meal
-* Estimated kcal in the meal
-* Items in the meal
-
-Collaborators:
-* Schedule
