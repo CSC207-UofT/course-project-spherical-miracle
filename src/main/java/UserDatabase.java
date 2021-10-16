@@ -22,6 +22,12 @@ public class UserDatabase {
         this.userMap = new HashMap<>();
     }
 
+    /**
+     * Saves user to this database.
+     */
+    public void saveUser(User user) {
+        userMap.put(user.getUsername(), user);
+    }
     public HashMap<String, User> getUserMap() {
         return userMap;
     }

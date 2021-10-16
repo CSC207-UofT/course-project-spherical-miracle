@@ -16,3 +16,7 @@ test {
         events "passed", "skipped", "failed"
     }
 }
+
+test {
+    useJUnitPlatform()
+}
