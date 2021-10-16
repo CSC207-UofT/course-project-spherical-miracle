@@ -25,7 +25,7 @@ public class CreateUserUseCase implements CreateUserInputBoundary {
         //      return false;
         // }
         User user = new User(name, username, email, password);
-        users.saveUser(user);
+        users.save(user);
         // Should the validating process be done in saveUser? Or another method
         // TODO: Use the data access interface to save the user into the UserDatabase
         return true;
