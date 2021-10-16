@@ -32,7 +32,7 @@ public class ManageSchedule {
         //}
         //return false;
     }
-    public void RemoveUser(String name) {
+    public void RemoveSchedule(String name) {
         //TODO: validating inputs
         manager.getScheduleMap().remove(name);
     }
