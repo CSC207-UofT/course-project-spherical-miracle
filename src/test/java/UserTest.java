@@ -23,6 +23,11 @@ class UserTest {
     }
 
     @Test
+    void getName() {
+        assert user.getName().equals("Bob");
+    }
+
+    @Test
     void getUsername() {
         assert user.getUsername().equals("bob123");
     }

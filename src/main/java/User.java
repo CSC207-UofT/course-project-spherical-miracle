@@ -54,6 +54,14 @@ public class User {
     }
 
     /**
+     * Return if tryPassword matches this User's password
+     * @param password
+     * @return True iff tryPassword matches this User's password.
+     */
+    public boolean passwordMatches(String tryPassword) {
+        return password.equals(tryPassword);
+    }
+    /**
      * Change this User's password to newPassword.
      *
      * @param newPassword the new password for this User
