@@ -6,7 +6,7 @@ public class ScheduleDatabase {
     /**
      * Construct a schedulerMap given a HashMap.
      *
-     * @param scheduleMap HashMap of users.
+     * @param scheduleMap HashMap of schedules.
      */
     public ScheduleDatabase(HashMap<String, Schedule> scheduleMap){
         this.scheduleMap = scheduleMap;

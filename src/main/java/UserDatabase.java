@@ -13,10 +13,6 @@ public class UserDatabase {
         this.userMap = userMap;
     }
 
-    public HashMap<String, User> getUserMap() {
-        return userMap;
-    }
-
     /**
      * Construct a new userMap.
      *
@@ -31,5 +27,8 @@ public class UserDatabase {
      */
     public void saveUser(User user) {
         userMap.put(user.getUsername(), user);
+    }
+    public HashMap<String, User> getUserMap() {
+        return userMap;
     }
 }

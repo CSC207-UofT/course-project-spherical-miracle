@@ -6,7 +6,7 @@ public class Workout {
     //TODO: add duration?
 
     /**
-     * Construct an Workout, giving them the name of the workout
+     * Construct a Workout, giving them the name of the workout
      * and the caloriesBurnt.
      *
      * @param name name of the Workout
