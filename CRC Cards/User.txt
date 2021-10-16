@@ -4,6 +4,9 @@ Responsibilities:
 * Store username, password, email, and name of user
 * Getter for everything above
 * Setters for when users want to change information
+* Store list of schedules
+* Keep track of current schedules used
 
 Collaborators:
 * UserManager
+* Schedule
