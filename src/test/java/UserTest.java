@@ -9,7 +9,7 @@ class UserTest {
 
     @BeforeEach
     void setUp() {
-        user = new User("Bob", "bob123", "bob@gmail.com", "password123");
+        user = new User("bob123", "password123", "Bob", "bob@gmail.com");
     }
 
     @AfterEach

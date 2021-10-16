@@ -14,7 +14,7 @@ public class User {
      * @param password the password of the User
      */
 
-    public User(String name, String username, String email, String password) {
+    public User(String username, String password, String name, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -55,7 +55,7 @@ public class User {
 
     /**
      * Return if tryPassword matches this User's password
-     * @param password
+     * @param tryPassword
      * @return True iff tryPassword matches this User's password.
      */
     public boolean passwordMatches(String tryPassword) {

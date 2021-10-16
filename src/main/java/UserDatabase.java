@@ -2,6 +2,8 @@ import java.util.HashMap;
 
 public class UserDatabase {
     //TODO: replace with database
+
+    //Usernames must be unique
     private HashMap<String, User> userMap;
 
     /**
@@ -25,9 +27,19 @@ public class UserDatabase {
     /**
      * Saves user to this database.
      */
-    public void saveUser(User user) {
+    public void save(User user) {
         userMap.put(user.getUsername(), user);
     }
+
+    /**
+     * Removes user from this database.
+     * @param username
+     * @return User object with this username
+     */
+    public User remove(String username) {
+        return userMap.remove(username);
+    }
+
     public HashMap<String, User> getUserMap() {
         return userMap;
     }

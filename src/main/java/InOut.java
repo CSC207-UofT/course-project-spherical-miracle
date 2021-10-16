@@ -2,9 +2,9 @@ public class InOut {
 
     // signup method
     // return a message describing if the user was successfully signed up
-    public static String register(String username, String password, String email, String name, UserDatabase userDatabase) {
-        ManageUser manageuser = new ManageUser(username, password, email, name, userDatabase);
-        if (manageuser.addUser()) {
+    public static String register(String username, String password, String name, String email, UserDatabase userDatabase) {
+        ManageUser manageuser = new ManageUser(userDatabase);
+        if (manageuser.addUser(username, password, name, email)) {
             return "Successfully signed up!";
         } else {
             return "Unsuccessful signup. Username is already taken.";

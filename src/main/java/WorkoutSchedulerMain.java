@@ -31,7 +31,7 @@ public class WorkoutSchedulerMain {
                         String password = in.nextLine();
                         System.out.println("Enter a name:");
                         String name = in.nextLine();
-                        String result = InOut.register(username, email, password, name, userDatabase);
+                        String result = InOut.register(username, password, name, email, userDatabase);
                         System.out.println(result);
                         valid_input = true;
                         break;
