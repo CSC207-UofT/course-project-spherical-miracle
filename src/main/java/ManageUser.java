@@ -24,7 +24,7 @@ public class ManageUser {
         if (!userInfoIsValid(username, password, name, email))
             return false;
         User user = new User(username, password, name, email);
-        // TODO: eventually line 35 will be done through an interface?
+        // TODO: eventually next line will be done through an interface?
         users.save(user);
         return true;
     }
