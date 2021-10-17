@@ -1,0 +1,4 @@
+## Walkthrough for Phase 0
+
+After the user starts the program, they will be prompted to signup for an account or login to an existing one. Supposing they are a new user, they type “s” to signup and are then asked to input a username, password, email, and their name. They type in appropriate values for each input respectively and then are asked to choose an action: create a workout schedule or quit the program. The user enters “c” to create a schedule and is asked what type of workout they want to add, what day it’s assigned to, and approximately how many calories they will burn from it. 
+The user continues to add workouts until they are satisfied and enter “f.” Any remaining days without workouts will automatically be filled in as rest days.Then, the user gets a reminder of what workout is planned for each day of the schedule, and the program exits.
