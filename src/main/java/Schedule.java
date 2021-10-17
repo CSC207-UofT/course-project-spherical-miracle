@@ -44,4 +44,19 @@ public class Schedule {
         return plan[day];
     }
 
+    public String printSchedule(){
+        String Workout;
+        String output_msg = "";
+        for(int i=0; i <= 6; i++){
+            if (this.getWorkout(i) == null) {
+                Workout = "Rest Day";
+            } else {
+                Workout = this.getWorkout(i).getName();
+            }
+//        String Workout = sched.getWorkout(0).getName();
+            output_msg += "This is your workout for day " + (i + 1) + ": " + Workout + "\n";
+        }
+        return output_msg;
+    }
+
 }

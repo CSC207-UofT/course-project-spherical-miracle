@@ -19,13 +19,7 @@ public class InOut {
     // adds a workout to the database of schedules and gives back a String reminder of the first workout in the schedule.
     public static String finalizeSchedule(Schedule sched, ScheduleDatabase schedDb) {
         schedDb.addSchedule(sched);
-        if (sched.getWorkout(0) == null) {
-            String fWorkout = "Rest Day";
-        } else {
-            String fWorkout = sched.getWorkout(0).getName();
-        }
-        String fWorkout = sched.getWorkout(0).getName();
-        return "This is your workout for day 0:" + fWorkout;
+        return sched.printSchedule();
     }
 
     public static void createWorkout(Schedule sched, String type, int day, int cal){
