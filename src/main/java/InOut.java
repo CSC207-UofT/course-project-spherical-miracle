@@ -1,4 +1,4 @@
-public class InOut {
+public class  InOut {
 
     // signup method
     // return a message describing if the user was successfully signed up

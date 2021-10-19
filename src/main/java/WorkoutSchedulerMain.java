@@ -1,7 +1,7 @@
 import java.util.Objects;
 import java.util.Scanner;
 
-public class WorkoutSchedulerMain {
+public class  WorkoutSchedulerMain {
     public static void main(String[] args) {
         UserDatabase userDatabase = new UserDatabase();
         ScheduleDatabase scheduleDatabase = new ScheduleDatabase();
