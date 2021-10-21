@@ -12,11 +12,21 @@ public class LoginUseCase implements LoginInputBoundary {
         this.userMap = users.getUserMap();
     }
 
+    public enum LoginResult {
+       SUCCESS, INCORRECT_PASSWORD, NO_SUCH_USER
+    }
+    /**
+     * Login with the given username and password.
+     * @param username
+     * @param password
+     * @return
+     */
     @Override
-    public boolean login(String username, String password) {
-        if (userMap.containsKey(username)) {
-           return userMap.get(username).passwordMatches(password);
-        }
-        return false;
+    public LoginResult login(String username, String password) {
+        if (!userMap.containsKey(username))
+            return LoginResult.NO_SUCH_USER;
+        if (userMap.get(username).passwordMatches(password))
+            return LoginResult.SUCCESS;
+        return LoginResult.INCORRECT_PASSWORD;
     }
 }
