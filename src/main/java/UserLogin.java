@@ -1,6 +1,6 @@
 import java.util.HashMap;
 
-public class UserLogin {
+public class UserLogin implements LoginInputBoundary {
     private HashMap<String, User> userMap;
 
     /**
@@ -17,11 +17,15 @@ public class UserLogin {
      *
      * @return User
      **/
-    public boolean CheckUser(String username, String password){
-        if (userMap.containsKey(username)) {
-            return password.equals(userMap.get(username).getPassword());
-        }
+    public boolean CheckUser(String username, String password) {
         return false;
     }
 
+    @Override
+    public boolean login(String username, String password) {
+        if (userMap.containsKey(username)) {
+            userMap.get(username).passwordMatches(password);
+        }
+        return false;
+    }
 }
