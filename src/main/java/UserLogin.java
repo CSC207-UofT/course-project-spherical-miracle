@@ -1,15 +1,14 @@
 import java.util.HashMap;
 
 public class UserLogin {
-    private HashMap<String, User> userMap;
-
+    private final UserDatabase users;
     /**
      * Construct a userMap given a HashMap.
      *
-     * @param manager HashMap of users.
+     * @param users HashMap of users.
      */
-    public UserLogin(UserDatabase manager){
-        this.userMap = manager.getUserMap();
+    public UserLogin(UserDatabase users){
+        this.users = users;
     }
 
     /**
@@ -18,8 +17,8 @@ public class UserLogin {
      * @return User
      **/
     public boolean CheckUser(String username, String password){
-        if (userMap.containsKey(username)) {
-            return password.equals(userMap.get(username).getPassword());
+        if (users.hasUserWithUsername(username)) {
+            return users.getUserWithUsername(username).passwordMatches(password);
         }
         return false;
     }

@@ -2,6 +2,7 @@ import java.util.Arrays;
 
 public class ManageUser {
 
+    // Does Database being here violate CleanArch?
     private final UserDatabase users;
 
 
@@ -20,13 +21,15 @@ public class ManageUser {
      * @return boolean
      **/
     public boolean addUser(String username, String password, String name, String email) {
-        //TODO: validating inputs
         if (!userInfoIsValid(username, password, name, email))
             return false;
-        User user = new User(username, password, name, email);
-        // TODO: eventually next line will be done through an interface?
-        users.save(user);
-        return true;
+        CreateUserInputBoundary createUserInputBoundary = new CreateUserUseCase(users);
+        boolean result = createUserInputBoundary.createUser(username, password, name, email);
+        if (result)
+            System.out.println("User added!");
+        else
+            System.out.println("Failed to create user. (insert reason here?)");
+        return result;
     }
 
     public void removeUser(String username) {

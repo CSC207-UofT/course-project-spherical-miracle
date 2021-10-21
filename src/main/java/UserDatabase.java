@@ -40,7 +40,24 @@ public class UserDatabase {
         return userMap.remove(username);
     }
 
-    public HashMap<String, User> getUserMap() {
-        return userMap;
+    /**
+     * Return User with given username.
+     * @param username
+     * @return
+     */
+    public User getUserWithUsername(String username) {
+        if (this.hasUserWithUsername(username))
+            return userMap.get(username);
+        return null; // MAKE THIS AN EXCEPTION?
+    }
+
+    /**
+     * Returns true iff there is a user in this database with username.
+     * @param username
+     * @return
+     */
+    public boolean hasUserWithUsername(String username) {
+        return userMap.containsKey(username);
     }
 }
+
