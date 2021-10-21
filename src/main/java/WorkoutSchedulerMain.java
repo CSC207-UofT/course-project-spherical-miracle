@@ -18,10 +18,20 @@ public class  WorkoutSchedulerMain {
                 System.out.println("Type 'l' to login and 's' to signup or 'q' to quit");
                 input = in.nextLine();
                 switch (input) {
-                    case "l":
-                        // TODO make an existing login
-                        valid_input = true;
+                    case "l": {
+                        // TODO: extract this and put into another method?
+                        SessionController sessionController = new SessionController(userDatabase);
+                        System.out.println("Enter your username:");
+                        String username = in.nextLine();
+                        System.out.println("Enter your password:");
+                        String password = in.nextLine();
+                        if (sessionController.login(username, password)) {
+                            valid_input = true;
+                        } else {
+                            System.out.println("Incorrect credentials. Please try again.");
+                        }
                         break;
+                    }
                     case "s":
                         System.out.println("Enter a username:");
                         String username = in.nextLine();
@@ -33,7 +43,7 @@ public class  WorkoutSchedulerMain {
                         String name = in.nextLine();
                         String result = InOut.register(username, password, name, email, userDatabase);
                         System.out.println(result);
-                        valid_input = true;
+                        // valid_input = true;
                         break;
                     case "q":
                         quit = true;
