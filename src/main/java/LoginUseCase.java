@@ -17,9 +17,9 @@ public class LoginUseCase implements LoginInputBoundary {
     }
     /**
      * Login with the given username and password.
-     * @param username
-     * @param password
-     * @return
+     * @param username username of user
+     * @param password password of user
+     * @return the result of the login
      */
     @Override
     public LoginResult login(String username, String password) {

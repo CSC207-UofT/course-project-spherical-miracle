@@ -19,10 +19,15 @@ public class SessionController {
     public boolean login(String username, String password) {
         LoginUseCase.LoginResult result = loginInputBoundary.login(username, password);
         // maybe throw exceptions when it fails?
-        return switch (result) {
-            case SUCCESS -> true;
-            case INCORRECT_PASSWORD, NO_SUCH_USER -> false;
-        };
+        switch (result) {
+            case SUCCESS:
+                return true;
+            case INCORRECT_PASSWORD:
+            case NO_SUCH_USER:
+                return false;
+            default:
+                throw new IllegalArgumentException();
+        }
         // usernameOfCurrentUser = username;
     }
 
