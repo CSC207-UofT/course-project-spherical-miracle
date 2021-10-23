@@ -42,7 +42,7 @@ public class WorkoutSchedulerMain {
                         break;
                     default:
                         System.out.println("Invalid input; Please try again");
-                        break;
+                        //break;
                 }
             }
             while (!quit) {
@@ -73,6 +73,8 @@ public class WorkoutSchedulerMain {
                         break;
                     case "q":
                         quit = true;
+                    default:
+                        System.out.println("Invalid input; Please try again");
                 }
             }
             System.out.println("You have quit. Goodbye!");
