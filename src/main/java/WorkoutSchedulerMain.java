@@ -1,7 +1,8 @@
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class  WorkoutSchedulerMain {
+public class WorkoutSchedulerMain {
     public static void main(String[] args) {
         UserDatabase userDatabase = new UserDatabase();
         ScheduleDatabase scheduleDatabase = new ScheduleDatabase();
@@ -18,22 +19,21 @@ public class  WorkoutSchedulerMain {
                 System.out.println("Type 'l' to login and 's' to signup or 'q' to quit");
                 input = in.nextLine();
                 switch (input) {
-                    case "l":
-                        // TODO make an existing login
-                        valid_input = true;
+                    case "l": {
+                        SessionController sessionController = new SessionController(userDatabase);
+                        String[] userVal = UserInput(in, true);
+                        if (sessionController.login(userVal[0], userVal[1])) {
+                            valid_input = true;
+                        } else {
+                            System.out.println("Incorrect credentials. Please try again.");
+                        }
                         break;
-                    case "s":
-                        System.out.println("Enter a username:");
-                        String username = in.nextLine();
-                        System.out.println("Enter an email:"); // TODO if needed, validate the email address
-                        String email = in.nextLine();
-                        System.out.println("Enter a password:");
-                        String password = in.nextLine();
-                        System.out.println("Enter a name:");
-                        String name = (String) in.nextLine();
-                        String result = InOut.register(username, password, name, email, userDatabase);
+                    }
+                    case "s": // TODO do something similar as login where we validate then use if to change valid_input
+                        String[] userVal = UserInput(in, false);
+                        String result = InOut.register(userVal[0], userVal[1], userVal[2], userVal[3], userDatabase);
                         System.out.println(result);
-                        valid_input = true;
+                        // valid_input = true;
                         break;
                     case "q":
                         quit = true;
@@ -81,4 +81,22 @@ public class  WorkoutSchedulerMain {
         }
 
     }
+
+    private static String[] UserInput(Scanner in, boolean is_login) {
+        System.out.println("Enter your username:");
+        String username = in.nextLine();
+        System.out.println("Enter your password:");
+        String password = in.nextLine();
+        if (is_login) {
+            return new String[]{username, password};
+        }
+        else{
+            System.out.println("Enter an email:"); // TODO if needed, validate the email address
+            String email = in.nextLine();
+            System.out.println("Enter a name:");
+            String name = in.nextLine();
+            return new String[]{username, password, name, email};
+        }
+    }
+
 }
