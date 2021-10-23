@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
@@ -13,16 +14,16 @@ public class WorkoutSchedulerMain {
             //InOut.out.println();
             // would rather have this for ease of refactoring,
             // make this class later.
-            String input;
+            String option;
             boolean valid_input = false;
             while (!valid_input) {
                 System.out.println("Type 'l' to login and 's' to signup or 'q' to quit");
-                input = in.nextLine();
-                switch (input) {
+                option = in.nextLine();
+                switch (option) {
                     case "l": {
                         SessionController sessionController = new SessionController(userDatabase);
-                        String[] userVal = UserInput(in, true);
-                        if (sessionController.login(userVal[0], userVal[1])) {
+                        HashMap<String, String> userInfo = userInput(in, true);
+                        if (sessionController.login(userInfo.get("username"), userInfo.get("password"))) {
                             valid_input = true;
                         } else {
                             System.out.println("Incorrect credentials. Please try again.");
@@ -30,8 +31,9 @@ public class WorkoutSchedulerMain {
                         break;
                     }
                     case "s": // TODO do something similar as login where we validate then use if to change valid_input
-                        String[] userVal = UserInput(in, false);
-                        String result = InOut.register(userVal[0], userVal[1], userVal[2], userVal[3], userDatabase);
+                        HashMap<String, String> userInfo = userInput(in, false);
+                        String result = InOut.register(userInfo.get("username"), userInfo.get("password"),
+                                userInfo.get("name"), userInfo.get("email"), userDatabase);
                         System.out.println(result);
                         // valid_input = true;
                         break;
@@ -47,16 +49,16 @@ public class WorkoutSchedulerMain {
             }
             while (!quit) {
                 System.out.println("Type 'c' to make a schedule or 'q' to quit:");
-                input = in.nextLine();
-                switch (input) {
+                option = in.nextLine();
+                switch (option) {
                     case "c":
                         System.out.println("Enter the name of the schedule:");
                         String scheduleName = in.nextLine();
                         Schedule schedule = new Schedule(scheduleName);
-                        while (!Objects.equals(input, "f")) {
+                        while (!Objects.equals(option, "f")) {
                             System.out.println("Enter the type of workout you would like to add or 'f' if you are finished.");
-                            input = in.nextLine(); // will this cause errors by overriding switch argument inside switch case?
-                            if (input.equals("f")) {
+                            option = in.nextLine(); // will this cause errors by overriding switch argument inside switch case?
+                            if (option.equals("f")) {
                                 // ask for the day the user wants the workout on, and the calories burnt for the workout.
                                 // then add it to the day of the workout.
                                 String firstReminder = InOut.finalizeSchedule(schedule, scheduleDatabase);
@@ -66,13 +68,14 @@ public class WorkoutSchedulerMain {
                                 int day = in.nextInt();
                                 System.out.println("Enter the estimated calories burnt for the workout:");
                                 int calories = in.nextInt();
-                                InOut.createWorkout(schedule, input, day, calories);
+                                InOut.createWorkout(schedule, option, day, calories);
                                 in.nextLine(); // get rid of endline char from last input
                             }
                         }
                         break;
                     case "q":
                         quit = true;
+                        break;
                     default:
                         System.out.println("Invalid input; Please try again");
                 }
@@ -82,21 +85,19 @@ public class WorkoutSchedulerMain {
 
     }
 
-    private static String[] UserInput(Scanner in, boolean is_login) {
+    private static HashMap<String, String> userInput(Scanner in, boolean is_login) {
+        HashMap<String, String> userInput = new HashMap<>();
         System.out.println("Enter your username:");
-        String username = in.nextLine();
+        userInput.put("username", in.nextLine());
         System.out.println("Enter your password:");
-        String password = in.nextLine();
-        if (is_login) {
-            return new String[]{username, password};
-        }
-        else{
-            System.out.println("Enter an email:"); // TODO if needed, validate the email address
-            String email = in.nextLine();
+        userInput.put("password", in.nextLine());
+        if (!is_login) {
             System.out.println("Enter a name:");
-            String name = in.nextLine();
-            return new String[]{username, password, name, email};
+            userInput.put("name", in.nextLine());
+            System.out.println("Enter an email:"); // TODO if needed, validate the email address
+            userInput.put("email", in.nextLine());
         }
+        return userInput;
     }
 
 }
