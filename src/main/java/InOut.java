@@ -3,7 +3,7 @@ public class  InOut {
     // signup method
     // return a message describing if the user was successfully signed up
     public static String register(String username, String password, String name, String email, UserDatabase userDatabase) {
-        ManageUser manageuser = new ManageUser(userDatabase);
+        UserController manageuser = new UserController(userDatabase);
         if (manageuser.addUser(username, password, name, email)) {
             return "Successfully signed up!";
         } else {

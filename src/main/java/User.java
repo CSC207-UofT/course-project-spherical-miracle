@@ -48,11 +48,6 @@ public class User {
         return email;
     }
 
-    // TODO: is getPassword necessary?
-    public String getPassword() {
-        return password;
-    }
-
     /**
      * Return if tryPassword matches this User's password
      * @param tryPassword
@@ -62,12 +57,18 @@ public class User {
         return password.equals(tryPassword);
     }
     /**
-     * Change this User's password to newPassword.
+     * Change this User's password to newPassword if the oldPassword matches the user's current password.
+     * Return true iff password is successfully changed.
      *
      * @param newPassword the new password for this User
+     * @return
      **/
-    public void changePassword(String newPassword) {
-        password = newPassword;
+    public boolean changePassword(String oldPassword, String newPassword) {
+        if (this.passwordMatches(oldPassword)) {
+            password = newPassword;
+            return true;
+        }
+        return false;
     }
 
 }

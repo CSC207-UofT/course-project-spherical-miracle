@@ -19,12 +19,12 @@ public class CreateUserUseCase implements CreateUserInputBoundary {
      * @return True iff successfully created a user
      */
     @Override
-    public boolean createUser(String name, String username, String email, String password) {
+    public boolean createUser(String username, String password, String name, String email) {
         // TODO: Check if username is already in the database
-        // if (userIn(database)) {
-        //      return false;
-        // }
-        User user = new User(name, username, email, password);
+        if (users.hasUserWithUsername(username)) {
+            return false; // Maybe throw a specific exception instead of returning false? e.g. UserAlreadyExistsException
+        }
+        User user = new User(username, password, name, email);
         users.save(user);
         // Should the validating process be done in saveUser? Or another method
         // TODO: Use the data access interface to save the user into the UserDatabase
