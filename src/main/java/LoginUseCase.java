@@ -1,7 +1,7 @@
 import java.util.HashMap;
 
 public class LoginUseCase implements LoginInputBoundary {
-    private HashMap<String, User> userMap;
+    private UserDatabase userMap;
 
     /**
      * Construct a userMap given a HashMap.
@@ -9,7 +9,7 @@ public class LoginUseCase implements LoginInputBoundary {
      * @param users HashMap of users.
      */
     public LoginUseCase(UserDatabase users){
-        this.userMap = users.getUserMap();
+        this.userMap = users;
     }
 
     public enum LoginResult {
@@ -23,9 +23,9 @@ public class LoginUseCase implements LoginInputBoundary {
      */
     @Override
     public LoginResult login(String username, String password) {
-        if (!userMap.containsKey(username))
+        if (!userMap.hasUserWithUsername(username))
             return LoginResult.NO_SUCH_USER;
-        if (userMap.get(username).passwordMatches(password))
+        if (userMap.getUserWithUsername(username).passwordMatches(password))
             return LoginResult.SUCCESS;
         return LoginResult.INCORRECT_PASSWORD;
     }
