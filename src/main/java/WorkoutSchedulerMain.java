@@ -65,9 +65,9 @@ public class WorkoutSchedulerMain {
                                 System.out.println(firstReminder);
                             } else {
                                 System.out.println("Enter the day of the workout as an integer (0-6, where 0 is Sunday):");
-                                int day = (int) in.nextInt();
+                                int day = in.nextInt();
                                 System.out.println("Enter the estimated calories burnt for the workout:");
-                                int calories = (int) in.nextInt();
+                                int calories = in.nextInt();
                                 InOut.createWorkout(schedule, option, day, calories);
                                 in.nextLine(); // get rid of endline char from last input
                             }
