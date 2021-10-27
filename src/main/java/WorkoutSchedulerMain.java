@@ -1,8 +1,22 @@
 import java.util.Objects;
 import java.util.Scanner;
 
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+
+
+import io.github.cdimascio.dotenv.Dotenv;
+import org.bson.types.ObjectId;
+
 public class WorkoutSchedulerMain {
     public static void main(String[] args) {
+        MongoClient mongoClient = InitializeDB();
+        DataAccess access = new DataAccess(mongoClient);
         UserDatabase userDatabase = new UserDatabase();
         ScheduleDatabase scheduleDatabase = new ScheduleDatabase();
         boolean quit = false;
@@ -79,4 +93,13 @@ public class WorkoutSchedulerMain {
         }
 
     }
+    public static MongoClient InitializeDB(){
+        Dotenv dotenv = Dotenv.load();
+        ConnectionString URI = new ConnectionString(dotenv.get("URI"));
+        MongoClientSettings settings = MongoClientSettings.builder()
+                .applyConnectionString(URI)
+                .build();
+        return MongoClients.create(settings);
+    }
+
 }
