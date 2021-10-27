@@ -1,17 +1,25 @@
 import java.util.Arrays;
-// Controller
+/**
+ * A controller that manages a schedule for a user.
+ */
 
 public class ManageSchedule {
 
+    /**
+     * The name of the schedule.
+     */
     private String name;
+
+    /**
+     * A HashMap of schedule names and Schedule objects.
+     */
     private ScheduleDatabase manager;
 
 
     /**
      * Construct a list of the information needed to create a new user and the UserDatabase data.
-     *
      * @param name string of the schedule name.
-     * @param manager ScheduleDatabse object
+     * @param manager ScheduleDatabase object
      */
     public ManageSchedule(String name, ScheduleDatabase manager){
         this.manager = manager;
@@ -19,9 +27,8 @@ public class ManageSchedule {
     }
 
     /**
-     * If the information is valid, add the user to the UserDatabase object then return true. Otherwise, return false.
-     *
-     * @return boolean
+     * If the information is valid, add the user to the UserDatabase object then return true.
+     * Otherwise, return false.
      **/
     public void AddSchedule() {
         //TODO: validating inputs
@@ -33,6 +40,11 @@ public class ManageSchedule {
         //}
         //return false;
     }
+
+    /**
+     * Removes the schedule from a user's database of schedules.
+     * @param name the name of the schedule being removed
+     */
     public void RemoveSchedule(String name) {
         //TODO: validating inputs
         manager.getScheduleMap().remove(name);

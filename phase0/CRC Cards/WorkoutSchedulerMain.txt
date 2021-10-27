@@ -1,4 +1,4 @@
-Interface name: WorkoutSchedulerMain
+Interface name: WorkoutSchedulerUI
 
 Responsibilities:
 * Interact with user via command line

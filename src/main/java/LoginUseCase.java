@@ -1,17 +1,26 @@
 import java.util.HashMap;
+/**
+ * Logs a user into their account when given the correct account information.
+ */
 
 public class LoginUseCase implements LoginInputBoundary {
+
+    /**
+     * A HashMap where User objects correspond to unique usernames.
+     */
     private UserDatabase userMap;
 
     /**
-     * Construct a userMap given a HashMap.
-     *
+     * Constructs a userMap given a HashMap.
      * @param users HashMap of users.
      */
     public LoginUseCase(UserDatabase users){
         this.userMap = users;
     }
 
+    /**
+     * The resulting "output" of the LoginResult use case.
+     */
     public enum LoginResult {
        SUCCESS, INCORRECT_PASSWORD, NO_SUCH_USER
     }

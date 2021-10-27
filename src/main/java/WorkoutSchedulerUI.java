@@ -2,8 +2,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
+/**
+ * The user interface for scheduling workout session in a user's schedule.
+ */
 
-public class WorkoutSchedulerMain {
+public class WorkoutSchedulerUI {
     public static void main(String[] args) {
         UserDatabase userDatabase = new UserDatabase();
         ScheduleDatabase scheduleDatabase = new ScheduleDatabase();
@@ -82,9 +85,13 @@ public class WorkoutSchedulerMain {
             }
             System.out.println("You have quit. Goodbye!");
         }
-
     }
 
+    /**
+     * Returns a HashMap of user account details that were inputted.
+     * @param in the Scanner reading the user input
+     * @param is_login whether the user is logging in or not
+     */
     private static HashMap<String, String> userInput(Scanner in, boolean is_login) {
         HashMap<String, String> userInput = new HashMap<>();
         System.out.println("Enter your username:");
@@ -99,5 +106,4 @@ public class WorkoutSchedulerMain {
         }
         return userInput;
     }
-
 }

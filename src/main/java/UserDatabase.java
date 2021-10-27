@@ -1,24 +1,25 @@
 import java.util.HashMap;
-
+/**
+ * Stores the corresponding information for each user's account.
+ */
 public class UserDatabase {
     //TODO: replace with database
 
-    //Usernames must be unique
+    /**
+     * A HashMap where User objects correspond to unique usernames.
+     */
     private HashMap<String, User> userMap;
 
     /**
-     * Construct a userMap given a HashMap.
-     *
-     * @param userMap HashMap of users.
+     * Constructs a userMap given a HashMap.
+     * @param userMap the HashMap of users
      */
     public UserDatabase(HashMap<String, User> userMap){
         this.userMap = userMap;
     }
 
     /**
-     * Construct a new userMap.
-     *
-     *
+     * Constructs a new userMap.
      */
     public UserDatabase(){
         this.userMap = new HashMap<>();
@@ -26,6 +27,7 @@ public class UserDatabase {
 
     /**
      * Saves user to this database.
+     * @param user the specific User object to be saved
      */
     public void save(User user) {
         userMap.put(user.getUsername(), user);
@@ -33,7 +35,7 @@ public class UserDatabase {
 
     /**
      * Removes user from this database.
-     * @param username
+     * @param username the username of the user to be removed
      * @return User object with this username
      */
     public User remove(String username) {
@@ -42,8 +44,8 @@ public class UserDatabase {
 
     /**
      * Return User with given username.
-     * @param username
-     * @return
+     * @param username username of the user of interest
+     * @return the User object with the corresponding username
      */
     public User getUserWithUsername(String username) {
         if (this.hasUserWithUsername(username))
@@ -53,8 +55,8 @@ public class UserDatabase {
 
     /**
      * Returns true iff there is a user in this database with username.
-     * @param username
-     * @return
+     * @param username username of the user being looked up
+     * @return a boolean detailing if the username is already in the database
      */
     public boolean hasUserWithUsername(String username) {
         return userMap.containsKey(username);
