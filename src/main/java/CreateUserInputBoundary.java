@@ -11,5 +11,5 @@ public interface CreateUserInputBoundary {
      * @param password
      * @return True iff successfully created a user
      */
-    boolean createUser(String name, String username, String email, String password);
+    boolean createUser(String username, String password, String name, String email);
 }

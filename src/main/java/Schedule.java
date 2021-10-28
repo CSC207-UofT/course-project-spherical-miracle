@@ -26,6 +26,8 @@ public class Schedule {
      * @param day the days of the week from 0 being Sunday to 6 being Saturday
      * @param workout
      */
+    // TODO: maybe change name to setWorkout, because User can replace workout
+    // TODO: do we want to add multiple workouts, like one chest and one back.
     public void addWorkout(int day, Workout workout) {
         plan[day] = workout;
     }

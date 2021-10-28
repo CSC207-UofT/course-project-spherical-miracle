@@ -34,7 +34,7 @@ class UserTest {
 
     @Test
     void changePassword() {
-        user.changePassword("123password");
+        user.changePassword("password123", "123password");
         assert user.passwordMatches("123password");
     }
 }
