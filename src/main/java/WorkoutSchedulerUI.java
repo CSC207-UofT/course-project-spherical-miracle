@@ -6,6 +6,8 @@ import java.util.Scanner;
  * The user interface for scheduling workout session in a user's schedule.
  */
 
+import java.util.*;
+
 public class WorkoutSchedulerUI {
     public static void main(String[] args) {
         UserDatabase userDatabase = new UserDatabase();
@@ -67,10 +69,34 @@ public class WorkoutSchedulerUI {
                                 String firstReminder = InOut.finalizeSchedule(schedule, scheduleDatabase);
                                 System.out.println(firstReminder);
                             } else {
-                                System.out.println("Enter the day of the workout as an integer (0-6, where 0 is Sunday):");
-                                int day = in.nextInt();
-                                System.out.println("Enter the estimated calories burnt for the workout:");
-                                int calories = in.nextInt();
+                                int day;
+                                int calories;
+                                while(true){
+                                    try {
+                                        System.out.println("Enter the day of the workout as an integer (0-6, where 0 is Sunday):");
+                                        day = Integer.parseInt(in.nextLine());
+                                        if (day < 0 || day > 6) {
+                                            System.out.println("Please enter an integer from 0 to 6");
+                                        } else {
+                                            break;
+                                        }
+                                    } catch(NumberFormatException e) {
+                                        System.out.println("Input is not an integer");
+                                    }
+                                }
+                                while(true){
+                                    try {
+                                        System.out.println("Enter the estimated calories burnt for the workout:");
+                                        calories = Integer.parseInt(in.nextLine());
+                                        if (calories < 0) {
+                                            System.out.println("Please enter an integer greater than or equal to 0");
+                                        } else {
+                                            break;
+                                        }
+                                    } catch(NumberFormatException e) {
+                                        System.out.println("Input is not an integer");
+                                    }
+                                }
                                 InOut.createWorkout(schedule, option, day, calories);
                                 in.nextLine(); // get rid of endline char from last input
                             }
