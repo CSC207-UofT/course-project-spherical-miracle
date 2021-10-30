@@ -66,9 +66,9 @@ public class WorkoutSchedulerMain {
                                 while(true){
                                     try {
                                         System.out.println("Enter the day of the workout as an integer (0-6, where 0 is Sunday):");
-                                        day = Integer.parseInt(in.nextLine()); // .nextInt() does not work for some reason
+                                        day = Integer.parseInt(in.nextLine());
                                         if (day < 0 || day > 6) {
-                                            System.out.println("Please enter an integer from 0 to 6"); //print message
+                                            System.out.println("Please enter an integer from 0 to 6");
                                         } else {
                                             break;
                                         }
@@ -79,9 +79,9 @@ public class WorkoutSchedulerMain {
                                 while(true){
                                     try {
                                         System.out.println("Enter the estimated calories burnt for the workout:");
-                                        calories = Integer.parseInt(in.nextLine()); // .nextInt() does not work for some reason
+                                        calories = Integer.parseInt(in.nextLine());
                                         if (calories < 0) {
-                                            System.out.println("Please enter an integer greater than or equal to 0"); //print message
+                                            System.out.println("Please enter an integer greater than or equal to 0");
                                         } else {
                                             break;
                                         }
