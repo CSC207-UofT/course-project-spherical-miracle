@@ -8,7 +8,6 @@ public class Workout {
      * The name of the workout.
      */
     private String name;
-    //TODO: caloriesBurnt, calBurnt?
 
     /**
      * The calories burnt for this workout.
