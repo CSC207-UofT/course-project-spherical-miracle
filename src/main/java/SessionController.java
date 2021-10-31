@@ -1,3 +1,6 @@
+import User.*;
+import Workout.*;
+
 /**
  * A controller that delegates management of a user's session upon logging in and out.
  */
@@ -22,7 +25,7 @@ public class SessionController {
         this.loginInputBoundary = new LoginUseCase(users);
         this.logoutInputBoundary = new LogoutUseCase();
     }
-    // public SessionController(LoginInputBoundary loginIB, logoutIB){}
+    // public SessionController(User.LoginInputBoundary loginIB, logoutIB){}
 
     /**
      * Logs user in with the given username and password.

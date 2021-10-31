@@ -1,9 +1,9 @@
 Class name: ManageData
 
 Responsibilities:
-* Retrieve relevant User from data storage
-* Save new User information to data storage
+* Retrieve relevant User.User from data storage
+* Save new User.User information to data storage
 
 Collaborators:
-* ManageSchedule
+* Workout.ManageSchedule
 * ManageUser

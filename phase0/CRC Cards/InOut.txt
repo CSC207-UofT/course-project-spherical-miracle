@@ -6,5 +6,5 @@ Responsibilities:
 
 Collaborators:
 * ManageUser
-* ManageSchedule
+* Workout.ManageSchedule
 * UserLogin

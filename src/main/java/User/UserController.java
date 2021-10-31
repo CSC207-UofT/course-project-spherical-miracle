@@ -1,4 +1,5 @@
-import java.util.Arrays;
+package User;
+
 /**
  * A controller that delegates actions for managing a database of users.
  */
@@ -11,15 +12,15 @@ public class UserController {
     private final UserDatabase users;
 
     /**
-    * Construct a list of the information needed to create a new user and the UserDatabase data.
-    * @param users UserDatabase object.
+    * Construct a list of the information needed to create a new user and the User.UserDatabase data.
+    * @param users User.UserDatabase object.
     */
     public UserController(UserDatabase users) {
         this.users = users;
     }
 
     /**
-     * If the information is valid, add the user to the UserDatabase object then return true.
+     * If the information is valid, add the user to the User.UserDatabase object then return true.
      * Otherwise, return false.
      * @param username the user's username
      * @param password the user's password
@@ -33,14 +34,14 @@ public class UserController {
         CreateUserInputBoundary createUserInputBoundary = new CreateUserUseCase(users);
         boolean result = createUserInputBoundary.createUser(username, password, name, email);
         if (result)
-            System.out.println("User added!");
+            System.out.println("User.User added!");
         else
             System.out.println("Failed to create user. (insert reason here?)");
         return result;
     }
 
     /**
-     * Remove the user from the UserDatabase.
+     * Remove the user from the User.UserDatabase.
      * @param username the user's username
      */
     public void removeUser(String username) {

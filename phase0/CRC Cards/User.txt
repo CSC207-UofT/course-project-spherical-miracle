@@ -1,4 +1,4 @@
-Class name: User
+Class name: User.User
 
 Responsibilities:
 * Store username, password, email, and name of user
@@ -9,4 +9,4 @@ Responsibilities:
 
 Collaborators:
 * UserManager
-* Schedule
+* Workout.Schedule

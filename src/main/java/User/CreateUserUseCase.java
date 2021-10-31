@@ -1,4 +1,4 @@
-//TODO: Put in same package as UserDatabase or import UserDatabase
+package User;//TODO: Put in same package as User.UserDatabase or import User.UserDatabase
 /**
  * Creates a new user account.
  */
@@ -11,7 +11,7 @@ public class CreateUserUseCase implements CreateUserInputBoundary {
     private final UserDatabase users;
 
     /**
-     * Construct a new CreateUserUseCase.
+     * Construct a new User.CreateUserUseCase.
      */
     public CreateUserUseCase(UserDatabase users) {
         this.users = users;
@@ -34,7 +34,7 @@ public class CreateUserUseCase implements CreateUserInputBoundary {
         User user = new User(username, password, name, email);
         users.save(user);
         // Should the validating process be done in saveUser? Or another method
-        // TODO: Use the data access interface to save the user into the UserDatabase
+        // TODO: Use the data access interface to save the user into the User.UserDatabase
         return true;
     }
 }

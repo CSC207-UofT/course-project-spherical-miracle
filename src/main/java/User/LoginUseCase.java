@@ -1,4 +1,5 @@
-import java.util.HashMap;
+package User;
+
 /**
  * Logs a user into their account when given the correct account information.
  */
@@ -6,7 +7,7 @@ import java.util.HashMap;
 public class LoginUseCase implements LoginInputBoundary {
 
     /**
-     * A HashMap where User objects correspond to unique usernames.
+     * A HashMap where User.User objects correspond to unique usernames.
      */
     private UserDatabase userMap;
 

@@ -1,3 +1,5 @@
+package User;
+
 /**
  * A user's account, which contains private details about the user.
  */
@@ -9,11 +11,11 @@ public class User {
     private String email;
 
     /**
-     * Construct a User, giving them the name, username, email, and password.
-     * @param name the name of the User
-     * @param username the username of the User
-     * @param email the email of the User
-     * @param password the password of the User
+     * Construct a User.User, giving them the name, username, email, and password.
+     * @param name the name of the User.User
+     * @param username the username of the User.User
+     * @param email the email of the User.User
+     * @param password the password of the User.User
      */
     public User(String username, String password, String name, String email) {
         this.username = username;
@@ -23,7 +25,7 @@ public class User {
     }
 
     /**
-     * Return the name of this User.
+     * Return the name of this User.User.
      * @return user's name
      **/
     public String getName() {
@@ -31,7 +33,7 @@ public class User {
     }
 
     /**
-     * Return the username of this User.
+     * Return the username of this User.User.
      * @return user's username
      **/
     public String getUsername() {
@@ -39,7 +41,7 @@ public class User {
     }
 
     /**
-     * Return the email of this User.
+     * Return the email of this User.User.
      * @return user's email
      **/
     public String getEmail() {
@@ -47,18 +49,18 @@ public class User {
     }
 
     /**
-     * Return if tryPassword matches this User's password
+     * Return if tryPassword matches this User.User's password
      * @param tryPassword the password that the user input to attempt logging in
-     * @return True iff tryPassword matches this User's password.
+     * @return True iff tryPassword matches this User.User's password.
      */
     public boolean passwordMatches(String tryPassword) {
         return password.equals(tryPassword);
     }
 
     /**
-     * Change this User's password to newPassword if the oldPassword matches the user's current password.
+     * Change this User.User's password to newPassword if the oldPassword matches the user's current password.
      * Return true iff password is successfully changed.
-     * @param newPassword the new password for this User
+     * @param newPassword the new password for this User.User
      * @return whether the password was successfully changed or not
      **/
     public boolean changePassword(String oldPassword, String newPassword) {

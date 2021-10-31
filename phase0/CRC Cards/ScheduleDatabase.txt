@@ -1,7 +1,7 @@
-Class name: ScheduleDatabase
+Class name: Workout.ScheduleDatabase
 
 Responsibilities:
 * Store all weekly schedules the user has created in a HashMap
 
 Collaborators:
-* Schedule
+* Workout.Schedule
