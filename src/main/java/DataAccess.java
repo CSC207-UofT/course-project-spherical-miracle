@@ -53,6 +53,8 @@ public class DataAccess implements DataAccessInterface {
         MongoCollection<Document> collection = database.getCollection("User");
         Document newuser = new Document("name", user[0]).append("username", user[1]).append("email", user[2]).append("password", user[3]);
         ObjectId id = collection.insertOne(newuser).getInsertedId().asObjectId().getValue();
+        //TODO: encrypt password?
+        //TODO: add a third database connecting User and Schedule
     }
 
     @Override
