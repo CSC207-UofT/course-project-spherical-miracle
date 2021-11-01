@@ -1,15 +1,16 @@
 import java.util.HashMap;
 
 public class LoginUseCase implements LoginInputBoundary {
-    private HashMap<String, User> userMap;
+
+    private final FetchUserUseCase database;
 
     /**
      * Construct a userMap given a HashMap.
      *
-     * @param users HashMap of users.
+     * @param database Use case that enables fetching of users.
      */
-    public LoginUseCase(UserDatabase users){
-        this.userMap = users.getUserMap();
+    public LoginUseCase(FetchUserUseCase database){
+        this.database = database;
     }
 
     public enum LoginResult {
@@ -23,9 +24,15 @@ public class LoginUseCase implements LoginInputBoundary {
      */
     @Override
     public LoginResult login(String username, String password) {
-        if (!userMap.containsKey(username))
+//        try {
+//            User user = database.getUser(username);
+//        } catch (UserDoesNotExistException e) {
+//            return LoginResult.NO_SUCH_USER;
+//        }
+        User user = database.getUser(username);
+        if (user == null)
             return LoginResult.NO_SUCH_USER;
-        if (userMap.get(username).passwordMatches(password))
+        if (user.passwordMatches(password))
             return LoginResult.SUCCESS;
         return LoginResult.INCORRECT_PASSWORD;
     }

@@ -35,7 +35,7 @@ public class WorkoutSchedulerMain {
                 option = in.nextLine();
                 switch (option) {
                     case "l": {
-                        SessionController sessionController = new SessionController(userDatabase);
+                        SessionController sessionController = new SessionController(access);
                         HashMap<String, String> userInfo = userInput(in, true);
                         if (sessionController.login(userInfo.get("username"), userInfo.get("password"))) {
                             valid_input = true;

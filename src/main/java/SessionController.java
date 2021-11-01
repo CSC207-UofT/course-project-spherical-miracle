@@ -1,11 +1,14 @@
+import javax.xml.crypto.Data;
+
 public class SessionController {
 
     private final LoginInputBoundary loginInputBoundary;
     private final LogoutInputBoundary logoutInputBoundary;
     // private String usernameOfCurrentUser;
 
-    public SessionController(UserDatabase users) {
-        this.loginInputBoundary = new LoginUseCase(users);
+    public SessionController(DataAccessInterface database) {
+        FetchUserUseCase data = new FetchUserUseCase(database);
+        this.loginInputBoundary = new LoginUseCase(data);
         this.logoutInputBoundary = new LogoutUseCase();
     }
     // public SessionController(LoginInputBoundary loginIB, logoutIB){}
