@@ -71,4 +71,7 @@ public class User {
         return false;
     }
 
+    public String getPassword() {
+        return password;
+    }
 }

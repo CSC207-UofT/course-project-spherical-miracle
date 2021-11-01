@@ -27,17 +27,21 @@ public class DataAccess implements DataAccessInterface {
 
     @Override
     public String[] findUser(String username) {
-        String[] out_string = new String[4];
+        String[] userInfo = new String[4];
         MongoCollection<Document> collection = database.getCollection("User");
         Bson equalComparison = eq("username", username);
 //        collection.find(equalComparison).forEach(doc -> System.out.println(doc.toJson()));
         FindIterable<Document> iterable = collection.find(equalComparison); // username is unique
         Document doc = iterable.first();
-        out_string[0] = doc.getString("username");
-        out_string[1] = doc.getString("password");
-        out_string[2] = doc.getString("name");
-        out_string[3] = doc.getString("email");
-        return out_string;
+        if (doc == null) {
+            //raise UserDoesNotExistException;
+            return null;
+        }
+        userInfo[0] = doc.getString("username");
+        userInfo[1] = doc.getString("password");
+        userInfo[2] = doc.getString("name");
+        userInfo[3] = doc.getString("email");
+        return userInfo;
     }
 
     @Override
@@ -49,9 +53,9 @@ public class DataAccess implements DataAccessInterface {
 
 
     @Override
-    public void saveUser(String[] user) {
+    public void saveUser(String username, String password, String name, String email){
         MongoCollection<Document> collection = database.getCollection("User");
-        Document newuser = new Document("name", user[0]).append("username", user[1]).append("email", user[2]).append("password", user[3]);
+        Document newuser = new Document("name", name).append("username", username).append("email", email).append("password", password);
         ObjectId id = collection.insertOne(newuser).getInsertedId().asObjectId().getValue();
         //TODO: encrypt password?
         //TODO: add a third database connecting User and Schedule
