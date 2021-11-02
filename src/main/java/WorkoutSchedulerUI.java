@@ -48,6 +48,7 @@ public class WorkoutSchedulerUI {
                         System.out.println("Invalid input; Please try again");
                         //break;
                 }
+                
             }
             while (!quit) {
                 System.out.println("Type 'c' to make a schedule or 'q' to quit:");
@@ -133,3 +134,5 @@ public class WorkoutSchedulerUI {
         return userInput;
     }
 }
+
+// TODO clean up this bl

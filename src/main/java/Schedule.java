@@ -9,9 +9,9 @@ public class Schedule {
     private String name;
 
     /**
-     * An array with 7 slots that can be filled up with Workout objects.
+     * An array with 7 slots that can be filled up with Day objects.
      */
-    private Workout[] plan = new Workout[7];
+    private Day[] plan = new Day[7];
 
     /**
      * Construct an Schedule with the given name.
@@ -37,9 +37,9 @@ public class Schedule {
 
     // TODO: Possibly track the exact hour of the workout
     /**
-     * Add the workout to the list of workouts for a specific day.
-     * @param day the days of the week from 0 being Sunday to 6 being Saturday
-     * @param workout the workout being added
+     * Setting a given day into the schedule.
+     * @param date the days of the week from 0 being Sunday to 6 being Saturday
+     * @param day the day being added
      */
     public void setDay(int date, Day day) {
         plan[date] = day;
@@ -54,7 +54,7 @@ public class Schedule {
 
     /**
      * Return the workout plan for a specific day.
-     * @param day the specific day
+     * @param date the specific day
      */
     public Day getDay(int date) {
         return plan[date];

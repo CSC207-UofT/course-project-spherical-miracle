@@ -5,18 +5,10 @@ import java.util.ArrayList;
  * A general day in the user's schedule that is not tied to a particular weekday.
  */
 
-// such that some other class attaches the specific weekday to a day object?
-// need a method to store the data of the workouts (possibly multiple for one day)
-// order matters (true)
-// size (number of workouts to keep track of for a day)
-// may need to change dynamically --> look to arraylist?
-// or hard code a hard cap ex. can only do 5 different types of workouts per day (this might be a good idea
-// if someone tries to put too many workouts in one day)
+//how to attach the specific weekday to a day object?
 
-// will need to also update Scheduler based on new structure of storing workouts
+// will need to also update Schedule based on new structure of storing workouts
 
-// for calculating calories burnt per workout, should we sum them up now?
-// may be using in calculating calorie intake vs outtake
 // when implementing meals + be a part of the daily summaries
 // how should we represent meals? just the name with the calories it has?
 
@@ -24,16 +16,18 @@ public class Day {
     private Workout[] workouts;
     private ArrayList<String> meals;
     private int intake;
-    private int outtake;
+    private int calBurnt;
+    // possible implement dates in the future: ex. November 11,2021
 
     /**
      * Construct a Day
      */
     public Day(){
+        // hard coded limit of 5 different types of workouts per day
         workouts = new Workout[5];
         meals = new ArrayList<>();
         intake = 0;
-        outtake = 0;
+        calBurnt = 0;
     }
 
     /**
