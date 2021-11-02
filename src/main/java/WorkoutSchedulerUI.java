@@ -1,12 +1,9 @@
 import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 /**
  * The user interface for scheduling workout session in a user's schedule.
  */
-
-import java.util.*;
 
 public class WorkoutSchedulerUI {
     public static void main(String[] args) {
@@ -14,7 +11,7 @@ public class WorkoutSchedulerUI {
         ScheduleDatabase scheduleDatabase = new ScheduleDatabase();
         boolean quit = false;
         Scanner in = new Scanner(System.in);
-        InOut commandController;
+        InOutController commandController;
         while (!quit) {
             //InOut.out.println();
             // would rather have this for ease of refactoring,
@@ -37,7 +34,7 @@ public class WorkoutSchedulerUI {
                     }
                     case "s": // TODO do something similar as login where we validate then use if to change valid_input
                         HashMap<String, String> userInfo = userInput(in, false);
-                        String result = InOut.register(userInfo.get("username"), userInfo.get("password"),
+                        String result = InOutController.register(userInfo.get("username"), userInfo.get("password"),
                                 userInfo.get("name"), userInfo.get("email"), userDatabase);
                         System.out.println(result);
                         valid_input = true;
@@ -45,7 +42,7 @@ public class WorkoutSchedulerUI {
                     case "q":
                         quit = true;
                         valid_input = true;
-                        InOut.quit();
+                        InOutController.quit();
                         break;
                     default:
                         System.out.println("Invalid input; Please try again");
@@ -60,47 +57,50 @@ public class WorkoutSchedulerUI {
                         System.out.println("Enter the name of the schedule:");
                         String scheduleName = in.nextLine();
                         Schedule schedule = new Schedule(scheduleName);
-                        while (!Objects.equals(option, "f")) {
-                            System.out.println("Enter the type of workout you would like to add or 'f' if you are finished.");
-                            option = in.nextLine(); // will this cause errors by overriding switch argument inside switch case?
-                            if (option.equals("f")) {
-                                // ask for the day the user wants the workout on, and the calories burnt for the workout.
-                                // then add it to the day of the workout.
-                                String firstReminder = InOut.finalizeSchedule(schedule, scheduleDatabase);
-                                System.out.println(firstReminder);
-                            } else {
-                                int day;
-                                int calories;
-                                while(true){
-                                    try {
-                                        System.out.println("Enter the day of the workout as an integer (0-6, where 0 is Sunday):");
-                                        day = Integer.parseInt(in.nextLine());
-                                        if (day < 0 || day > 6) {
-                                            System.out.println("Please enter an integer from 0 to 6");
-                                        } else {
+                        // everything above remains the same
+
+                        int date = 0;
+                        while (!Objects.equals(date, -1)) {
+                            try {
+                                System.out.println("Enter the date of the workout as an integer(0-6) or '-1' if you are completely finished:");
+                                date = Integer.parseInt(in.nextLine());
+                                if (date < -1 || date > 6) {
+                                    System.out.println("Please enter an integer from 0 to 6");
+                                }
+                                else if (date == -1){
+                                    String firstReminder = InOutController.finalizeSchedule(schedule, scheduleDatabase);
+                                    System.out.println(firstReminder);
+                                }
+                                else {
+                                    Day day = new Day();
+                                    int i = 0;
+                                    while(i < 5){
+                                        System.out.println("Enter a workout name or 'f' if you are finished the day");
+                                        option = in.nextLine();
+                                        if (option.equals("f")) {
                                             break;
+                                        } else {
+                                            int calories;
+                                            System.out.println("Enter the calories burnt for this workout");
+                                            calories = Integer.parseInt(in.nextLine());
+                                            if (calories <= 0) {
+                                                System.out.println("Please enter a positive number");
+                                            }
+                                            else {
+                                                Workout newWorkout = new Workout(option, calories);
+                                                InOutController.createWorkout(day, newWorkout);
+                                                i++;
+                                            }
                                         }
-                                    } catch(NumberFormatException e) {
-                                        System.out.println("Input is not an integer");
+                                        schedule.setDay(date, day); // TODO: put in InOut.java and then sent to use case
                                     }
                                 }
-                                while(true){
-                                    try {
-                                        System.out.println("Enter the estimated calories burnt for the workout:");
-                                        calories = Integer.parseInt(in.nextLine());
-                                        if (calories < 0) {
-                                            System.out.println("Please enter an integer greater than or equal to 0");
-                                        } else {
-                                            break;
-                                        }
-                                    } catch(NumberFormatException e) {
-                                        System.out.println("Input is not an integer");
-                                    }
-                                }
-                                InOut.createWorkout(schedule, option, day, calories);
-                                in.nextLine(); // get rid of endline char from last input
+                            } catch(NumberFormatException e) {
+                                System.out.println("Input is not an integer");
                             }
+
                         }
+
                         break;
                     case "q":
                         quit = true;

@@ -41,43 +41,39 @@ public class Schedule {
      * @param day the days of the week from 0 being Sunday to 6 being Saturday
      * @param workout the workout being added
      */
-    // TODO: maybe change name to setWorkout, because User can replace workout
-    // TODO: do we want to add multiple workouts, like one chest and one back.
-    public void addWorkout(int day, Workout workout) {
-        plan[day] = workout;
+    public void setDay(int date, Day day) {
+        plan[date] = day;
     }
 
     /**
-     * Remove the workout from the list of workout for a specific day.
-     * @param day the specified day
-     * Precondition: workout is in the list of workouts of the day
+     * Remove the day from the list of days for a specific date.
+     * @param date the specified day
+     * Precondition: the given date exists in this current schedule
      */
-    public void cancelWorkout(int day) {
-        plan[day] = null;
-    }
+    public void cancelDay(int date) { plan[date] = null; }
 
     /**
      * Return the workout plan for a specific day.
      * @param day the specific day
      */
-    public Workout getWorkout(int day) {
-        return plan[day];
+    public Day getDay(int date) {
+        return plan[date];
     }
 
     /**
      * Print a string representation of a user's specific schedule.
      */
     public String printSchedule(){
-        String Workout;
+        String workout;
         String output_msg = "";
         for(int i=0; i <= 6; i++){
-            if (this.getWorkout(i) == null) {
-                Workout = "Rest Day";
+            if (this.getDay(i) == null) {
+                workout = "Rest Day";
             } else {
-                Workout = this.getWorkout(i).getName();
+                workout = this.getDay(i).getDay();
             }
-            //String Workout = sched.getWorkout(0).getName();
-            output_msg += "This is your workout for day " + (i + 1) + ": " + Workout + "\n";
+            //String workout = sched.getWorkout(0).getName();
+            output_msg += "This is your workout for day " + (i + 1) + ": " + workout + "\n";
         }
         return output_msg;
     }

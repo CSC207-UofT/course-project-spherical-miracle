@@ -18,7 +18,7 @@ import java.util.ArrayList;
 // for calculating calories burnt per workout, should we sum them up now?
 // may be using in calculating calorie intake vs outtake
 // when implementing meals + be a part of the daily summaries
-// how should we represent meals? just the name with the calories it has? (I'll do it like this for now)
+// how should we represent meals? just the name with the calories it has?
 
 public class Day {
     private Workout[] workouts;
@@ -41,13 +41,14 @@ public class Day {
      * @param workout workout to be added for the day
      * @return if adding the workout was successful or not
      */
-    private boolean addWorkout(Workout workout){
+    public boolean addWorkout(Workout workout){
         int i = 0;
         while ((workouts[i] != null) && (i < 5)){
             i = i + 1;
         }
         if (i < 5){
             workouts[i] = workout;
+            calBurnt = calBurnt + workout.getCaloriesBurnt();
             return true;
         }
         else {
@@ -60,15 +61,50 @@ public class Day {
      * @param workout workout to be removed from day
      * @return if removing the workout was successful or not
      */
-    private boolean removeWorkout(Workout workout){
+    public boolean removeWorkout(Workout workout){
         for (int i = 0; i < 5; i++){
             if (workouts[i].getName().equals(workout.getName())){
-                workouts[i] = null;
+                calBurnt = calBurnt - workout.getCaloriesBurnt();
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * Return the net calories burnt for the day.
+     */
+    public int getCalories(){ return intake - calBurnt; }
 
+    /**
+     * Return the absolute calories burnt for the day.
+     */
+    public int getOuttake(){ return calBurnt; }
+
+    /**
+     * Return the intake of calories for the day.
+     */
+    public int getIntake(){ return intake; }
+
+    /**
+     * Return a string representation of the day.
+     */
+    public String getDay(){
+        StringBuilder stringWorkouts = new StringBuilder();
+        for(Workout workout: workouts){
+            if (!(workout == null)){
+                stringWorkouts.append(workout.getName());
+                stringWorkouts.append(", ");
+            }
+        }
+
+//        StringBuilder stringMeals = new StringBuilder();
+//        for(Meal meal: meals){
+//            stringMeals.append(meal);
+//            stringMeals.append(", ");
+//        }
+        //
+        stringWorkouts = new StringBuilder(stringWorkouts.substring(0, stringWorkouts.length() - 2));
+        return stringWorkouts.toString();
+    }
 }

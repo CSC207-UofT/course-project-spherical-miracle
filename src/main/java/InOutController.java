@@ -2,7 +2,7 @@
  * A controller that delegates tasks based on user commands that are input.
  */
 
-public class  InOut {
+public class InOutController {
 
     /**
      * Registers the user under a new account.
@@ -46,13 +46,11 @@ public class  InOut {
     }
 
     /**
-     * Creates a new workout in the desired schedule.
-     * @param sched the schedule that is being added to
-     * @param type the type of workout
-     * @param day the day that the workout is for
-     * @param cal an estimate of how many calories will be burned during the workout
+     * Creates a new workout in the desired day.
+     * @param day the day that is being added to
+     * @param workout the workout being added
      */
-    public static void createWorkout(Schedule sched, String type, int day, int cal){
-        sched.addWorkout(day, new Workout(type, cal));
+    public static void createWorkout(Day day, Workout workout){
+        day.addWorkout(workout);
     }
 }

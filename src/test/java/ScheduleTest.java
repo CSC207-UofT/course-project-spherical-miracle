@@ -30,7 +30,9 @@ class ScheduleTest {
 
     @Test
     void addWorkout() {
-        week1.addWorkout(1, new Workout("ass", 500));
+        Day day = new Day();
+        week1.setDay(1, day);
+        assert week1.getDay(1) == day;
     }
 
 
