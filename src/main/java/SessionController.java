@@ -16,10 +16,11 @@ public class SessionController {
 
     /**
      * Constructs a SessionController with a given database of users to access.
-     * @param users the users in the specified user database
+     * @param database Interface to access database
      */
-    public SessionController(UserDatabase users) {
-        this.loginInputBoundary = new LoginUseCase(users);
+    public SessionController(DataAccessInterface database) {
+        FetchUserUseCase data = new FetchUserUseCase(database);
+        this.loginInputBoundary = new LoginUseCase(data);
         this.logoutInputBoundary = new LogoutUseCase();
     }
     // public SessionController(LoginInputBoundary loginIB, logoutIB){}
