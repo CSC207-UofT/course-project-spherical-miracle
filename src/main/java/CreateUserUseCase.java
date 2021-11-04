@@ -1,4 +1,7 @@
 //TODO: Put in same package as UserDatabase or import UserDatabase
+/**
+ * Creates a new user account.
+ */
 
 import javax.xml.crypto.Data;
 
@@ -11,12 +14,11 @@ public class CreateUserUseCase implements CreateUserInputBoundary {
     }
 
     /**
-     * Creates a user
-     *
-     * @param name
-     * @param username
-     * @param email
-     * @param password
+     * Creates a user with the specified details for it.
+     * @param name user's name
+     * @param username user's desired username
+     * @param email user's email
+     * @param password user's desired password
      * @return True iff successfully created a user
      */
     @Override

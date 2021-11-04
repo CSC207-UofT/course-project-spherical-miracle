@@ -1,11 +1,23 @@
-import javax.xml.crypto.Data;
-
+/**
+ * A controller that delegates management of a user's session upon logging in and out.
+ */
 public class SessionController {
 
+    /**
+     * An input boundary for the login use case.
+     */
     private final LoginInputBoundary loginInputBoundary;
+
+    /**
+     * An input boundary for the logout use case.
+     */
     private final LogoutInputBoundary logoutInputBoundary;
     // private String usernameOfCurrentUser;
 
+    /**
+     * Constructs a SessionController with a given database of users to access.
+     * @param database Interface to access database
+     */
     public SessionController(DataAccessInterface database) {
         FetchUserUseCase data = new FetchUserUseCase(database);
         this.loginInputBoundary = new LoginUseCase(data);
@@ -14,10 +26,10 @@ public class SessionController {
     // public SessionController(LoginInputBoundary loginIB, logoutIB){}
 
     /**
-     * Login with the given username and password.
-     * @param username
-     * @param password
-     * @return
+     * Logs user in with the given username and password.
+     * @param username the given username
+     * @param password the given password
+     * @return whether the user was able to successfully log in or not
      */
     public boolean login(String username, String password) {
         LoginUseCase.LoginResult result = loginInputBoundary.login(username, password);
@@ -35,8 +47,8 @@ public class SessionController {
     }
 
     /**
-     * Logout from this session.
-     * @return
+     * Logs user out from the current session.
+     * @return whether the user was successfully logged out or not
      */
     public boolean logout() {
         return logoutInputBoundary.logout();

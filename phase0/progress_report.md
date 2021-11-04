@@ -58,7 +58,7 @@ ManageData (to be done later)
 
 InOut (Façade)
 
-WorkoutSchedulerMain
+WorkoutSchedulerUI
 
 #### Interface
 
@@ -99,7 +99,7 @@ UserLogin: Use Case that allows a user to log in with a password corresponding t
 
 Workout: Entity that stores the type/name of the workout and details about it (ex. number of calories burned during it)
 
-WorkoutSchedulerMain: the interface, reads the commands and inputs from the program user
+WorkoutSchedulerUI: the interface, reads the commands and inputs from the program user
 
 LoginInputBoundary, CreateUserInputBoundary, CreateUserUseCase: in the process of being implemented for Phase 1
 

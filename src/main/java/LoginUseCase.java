@@ -1,4 +1,7 @@
 import java.util.HashMap;
+/**
+ * Logs a user into their account when given the correct account information.
+ */
 
 public class LoginUseCase implements LoginInputBoundary {
 
@@ -13,8 +16,11 @@ public class LoginUseCase implements LoginInputBoundary {
         this.database = database;
     }
 
+    /**
+     * The resulting "output" of the LoginResult use case.
+     */
     public enum LoginResult {
-       SUCCESS, INCORRECT_PASSWORD, NO_SUCH_USER
+        SUCCESS, INCORRECT_PASSWORD, NO_SUCH_USER
     }
     /**
      * Login with the given username and password.
