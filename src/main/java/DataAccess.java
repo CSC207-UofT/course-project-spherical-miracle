@@ -26,7 +26,7 @@ public class DataAccess implements DataAccessInterface {
     }
 
     @Override
-    public String[] findUser(String username) {
+    public String[] findUser(String username) throws UserDoesNotExistException {
         String[] userInfo = new String[4];
         MongoCollection<Document> collection = database.getCollection("User");
         Bson equalComparison = eq("username", username);
@@ -34,8 +34,7 @@ public class DataAccess implements DataAccessInterface {
         FindIterable<Document> iterable = collection.find(equalComparison); // username is unique
         Document doc = iterable.first();
         if (doc == null) {
-            //raise UserDoesNotExistException;
-            return null;
+            throw new UserDoesNotExistException(username);
         }
         userInfo[0] = doc.getString("username");
         userInfo[1] = doc.getString("password");

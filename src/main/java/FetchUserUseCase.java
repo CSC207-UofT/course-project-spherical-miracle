@@ -7,9 +7,12 @@ public class FetchUserUseCase {
     }
 
     public User getUser(String username) {
-        String[] userInfo = (String[]) database.findUser(username);
-        // TODO: handle usernotfound
-        User user = new User(userInfo[0], userInfo[1], userInfo[2] ,userInfo[3]);
-        return user;
+        try {
+            String[] userInfo = database.findUser(username);
+            User user = new User(userInfo[0], userInfo[1], userInfo[2] ,userInfo[3]);
+            return user;
+        } catch (UserDoesNotExistException e) {
+            return null;
+        }
     }
 }
