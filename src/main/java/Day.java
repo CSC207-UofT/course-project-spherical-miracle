@@ -66,6 +66,32 @@ public class Day {
     }
 
     /**
+     * Add a meal to the list of meals and return true as long as the list isn't already filled.
+     * @param meal meal to be added for the day
+     * @return if adding the meal was successful or not
+     */
+    public boolean addMeal(String meal){
+        meals.add(meal);
+        intake = intake + 100; // 100 for now as a placeholder for when we make meal class (meal.calories)
+        return true;
+    }
+
+    /**
+     * Remove a meal from the list of meals and return true as long as the meal was removed.
+     * @param meal meal to be removed from day
+     * @return if removing the meal was successful or not
+     */
+    public boolean removeMeal(String meal){
+        for (String s : meals) {
+            if (s.equals(meal)) {
+                intake = intake - 100; // again, placeholder
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Return the net calories burnt for the day.
      */
     public int getCalories(){ return intake - calBurnt; }
@@ -91,14 +117,15 @@ public class Day {
                 stringWorkouts.append(", ");
             }
         }
+        stringWorkouts = new StringBuilder(stringWorkouts.substring(0, stringWorkouts.length() - 2));
 
 //        StringBuilder stringMeals = new StringBuilder();
-//        for(Meal meal: meals){
+//        for(String meal: meals){
 //            stringMeals.append(meal);
 //            stringMeals.append(", ");
 //        }
-        //
-        stringWorkouts = new StringBuilder(stringWorkouts.substring(0, stringWorkouts.length() - 2));
+//        stringMeals = new StringBuilder(stringMeals.substring(0, stringWorkouts.length() - 2));
+
         return stringWorkouts.toString();
     }
 }
