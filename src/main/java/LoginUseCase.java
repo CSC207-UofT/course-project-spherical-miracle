@@ -24,16 +24,13 @@ public class LoginUseCase implements LoginInputBoundary {
      */
     @Override
     public LoginResult login(String username, String password) {
-//        try {
-//            User user = database.getUser(username);
-//        } catch (UserDoesNotExistException e) {
-//            return LoginResult.NO_SUCH_USER;
-//        }
-        User user = database.getUser(username);
-        if (user == null)
+        try {
+            User user = database.getUser(username);
+            if (user.passwordMatches(password))
+                return LoginResult.SUCCESS;
+            return LoginResult.INCORRECT_PASSWORD;
+        } catch (UserDoesNotExistException e) {
             return LoginResult.NO_SUCH_USER;
-        if (user.passwordMatches(password))
-            return LoginResult.SUCCESS;
-        return LoginResult.INCORRECT_PASSWORD;
+        }
     }
 }

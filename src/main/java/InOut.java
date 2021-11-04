@@ -2,9 +2,9 @@ public class  InOut {
 
     // signup method
     // return a message describing if the user was successfully signed up
-    public static String register(String username, String password, String name, String email, UserDatabase userDatabase) {
-        UserController manageuser = new UserController(userDatabase);
-        if (manageuser.addUser(username, password, name, email)) {
+    public static String register(String username, String password, String name, String email, DataAccessInterface da) {
+        UserController manageUser = new UserController(da);
+        if (manageUser.addUser(username, password, name, email)) {
             return "Successfully signed up!";
         } else {
             return "Unsuccessful signup. Username is already taken.";

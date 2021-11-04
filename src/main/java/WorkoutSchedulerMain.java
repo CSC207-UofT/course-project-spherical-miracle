@@ -19,7 +19,6 @@ public class WorkoutSchedulerMain {
     public static void main(String[] args) {
         MongoClient mongoClient = InitializeDB();
         DataAccess access = new DataAccess(mongoClient);
-        UserDatabase userDatabase = new UserDatabase();
         ScheduleDatabase scheduleDatabase = new ScheduleDatabase();
         boolean quit = false;
         Scanner in = new Scanner(System.in);
@@ -47,7 +46,7 @@ public class WorkoutSchedulerMain {
                     case "s": // TODO do something similar as login where we validate then use if to change valid_input
                         HashMap<String, String> userInfo = userInput(in, false);
                         String result = InOut.register(userInfo.get("username"), userInfo.get("password"),
-                                userInfo.get("name"), userInfo.get("email"), userDatabase);
+                                userInfo.get("name"), userInfo.get("email"), access);
                         System.out.println(result);
                         // valid_input = true;
                         break;

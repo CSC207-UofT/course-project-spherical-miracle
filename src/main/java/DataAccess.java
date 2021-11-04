@@ -54,8 +54,8 @@ public class DataAccess implements DataAccessInterface {
     @Override
     public void saveUser(String username, String password, String name, String email){
         MongoCollection<Document> collection = database.getCollection("User");
-        Document newuser = new Document("name", name).append("username", username).append("email", email).append("password", password);
-        ObjectId id = collection.insertOne(newuser).getInsertedId().asObjectId().getValue();
+        Document newUser = new Document("name", name).append("username", username).append("email", email).append("password", password);
+        ObjectId id = collection.insertOne(newUser).getInsertedId().asObjectId().getValue();
         //TODO: encrypt password?
         //TODO: add a third database connecting User and Schedule
     }
