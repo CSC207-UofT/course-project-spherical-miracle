@@ -7,35 +7,6 @@ import javax.xml.crypto.Data;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LoginUseCaseTest {
-    class Database implements DataAccessInterface {
-        private User user;
-        @Override
-        public String[] findUser(String username) throws UserDoesNotExistException {
-            if (user.getUsername().equals(username)) {
-                return new String[] {user.getUsername(), user.getPassword(), user.getName(), user.getEmail()};
-            }
-            throw new UserDoesNotExistException(username);
-        }
-
-        public Database(String username, String password) {
-            user = new User(username, password, "name", "email");
-        }
-
-        @Override
-        public String[] loadSchedule() {
-            return new String[0];
-        }
-
-        @Override
-        public void saveUser(String username, String password, String name, String email) {
-
-        }
-
-        @Override
-        public void saveSchedule() {
-
-        }
-    }
 
     @BeforeEach
     void setUp() {
@@ -51,7 +22,8 @@ class LoginUseCaseTest {
         String nonexistentUsername = "Asif";
         String expectedPassword = "Matrix";
         String wrongPassword = "Vector";
-        Database db = new Database(username, expectedPassword);
+        MockDatabase db = new MockDatabase();
+        db.saveUser(username, expectedPassword, "Jacob", "Jacob@mail.uk");
         FetchUserUseCase fetch = new FetchUserUseCase(db);
         LoginUseCase login = new LoginUseCase(fetch);
         assert login.login(username, expectedPassword) == LoginUseCase.LoginResult.SUCCESS;
