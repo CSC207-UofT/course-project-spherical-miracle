@@ -24,8 +24,8 @@ public class ScheduleController {
         //TODO: validating inputs
         //boolean is_valid = ;
         //if (is_valid) {
-            scheduleDatabase.saveSchedule(scheduleName, username, isPublic);
-            //return true;
+        CreateScheduleInputBoundary createScheduleInputBoundary= new CreateScheduleUseCase(scheduleDatabase);
+        createScheduleInputBoundary.createSchedule(scheduleName, username, isPublic);
         //}
         //return false;
     }

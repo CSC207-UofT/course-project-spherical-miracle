@@ -9,7 +9,7 @@ public class FetchUserUseCase {
     }
 
     public User getUser(String username) throws UserDoesNotExistException {
-        String[] userInfo = database.findUser(username);
+        String[] userInfo = database.findUserWithUsername(username);
         User user = new User(userInfo[0], userInfo[1], userInfo[2] ,userInfo[3]);
         return user;
     }
