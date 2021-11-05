@@ -44,7 +44,7 @@ public class WorkoutSchedulerUI {
                         if (sessionController.login(userInfo.get("username"), userInfo.get("password"))) {
                             valid_input = true;
                         } else {
-                            System.out.println("Incorrect credentials. Please try again.");
+                            System.out.println("Username and password does not match. Please try again.");
                         }
                         break;
                     }

@@ -31,12 +31,12 @@ public class UserController {
         if (!userInfoIsValid(username, password, name, email))
             return false;
         CreateUserInputBoundary createUserInputBoundary = new CreateUserUseCase(database);
-        boolean result = createUserInputBoundary.createUser(username, password, name, email);
-        if (result)
+        boolean success = createUserInputBoundary.createUser(username, password, name, email);
+        if (success)
             System.out.println("User added!");
         else
-            System.out.println("Failed to create user. (insert reason here?)");
-        return result;
+            System.out.println("Username already taken. Please try again.");
+        return success;
     }
 
     /**
