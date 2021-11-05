@@ -1,7 +1,10 @@
+import Schedule.ScheduleDataAccess;
 import com.mongodb.client.*;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import static com.mongodb.client.model.Filters.*;
+import User.UserDataAccess;
+import User.UserDoesNotExistException;
 
 import org.bson.types.ObjectId;
 

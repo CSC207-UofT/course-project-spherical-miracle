@@ -1,4 +1,5 @@
-import java.util.Arrays;
+package Schedule;
+
 /**
  * A controller that manages a schedule for a user.
  */
@@ -11,15 +12,15 @@ public class ManageSchedule {
     private String name;
 
     /**
-     * A HashMap of schedule names and Schedule objects.
+     * A HashMap of schedule names and Workout.Schedule objects.
      */
     private ScheduleDatabase manager;
 
 
     /**
-     * Construct a list of the information needed to create a new user and the UserDatabase data.
+     * Construct a list of the information needed to create a new user and the User.UserDatabase data.
      * @param name string of the schedule name.
-     * @param manager ScheduleDatabase object
+     * @param manager Workout.ScheduleDatabase object
      */
     public ManageSchedule(String name, ScheduleDatabase manager){
         this.manager = manager;
@@ -27,7 +28,7 @@ public class ManageSchedule {
     }
 
     /**
-     * If the information is valid, add the user to the UserDatabase object then return true.
+     * If the information is valid, add the user to the User.UserDatabase object then return true.
      * Otherwise, return false.
      **/
     public void AddSchedule() {

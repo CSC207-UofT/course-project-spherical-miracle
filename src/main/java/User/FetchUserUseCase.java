@@ -1,3 +1,5 @@
+package User;
+
 public class FetchUserUseCase {
 
     private final UserDataAccess database;

@@ -1,4 +1,4 @@
-//TODO: Put in same package as UserDatabase or import UserDatabase
+package User;
 /**
  * Creates a new user account.
  */
@@ -30,6 +30,5 @@ public class CreateUserUseCase implements CreateUserInputBoundary {
             save.saveUser(new User(username, password, name, email));
             return true;
         }
-        // Should the validating process be done in saveUser? Or another method
     }
 }

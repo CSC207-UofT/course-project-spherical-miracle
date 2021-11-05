@@ -1,9 +1,11 @@
-import java.util.HashMap;
+package User;
+
 /**
  * Logs a user into their account when given the correct account information.
  */
 
 public class LoginUseCase implements LoginInputBoundary {
+
 
     private final FetchUserUseCase database;
 

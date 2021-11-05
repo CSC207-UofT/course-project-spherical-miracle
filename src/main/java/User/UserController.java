@@ -1,3 +1,5 @@
+package User;
+
 /**
  * A controller that delegates actions for managing a database of users.
  */
@@ -9,6 +11,7 @@ public class UserController {
     private final UserDataAccess database;
 
     /**
+
      * Construct a list of the information needed to create a new user and the UserDatabase data.
      *
      * @param database the use case that handles saving user information.
@@ -18,7 +21,7 @@ public class UserController {
     }
 
     /**
-     * If the information is valid, add the user to the UserDatabase object then return true.
+     * If the information is valid, add the user to the User.UserDatabase object then return true.
      * Otherwise, return false.
      * @param username the user's username
      * @param password the user's password
@@ -39,7 +42,7 @@ public class UserController {
     }
 
     /**
-     * Remove the user from the UserDatabase.
+     * Remove the user from the User.UserDatabase.
      * @param username the user's username
      */
     public void removeUser(String username) {

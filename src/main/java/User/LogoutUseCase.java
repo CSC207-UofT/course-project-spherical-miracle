@@ -1,10 +1,12 @@
+package User;
+
 /**
  * Logs a user out of their account.
  */
 public class LogoutUseCase implements LogoutInputBoundary {
 
     /**
-     * Constructs a new LogoutUseCase.
+     * Constructs a new User.LogoutUseCase.
      */
     public LogoutUseCase() {
     }

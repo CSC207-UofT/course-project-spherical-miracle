@@ -1,3 +1,7 @@
+package User;
+
+import User.UserDataAccess;
+
 public class SaveUserUseCase {
 
     private final UserDataAccess database;

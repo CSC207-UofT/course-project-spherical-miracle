@@ -1,3 +1,5 @@
+package Schedule;
+
 public interface ScheduleDataAccess {
     String[] loadSchedule();
     String[] loadUserScheduleCollection(String username);

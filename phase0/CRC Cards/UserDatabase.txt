@@ -1,8 +1,8 @@
-Class name: UserDatabase
+Class name: User.UserDatabase
 
 Responsibilities:
 * Keep track of all users in a HashMap
 
 Collaborators:
-* User
+* User.User
 * ManageUser

@@ -1,6 +1,9 @@
+import User.*;
+import Schedule.ScheduleDataAccess;
+
 import java.util.ArrayList;
 
-public class MockDatabase implements DataAccessInterface {
+public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     private ArrayList<User> users;
     @Override
     public String[] findUser(String username) throws UserDoesNotExistException {
@@ -22,13 +25,34 @@ public class MockDatabase implements DataAccessInterface {
     }
 
     @Override
+    public String[] loadUserScheduleCollection(String username) {
+        return new String[0];
+    }
+
+    @Override
+    public void saveSchedule(String schedule_name, Boolean is_public) {
+
+    }
+
+    @Override
+    public void saveUserScheduleCollection() {
+
+    }
+
+    @Override
+    public void editUserScheduleCollection() {
+
+    }
+
+    @Override
     public void saveUser(String username, String password, String name, String email) {
         User user = new User(username, password, name, email);
         users.add(user);
     }
 
     @Override
-    public void saveSchedule() {
+    public void editUser() {
 
     }
+
 }
