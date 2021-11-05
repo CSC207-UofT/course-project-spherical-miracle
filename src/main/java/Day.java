@@ -1,5 +1,6 @@
 //import statements go here
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A general day in the user's schedule that is not tied to a particular weekday.
@@ -96,6 +97,8 @@ public class Day {
 
     /**
      * Return the net calories burnt for the day.
+     *
+     * @return net calories burnt for the day.
      */
     public int getTotalCalories() {
         return intake - calBurnt;
@@ -103,6 +106,8 @@ public class Day {
 
     /**
      * Return the absolute calories burnt for the day.
+     *
+     * @return calories burnt
      */
     public int getOuttake() {
         return calBurnt;
@@ -110,6 +115,8 @@ public class Day {
 
     /**
      * Return the intake of calories for the day.
+     *
+     * @return calories consumed
      */
     public int getIntake() {
         return intake;
@@ -117,6 +124,8 @@ public class Day {
 
     /**
      * Return a string representation of the workout.
+     *
+     * @return workout name.
      */
     public String getWorkout() {
         StringBuilder stringWorkouts = new StringBuilder();
@@ -136,6 +145,8 @@ public class Day {
 
     /**
      * Return a string representation of the meal.
+     *
+     * @return meal name.
      */
     public String getMeal() {
         StringBuilder stringMeals = new StringBuilder();
@@ -147,5 +158,14 @@ public class Day {
         stringMeals = new StringBuilder(stringMeals.substring(0, stringMeals.length() - 2));
 
         return stringMeals.toString();
+    }
+
+    /**
+     * Return if this instance of the Day is empty
+     *
+     * @return if the day is empty
+     */
+    public boolean isEmpty() {
+        return Arrays.stream(workouts).allMatch(null) && meals.size() == 0;
     }
 }

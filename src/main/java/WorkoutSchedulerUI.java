@@ -63,7 +63,7 @@ public class WorkoutSchedulerUI {
                         int date = 0;
                         while (!Objects.equals(date, -1)) {
                             try {
-                                System.out.println("Enter the date of the workout as an integer(0-6) or '-1' if you are completely finished:");
+                                System.out.println("Enter the date of the workout/meal as an integer(0-6) or '-1' if you are completely finished:");
                                 date = Integer.parseInt(in.nextLine());
                                 if (date < -1 || date > 6) {
                                     System.out.println("Please enter an integer from 0 to 6");
@@ -74,27 +74,33 @@ public class WorkoutSchedulerUI {
                                 }
                                 else {
                                     Day day = new Day();
-                                    int i = 0;
-                                    while(i < 5){
-                                        System.out.println("Enter a workout name or 'f' if you are finished the day");
-                                        option = in.nextLine();
-                                        if (option.equals("f")) {
-                                            break;
-                                        } else {
-                                            int calories;
-                                            System.out.println("Enter the calories burnt for this workout");
-                                            calories = Integer.parseInt(in.nextLine());
-                                            if (calories <= 0) {
-                                                System.out.println("Please enter a positive number");
+                                    while(!(option.equals("f"))){
+                                        System.out.println("Enter a 'w' to add a workout, 'm' to add a meal" +
+                                                " or 'f' if you are finished the day");
+                                        option = in.nextLine(); // TODO write switch case for 'w' and 'm'
+                                        int i = 0;
+                                        while(i < 5){
+                                            System.out.println("Enter a workout name or 'f' if you are finished the day");
+                                            option = in.nextLine();
+                                            if (option.equals("f")) {
+                                                break;
+                                            } else {
+                                                int calories;
+                                                System.out.println("Enter the calories burnt for this workout");
+                                                calories = Integer.parseInt(in.nextLine());
+                                                if (calories <= 0) {
+                                                    System.out.println("Please enter a positive number");
+                                                }
+                                                else {
+                                                    Workout newWorkout = new Workout(option, calories);
+                                                    InOutController.createWorkout(day, newWorkout);
+                                                    i++;
+                                                }
                                             }
-                                            else {
-                                                Workout newWorkout = new Workout(option, calories);
-                                                InOutController.createWorkout(day, newWorkout);
-                                                i++;
-                                            }
+                                            schedule.setDay(date, day); // TODO: put in InOut.java and then sent to use case
                                         }
-                                        schedule.setDay(date, day); // TODO: put in InOut.java and then sent to use case
                                     }
+
                                 }
                             } catch(NumberFormatException e) {
                                 System.out.println("Input is not an integer");
