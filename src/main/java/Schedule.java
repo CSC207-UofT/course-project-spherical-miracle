@@ -70,7 +70,7 @@ public class Schedule {
             if (this.getDay(i) == null) {
                 workout = "Rest Day";
             } else {
-                workout = this.getDay(i).getDay();
+                workout = this.getDay(i).getWorkout();
             }
             //String workout = sched.getWorkout(0).getName();
             output_msg += "This is your workout for day " + (i + 1) + ": " + workout + "\n";

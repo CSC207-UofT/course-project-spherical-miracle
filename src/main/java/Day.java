@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Day {
     private Workout[] workouts;
-    private ArrayList<String> meals;
+    private ArrayList<Meal> meals;
     private int intake;
     private int calBurnt;
     // possible implement dates in the future: ex. November 11,2021
@@ -22,7 +22,7 @@ public class Day {
     /**
      * Construct a Day
      */
-    public Day(){
+    public Day() {
         // hard coded limit of 5 different types of workouts per day
         workouts = new Workout[5];
         meals = new ArrayList<>();
@@ -32,32 +32,33 @@ public class Day {
 
     /**
      * Add a workout to the list of workouts and return true as long as the list isn't already filled.
+     *
      * @param workout workout to be added for the day
      * @return if adding the workout was successful or not
      */
-    public boolean addWorkout(Workout workout){
+    public boolean addWorkout(Workout workout) {
         int i = 0;
-        while ((workouts[i] != null) && (i < 5)){
+        while ((workouts[i] != null) && (i < 5)) {
             i = i + 1;
         }
-        if (i < 5){
+        if (i < 5) {
             workouts[i] = workout;
             calBurnt = calBurnt + workout.getCaloriesBurnt();
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
     /**
      * Remove a workout from the list of workouts and return true as long as the workout was removed.
+     *
      * @param workout workout to be removed from day
      * @return if removing the workout was successful or not
      */
-    public boolean removeWorkout(Workout workout){
-        for (int i = 0; i < 5; i++){
-            if (workouts[i].getName().equals(workout.getName())){
+    public boolean removeWorkout(Workout workout) {
+        for (int i = 0; i < 5; i++) {
+            if (workouts[i].getName().equals(workout.getName())) {
                 calBurnt = calBurnt - workout.getCaloriesBurnt();
                 return true;
             }
@@ -67,24 +68,26 @@ public class Day {
 
     /**
      * Add a meal to the list of meals and return true as long as the list isn't already filled.
+     *
      * @param meal meal to be added for the day
      * @return if adding the meal was successful or not
      */
-    public boolean addMeal(String meal){
+    public boolean addMeal(Meal meal) {
         meals.add(meal);
-        intake = intake + 100; // 100 for now as a placeholder for when we make meal class (meal.calories)
+        intake = intake + meal.getCalories();
         return true;
     }
 
     /**
      * Remove a meal from the list of meals and return true as long as the meal was removed.
+     *
      * @param meal meal to be removed from day
      * @return if removing the meal was successful or not
      */
-    public boolean removeMeal(String meal){
-        for (String s : meals) {
-            if (s.equals(meal)) {
-                intake = intake - 100; // again, placeholder
+    public boolean removeMeal(Meal meal) {
+        for (Meal m : meals) {
+            if (m.equals(meal)) {
+                intake = intake - meal.getCalories();
                 return true;
             }
         }
@@ -94,38 +97,55 @@ public class Day {
     /**
      * Return the net calories burnt for the day.
      */
-    public int getCalories(){ return intake - calBurnt; }
+    public int getTotalCalories() {
+        return intake - calBurnt;
+    }
 
     /**
      * Return the absolute calories burnt for the day.
      */
-    public int getOuttake(){ return calBurnt; }
+    public int getOuttake() {
+        return calBurnt;
+    }
 
     /**
      * Return the intake of calories for the day.
      */
-    public int getIntake(){ return intake; }
+    public int getIntake() {
+        return intake;
+    }
 
     /**
-     * Return a string representation of the day.
+     * Return a string representation of the workout.
      */
-    public String getDay(){
+    public String getWorkout() {
         StringBuilder stringWorkouts = new StringBuilder();
-        for(Workout workout: workouts){
-            if (!(workout == null)){
+        for (Workout workout : workouts) {
+            if (!(workout == null)) {
                 stringWorkouts.append(workout.getName());
                 stringWorkouts.append(", ");
             }
         }
+
+        // remove the last comma
         stringWorkouts = new StringBuilder(stringWorkouts.substring(0, stringWorkouts.length() - 2));
 
-//        StringBuilder stringMeals = new StringBuilder();
-//        for(String meal: meals){
-//            stringMeals.append(meal);
-//            stringMeals.append(", ");
-//        }
-//        stringMeals = new StringBuilder(stringMeals.substring(0, stringWorkouts.length() - 2));
-
         return stringWorkouts.toString();
+    }
+
+
+    /**
+     * Return a string representation of the meal.
+     */
+    public String getMeal() {
+        StringBuilder stringMeals = new StringBuilder();
+        for (Meal meal : meals) {
+            stringMeals.append(meal.getName());
+            stringMeals.append(", ");
+        }
+        // remove the last comma
+        stringMeals = new StringBuilder(stringMeals.substring(0, stringMeals.length() - 2));
+
+        return stringMeals.toString();
     }
 }
