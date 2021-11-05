@@ -1,3 +1,5 @@
+package Workout;
+
 import java.util.HashMap;
 /**
  * A database for all the schedules for a user.
@@ -28,16 +30,16 @@ public class ScheduleDatabase {
     }
 
     /**
-     * Return the Schedule based on name.
+     * Return the Workout.Schedule based on name.
      * @param name the name of the schedule being returned
-     * @return Schedule
+     * @return Workout.Schedule
      **/
     public Schedule getSchedule(String name){
         return scheduleMap.get(name);
     }
 
     /**
-     * Add a new Schedule to the HashMap.
+     * Add a new Workout.Schedule to the HashMap.
      * @param newSchedule the schedule being added
      **/
     public void addSchedule(Schedule newSchedule){

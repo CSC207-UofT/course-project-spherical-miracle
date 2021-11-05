@@ -1,3 +1,5 @@
+package Workout;
+
 /**
  * A seven-day schedule for a user to customise.
  */
@@ -9,12 +11,12 @@ public class Schedule {
     private String name;
 
     /**
-     * An array with 7 slots that can be filled up with Workout objects.
+     * An array with 7 slots that can be filled up with Workout.Workout objects.
      */
     private Workout[] plan = new Workout[7];
 
     /**
-     * Construct an Schedule with the given name.
+     * Construct an Workout.Schedule with the given name.
      * @param name the given name
      */
     public Schedule(String name) {
@@ -41,7 +43,7 @@ public class Schedule {
      * @param day the days of the week from 0 being Sunday to 6 being Saturday
      * @param workout the workout being added
      */
-    // TODO: maybe change name to setWorkout, because User can replace workout
+    // TODO: maybe change name to setWorkout, because User.User can replace workout
     // TODO: do we want to add multiple workouts, like one chest and one back.
     public void addWorkout(int day, Workout workout) {
         plan[day] = workout;
@@ -76,7 +78,7 @@ public class Schedule {
             } else {
                 Workout = this.getWorkout(i).getName();
             }
-            //String Workout = sched.getWorkout(0).getName();
+            //String Workout.Workout = sched.getWorkout(0).getName();
             output_msg += "This is your workout for day " + (i + 1) + ": " + Workout + "\n";
         }
         return output_msg;

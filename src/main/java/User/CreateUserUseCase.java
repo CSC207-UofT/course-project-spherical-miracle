@@ -1,4 +1,4 @@
-//TODO: Put in same package as UserDatabase or import UserDatabase
+package User;//TODO: Put in same package as User.UserDatabase or import User.UserDatabase
 /**
  * Creates a new user account.
  */
@@ -33,5 +33,6 @@ public class CreateUserUseCase implements CreateUserInputBoundary {
             return true;
         }
         // Should the validating process be done in saveUser? Or another method
+        return true;
     }
 }

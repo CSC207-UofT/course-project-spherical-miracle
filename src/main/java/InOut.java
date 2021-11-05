@@ -1,3 +1,6 @@
+import User.*;
+import Workout.*;
+
 /**
  * A controller that delegates tasks based on user commands that are input.
  */
@@ -39,7 +42,7 @@ public class  InOut {
     /**
      * Adds a new schedule to the database of schedules for a specific user.
      * @param sched the target schedule that is being added
-     * @param schedDb the ScheduleDatabase corresponding to the specific user
+     * @param schedDb the Workout.ScheduleDatabase corresponding to the specific user
      * @return a String reminder of the first workout in the schedule
      */
     // TODO: double check this description depending on how we connect users and schedules
