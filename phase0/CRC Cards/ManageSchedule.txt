@@ -1,8 +1,8 @@
-Class name: Workout.ManageSchedule
+Class name: Schedule.ManageSchedule
 
 Responsibilities:
-* Add/Remove schedules from HashMap in Workout.ScheduleDatabase
+* Add/Remove schedules from HashMap in Schedule.ScheduleDatabase
 
 Collaborators:
-* Workout.Schedule
-* Workout.ScheduleDatabase
+* Schedule.Schedule
+* Schedule.ScheduleDatabase
