@@ -4,39 +4,27 @@ package Schedule;
  * A controller that manages a schedule for a user.
  */
 
-public class ManageSchedule {
+public class ScheduleController {
 
-    /**
-     * The name of the schedule.
-     */
-    private String name;
-
-    /**
-     * A HashMap of schedule names and Workout.Schedule objects.
-     */
-    private ScheduleDatabase manager;
-
+    private final ScheduleDataAccess scheduleDatabase;
 
     /**
      * Construct a list of the information needed to create a new user and the User.UserDatabase data.
-     * @param name string of the schedule name.
-     * @param manager Workout.ScheduleDatabase object
+     * @param scheduleDatabase the dataAccessInterface to the database for schedules.
      */
-    public ManageSchedule(String name, ScheduleDatabase manager){
-        this.manager = manager;
-        this.name = name;
+    public ScheduleController(ScheduleDataAccess scheduleDatabase){
+        this.scheduleDatabase= scheduleDatabase;
     }
 
     /**
      * If the information is valid, add the user to the User.UserDatabase object then return true.
      * Otherwise, return false.
      **/
-    public void AddSchedule() {
+    public void addSchedule(String name) {
         //TODO: validating inputs
         //boolean is_valid = ;
         //if (is_valid) {
-            Schedule new_Schedule = new Schedule(name);
-            manager.getScheduleMap().put(name, new_Schedule);
+            scheduleDatabase.saveSchedule(name, true);
             //return true;
         //}
         //return false;
@@ -46,8 +34,8 @@ public class ManageSchedule {
      * Removes the schedule from a user's database of schedules.
      * @param name the name of the schedule being removed
      */
-    public void RemoveSchedule(String name) {
+    public void removeSchedule(String name) {
         //TODO: validating inputs
-        manager.getScheduleMap().remove(name);
+
     }
 }

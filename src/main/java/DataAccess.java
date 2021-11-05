@@ -73,9 +73,9 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         MongoCollection<Document> sc = database.getCollection("Schedule");
         Document newSchedule = new Document("Schedule_name", schedule_name).append("public", is_public);
         //TODO: implement this
+        saveUserScheduleCollection();
     }
 
-    @Override
     public void saveUserScheduleCollection() {
 
     }
@@ -85,7 +85,6 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 
     }
 
-    @Override
     public void editUserScheduleCollection() {
 
     }

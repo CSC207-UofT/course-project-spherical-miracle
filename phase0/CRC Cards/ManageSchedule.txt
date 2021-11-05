@@ -1,4 +1,4 @@
-Class name: Schedule.ManageSchedule
+Class name: Schedule.ScheduleController
 
 Responsibilities:
 * Add/Remove schedules from HashMap in Schedule.ScheduleDatabase

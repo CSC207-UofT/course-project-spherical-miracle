@@ -35,16 +35,6 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public void saveUserScheduleCollection() {
-
-    }
-
-    @Override
-    public void editUserScheduleCollection() {
-
-    }
-
-    @Override
     public void saveUser(String username, String password, String name, String email) {
         User user = new User(username, password, name, email);
         users.add(user);

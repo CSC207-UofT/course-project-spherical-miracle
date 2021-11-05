@@ -1,5 +1,5 @@
 package Schedule;
 
 public interface CreateScheduleInputBoundary {
-    void createSchedule(String name);
+    void createSchedule(String name, boolean isPublic);
 }

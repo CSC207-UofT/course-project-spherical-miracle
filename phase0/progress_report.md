@@ -83,7 +83,7 @@ For now, just put the broad name of the day (eg. the area of the body that is go
 ## Skeleton Program
 InOut: controller that takes in data from the interface and hands it off to the respective classes to handle
 
-Schedule.ManageSchedule: Adds and removes new schedules to the database
+Schedule.ScheduleController: Adds and removes new schedules to the database
 
 ManageUser: Adds and removes new users to the database
 

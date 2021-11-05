@@ -6,5 +6,5 @@ Responsibilities:
 
 Collaborators:
 * ManageUser
-* Schedule.ManageSchedule
+* Schedule.ScheduleController
 * UserLogin
