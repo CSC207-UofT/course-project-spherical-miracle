@@ -3,13 +3,11 @@
  * Creates a new user account.
  */
 
-import javax.xml.crypto.Data;
-
 public class CreateUserUseCase implements CreateUserInputBoundary {
 
-    private final DataAccessInterface database;
+    private final UserDataAccess database;
 
-    public CreateUserUseCase(DataAccessInterface database) {
+    public CreateUserUseCase(UserDataAccess database) {
         this.database = database;
     }
 

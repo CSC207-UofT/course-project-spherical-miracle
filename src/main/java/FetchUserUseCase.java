@@ -1,8 +1,8 @@
 public class FetchUserUseCase {
 
-    private final DataAccessInterface database;
+    private final UserDataAccess database;
 
-    public FetchUserUseCase(DataAccessInterface database) {
+    public FetchUserUseCase(UserDataAccess database) {
         this.database = database;
     }
 

@@ -18,7 +18,7 @@ public class SessionController {
      * Constructs a SessionController with a given database of users to access.
      * @param database Interface to access database
      */
-    public SessionController(DataAccessInterface database) {
+    public SessionController(UserDataAccess database) {
         FetchUserUseCase data = new FetchUserUseCase(database);
         this.loginInputBoundary = new LoginUseCase(data);
         this.logoutInputBoundary = new LogoutUseCase();

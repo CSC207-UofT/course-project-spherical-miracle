@@ -1,15 +1,11 @@
-import com.mongodb.ConnectionString;
-import com.mongodb.MongoClientSettings;
 import com.mongodb.client.*;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import static com.mongodb.client.model.Filters.*;
-import io.github.cdimascio.dotenv.Dotenv;
+
 import org.bson.types.ObjectId;
 
-import javax.print.Doc;
-import java.awt.*;
-public class DataAccess implements DataAccessInterface {
+public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 
     // To directly connect to a single MongoDB server (note that this will not auto-discover the primary even
 // if it's a member of a replica set:

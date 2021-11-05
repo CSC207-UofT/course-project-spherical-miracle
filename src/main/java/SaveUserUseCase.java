@@ -1,8 +1,8 @@
 public class SaveUserUseCase {
 
-    private final DataAccessInterface database;
+    private final UserDataAccess database;
 
-    public SaveUserUseCase(DataAccessInterface database) {
+    public SaveUserUseCase(UserDataAccess database) {
         this.database = database;
     }
 

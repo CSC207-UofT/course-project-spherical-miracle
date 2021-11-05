@@ -1,4 +1,3 @@
-import java.util.Arrays;
 /**
  * A controller that delegates actions for managing a database of users.
  */
@@ -7,14 +6,14 @@ public class UserController {
     /**
      * An interface used to access the database
      */
-    private final DataAccessInterface database;
+    private final UserDataAccess database;
 
     /**
      * Construct a list of the information needed to create a new user and the UserDatabase data.
      *
      * @param database the use case that handles saving user information.
      */
-    public UserController(DataAccessInterface database) {
+    public UserController(UserDataAccess database) {
         this.database = database;
     }
 
