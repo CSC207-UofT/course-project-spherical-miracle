@@ -1,5 +1,7 @@
 import Schedule.ScheduleDataAccess;
+import com.mongodb.DBObject;
 import com.mongodb.client.*;
+import com.mongodb.client.model.Updates;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import static com.mongodb.client.model.Filters.*;
@@ -7,6 +9,9 @@ import User.UserDataAccess;
 import User.UserDoesNotExistException;
 
 import org.bson.types.ObjectId;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 
@@ -62,21 +67,25 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         MongoCollection<Document> usc = database.getCollection("User_Schedule");
         Document newUser = new Document("name", name).append("username", username).append("email", email).append("password", password);
         ObjectId id = uc.insertOne(newUser).getInsertedId().asObjectId().getValue();
-        Document new_us = new Document("username",username);
+        List<DBObject> array = new ArrayList<DBObject>();
+        Document new_us = new Document("username",username).append("schedules", array);
         ObjectId id2 = usc.insertOne(new_us).getInsertedId().asObjectId().getValue();
-
         //TODO: encrypt password?
     }
 
     @Override
-    public void saveSchedule(String schedule_name, Boolean is_public) {
+    public void saveSchedule(String scheduleName, String username, boolean isPublic) {
         MongoCollection<Document> sc = database.getCollection("Schedule");
-        Document newSchedule = new Document("Schedule_name", schedule_name).append("public", is_public);
+        Document newSchedule = new Document("Schedule_name", scheduleName).append("public", isPublic);
         //TODO: implement this
-        saveUserScheduleCollection();
+        saveUserScheduleCollection(username, "1");
     }
 
-    public void saveUserScheduleCollection() {
+    public void saveUserScheduleCollection(String username, String scheduleId) {
+        MongoCollection<Document> suc = database.getCollection("User_Schedule");
+        Bson equalComparison = eq("username", username);
+//        uc.find(equalComparison).forEach(doc -> System.out.println(doc.toJson()));
+        suc.updateOne(equalComparison, Updates.push("schedules",scheduleId)); // username is unique
 
     }
 

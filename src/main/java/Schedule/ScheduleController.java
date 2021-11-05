@@ -17,14 +17,14 @@ public class ScheduleController {
     }
 
     /**
-     * If the information is valid, add the user to the User.UserDatabase object then return true.
+     * Create a new schedule with the given name.
      * Otherwise, return false.
      **/
-    public void addSchedule(String name) {
+    public void createSchedule(String scheduleName, String username, boolean isPublic) {
         //TODO: validating inputs
         //boolean is_valid = ;
         //if (is_valid) {
-            scheduleDatabase.saveSchedule(name, true);
+            scheduleDatabase.saveSchedule(scheduleName, username, isPublic);
             //return true;
         //}
         //return false;

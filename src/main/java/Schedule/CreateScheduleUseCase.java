@@ -9,7 +9,7 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
     }
 
     @Override
-    public void createSchedule(String name, boolean isPublic) {
-        database.saveSchedule(name, isPublic);
+    public void createSchedule(String scheduleName, String username, boolean isPublic) {
+        database.saveSchedule(scheduleName, username, isPublic);
     }
 }
