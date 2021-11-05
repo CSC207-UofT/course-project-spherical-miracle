@@ -7,6 +7,7 @@ import static com.mongodb.client.model.Filters.*;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.bson.types.ObjectId;
 
+import javax.print.Doc;
 import java.awt.*;
 public class DataAccess implements DataAccessInterface {
 
@@ -16,7 +17,6 @@ public class DataAccess implements DataAccessInterface {
 
     public DataAccess(MongoClient mongo) {
         database = mongo.getDatabase( "Application" );
-
     }
 
     public void testAdd(){
@@ -28,10 +28,10 @@ public class DataAccess implements DataAccessInterface {
     @Override
     public String[] findUser(String username) throws UserDoesNotExistException {
         String[] userInfo = new String[4];
-        MongoCollection<Document> collection = database.getCollection("User");
+        MongoCollection<Document> uc = database.getCollection("User");
         Bson equalComparison = eq("username", username);
-//        collection.find(equalComparison).forEach(doc -> System.out.println(doc.toJson()));
-        FindIterable<Document> iterable = collection.find(equalComparison); // username is unique
+//        uc.find(equalComparison).forEach(doc -> System.out.println(doc.toJson()));
+        FindIterable<Document> iterable = uc.find(equalComparison); // username is unique
         Document doc = iterable.first();
         if (doc == null) {
             throw new UserDoesNotExistException(username);
@@ -45,25 +45,50 @@ public class DataAccess implements DataAccessInterface {
 
     @Override
     public String[] loadSchedule() {
-        MongoCollection<Document> collection = database.getCollection("Schedule");
+        MongoCollection<Document> sc = database.getCollection("Schedule");
         //TODO: implement this
+        return new String[0];
+    }
+
+    @Override
+    public String[] loadUserScheduleCollection(String username) {
+        MongoCollection<Document> usc = database.getCollection("User_Schedule");
         return new String[0];
     }
 
 
     @Override
     public void saveUser(String username, String password, String name, String email){
-        MongoCollection<Document> collection = database.getCollection("User");
+        MongoCollection<Document> uc = database.getCollection("User");
+        MongoCollection<Document> usc = database.getCollection("User_Schedule");
         Document newUser = new Document("name", name).append("username", username).append("email", email).append("password", password);
-        ObjectId id = collection.insertOne(newUser).getInsertedId().asObjectId().getValue();
+        ObjectId id = uc.insertOne(newUser).getInsertedId().asObjectId().getValue();
+        Document new_us = new Document("username",username);
+        ObjectId id2 = usc.insertOne(new_us).getInsertedId().asObjectId().getValue();
+
         //TODO: encrypt password?
-        //TODO: add a third database connecting User and Schedule
     }
 
     @Override
-    public void saveSchedule() {
-        MongoCollection<Document> collection = database.getCollection("Schedule");
+    public void saveSchedule(String schedule_name, Boolean is_public) {
+        MongoCollection<Document> sc = database.getCollection("Schedule");
+        Document newSchedule = new Document("Schedule_name", schedule_name).append("public", is_public);
         //TODO: implement this
+    }
+
+    @Override
+    public void saveUserScheduleCollection() {
+
+    }
+
+    @Override
+    public void editUser() {
+
+    }
+
+    @Override
+    public void editUserScheduleCollection() {
+
     }
 
 }
