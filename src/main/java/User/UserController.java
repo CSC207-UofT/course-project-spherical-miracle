@@ -6,17 +6,18 @@ package User;
 public class UserController {
 
     /**
-     * A database of users to manage.
+     * An interface used to access the database
      */
-    // Does Database being here violate CleanArch?
-    private final UserDatabase users;
+    private final DataAccessInterface database;
 
     /**
-    * Construct a list of the information needed to create a new user and the User.UserDatabase data.
-    * @param users User.UserDatabase object.
-    */
-    public UserController(UserDatabase users) {
-        this.users = users;
+
+     * Construct a list of the information needed to create a new user and the UserDatabase data.
+     *
+     * @param database the use case that handles saving user information.
+     */
+    public UserController(DataAccessInterface database) {
+        this.database = database;
     }
 
     /**
@@ -31,13 +32,13 @@ public class UserController {
     public boolean addUser(String username, String password, String name, String email) {
         if (!userInfoIsValid(username, password, name, email))
             return false;
-        CreateUserInputBoundary createUserInputBoundary = new CreateUserUseCase(users);
-        boolean result = createUserInputBoundary.createUser(username, password, name, email);
-        if (result)
-            System.out.println("User.User added!");
+        CreateUserInputBoundary createUserInputBoundary = new CreateUserUseCase(database);
+        boolean success = createUserInputBoundary.createUser(username, password, name, email);
+        if (success)
+            System.out.println("User added!");
         else
-            System.out.println("Failed to create user. (insert reason here?)");
-        return result;
+            System.out.println("Username already taken. Please try again.");
+        return success;
     }
 
     /**
@@ -46,7 +47,7 @@ public class UserController {
      */
     public void removeUser(String username) {
         //TODO: validating inputs
-        users.remove(username);
+        // users.remove(username);
     }
 
     /**

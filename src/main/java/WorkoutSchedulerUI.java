@@ -8,9 +8,24 @@ import java.util.Scanner;
  * The user interface for scheduling workout session in a user's schedule.
  */
 
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+
+
+import io.github.cdimascio.dotenv.Dotenv;
+import org.bson.types.ObjectId;
+
+import java.util.*;
+
 public class WorkoutSchedulerUI {
     public static void main(String[] args) {
-        UserDatabase userDatabase = new UserDatabase();
+        MongoClient mongoClient = InitializeDB();
+        DataAccess access = new DataAccess(mongoClient);
         ScheduleDatabase scheduleDatabase = new ScheduleDatabase();
         boolean quit = false;
         Scanner in = new Scanner(System.in);
@@ -26,19 +41,19 @@ public class WorkoutSchedulerUI {
                 option = in.nextLine();
                 switch (option) {
                     case "l": {
-                        SessionController sessionController = new SessionController(userDatabase);
+                        SessionController sessionController = new SessionController(access);
                         HashMap<String, String> userInfo = userInput(in, true);
                         if (sessionController.login(userInfo.get("username"), userInfo.get("password"))) {
                             valid_input = true;
                         } else {
-                            System.out.println("Incorrect credentials. Please try again.");
+                            System.out.println("Username and password does not match. Please try again.");
                         }
                         break;
                     }
                     case "s": // TODO do something similar as login where we validate then use if to change valid_input
                         HashMap<String, String> userInfo = userInput(in, false);
                         String result = InOut.register(userInfo.get("username"), userInfo.get("password"),
-                                userInfo.get("name"), userInfo.get("email"), userDatabase);
+                                userInfo.get("name"), userInfo.get("email"), access);
                         System.out.println(result);
                         valid_input = true;
                         break;
@@ -69,10 +84,34 @@ public class WorkoutSchedulerUI {
                                 String firstReminder = InOut.finalizeSchedule(schedule, scheduleDatabase);
                                 System.out.println(firstReminder);
                             } else {
-                                System.out.println("Enter the day of the workout as an integer (0-6, where 0 is Sunday):");
-                                int day = in.nextInt();
-                                System.out.println("Enter the estimated calories burnt for the workout:");
-                                int calories = in.nextInt();
+                                int day;
+                                int calories;
+                                while(true){
+                                    try {
+                                        System.out.println("Enter the day of the workout as an integer (0-6, where 0 is Sunday):");
+                                        day = Integer.parseInt(in.nextLine());
+                                        if (day < 0 || day > 6) {
+                                            System.out.println("Please enter an integer from 0 to 6");
+                                        } else {
+                                            break;
+                                        }
+                                    } catch(NumberFormatException e) {
+                                        System.out.println("Input is not an integer");
+                                    }
+                                }
+                                while(true){
+                                    try {
+                                        System.out.println("Enter the estimated calories burnt for the workout:");
+                                        calories = Integer.parseInt(in.nextLine());
+                                        if (calories < 0) {
+                                            System.out.println("Please enter an integer greater than or equal to 0");
+                                        } else {
+                                            break;
+                                        }
+                                    } catch(NumberFormatException e) {
+                                        System.out.println("Input is not an integer");
+                                    }
+                                }
                                 InOut.createWorkout(schedule, option, day, calories);
                                 in.nextLine(); // get rid of endline char from last input
                             }
@@ -108,4 +147,14 @@ public class WorkoutSchedulerUI {
         }
         return userInput;
     }
+
+    public static MongoClient InitializeDB(){
+        Dotenv dotenv = Dotenv.load();
+        ConnectionString URI = new ConnectionString(dotenv.get("URI"));
+        MongoClientSettings settings = MongoClientSettings.builder()
+                .applyConnectionString(URI)
+                .build();
+        return MongoClients.create(settings);
+    }
+
 }

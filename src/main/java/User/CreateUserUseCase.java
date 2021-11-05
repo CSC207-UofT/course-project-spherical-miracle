@@ -3,18 +3,14 @@ package User;//TODO: Put in same package as User.UserDatabase or import User.Use
  * Creates a new user account.
  */
 
+import javax.xml.crypto.Data;
+
 public class CreateUserUseCase implements CreateUserInputBoundary {
 
-    /**
-     * The database used to store users.
-     */
-    private final UserDatabase users;
+    private final DataAccessInterface database;
 
-    /**
-     * Construct a new User.CreateUserUseCase.
-     */
-    public CreateUserUseCase(UserDatabase users) {
-        this.users = users;
+    public CreateUserUseCase(DataAccessInterface database) {
+        this.database = database;
     }
 
     /**
@@ -27,14 +23,16 @@ public class CreateUserUseCase implements CreateUserInputBoundary {
      */
     @Override
     public boolean createUser(String username, String password, String name, String email) {
-        // TODO: Check if username is already in the database
-        if (users.hasUserWithUsername(username)) {
-            return false; // Maybe throw a specific exception instead of returning false? e.g. UserAlreadyExistsException
+        FetchUserUseCase fetch = new FetchUserUseCase(database);
+        try {
+            fetch.getUser(username);
+            return false;
+        } catch (UserDoesNotExistException e) {
+            SaveUserUseCase save = new SaveUserUseCase(database);
+            save.saveUser(new User(username, password, name, email));
+            return true;
         }
-        User user = new User(username, password, name, email);
-        users.save(user);
         // Should the validating process be done in saveUser? Or another method
-        // TODO: Use the data access interface to save the user into the User.UserDatabase
         return true;
     }
 }

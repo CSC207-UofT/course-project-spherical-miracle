@@ -7,6 +7,8 @@ import Workout.*;
 
 public class  InOut {
 
+    // signup method
+    // return a message describing if the user was successfully signed up
     /**
      * Registers the user under a new account.
      *
@@ -14,13 +16,14 @@ public class  InOut {
      * @param password the desired password of the new user
      * @param name the name of the user
      * @param email the desired email of the new user
-     * @param userDatabase the User.UserDatabase that the new user is to be added to
+     * @param da the interface used to access the database
      * @return whether the user was successfully registered or not
      *
      */
-    public static String register(String username, String password, String name, String email, UserDatabase userDatabase) {
-        UserController manageuser = new UserController(userDatabase);
-        if (manageuser.addUser(username, password, name, email)) {
+    public static String register(String username, String password, String name, String email, DataAccessInterface da) {
+        UserController manageUser = new UserController(da);
+        if (manageUser.addUser(username, password, name, email)) {
+
             return "Successfully signed up!";
         } else {
             return "Unsuccessful signup. Username is already taken.";
