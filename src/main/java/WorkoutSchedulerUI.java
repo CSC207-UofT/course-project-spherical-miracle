@@ -24,24 +24,18 @@ public class WorkoutSchedulerUI {
         MongoClient mongoClient = InitializeDB();
         DataAccess access = new DataAccess(mongoClient);
         ScheduleDatabase scheduleDatabase = new ScheduleDatabase();
+        SessionController session = new SessionController(access);
         Scanner in = new Scanner(System.in);
         boolean running = true;
         while (running) {
-            //InOut.out.println();
-            // would rather have this for ease of refactoring,
-            // make this class later.
-            boolean loggedIn = false;
-            while (!loggedIn) {
+            while (!session.loggedIn()) {
                 System.out.println("Type 'l' to login and 's' to signup or 'q' to quit");
                 switch (in.nextLine()) {
                     case "l": {
                         // login situation where it is checked if the inputted credentials are valid
-                        SessionController sessionController = new SessionController(access);
                         // initializes the userInput Hashmap and collects all inputted details
                         HashMap<String, String> userInfo = userInput(in, true);
-                        if (sessionController.login(userInfo.get("username"), userInfo.get("password")))
-                            loggedIn = true;
-                        else
+                        if (!session.login(userInfo.get("username"), userInfo.get("password")))
                             System.out.println("Username and password does not match. Please try again.");
                         break;
                     }
@@ -66,7 +60,7 @@ public class WorkoutSchedulerUI {
                         //break;
                 }
             }
-            while (loggedIn) {
+            while (session.loggedIn()) {
                 System.out.println("Type 'c' to make a schedule or 'l' to logout:");
                 String option = in.nextLine();
                 switch (option) {
@@ -138,7 +132,7 @@ public class WorkoutSchedulerUI {
                         }
                         break;
                     case "l":
-                        loggedIn = false;
+                        session.logout();
                         break;
                     default:
                         System.out.println("Invalid input; Please try again");
