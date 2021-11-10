@@ -31,6 +31,11 @@ public class Schedule {
         this.id = UUID.randomUUID();
     }
 
+    public Schedule(String name, String id) {
+        this.name = name;
+        this.id = UUID.fromString(id);
+    }
+
     /**
      * Return the name of the schedule.
      */

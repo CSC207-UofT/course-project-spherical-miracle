@@ -36,6 +36,9 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
+    public void updateCurrentSchedule(String username, String scheduleId) {};
+
+    @Override
     public List<Object> loadPublicSchedules() {
         return new ArrayList<>();
     }

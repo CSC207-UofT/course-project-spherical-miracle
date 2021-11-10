@@ -54,8 +54,10 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 //                e.printStackTrace();
 //            }
 //        }
-        //TODO: implement this
-        return new String[0];
+        ArrayList<String> scheduleInfo = new ArrayList<>();
+        scheduleInfo.add(doc.getString("Schedule_name"));
+        scheduleInfo.add(doc.getString("UUID"));
+        return scheduleInfo;
     }
 
     @Override
@@ -68,14 +70,12 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
                 e.printStackTrace();
             }
         }
-        uscInfo.add(doc.getString("username"));
         List<String> scheduleIDs = doc.getList("schedules_id", String.class);
         List<Object> schedules = new ArrayList<>();
         for(String scheduleID: scheduleIDs) {
             schedules.add(loadScheduleWithID(scheduleID));
         }
-        uscInfo.add(schedules);
-        return uscInfo;
+        return schedules;
     }
 
 
