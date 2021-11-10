@@ -58,6 +58,7 @@ public class WorkoutSchedulerUI {
                         // TODO: maybe put this into a helper in InOut
                     case "q":
                         running = false;
+                        System.out.println("The program will now exit. See you soon!");
                         InOutController.quit();
                         break;
                     default:
@@ -143,7 +144,7 @@ public class WorkoutSchedulerUI {
                         System.out.println("Invalid input; Please try again");
                 }
             }
-            System.out.println("You have quit the program and have been logged out. Goodbye!");
+            System.out.println("You have been logged out. Goodbye!");
         }
     }
 
