@@ -14,10 +14,21 @@ public class SessionController {
      * An input boundary for the logout use case.
      */
     private final LogoutInputBoundary logoutInputBoundary;
-    // private String usernameOfCurrentUser;
+
+    /**
+     * Whether there is a user logged in for this session. Is false by default.
+     */
+    private boolean loggedIn;
+
+    /**
+     * The username of the user that is logged in. Non-empty if and only if isLoggedIn is true.
+     */
+    private String usernameOfLoggedInUser = "";
+
 
     /**
      * Constructs a SessionController with a given database of users to access.
+     *
      * @param database Interface to access database
      */
     public SessionController(UserDataAccess database) {
@@ -28,7 +39,15 @@ public class SessionController {
     // public SessionController(User.LoginInputBoundary loginIB, logoutIB){}
 
     /**
+     * Changes the logged in status.
+     */
+    private void changeLoginStatus() {
+        loggedIn = !loggedIn;
+    }
+
+    /**
      * Logs user in with the given username and password.
+     *
      * @param username the given username
      * @param password the given password
      * @return whether the user was able to successfully log in or not
@@ -38,6 +57,8 @@ public class SessionController {
         // TODO: maybe throw exceptions when it fails?
         switch (result) {
             case SUCCESS:
+                changeLoginStatus();
+                usernameOfLoggedInUser = username;
                 return true;
             case INCORRECT_PASSWORD:
             case NO_SUCH_USER:
@@ -50,9 +71,28 @@ public class SessionController {
 
     /**
      * Logs user out from the current session.
-     * @return whether the user was successfully logged out or not
      */
-    public boolean logout() {
-        return logoutInputBoundary.logout();
+    public void logout() {
+        logoutInputBoundary.logout();
+        changeLoginStatus();
+        usernameOfLoggedInUser = "";
+    }
+
+    /**
+     * Returns whether a user is logged in.
+     * @return
+     */
+    public boolean loggedIn() {
+        return loggedIn;
+    }
+
+    /**
+     * Returns the username of the user that is logged in. Should only be called if loggedIn.
+     */
+    public String getUsernameOfLoggedInUser() throws NotLoggedInException {
+        if (!loggedIn) {
+            throw new NotLoggedInException();
+        }
+        return usernameOfLoggedInUser;
     }
 }
