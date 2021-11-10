@@ -1,5 +1,7 @@
 package Schedule;
 
+import java.util.ArrayList;
+
 public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
 
     private final ScheduleDataAccess database;
@@ -9,7 +11,7 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
     }
 
     @Override
-    public void createSchedule(String scheduleName, String username, boolean isPublic) {
-        database.saveSchedule(scheduleName, username, isPublic);
+    public void createSchedule(String scheduleName, String username, boolean isPublic, ArrayList<ArrayList<ArrayList<Object>>> days) {
+        database.saveSchedule(scheduleName, username, isPublic, days);
     }
 }

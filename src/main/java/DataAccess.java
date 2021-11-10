@@ -35,11 +35,11 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 
     @Override
     public String[] findUserWithUsername(String username) throws UserDoesNotExistException {
-        String[] userInfo = new String[4];
         Document doc = findData("User", eq("username", username)).first();
         if (doc == null) {
             throw new UserDoesNotExistException(username);
         }
+        String[] userInfo = new String[4];
         userInfo[0] = doc.getString("username");
         userInfo[1] = doc.getString("password");
         userInfo[2] = doc.getString("name");
@@ -96,9 +96,20 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public void saveSchedule(String scheduleName, String username, boolean isPublic) {
+    public void saveSchedule(String scheduleName, String username, boolean isPublic, ArrayList<ArrayList<ArrayList<Object>>> days) {
         MongoCollection<Document> sc = database.getCollection("Schedule");
         UUID uuid = UUID.randomUUID();
+//        for (ArrayList<ArrayList<Object>> day: days) {
+//            Document workouts = new Document();
+//            for (Object workout: day.get(0)) {
+//                workouts.append("workout_name",workout);
+//
+//            }
+//            for(Object meal: day.get(1)){
+//
+//            }
+//            Document day = new Document("day", new Document(""));
+//        }
         Document newSchedule = new Document("Schedule_name", scheduleName).append("public", isPublic).append("UUID", uuid.toString());
         //TODO: implement this
         saveUserScheduleCollection(username, uuid.toString());

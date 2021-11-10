@@ -31,7 +31,7 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public void saveSchedule(String scheduleName, String username, boolean isPublic) {
+    public void saveSchedule(String scheduleName, String username, boolean isPublic, ArrayList<ArrayList<ArrayList<Object>>> days) {
 
     }
 
