@@ -1,7 +1,6 @@
 import Schedule.*;
 
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Scanner;
 /**
  * The user interface for scheduling workout session in a user's schedule.
@@ -26,7 +25,6 @@ public class WorkoutSchedulerUI {
         DataAccess access = new DataAccess(mongoClient);
         ScheduleDatabase scheduleDatabase = new ScheduleDatabase();
         Scanner in = new Scanner(System.in);
-        InOut commandController;
         boolean running = true;
         while (running) {
             //InOut.out.println();
@@ -37,7 +35,9 @@ public class WorkoutSchedulerUI {
                 System.out.println("Type 'l' to login and 's' to signup or 'q' to quit");
                 switch (in.nextLine()) {
                     case "l": {
+                        // login situation where it is checked if the inputted credentials are valid
                         SessionController sessionController = new SessionController(access);
+                        // initializes the userInput Hashmap and collects all inputted details
                         HashMap<String, String> userInfo = userInput(in, true);
                         if (sessionController.login(userInfo.get("username"), userInfo.get("password")))
                             loggedIn = true;
@@ -45,7 +45,9 @@ public class WorkoutSchedulerUI {
                             System.out.println("Username and password does not match. Please try again.");
                         break;
                     }
-                    case "s": // TODO do something similar as login where we validate then use if to change validInput
+                    case "s":
+                        // signup situation where a user inputs info to make new account
+                        // TODO do something similar as login where we validate then use if to change valid_input
                         HashMap<String, String> info = userInput(in, false);
                         UserController userController = new UserController(access);
                         if (userController.addUser(info.get("username"), info.get("password"), info.get("name"), info.get("email")))
@@ -53,12 +55,13 @@ public class WorkoutSchedulerUI {
                         else
                             System.out.println("Unsuccessful signup. Username is already taken.");
                         break;
+                        // TODO: maybe put this into a helper in InOut
                     case "q":
                         running = false;
-                        InOut.quit();
+                        InOutController.quit();
                         break;
                     default:
-                        System.out.println("Invalid input; Please try again");
+                        System.out.println("Invalid input. Please try again");
                         //break;
                 }
             }
@@ -67,48 +70,69 @@ public class WorkoutSchedulerUI {
                 String option = in.nextLine();
                 switch (option) {
                     case "c":
-                        System.out.println("Enter the name of the schedule:");
+                        // case of creating a schedule
+                        System.out.println("The days in a schedule are numbered 1 to 7, with 1 set as Sunday. Each day can have up to five different workouts.");
+                        System.out.println("Enter the name of the schedule");
                         String scheduleName = in.nextLine();
                         Schedule schedule = new Schedule(scheduleName);
-                        while (!Objects.equals(option, "f")) {
-                            System.out.println("Enter the type of workout you would like to add or 'f' if you are finished.");
-                            option = in.nextLine(); // will this cause errors by overriding switch argument inside switch case?
-                            if (option.equals("f")) {
-                                // ask for the day the user wants the workout on, and the calories burnt for the workout.
-                                // then add it to the day of the workout.
-                                String firstReminder = InOut.finalizeSchedule(schedule, scheduleDatabase);
-                                System.out.println(firstReminder);
-                            } else {
-                                int day;
-                                int calories;
-                                while(true){
-                                    try {
-                                        System.out.println("Enter the day of the workout as an integer (0-6, where 0 is Sunday):");
-                                        day = Integer.parseInt(in.nextLine());
-                                        if (day < 0 || day > 6) {
-                                            System.out.println("Please enter an integer from 0 to 6");
-                                        } else {
-                                            break;
+                        int date = 1;
+                        while (date != -1) {
+                            try {
+                                System.out.println("Enter a day to plan workout(s)/meal(s) for as an integer(1-7) or '-1' if you have finished making this schedule");
+                                date = Integer.parseInt(in.nextLine());
+                                if (date == -1) {
+                                    String firstReminder = InOutController.finalizeSchedule(schedule, scheduleDatabase);
+                                    System.out.println(firstReminder);
+                                } else if ((date > 7) || (date < 1)) {
+                                    System.out.println("Please enter an integer from 1 to 7");
+                                } else { // populating the schedule with days
+                                    Day day = new Day();
+                                    while (!(option.equals("f"))) {
+                                        System.out.println("Enter a 'w' to add a workout, 'm' to add a meal" +
+                                                " or 'f' if you are finished for this day");
+                                        option = in.nextLine();
+                                        switch (option) {
+                                            case "w": // add workouts into a day
+                                                // TODO: put this code chunk into helper?
+                                                int i = 0;
+                                                while (i < 5) { // since each Schedule.Day object can contain up to 5 Workouts
+                                                    System.out.println("Enter a workout name or 'f' if you are finished for this day");
+                                                    option = in.nextLine();
+                                                    if (option.equals("f")) {
+                                                        break;
+                                                    } else { // continue setting up workouts for a day
+                                                        int calories;
+                                                        System.out.println("Enter the calories burnt for this workout");
+                                                        calories = Integer.parseInt(in.nextLine());
+                                                        if (calories <= 0) {
+                                                            System.out.println("Please enter a positive number");
+                                                        } else {
+                                                            Workout newWorkout = new Workout(option, calories);
+                                                            InOutController.createWorkout(day, newWorkout);
+                                                            i++;
+                                                        }
+                                                    }
+                                                    schedule.setDay(date, day); // TODO: put in InOut.java and then send to use case
+                                                }
+                                            case "m": // add meals into a day
+                                                System.out.println("Enter the name of a meal or 'f' if you are finished for this day");
+                                                String result = in.nextLine();
+                                                if (result.equals("f")) {
+                                                    break;
+                                                } else {
+                                                    System.out.println("Enter the number of calories for it");
+                                                    int cal = Integer.parseInt(in.nextLine());
+                                                    Meal meal = new Meal(result, cal);
+                                                    day.addMeal(meal);
+                                                    // TODO: implement summary of calories consumed each day?
+                                                    // TODO: MAKE A HELPER FOR VALIDATING CALORIE AMOUNT?
+                                                    // and use helper for both workouts and meals
+                                                }
                                         }
-                                    } catch(NumberFormatException e) {
-                                        System.out.println("Input is not an integer");
                                     }
                                 }
-                                while (true) {
-                                    try {
-                                        System.out.println("Enter the estimated calories burnt for the workout:");
-                                        calories = Integer.parseInt(in.nextLine());
-                                        if (calories < 0) {
-                                            System.out.println("Please enter an integer greater than or equal to 0");
-                                        } else {
-                                            break;
-                                        }
-                                    } catch(NumberFormatException e) {
-                                        System.out.println("Input is not an integer");
-                                    }
-                                }
-                                InOut.createWorkout(schedule, option, day, calories);
-                                in.nextLine(); // get rid of endline char from last input
+                            } catch (NumberFormatException e) {
+                                System.out.println("Input is not an integer");
                             }
                         }
                         break;
@@ -119,7 +143,7 @@ public class WorkoutSchedulerUI {
                         System.out.println("Invalid input; Please try again");
                 }
             }
-            System.out.println("You have quit. Goodbye!");
+            System.out.println("You have quit the program and have been logged out. Goodbye!");
         }
     }
 
@@ -137,7 +161,7 @@ public class WorkoutSchedulerUI {
         if (!is_login) {
             System.out.println("Enter a name:");
             userInput.put("name", in.nextLine());
-            System.out.println("Enter an email:"); // TODO if needed, validate the email address
+            System.out.println("Enter an email:"); // TODO validate the email address
             userInput.put("email", in.nextLine());
         }
         return userInput;

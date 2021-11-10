@@ -1,4 +1,4 @@
-Class name: InOut
+Class name: InOutController
 
 Responsibilities:
 * Recieves user inputs

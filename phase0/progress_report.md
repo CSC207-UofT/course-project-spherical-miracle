@@ -40,7 +40,7 @@ User.UserDatabase (will be changed)
 
 Schedule.Schedule
 
-Meal (To be implemented in the code in Phase 2)
+Schedule.Meal (To be implemented in the code in Phase 2)
 
 Schedule.Schedule
 
@@ -56,7 +56,7 @@ ManageData (to be done later)
 
 #### Interface Adapters
 
-InOut (Façade)
+InOutController (Façade)
 
 WorkoutSchedulerUI
 
@@ -81,7 +81,7 @@ They need to add something to the workout like day 1: chest, day 3: legs, day 5:
 For now, just put the broad name of the day (eg. the area of the body that is going to be worked on), but later on, will add the ability to specify the exercises done / and give reminders to workout.
 
 ## Skeleton Program
-InOut: controller that takes in data from the interface and hands it off to the respective classes to handle
+InOutController: controller that takes in data from the interface and hands it off to the respective classes to handle
 
 Schedule.ScheduleController: Adds and removes new schedules to the database
 
