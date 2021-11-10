@@ -1,8 +1,7 @@
+import Schedule.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ScheduleTest {
     Schedule week1;
@@ -26,7 +25,7 @@ class ScheduleTest {
     void setName(){
         week1.setName("actually this is the second week");
         assert week1.getName().equals("actually this is the second week");
-    };
+    }
 
     @Test
     void addWorkout() {

@@ -1,8 +1,8 @@
-Class name: Workout
+Class name: Schedule.Schedule
 
 Responsibilities:
 * Store name of workout
 * How many estimated kcal will be burnt
 
 Collaborators:
-* Schedule
+* Schedule.Schedule

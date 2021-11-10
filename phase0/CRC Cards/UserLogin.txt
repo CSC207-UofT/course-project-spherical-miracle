@@ -6,4 +6,4 @@ Responsibilities:
 
 Collaborators:
 * UserManager
-* UserDatabase
+* User.UserDatabase

@@ -1,4 +1,4 @@
-Class name: Schedule
+Class name: Schedule.Schedule
 
 Responsibilities:
 * Store plan for each week
@@ -6,5 +6,5 @@ Responsibilities:
 
 Collaborators:
 * ScheduleManager
-* Workout
+* Schedule.Schedule
 * Meal

@@ -6,4 +6,4 @@ Responsibilities:
 * Items in the meal
 
 Collaborators:
-* Schedule
+* Schedule.Schedule
