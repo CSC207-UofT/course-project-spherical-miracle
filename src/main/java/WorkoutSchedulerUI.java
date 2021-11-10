@@ -2,8 +2,6 @@ import Schedule.*;
 
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 /**
  * The user interface for scheduling workout session in a user's schedule.
  */
@@ -13,6 +11,10 @@ import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoClient;
+
+//To Disable the commandline logs
+import ch.qos.logback.classic.LoggerContext;
+import org.slf4j.LoggerFactory;
 
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -56,6 +58,7 @@ public class WorkoutSchedulerUI {
                         // TODO: maybe put this into a helper in InOut
                     case "q":
                         running = false;
+                        System.out.println("The program will now exit. See you soon!");
                         InOutController.quit();
                         break;
                     default:
@@ -141,7 +144,7 @@ public class WorkoutSchedulerUI {
                         System.out.println("Invalid input; Please try again");
                 }
             }
-            System.out.println("You have quit the program and have been logged out. Goodbye!");
+            System.out.println("You have been logged out. Goodbye!");
         }
     }
 
@@ -166,9 +169,10 @@ public class WorkoutSchedulerUI {
     }
 
     public static MongoClient InitializeDB(){
+        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        ch.qos.logback.classic.Logger rootLogger = loggerContext.getLogger("org.mongodb.driver");
+        rootLogger.setLevel(ch.qos.logback.classic.Level.OFF);
         Dotenv dotenv = Dotenv.load();
-        Logger mongoLogger = Logger.getLogger("com.mongodb");
-        mongoLogger.setLevel(Level.OFF);
         ConnectionString URI = new ConnectionString(dotenv.get("URI"));
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(URI)
