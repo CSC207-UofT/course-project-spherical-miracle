@@ -1,4 +1,4 @@
-package Workout;
+package Schedule;
 
 /**
  * A seven-day schedule for a user to customise.

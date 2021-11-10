@@ -1,15 +1,13 @@
-package User;//TODO: Put in same package as User.UserDatabase or import User.UserDatabase
+package User;
 /**
  * Creates a new user account.
  */
 
-import javax.xml.crypto.Data;
-
 public class CreateUserUseCase implements CreateUserInputBoundary {
 
-    private final DataAccessInterface database;
+    private final UserDataAccess database;
 
-    public CreateUserUseCase(DataAccessInterface database) {
+    public CreateUserUseCase(UserDataAccess database) {
         this.database = database;
     }
 
@@ -32,7 +30,5 @@ public class CreateUserUseCase implements CreateUserInputBoundary {
             save.saveUser(new User(username, password, name, email));
             return true;
         }
-        // Should the validating process be done in saveUser? Or another method
-        return true;
     }
 }

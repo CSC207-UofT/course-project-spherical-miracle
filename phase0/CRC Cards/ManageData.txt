@@ -5,5 +5,5 @@ Responsibilities:
 * Save new User.User information to data storage
 
 Collaborators:
-* Workout.ManageSchedule
+* Schedule.ScheduleController
 * ManageUser

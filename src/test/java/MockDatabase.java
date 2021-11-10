@@ -1,9 +1,13 @@
-import java.util.ArrayList;
+import User.*;
+import Schedule.ScheduleDataAccess;
 
-public class MockDatabase implements DataAccessInterface {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     private ArrayList<User> users;
     @Override
-    public String[] findUser(String username) throws UserDoesNotExistException {
+    public String[] findUserWithUsername(String username) throws UserDoesNotExistException {
         for (User user: users) {
             if (user.getUsername().equals(username)) {
                 return new String[] {user.getUsername(), user.getPassword(), user.getName(), user.getEmail()};
@@ -17,8 +21,23 @@ public class MockDatabase implements DataAccessInterface {
     }
 
     @Override
-    public String[] loadSchedule() {
+    public String[] loadScheduleWithID(String scheduleID) {
         return new String[0];
+    }
+
+    @Override
+    public List<Object> loadUserScheduleCollection(String username) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public void saveSchedule(String scheduleName, String username, boolean isPublic) {
+
+    }
+
+    @Override
+    public List<Object> loadPublicSchedules() {
+        return new ArrayList<>();
     }
 
     @Override
@@ -28,7 +47,8 @@ public class MockDatabase implements DataAccessInterface {
     }
 
     @Override
-    public void saveSchedule() {
+    public void editUser() {
 
     }
+
 }

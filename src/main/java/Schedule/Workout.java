@@ -1,4 +1,4 @@
-package Workout;
+package Schedule;
 
 /**
  * A workout session.

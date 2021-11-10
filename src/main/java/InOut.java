@@ -1,5 +1,5 @@
 import User.*;
-import Workout.*;
+import Schedule.*;
 
 /**
  * A controller that delegates tasks based on user commands that are input.
@@ -20,7 +20,7 @@ public class  InOut {
      * @return whether the user was successfully registered or not
      *
      */
-    public static String register(String username, String password, String name, String email, DataAccessInterface da) {
+    public static String register(String username, String password, String name, String email, UserDataAccess da) {
         UserController manageUser = new UserController(da);
         if (manageUser.addUser(username, password, name, email)) {
 

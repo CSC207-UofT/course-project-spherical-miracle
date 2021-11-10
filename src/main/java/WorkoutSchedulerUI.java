@@ -1,9 +1,10 @@
-import User.*;
-import Workout.*;
+import Schedule.*;
 
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  * The user interface for scheduling workout session in a user's schedule.
  */
@@ -12,15 +13,9 @@ import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
 
 
 import io.github.cdimascio.dotenv.Dotenv;
-import org.bson.types.ObjectId;
-
-import java.util.*;
 
 public class WorkoutSchedulerUI {
     public static void main(String[] args) {
@@ -150,6 +145,8 @@ public class WorkoutSchedulerUI {
 
     public static MongoClient InitializeDB(){
         Dotenv dotenv = Dotenv.load();
+        Logger mongoLogger = Logger.getLogger("com.mongodb");
+        mongoLogger.setLevel(Level.OFF);
         ConnectionString URI = new ConnectionString(dotenv.get("URI"));
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(URI)
