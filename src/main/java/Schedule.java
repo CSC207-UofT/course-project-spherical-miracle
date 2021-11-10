@@ -63,17 +63,18 @@ public class Schedule {
     /**
      * Print a string representation of a user's specific schedule.
      */
+    // TODO: update this with meals if want to
     public String printSchedule(){
         String workout;
         String output_msg = "";
-        for(int i=0; i <= 6; i++){
-            if (this.getDay(i) == null) {
+        for(int i=1; i <= 7; i++){
+            if (this.getDay(i-1) == null) {
                 workout = "Rest Day";
             } else {
-                workout = this.getDay(i).getWorkout();
+                workout = this.getDay(i-1).getWorkout();
             }
             //String workout = sched.getWorkout(0).getName();
-            output_msg += "This is your workout for day " + (i + 1) + ": " + workout + "\n";
+            output_msg += "This is your workout for day " + (i) + ": " + workout + "\n";
         }
         return output_msg;
     }

@@ -54,3 +54,8 @@ public class InOutController {
         day.addWorkout(workout);
     }
 }
+
+// for testing purposes:
+//    public static String login(){
+//        return "hi";
+//    }

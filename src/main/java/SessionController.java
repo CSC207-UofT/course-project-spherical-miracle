@@ -32,7 +32,7 @@ public class SessionController {
      */
     public boolean login(String username, String password) {
         LoginUseCase.LoginResult result = loginInputBoundary.login(username, password);
-        // maybe throw exceptions when it fails?
+        // TODO: maybe throw exceptions when it fails?
         switch (result) {
             case SUCCESS:
                 return true;
