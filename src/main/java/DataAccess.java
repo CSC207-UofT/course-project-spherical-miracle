@@ -96,7 +96,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public void saveSchedule(String scheduleName, String username, boolean isPublic, ArrayList<ArrayList<ArrayList<Object>>> days) {
+    public void saveSchedule(String id, String scheduleName, String username, boolean isPublic, ArrayList<ArrayList<ArrayList<Object>>> days) {
         MongoCollection<Document> sc = database.getCollection("Schedule");
         UUID uuid = UUID.randomUUID();
 //        for (ArrayList<ArrayList<Object>> day: days) {
@@ -110,9 +110,9 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 //            }
 //            Document day = new Document("day", new Document(""));
 //        }
-        Document newSchedule = new Document("Schedule_name", scheduleName).append("public", isPublic).append("UUID", uuid.toString());
+        Document newSchedule = new Document("Schedule_name", scheduleName).append("public", isPublic).append("UUID", id);
         //TODO: implement this
-        saveUserScheduleCollection(username, uuid.toString());
+        saveUserScheduleCollection(username, id);
     }
 
     @Override
