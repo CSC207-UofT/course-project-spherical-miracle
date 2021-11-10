@@ -1,4 +1,4 @@
-Class name: Meal
+Class name: Schedule.Meal
 
 Responsibilities:
 * Stores name of the meal

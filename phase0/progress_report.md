@@ -40,7 +40,7 @@ User.UserDatabase (will be changed)
 
 Schedule.Schedule
 
-Meal (To be implemented in the code in Phase 2)
+Schedule.Meal (To be implemented in the code in Phase 2)
 
 Schedule.Schedule
 
