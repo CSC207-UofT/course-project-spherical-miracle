@@ -21,17 +21,17 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public String[] loadScheduleWithID(String scheduleID) {
-        return new String[0];
-    }
-
-    @Override
-    public List<Object> loadUserScheduleCollection(String username) {
+    public ArrayList<String> loadScheduleWithID(String scheduleID) {
         return new ArrayList<>();
     }
 
     @Override
-    public void saveSchedule(String scheduleName, String username, boolean isPublic, ArrayList<ArrayList<ArrayList<Object>>> days) {
+    public List<Object> loadUserSchedules(String username) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public void saveSchedule(String id, String scheduleName, String username, boolean isPublic, ArrayList<ArrayList<ArrayList<Object>>> days) {
 
     }
 
