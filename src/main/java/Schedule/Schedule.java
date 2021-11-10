@@ -1,5 +1,7 @@
 package Schedule;
 
+import java.util.UUID;
+
 /**
  * A seven-day schedule for a user to customise.
  */
@@ -11,16 +13,27 @@ public class Schedule {
     private String name;
 
     /**
+     * The unique identifier of this schedule.
+     */
+    private UUID id;
+
+    /**
      * An array with 7 slots that can be filled up with Workout.Workout objects.
      */
     private Workout[] plan = new Workout[7];
 
     /**
-     * Construct an Workout.Schedule with the given name.
+     * Construct a Workout.Schedule with the given name.
      * @param name the given name
      */
     public Schedule(String name) {
         this.name = name;
+        this.id = UUID.randomUUID();
+    }
+
+    public Schedule(String name, String id) {
+        this.name = name;
+        this.id = UUID.fromString(id);
     }
 
     /**
@@ -28,6 +41,14 @@ public class Schedule {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Return the unique identifier of this schedule.
+     * @return
+     */
+    public String getId() {
+        return id.toString();
     }
 
     /**

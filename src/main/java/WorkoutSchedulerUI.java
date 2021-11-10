@@ -9,6 +9,7 @@ import java.util.logging.Logger;
  * The user interface for scheduling workout session in a user's schedule.
  */
 
+import User.UserController;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClients;
@@ -22,39 +23,36 @@ public class WorkoutSchedulerUI {
         MongoClient mongoClient = InitializeDB();
         DataAccess access = new DataAccess(mongoClient);
         ScheduleDatabase scheduleDatabase = new ScheduleDatabase();
-        boolean quit = false;
         Scanner in = new Scanner(System.in);
         InOut commandController;
-        while (!quit) {
+        boolean running = true;
+        while (running) {
             //InOut.out.println();
             // would rather have this for ease of refactoring,
             // make this class later.
-            String option;
-            boolean valid_input = false;
-            while (!valid_input) {
+            boolean loggedIn = false;
+            while (!loggedIn) {
                 System.out.println("Type 'l' to login and 's' to signup or 'q' to quit");
-                option = in.nextLine();
-                switch (option) {
+                switch (in.nextLine()) {
                     case "l": {
                         SessionController sessionController = new SessionController(access);
                         HashMap<String, String> userInfo = userInput(in, true);
-                        if (sessionController.login(userInfo.get("username"), userInfo.get("password"))) {
-                            valid_input = true;
-                        } else {
+                        if (sessionController.login(userInfo.get("username"), userInfo.get("password")))
+                            loggedIn = true;
+                        else
                             System.out.println("Username and password does not match. Please try again.");
-                        }
                         break;
                     }
-                    case "s": // TODO do something similar as login where we validate then use if to change valid_input
-                        HashMap<String, String> userInfo = userInput(in, false);
-                        String result = InOut.register(userInfo.get("username"), userInfo.get("password"),
-                                userInfo.get("name"), userInfo.get("email"), access);
-                        System.out.println(result);
-                        valid_input = true;
+                    case "s": // TODO do something similar as login where we validate then use if to change validInput
+                        HashMap<String, String> info = userInput(in, false);
+                        UserController userController = new UserController(access);
+                        if (userController.addUser(info.get("username"), info.get("password"), info.get("name"), info.get("email")))
+                            System.out.println("Successfully signed up!");
+                        else
+                            System.out.println("Unsuccessful signup. Username is already taken.");
                         break;
                     case "q":
-                        quit = true;
-                        valid_input = true;
+                        running = false;
                         InOut.quit();
                         break;
                     default:
@@ -62,9 +60,9 @@ public class WorkoutSchedulerUI {
                         //break;
                 }
             }
-            while (!quit) {
-                System.out.println("Type 'c' to make a schedule or 'q' to quit:");
-                option = in.nextLine();
+            while (loggedIn) {
+                System.out.println("Type 'c' to make a schedule or 'l' to logout:");
+                String option = in.nextLine();
                 switch (option) {
                     case "c":
                         System.out.println("Enter the name of the schedule:");
@@ -94,7 +92,7 @@ public class WorkoutSchedulerUI {
                                         System.out.println("Input is not an integer");
                                     }
                                 }
-                                while(true){
+                                while (true) {
                                     try {
                                         System.out.println("Enter the estimated calories burnt for the workout:");
                                         calories = Integer.parseInt(in.nextLine());
@@ -112,8 +110,8 @@ public class WorkoutSchedulerUI {
                             }
                         }
                         break;
-                    case "q":
-                        quit = true;
+                    case "l":
+                        loggedIn = false;
                         break;
                     default:
                         System.out.println("Invalid input; Please try again");

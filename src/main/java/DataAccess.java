@@ -1,7 +1,6 @@
 import Schedule.ScheduleDataAccess;
 import com.mongodb.DBObject;
 import com.mongodb.client.*;
-import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -9,12 +8,10 @@ import static com.mongodb.client.model.Filters.*;
 import User.UserDataAccess;
 import User.UserDoesNotExistException;
 
-import java.util.UUID;
 import java.util.ArrayList;
 
 import org.bson.types.ObjectId;
 
-import javax.management.Query;
 import java.util.List;
 
 public class DataAccess implements UserDataAccess, ScheduleDataAccess {
@@ -35,11 +32,11 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 
     @Override
     public String[] findUserWithUsername(String username) throws UserDoesNotExistException {
-        String[] userInfo = new String[4];
         Document doc = findData("User", eq("username", username)).first();
         if (doc == null) {
             throw new UserDoesNotExistException(username);
         }
+        String[] userInfo = new String[4];
         userInfo[0] = doc.getString("username");
         userInfo[1] = doc.getString("password");
         userInfo[2] = doc.getString("name");
@@ -48,7 +45,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public String[] loadScheduleWithID(String id) {
+    public ArrayList<String> loadScheduleWithID(String id) {
         Document doc = findData("Schedule", eq("UUID", id)).first();
 //        if (scDoc == null) {
 //            try { // temp solution
@@ -57,13 +54,14 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 //                e.printStackTrace();
 //            }
 //        }
-        //TODO: implement this
-        return new String[0];
+        ArrayList<String> scheduleInfo = new ArrayList<>();
+        scheduleInfo.add(doc.getString("Schedule_name"));
+        scheduleInfo.add(doc.getString("UUID"));
+        return scheduleInfo;
     }
 
     @Override
-    public List<Object> loadUserScheduleCollection(String username) {
-        List<Object> uscInfo = new ArrayList<>();
+    public List<Object> loadUserSchedules(String username) {
         Document doc = findData("User_Schedule", eq("username", username)).first();
         if (doc == null) {
             try { // temp solution
@@ -72,14 +70,12 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
                 e.printStackTrace();
             }
         }
-        uscInfo.add(doc.getString("username"));
         List<String> scheduleIDs = doc.getList("schedules_id", String.class);
         List<Object> schedules = new ArrayList<>();
         for(String scheduleID: scheduleIDs) {
             schedules.add(loadScheduleWithID(scheduleID));
         }
-        uscInfo.add(schedules);
-        return uscInfo;
+        return schedules;
     }
 
 
@@ -90,18 +86,29 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         Document newUser = new Document("name", name).append("username", username).append("email", email).append("password", password);
         ObjectId id = uc.insertOne(newUser).getInsertedId().asObjectId().getValue();
         List<DBObject> array = new ArrayList<>();
-        Document new_us = new Document("username",username).append("schedules", array);
+        Document new_us = new Document("username",username).append("active_schedule", "").append("schedules", array);
         ObjectId id2 = usc.insertOne(new_us).getInsertedId().asObjectId().getValue();
         //TODO: encrypt password?
     }
 
     @Override
-    public void saveSchedule(String scheduleName, String username, boolean isPublic) {
+    public void saveSchedule(String id, String scheduleName, String username, boolean isPublic, ArrayList<ArrayList<ArrayList<Object>>> days) {
         MongoCollection<Document> sc = database.getCollection("Schedule");
-        UUID uuid = UUID.randomUUID();
-        Document newSchedule = new Document("Schedule_name", scheduleName).append("public", isPublic).append("UUID", uuid.toString());
+//        for (ArrayList<ArrayList<Object>> day: days) {
+//            Document workouts = new Document();
+//            for (Object workout: day.get(0)) {
+//                workouts.append("workout_name",workout);
+//
+//            }
+//            for(Object meal: day.get(1)){
+//
+//            }
+//            Document day = new Document("day", new Document(""));
+//        }
+        Document newSchedule = new Document("Schedule_name", scheduleName).append("public", isPublic).append("UUID", id);
         //TODO: implement this
-        saveUserScheduleCollection(username, uuid.toString());
+        ObjectId newId = sc.insertOne(newSchedule).getInsertedId().asObjectId().getValue();
+        saveUserScheduleCollection(username, id);
     }
 
     @Override
@@ -129,6 +136,13 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 
     public void editUserScheduleCollection() {
 
+    }
+
+    @Override
+    public void updateCurrentSchedule(String username, String scheduleId){
+        MongoCollection<Document> suc = database.getCollection("User_Schedule");
+        Bson equalComparison = eq("username", username);
+        suc.updateOne(equalComparison, Updates.set("active_schedule", scheduleId));
     }
 
     private FindIterable<Document> findData(String collectionName, Bson... filters){
