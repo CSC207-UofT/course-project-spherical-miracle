@@ -11,8 +11,9 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
     }
 
     @Override
-    public void createSchedule(String scheduleName, String username, boolean isPublic, ArrayList<ArrayList<ArrayList<Object>>> days) {
+    public void createSchedule(String scheduleName, String username, boolean isPublic) {
         Schedule schedule = new Schedule(scheduleName);
-        database.saveSchedule(schedule.getId(), scheduleName, username, isPublic, days);
+        // TODO: Decide whether we should send in an empty arraylist.
+        database.saveSchedule(schedule.getId(), scheduleName, username, isPublic, new ArrayList<>());
     }
 }
