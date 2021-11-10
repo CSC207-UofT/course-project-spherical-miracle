@@ -40,6 +40,7 @@ public class WorkoutSchedulerUI {
                         HashMap<String, String> userInfo = userInput(in, true);
                         if (sessionController.login(userInfo.get("username"), userInfo.get("password"))) {
                             valid_input = true;
+                            // ReminderPrompt.remind(username); // TODO uncomment this
                         } else {
                             System.out.println("Username and password does not match. Please try again.");
                         }
