@@ -7,4 +7,4 @@ Responsibilities:
 Collaborators:
 * ScheduleManager
 * Schedule.Schedule
-* Meal
+* Schedule.Meal

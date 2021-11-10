@@ -5,4 +5,4 @@ Responsibilities:
 * Transfer input to controller if valid input
 
 Collaborators:
-* InOut
+* InOutController
