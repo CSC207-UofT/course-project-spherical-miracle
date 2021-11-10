@@ -1,5 +1,7 @@
+package Schedule;
+
 /**
- * A Meal.
+ * A Schedule.Meal.
  */
 
 public class Meal {
@@ -16,9 +18,9 @@ public class Meal {
     //TODO: add macros? (keep this for last)
 
     /**
-     * Construct a Meal, giving them the name of the meal
+     * Construct a Schedule.Meal, giving them the name of the meal
      * and the calories in it.
-     * @param name name of the Meal
+     * @param name name of the Schedule.Meal
      * @param calories the caloric intake of the meal
      */
     public Meal(String name, int calories) {
@@ -27,7 +29,7 @@ public class Meal {
     }
 
     /**
-     * Return the name of this Meal.
+     * Return the name of this Schedule.Meal.
      * @return meal name
      */
     public String getName() {
@@ -35,7 +37,7 @@ public class Meal {
     }
 
     /**
-     * Return the caloric intake of this Meal.
+     * Return the caloric intake of this Schedule.Meal.
      * @return the calories in the meal
      */
     public int getCalories() {

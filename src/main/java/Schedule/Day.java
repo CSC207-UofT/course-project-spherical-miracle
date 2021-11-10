@@ -1,4 +1,4 @@
-//import statements go here
+package Schedule;//import statements go here
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -21,7 +21,7 @@ public class Day {
     // possible implement dates in the future: ex. November 11,2021
 
     /**
-     * Construct a Day
+     * Construct a Schedule.Day
      */
     public Day() {
         // hard coded limit of 5 different types of workouts per day
@@ -161,7 +161,7 @@ public class Day {
     }
 
     /**
-     * Return if this instance of the Day is empty
+     * Return if this instance of the Schedule.Day is empty
      *
      * @return if the day is empty
      */

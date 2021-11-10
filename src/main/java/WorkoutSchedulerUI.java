@@ -134,6 +134,9 @@ public class WorkoutSchedulerUI {
                             }
                         }
                         break;
+                    case "l":
+                        loggedIn = false;
+                        break;
                     default:
                         System.out.println("Invalid input; Please try again");
                 }
