@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 /**
  * The user interface for scheduling workout session in a user's schedule.
  */
@@ -17,7 +18,7 @@ import com.mongodb.client.MongoClient;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
-public class WorkoutSchedulerUI {
+public class SchedulerUI {
     public static void main(String[] args) {
         MongoClient mongoClient = InitializeDB();
         DataAccess access = new DataAccess(mongoClient);
@@ -110,6 +111,7 @@ public class WorkoutSchedulerUI {
                                                             i++;
                                                         }
                                                     }
+
                                                     schedule.setDay(date, day); // TODO: put in InOut.java and then send to use case
                                                 }
                                             case "m": // add meals into a day
@@ -153,6 +155,9 @@ public class WorkoutSchedulerUI {
     private static HashMap<String, String> userInput(Scanner in, boolean is_login) {
         HashMap<String, String> userInput = new HashMap<>();
         System.out.println("Enter your username:");
+//        while (!(validateEmail(in.nextLine()))){
+//            System.out.println("Incorrect username! Make sure :");
+//        }
         userInput.put("username", in.nextLine());
         System.out.println("Enter your password:");
         userInput.put("password", in.nextLine());
@@ -164,6 +169,44 @@ public class WorkoutSchedulerUI {
         }
         return userInput;
     }
+
+//    /**
+//     * Returns if the information is valid.
+//     * @param input the information submitted by the user
+//     * @param is_login whether the user is logging in or not
+//     */
+//    private static boolean validateEmail(String email){
+//        return Pattern.matches("^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$", email);
+//    }
+//
+//    /**
+//     * Returns if the information is valid.
+//     * @param input the information submitted by the user
+//     * @param is_login whether the user is logging in or not
+//     */
+//    private static boolean validateUsername(String username){
+//        return Pattern.matches("^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+$", username) && username.length() <= 20
+//                && username.length() >= 8;
+//    }
+//
+//    /**
+//     * Returns if the information is valid.
+//     * @param input the information submitted by the user
+//     * @param is_login whether the user is logging in or not
+//     */
+//    private static boolean validatePassword(String password){
+//        return Pattern.matches("^\\S$", password)
+//                && password.length() <= 30 && password.length() >= 8;
+//    }
+//
+//    /**
+//     * Returns if the information is valid.
+//     * @param input the information submitted by the user
+//     * @param is_login whether the user is logging in or not
+//     */
+//    private static boolean validateName(String name){
+//        return Pattern.matches("[a-zA-Z]*", name) && name.length() <= 40;
+//    }
 
     public static MongoClient InitializeDB(){
         Dotenv dotenv = Dotenv.load();
