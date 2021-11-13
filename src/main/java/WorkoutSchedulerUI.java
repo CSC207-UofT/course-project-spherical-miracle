@@ -1,5 +1,7 @@
 import Schedule.*;
 
+import java.time.DateTimeException;
+import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.Scanner;
 /**
@@ -22,9 +24,9 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class WorkoutSchedulerUI {
     public static void main(String[] args) {
         MongoClient mongoClient = InitializeDB();
-        DataAccess access = new DataAccess(mongoClient);
+        DataAccess databaseAccess = new DataAccess(mongoClient);
         ScheduleDatabase scheduleDatabase = new ScheduleDatabase();
-        SessionController session = new SessionController(access);
+        SessionController session = new SessionController(databaseAccess);
         Scanner in = new Scanner(System.in);
         boolean running = true;
         while (running) {
@@ -34,7 +36,6 @@ public class WorkoutSchedulerUI {
                     case "l":
                         // TODO: are the following comments necessary? i.e. does it improve readability?
                         // login situation where it is checked if the inputted credentials are valid
-                        // initializes the userInput Hashmap and collects all inputted details
                         HashMap<String, String> userInfo = userInput(in, true);
                         if (!session.login(userInfo.get("username"), userInfo.get("password")))
                             System.out.println("Username and password does not match. Please try again.");
@@ -43,7 +44,7 @@ public class WorkoutSchedulerUI {
                         // signup situation where a user inputs info to make new account
                         // TODO do something similar as login where we validate then use if to change valid_input
                         HashMap<String, String> info = userInput(in, false);
-                        UserController userController = new UserController(access);
+                        UserController userController = new UserController(databaseAccess);
                         if (userController.addUser(info.get("username"), info.get("password"), info.get("name"), info.get("email")))
                             System.out.println("Successfully signed up!");
                         else
@@ -57,7 +58,6 @@ public class WorkoutSchedulerUI {
                         break;
                     default:
                         System.out.println("Invalid input. Please try again");
-                        //break;
                 }
             }
             while (session.loggedIn()) {
@@ -65,71 +65,16 @@ public class WorkoutSchedulerUI {
                 String option = in.nextLine();
                 switch (option) {
                     case "c":
+                        ScheduleController scheduleController = new ScheduleController(databaseAccess);
                         // case of creating a schedule
-                        System.out.println("The days in a schedule are numbered 1 to 7, with 1 set as Sunday. Each day can have up to five different workouts.");
+                        System.out.println("The days in a schedule are numbered 1 to 7, with 1 set as Monday. Each day can have up to five different workouts.");
                         System.out.println("Enter the name of the schedule");
                         String scheduleName = in.nextLine();
-                        Schedule schedule = new Schedule(scheduleName);
-                        int date = 1;
-                        while (date != -1) {
-                            try {
-                                System.out.println("Enter a day to plan workout(s)/meal(s) for as an integer(1-7) or '-1' if you have finished making this schedule");
-                                date = Integer.parseInt(in.nextLine());
-                                if (date == -1) {
-                                    String firstReminder = InOutController.finalizeSchedule(schedule, scheduleDatabase);
-                                    System.out.println(firstReminder);
-                                } else if ((date > 7) || (date < 1)) {
-                                    System.out.println("Please enter an integer from 1 to 7");
-                                } else { // populating the schedule with days
-                                    Day day = new Day();
-                                    while (!(option.equals("f"))) {
-                                        System.out.println("Enter a 'w' to add a workout, 'm' to add a meal" +
-                                                " or 'f' if you are finished for this day");
-                                        option = in.nextLine();
-                                        switch (option) {
-                                            case "w": // add workouts into a day
-                                                // TODO: put this code chunk into helper?
-                                                int i = 0;
-                                                while (i < 5) { // since each Schedule.Day object can contain up to 5 Workouts
-                                                    System.out.println("Enter a workout name or 'f' if you are finished for this day");
-                                                    option = in.nextLine();
-                                                    if (option.equals("f")) {
-                                                        break;
-                                                    } else { // continue setting up workouts for a day
-                                                        int calories;
-                                                        System.out.println("Enter the calories burnt for this workout");
-                                                        calories = Integer.parseInt(in.nextLine());
-                                                        if (calories <= 0) {
-                                                            System.out.println("Please enter a positive number");
-                                                        } else {
-                                                            Workout newWorkout = new Workout(option, calories);
-                                                            InOutController.createWorkout(day, newWorkout);
-                                                            i++;
-                                                        }
-                                                    }
-                                                    schedule.setDay(date, day); // TODO: put in InOut.java and then send to use case
-                                                }
-                                            case "m": // add meals into a day
-                                                System.out.println("Enter the name of a meal or 'f' if you are finished for this day");
-                                                String result = in.nextLine();
-                                                if (result.equals("f")) {
-                                                    break;
-                                                } else {
-                                                    System.out.println("Enter the number of calories for it");
-                                                    int cal = Integer.parseInt(in.nextLine());
-                                                    Meal meal = new Meal(result, cal);
-                                                    day.addMeal(meal);
-                                                    // TODO: implement summary of calories consumed each day?
-                                                    // TODO: MAKE A HELPER FOR VALIDATING CALORIE AMOUNT?
-                                                    // and use helper for both workouts and meals
-                                                }
-                                        }
-                                    }
-                                }
-                            } catch (NumberFormatException e) {
-                                System.out.println("Input is not an integer");
-                            }
-                        }
+                        // TODO: user input to get whether they want their schedule to be public
+                        scheduleController.createSchedule(scheduleName, session.getUsernameOfLoggedInUser(), false);
+                        addDays();
+//                        String firstReminder = InOutController.finalizeSchedule(schedule, scheduleDatabase);
+//                        System.out.println(firstReminder);
                         break;
                     case "l":
                         session.logout();
@@ -172,6 +117,84 @@ public class WorkoutSchedulerUI {
                 .applyConnectionString(URI)
                 .build();
         return MongoClients.create(settings);
+    }
+
+    public static void addDays() {
+        Scanner in = new Scanner(System.in);
+        while (true) {
+            System.out.println("Enter a day to plan workout(s)/meal(s) for as an integer (1-7) " +
+                    "or '-1' if you have finished making this schedule");
+            try {
+                int option = Integer.parseInt(in.nextLine());
+                if (option == -1)
+                    return;
+                DayOfWeek dayOfWeek = DayOfWeek.of(option);
+                Day day = new Day();
+                addWorkoutsAndMeals(day);
+                // schedule.setDay();
+            } catch (NumberFormatException e) {
+                System.out.println("Input is not an integer");
+            } catch (DateTimeException e) {
+                System.out.println("Please enter an integer from 1 to 7");
+            }
+        }
+    }
+
+    public static void addWorkoutsAndMeals(Day day) {
+        Scanner in = new Scanner(System.in);
+        while (true) {
+            System.out.println("Enter 'w' to add a workout, " +
+                    "'m' to add a meal " +
+                    "or 'f' if you are finished for this day");
+            switch (in.nextLine()) {
+                case "f":
+                    return;
+                case "w":
+                    // TODO: 5 should not be here (entity)
+                    int i = 0;
+                    while (i < 5) { // since each Schedule.Day object can contain up to 5 Workouts
+                        System.out.println("Enter a workout name or 'f' if you are finished for this day");
+                        String name = in.nextLine();
+                        if (!name.equals("f")) {
+                            configureWorkout(name, day);
+                            i++;
+                        }
+                        break;
+                    }
+                    break;
+                case "m": // add meals into a day
+                    System.out.println("Enter the name of a meal or 'f' if you are finished for this day");
+                    String result = in.nextLine();
+                    if (!result.equals("f"))
+                        configureMeal(result);
+                    break;
+                default:
+                    System.out.println("Please enter 'w', 'm', or 'f'.");
+            }
+        }
+    }
+
+    public static void configureWorkout(String name, Day day) {
+        Scanner in = new Scanner(System.in);
+        int calories;
+        System.out.println("Enter the calories burnt for this workout");
+        calories = Integer.parseInt(in.nextLine());
+        while (calories <= 0) {
+            System.out.println("Please enter a positive number");
+            calories = Integer.parseInt(in.nextLine());
+        }
+        Workout newWorkout = new Workout(name, calories);
+        InOutController.createWorkout(day, newWorkout);
+    }
+
+    public static void configureMeal(String name) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the number of calories for it");
+        int calories = Integer.parseInt(in.nextLine());
+        Meal meal = new Meal(name, calories);
+        // day.addMeal(meal);
+        // TODO: implement summary of calories consumed each day?
+        // TODO: MAKE A HELPER FOR VALIDATING CALORIE AMOUNT?
     }
 
 }
