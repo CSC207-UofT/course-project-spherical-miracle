@@ -22,12 +22,12 @@ public class ScheduleController {
      * Create a new schedule with the given name.
      * Otherwise, return false.
      **/
-    public void createSchedule(String scheduleName, String username, boolean isPublic, ArrayList<ArrayList<ArrayList<Object>>> days) {
+    public void createSchedule(String scheduleName, String username, boolean isPublic) {
         //TODO: validating inputs
         //boolean is_valid = ;
         //if (is_valid) {
         CreateScheduleInputBoundary createScheduleInputBoundary= new CreateScheduleUseCase(scheduleDatabase);
-        createScheduleInputBoundary.createSchedule(scheduleName, username, isPublic, days);
+        createScheduleInputBoundary.createSchedule(scheduleName, username, isPublic);
         //}
         //return false;
     }
