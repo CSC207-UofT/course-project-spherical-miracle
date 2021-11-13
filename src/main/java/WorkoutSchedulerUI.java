@@ -146,8 +146,7 @@ public class WorkoutSchedulerUI {
             System.out.println("Enter 'w' to add a workout, " +
                     "'m' to add a meal " +
                     "or 'f' if you are finished for this day");
-            String option = in.nextLine();
-            switch (option) {
+            switch (in.nextLine()) {
                 case "f":
                     return;
                 case "w":
@@ -155,22 +154,20 @@ public class WorkoutSchedulerUI {
                     int i = 0;
                     while (i < 5) { // since each Schedule.Day object can contain up to 5 Workouts
                         System.out.println("Enter a workout name or 'f' if you are finished for this day");
-                        option = in.nextLine();
-                        if (option.equals("f")) {
-                            break;
-                        } else { // continue setting up workouts for a day
-                            configureWorkout(option, day);
+                        String name = in.nextLine();
+                        if (!name.equals("f")) {
+                            configureWorkout(name, day);
                             i++;
                         }
+                        break;
                     }
+                    break;
                 case "m": // add meals into a day
                     System.out.println("Enter the name of a meal or 'f' if you are finished for this day");
                     String result = in.nextLine();
-                    if (result.equals("f")) {
-                        break;
-                    } else {
+                    if (!result.equals("f"))
                         configureMeal(result);
-                    }
+                    break;
                 default:
                     System.out.println("Please enter 'w', 'm', or 'f'.");
             }
