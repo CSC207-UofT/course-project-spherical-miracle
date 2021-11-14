@@ -9,5 +9,5 @@ public interface CreateScheduleInputBoundary {
      * @param username
      * @param isPublic
      */
-    void createSchedule(String scheduleName, String username, boolean isPublic, ArrayList<ArrayList<ArrayList<Object>>> days);
+    void createSchedule(String scheduleName, String username, boolean isPublic, ArrayList<ArrayList<ArrayList<ArrayList<Object>>>> days);
 }
