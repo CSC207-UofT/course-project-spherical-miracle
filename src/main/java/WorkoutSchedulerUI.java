@@ -45,8 +45,10 @@ public class WorkoutSchedulerUI {
                         // TODO do something similar as login where we validate then use if to change valid_input
                         HashMap<String, String> info = userInput(in, false);
                         UserController userController = new UserController(databaseAccess);
-                        if (userController.addUser(info.get("username"), info.get("password"), info.get("name"), info.get("email")))
+                        if (userController.addUser(info.get("username"), info.get("password"), info.get("name"), info.get("email"))) {
                             System.out.println("Successfully signed up!");
+                            session.login(info.get("username"), info.get("password"));
+                        }
                         else
                             System.out.println("Unsuccessful signup. Username is already taken.");
                         break;
@@ -67,7 +69,6 @@ public class WorkoutSchedulerUI {
                     case "c":
                         ScheduleController scheduleController = new ScheduleController(databaseAccess);
                         // case of creating a schedule
-                        System.out.println("The days in a schedule are numbered 1 to 7, with 1 set as Monday. Each day can have up to five different workouts.");
                         System.out.println("Enter the name of the schedule");
                         String scheduleName = in.nextLine();
                         // TODO: user input to get whether they want their schedule to be public
@@ -122,6 +123,7 @@ public class WorkoutSchedulerUI {
     public static void addDays() {
         Scanner in = new Scanner(System.in);
         while (true) {
+            System.out.println("The days in a schedule are numbered 1 to 7, with 1 set as Monday. Each day can have up to five different workouts.");
             System.out.println("Enter a day to plan workout(s)/meal(s) for as an integer (1-7) " +
                     "or '-1' if you have finished making this schedule");
             try {
