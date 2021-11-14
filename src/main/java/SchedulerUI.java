@@ -155,58 +155,82 @@ public class SchedulerUI {
     private static HashMap<String, String> userInput(Scanner in, boolean is_login) {
         HashMap<String, String> userInput = new HashMap<>();
         System.out.println("Enter your username:");
-//        while (!(validateEmail(in.nextLine()))){
-//            System.out.println("Incorrect username! Make sure :");
-//        }
-        userInput.put("username", in.nextLine());
+        String input = in.nextLine();
+        while (!(validateUsername(input)) && !(is_login)){
+            System.out.println("Try again! Make sure username is between 8 to 20 characters long \n" +
+                    "with only alphanumeric characters and special characters.");
+            System.out.println("Enter your username:");
+            input = in.nextLine();
+        }
+        userInput.put("username", input);
         System.out.println("Enter your password:");
-        userInput.put("password", in.nextLine());
+        input = in.nextLine();
+        while (!(validatePassword(input)) && !(is_login)){
+            System.out.println("Try again! Make sure password is between 8 to 30 characters long \n" +
+                    "with no white spaces.");
+            System.out.println("Enter your password:");
+            input = in.nextLine();
+        }
+        userInput.put("password", input);
         if (!is_login) {
             System.out.println("Enter a name:");
-            userInput.put("name", in.nextLine());
-            System.out.println("Enter an email:"); // TODO validate the email address
-            userInput.put("email", in.nextLine());
+            input = in.nextLine();
+            while (!(validateName(input))){
+                System.out.println("Try again! Make sure the name is less than 40 characters long \n" +
+                        "with only alphabetical characters.");
+                System.out.println("Enter a name:");
+                input = in.nextLine();
+            }
+            userInput.put("name", input);
+            System.out.println("Enter an email:");
+            input = in.nextLine();
+            while (!(validateEmail(input))){
+                System.out.println("Try again! Make sure the email is formatted correctly.");
+                System.out.println("Enter an email:");
+                input = in.nextLine();
+            }
+            userInput.put("email", input);
         }
         return userInput;
     }
 
-//    /**
-//     * Returns if the information is valid.
-//     * @param input the information submitted by the user
-//     * @param is_login whether the user is logging in or not
-//     */
-//    private static boolean validateEmail(String email){
-//        return Pattern.matches("^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$", email);
-//    }
-//
-//    /**
-//     * Returns if the information is valid.
-//     * @param input the information submitted by the user
-//     * @param is_login whether the user is logging in or not
-//     */
-//    private static boolean validateUsername(String username){
-//        return Pattern.matches("^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+$", username) && username.length() <= 20
-//                && username.length() >= 8;
-//    }
-//
-//    /**
-//     * Returns if the information is valid.
-//     * @param input the information submitted by the user
-//     * @param is_login whether the user is logging in or not
-//     */
-//    private static boolean validatePassword(String password){
-//        return Pattern.matches("^\\S$", password)
-//                && password.length() <= 30 && password.length() >= 8;
-//    }
-//
-//    /**
-//     * Returns if the information is valid.
-//     * @param input the information submitted by the user
-//     * @param is_login whether the user is logging in or not
-//     */
-//    private static boolean validateName(String name){
-//        return Pattern.matches("[a-zA-Z]*", name) && name.length() <= 40;
-//    }
+    /**
+     * Returns if the information is valid.
+     * @param email the information submitted by the user
+     * @return if the email is valid (any alphanumeric + special chars with an @ and then alphanumeric chars.
+     */
+    private static boolean validateEmail(String email){
+        return Pattern.matches("^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.]+$", email);
+    }
+
+    /**
+     * Returns if the information is valid.
+     * @param username the information submitted by the user
+     * @return if the username is valid (any alphanumeric + special chars)
+     */
+    private static boolean validateUsername(String username){
+        return Pattern.matches("^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+$", username) && username.length() <= 20
+                && username.length() >= 8;
+    }
+
+    /**
+     * Returns if the information is valid.
+     * @param password the information submitted by the user
+     * @return if the password is valid (no whitespace)
+     */
+    private static boolean validatePassword(String password){
+        return Pattern.matches("^\\S+$", password)
+                && password.length() <= 30 && password.length() >= 8;
+    }
+
+    /**
+     * Returns if the information is valid.
+     * @param name the information submitted by the user
+     * @return if the name is valid (only alphabetical characters)
+     */
+    private static boolean validateName(String name){
+        return Pattern.matches("[a-zA-Z]+", name) && name.length() <= 40;
+    }
 
     public static MongoClient InitializeDB(){
         Dotenv dotenv = Dotenv.load();
