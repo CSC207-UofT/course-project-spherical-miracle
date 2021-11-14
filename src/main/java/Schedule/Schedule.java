@@ -89,15 +89,18 @@ public class Schedule {
     // TODO: update this with meals if want to
     public String printSchedule(){
         String workout;
+        String meal;
         String output_msg = "";
         for(int i=1; i <= 7; i++){
             if (this.getDay(i-1) == null) {
-                workout = "Rest Schedule.Day";
+                workout = "Rest Day";
+                meal = "No meals";
             } else {
                 workout = this.getDay(i-1).getWorkout();
+                meal = this.getDay(i-1).getMeal();
             }
             //String workout = sched.getWorkout(0).getName();
-            output_msg += "This is your workout for day " + (i) + ": " + workout + "\n";
+            output_msg += "This is your workout and meal for day " + (i) + ": " + workout + "\n " + meal;
         }
         return output_msg;
     }

@@ -46,7 +46,6 @@ public class SchedulerUI {
                     }
                     case "s":
                         // signup situation where a user inputs info to make new account
-                        // TODO do something similar as login where we validate then use if to change valid_input
                         HashMap<String, String> info = userInput(in, false);
                         UserController userController = new UserController(access);
                         if (userController.addUser(info.get("username"), info.get("password"), info.get("name"), info.get("email")))
@@ -70,11 +69,11 @@ public class SchedulerUI {
                 switch (option) {
                     case "c":
                         // case of creating a schedule
-                        System.out.println("The days in a schedule are numbered 1 to 7, with 1 set as Sunday. Each day can have up to five different workouts.");
                         System.out.println("Enter the name of the schedule");
                         String scheduleName = in.nextLine();
                         Schedule schedule = new Schedule(scheduleName);
                         int date = 1;
+                        System.out.println("The days in a schedule are numbered 1 to 7, with 1 set as Sunday. Each day can have up to five different workouts.");
                         while (date != -1) {
                             try {
                                 System.out.println("Enter a day to plan workout(s)/meal(s) for as an integer(1-7) or '-1' if you have finished making this schedule");
@@ -126,6 +125,7 @@ public class SchedulerUI {
                                                     day.addMeal(meal);
                                                     // TODO: implement summary of calories consumed each day?
                                                     // TODO: MAKE A HELPER FOR VALIDATING CALORIE AMOUNT?
+
                                                     // and use helper for both workouts and meals
                                                 }
                                         }
