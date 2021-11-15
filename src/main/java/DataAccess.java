@@ -91,21 +91,30 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         //TODO: encrypt password?
     }
 
-    @Override
-    public void saveSchedule(String id, String scheduleName, String username, boolean isPublic, ArrayList<ArrayList<ArrayList<Object>>> days) {
+    public void saveSchedule(String id, String scheduleName, String username, boolean isPublic, ArrayList<ArrayList<ArrayList<ArrayList<Object>>>> days) {
         MongoCollection<Document> sc = database.getCollection("Schedule");
-//        for (ArrayList<ArrayList<Object>> day: days) {
-//            Document workouts = new Document();
-//            for (Object workout: day.get(0)) {
-//                workouts.append("workout_name",workout);
-//
-//            }
-//            for(Object meal: day.get(1)){
-//
-//            }
-//            Document day = new Document("day", new Document(""));
-//        }
-        Document newSchedule = new Document("Schedule_name", scheduleName).append("public", isPublic).append("UUID", id);
+        Document daysDocument = new Document();
+        for (ArrayList<ArrayList<ArrayList<Object>>> day: days) {
+            Document workouts = new Document();
+            Document meals = new Document();
+            for (ArrayList<Object> workout: day.get(0)) {
+                Document workoutDocument = new Document();
+                workoutDocument.append("workout_name", workout.get(0));
+                workoutDocument.append("calories", workout.get(1));
+                workouts.append("workout", workoutDocument);
+            }
+            for (ArrayList<Object> meal: day.get(1)) {
+                Document mealDocument = new Document();
+                mealDocument.append("meal_name", meal.get(0));
+                mealDocument.append("calories", meal.get(1));
+                meals.append("meal", mealDocument);
+            }
+            ArrayList<Object> array = new ArrayList<>();
+            array.add(workouts);
+            array.add(meals);
+            daysDocument.append("day",array);
+        }
+        Document newSchedule = new Document("Schedule_name", scheduleName).append("public", isPublic).append("UUID", id).append("days", daysDocument);
         //TODO: implement this
         ObjectId newId = sc.insertOne(newSchedule).getInsertedId().asObjectId().getValue();
         saveUserScheduleCollection(username, id);
