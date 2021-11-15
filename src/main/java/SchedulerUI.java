@@ -100,7 +100,7 @@ public class SchedulerUI {
                                                 // TODO: put this code chunk into helper?
                                                 int i = 0;
                                                 while (i < 5) { // since each Schedule.Day object can contain up to 5 Workouts
-                                                    System.out.println("Enter a workout name or 'f' if you are finished for this day");
+                                                    System.out.println("Enter a workout name or 'f' if you are finished adding workout plans for this day");
                                                     option = in.nextLine();
                                                     if (option.equals("f")) {
                                                         break;
@@ -120,7 +120,7 @@ public class SchedulerUI {
                                                 }
                                                 break;
                                             case "m": // add meals into a day
-                                                System.out.println("Enter the name of a meal or 'f' if you are finished for this day");
+                                                System.out.println("Enter the name of a meal or 'f' if you are finished adding meal plans for this day");
                                                 String result = in.nextLine();
                                                 if (result.equals("f")) {
                                                     break;

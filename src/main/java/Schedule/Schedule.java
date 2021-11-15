@@ -86,7 +86,6 @@ public class Schedule {
     /**
      * Print a string representation of a user's specific schedule.
      */
-    // TODO: update this with meals if want to
     public String printSchedule(){
         String workout;
         String meal;
@@ -100,7 +99,7 @@ public class Schedule {
                 meal = this.getDay(i-1).getMeal();
             }
             //String workout = sched.getWorkout(0).getName();
-            output_msg += "This is your workout and meal for day " + (i) + ": " + workout + "\n " + meal;
+            output_msg += "This is your workout and meal plan(s) for day " + (i) + ": " + workout + ", " + meal + "\n ";
         }
         return output_msg;
     }
