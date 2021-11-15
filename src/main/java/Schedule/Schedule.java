@@ -65,7 +65,7 @@ public class Schedule {
      * @param day the day being added
      */
     public void setDay(int date, Day day) {
-        plan[date] = day;
+        plan[date - 1] = day;
     }
 
     /**
