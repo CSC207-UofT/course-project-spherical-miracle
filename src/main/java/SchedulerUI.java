@@ -118,20 +118,26 @@ public class SchedulerUI {
                                                     }
                                                     schedule.setDay(date, day); // TODO: put in InOut.java and then send to use case
                                                 }
+                                                break;
                                             case "m": // add meals into a day
                                                 System.out.println("Enter the name of a meal or 'f' if you are finished for this day");
                                                 String result = in.nextLine();
                                                 if (result.equals("f")) {
                                                     break;
                                                 } else {
-                                                    System.out.println("Enter the number of calories for it");
-                                                    int cal = Integer.parseInt(in.nextLine());
-                                                    Meal meal = new Meal(result, cal);
-                                                    day.addMeal(meal);
-                                                    // TODO: implement summary of calories consumed each day?
-                                                    // TODO: MAKE A HELPER FOR VALIDATING CALORIE AMOUNT?
-                                                    // and use helper for both workouts and meals
+                                                    while (!result.equals("f")) {
+                                                        System.out.println("Enter the number of calories for it");
+                                                        int cal = Integer.parseInt(in.nextLine());
+                                                        Meal meal = new Meal(result, cal);
+                                                        day.addMeal(meal);
+                                                        // TODO: implement summary of calories consumed each day?
+                                                        // TODO: MAKE A HELPER FOR VALIDATING CALORIE AMOUNT?
+                                                        // and use helper for both workouts and meals
+                                                        System.out.println("Enter the name of a meal or 'f' if you are finished for this day");
+                                                        result = in.nextLine();
+                                                    }
                                                 }
+                                                break;
                                         }
                                     }
                                 }
