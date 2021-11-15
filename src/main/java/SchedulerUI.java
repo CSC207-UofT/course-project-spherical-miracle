@@ -82,6 +82,7 @@ public class SchedulerUI {
                         System.out.println("The days in a schedule are numbered 1 to 7, with 1 set as Sunday. Each day can have up to five different workouts.");
                         while (date != -1) {
                             try {
+                                option = "";
                                 System.out.println("Enter a day to plan workout(s)/meal(s) for as an integer(1-7) or '-1' if you have finished making this schedule");
                                 date = Integer.parseInt(in.nextLine());
                                 if (date == -1) {
