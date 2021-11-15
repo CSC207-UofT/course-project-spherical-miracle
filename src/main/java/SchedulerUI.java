@@ -15,6 +15,10 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoClient;
 
+//To Disable the commandline logs
+import ch.qos.logback.classic.LoggerContext;
+import org.slf4j.LoggerFactory;
+
 
 import io.github.cdimascio.dotenv.Dotenv;
 
@@ -46,6 +50,7 @@ public class SchedulerUI {
                     }
                     case "s":
                         // signup situation where a user inputs info to make new account
+                        // TODO do something similar as login where we validate then use if to change valid_input
                         HashMap<String, String> info = userInput(in, false);
                         UserController userController = new UserController(access);
                         if (userController.addUser(info.get("username"), info.get("password"), info.get("name"), info.get("email")))
@@ -56,6 +61,7 @@ public class SchedulerUI {
                         // TODO: maybe put this into a helper in InOut
                     case "q":
                         running = false;
+                        System.out.println("The program will now exit. See you soon!");
                         InOutController.quit();
                         break;
                     default:
@@ -110,7 +116,6 @@ public class SchedulerUI {
                                                             i++;
                                                         }
                                                     }
-
                                                     schedule.setDay(date, day); // TODO: put in InOut.java and then send to use case
                                                 }
                                             case "m": // add meals into a day
@@ -125,7 +130,6 @@ public class SchedulerUI {
                                                     day.addMeal(meal);
                                                     // TODO: implement summary of calories consumed each day?
                                                     // TODO: MAKE A HELPER FOR VALIDATING CALORIE AMOUNT?
-
                                                     // and use helper for both workouts and meals
                                                 }
                                         }
@@ -143,7 +147,7 @@ public class SchedulerUI {
                         System.out.println("Invalid input; Please try again");
                 }
             }
-            System.out.println("You have quit the program and have been logged out. Goodbye!");
+            System.out.println("You have been logged out. Goodbye!");
         }
     }
 
@@ -233,9 +237,10 @@ public class SchedulerUI {
     }
 
     public static MongoClient InitializeDB(){
+        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        ch.qos.logback.classic.Logger rootLogger = loggerContext.getLogger("org.mongodb.driver");
+        rootLogger.setLevel(ch.qos.logback.classic.Level.OFF);
         Dotenv dotenv = Dotenv.load();
-        Logger mongoLogger = Logger.getLogger("com.mongodb");
-        mongoLogger.setLevel(Level.OFF);
         ConnectionString URI = new ConnectionString(dotenv.get("URI"));
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(URI)
