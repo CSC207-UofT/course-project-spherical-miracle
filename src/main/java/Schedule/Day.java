@@ -137,7 +137,9 @@ public class Day {
         }
 
         // remove the last comma
-        stringWorkouts = new StringBuilder(stringWorkouts.substring(0, stringWorkouts.length() - 2));
+        if (stringWorkouts.length() != 0) {
+            stringWorkouts = new StringBuilder(stringWorkouts.substring(0, stringWorkouts.length() - 2));
+        }
 
         return stringWorkouts.toString();
     }
@@ -155,7 +157,9 @@ public class Day {
             stringMeals.append(", ");
         }
         // remove the last comma
-        stringMeals = new StringBuilder(stringMeals.substring(0, stringMeals.length() - 2));
+        if(stringMeals.length() != 0) {
+            stringMeals = new StringBuilder(stringMeals.substring(0, stringMeals.length() - 2));
+        }
 
         return stringMeals.toString();
     }

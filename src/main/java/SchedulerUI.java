@@ -117,9 +117,9 @@ public class SchedulerUI {
                                                             i++;
                                                         }
                                                     }
-                                                    schedule.setDay(date, day); // TODO: put in InOut.java and then send to use case
+
                                                 }
-                                                break;
+                                                continue;
                                             case "m": // add meals into a day
                                                 System.out.println("Enter the name of a meal or 'f' if you are finished for this day");
                                                 String result = in.nextLine();
@@ -140,6 +140,7 @@ public class SchedulerUI {
                                                 }
                                                 break;
                                         }
+                                        schedule.setDay(date, day); // TODO: put in InOut.java and then send to use case
                                     }
                                 }
                             } catch (NumberFormatException e) {
