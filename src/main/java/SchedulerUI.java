@@ -100,6 +100,7 @@ public class SchedulerUI {
                                             case "w": // add workouts into a day
                                                 // TODO: put this code chunk into helper?
                                                 int i = 0;
+                                                // TODO: limit the while loop to 5 minus however many workouts are already added to the day
                                                 while (i < 5) { // since each Schedule.Day object can contain up to 5 Workouts
                                                     System.out.println("Enter a workout name or 'f' if you are finished adding workout plans for this day");
                                                     option = in.nextLine();
@@ -112,8 +113,10 @@ public class SchedulerUI {
                                                         if (calories <= 0) {
                                                             System.out.println("Please enter a positive number");
                                                         } else {
+                                                            // TODO: Move all of these to a different file to follow clean arch rule.
                                                             Workout newWorkout = new Workout(option, calories);
                                                             InOutController.createWorkout(day, newWorkout);
+                                                            day.addWorkout(newWorkout);
                                                             i++;
                                                         }
                                                     }
@@ -129,8 +132,10 @@ public class SchedulerUI {
                                                     while (!result.equals("f")) {
                                                         System.out.println("Enter the number of calories for it");
                                                         int cal = Integer.parseInt(in.nextLine());
-                                                        Meal meal = new Meal(result, cal);
-                                                        day.addMeal(meal);
+                                                        // TODO: Move all of these to a different file to follow clean arch rule.
+                                                        Meal newMeal = new Meal(result, cal);
+                                                        InOutController.createMeal(day, newMeal);
+                                                        day.addMeal(newMeal);
                                                         // TODO: implement summary of calories consumed each day?
                                                         // TODO: MAKE A HELPER FOR VALIDATING CALORIE AMOUNT?
                                                         // and use helper for both workouts and meals
@@ -140,7 +145,12 @@ public class SchedulerUI {
                                                 }
                                                 break;
                                         }
-                                        schedule.setDay(date, day); // TODO: put in InOut.java and then send to use case
+                                        if ((schedule.getDay(date) == null)) {
+                                            schedule.setDay(date, day); // TODO: put in InOut.java and then send to use case
+                                        }
+                                        else {
+                                            InOutController.mergeDay(day, schedule.getDay(date));
+                                        }
                                     }
                                 }
                             } catch (NumberFormatException e) {

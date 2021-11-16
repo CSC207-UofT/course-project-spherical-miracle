@@ -31,6 +31,25 @@ public class Day {
         calBurnt = 0;
     }
 
+
+    /**
+     * Add a workout to the list of workouts and return true as long as the list isn't already filled.
+     *
+     * @return if adding the workout was successful or not
+     */
+    public Workout[] getWorkouts(){
+        return workouts;
+    }
+
+    /**
+     * Add a workout to the list of workouts and return true as long as the list isn't already filled.
+     *
+     * @return if adding the workout was successful or not
+     */
+    public ArrayList<Meal> getMeals(){
+        return meals;
+    }
+
     /**
      * Add a workout to the list of workouts and return true as long as the list isn't already filled.
      *
@@ -127,7 +146,7 @@ public class Day {
      *
      * @return workout name.
      */
-    public String getWorkout() {
+    public String getWorkoutString() {
         StringBuilder stringWorkouts = new StringBuilder();
         for (Workout workout : workouts) {
             if (!(workout == null)) {
@@ -150,7 +169,7 @@ public class Day {
      *
      * @return meal name.
      */
-    public String getMeal() {
+    public String getMealString() {
         StringBuilder stringMeals = new StringBuilder();
         for (Meal meal : meals) {
             stringMeals.append(meal.getName());

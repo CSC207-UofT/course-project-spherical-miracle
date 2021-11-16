@@ -59,6 +59,35 @@ public class InOutController {
     public static void createWorkout(Day day, Workout workout){
         day.addWorkout(workout);
     }
+
+    /**
+     * Creates a new meal in the desired day.
+     * @param day the day that is being added to
+     * @param meal the meal being added
+     */
+    public static void createMeal(Day day, Meal meal){
+        day.addMeal(meal);
+    }
+
+    /**
+     * Merges two days together.
+     * @param day the original day
+     * @param day2 the day to put into the other day
+     */
+    public static Day mergeDay(Day day, Day day2){
+        for (Meal meal : day2.getMeals()) {
+            day.addMeal(meal);
+        }
+        for (Workout workout : day2.getWorkouts()) {
+            boolean submit = day.addWorkout(workout);
+            // remove this once the schedulerUI to do thing works
+            if (!submit) {
+                break;
+            }
+        }
+
+        return day;
+    }
 }
 
 // for testing purposes:

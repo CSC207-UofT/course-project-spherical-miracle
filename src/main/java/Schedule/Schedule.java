@@ -95,11 +95,12 @@ public class Schedule {
                 workout = "Rest Day";
                 meal = "No meals";
             } else {
-                workout = this.getDay(i-1).getWorkout();
-                meal = this.getDay(i-1).getMeal();
+                workout = this.getDay(i-1).getWorkoutString();
+                meal = this.getDay(i-1).getMealString();
             }
             //String workout = sched.getWorkout(0).getName();
-            output_msg += "This is your workout and meal plan(s) for day " + (i) + ": " + workout + ", " + meal + "\n ";
+            output_msg += "This is your plan(s) for day " + (i) + ": \n Workouts: " + workout + "\n" +
+                    " Meal: " + meal + "\n ";
         }
         return output_msg;
     }
