@@ -92,6 +92,7 @@ public class SchedulerUI {
                                     System.out.println("Please enter an integer from 1 to 7");
                                 } else { // populating the schedule with days
                                     Day day = new Day();
+                                    int i = 0;
                                     while (!(option.equals("f"))) {
                                         System.out.println("Enter a 'w' to add a workout, 'm' to add a meal" +
                                                 " or 'f' if you are finished for this day");
@@ -99,25 +100,26 @@ public class SchedulerUI {
                                         switch (option) {
                                             case "w": // add workouts into a day
                                                 // TODO: put this code chunk into helper?
-                                                int i = 0;
-                                                // TODO: limit the while loop to 5 minus however many workouts are already added to the day
                                                 while (i < 5) { // since each Schedule.Day object can contain up to 5 Workouts
                                                     System.out.println("Enter a workout name or 'f' if you are finished adding workout plans for this day");
                                                     option = in.nextLine();
                                                     if (option.equals("f")) {
+                                                        option = "";
                                                         break;
                                                     } else { // continue setting up workouts for a day
-                                                        int calories;
+                                                        int calories = 0;
+                                                        while(calories <= 0){
                                                         System.out.println("Enter the calories burnt for this workout");
-                                                        calories = Integer.parseInt(in.nextLine());
-                                                        if (calories <= 0) {
-                                                            System.out.println("Please enter a positive number");
-                                                        } else {
-                                                            // TODO: Move all of these to a different file to follow clean arch rule.
-                                                            Workout newWorkout = new Workout(option, calories);
-                                                            InOutController.createWorkout(day, newWorkout);
-                                                            day.addWorkout(newWorkout);
-                                                            i++;
+                                                        calories = Integer.parseInt(in.nextLine()); //TODO: try catch int error
+                                                            if (calories <= 0) {
+                                                                System.out.println("Please enter a positive number");
+                                                                continue;
+                                                            }else{
+                                                                // TODO: Move all of these to a different file to follow clean arch rule.
+                                                                Workout newWorkout = new Workout(option, calories);
+                                                                InOutController.createWorkout(day, newWorkout);
+                                                                i++;
+                                                            }
                                                         }
                                                     }
 
@@ -145,15 +147,16 @@ public class SchedulerUI {
                                                 }
                                                 break;
                                         }
-                                        if ((schedule.getDay(date) == null)) {
-                                            schedule.setDay(date, day); // TODO: put in InOut.java and then send to use case
+                                    }
+                                    // TODO: put in InOut.java and then send to use case
+                                    if ((schedule.getDay(date) == null)) {
+                                        schedule.setDay(date, day); // TODO: put in InOut.java and then send to use case
                                         }
                                         else {
                                             InOutController.mergeDay(day, schedule.getDay(date));
                                         }
                                     }
-                                }
-                            } catch (NumberFormatException e) {
+                                }catch (NumberFormatException e) {
                                 System.out.println("Input is not an integer");
                             }
                         }
