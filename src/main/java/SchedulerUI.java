@@ -27,27 +27,21 @@ public class SchedulerUI {
         MongoClient mongoClient = InitializeDB();
         DataAccess access = new DataAccess(mongoClient);
         ScheduleDatabase scheduleDatabase = new ScheduleDatabase();
+        SessionController session = new SessionController(access);
         Scanner in = new Scanner(System.in);
         boolean running = true;
         while (running) {
-            //InOut.out.println();
-            // would rather have this for ease of refactoring,
-            // make this class later.
-            boolean loggedIn = false;
-            while (!loggedIn) {
+            while (!session.loggedIn()) {
                 System.out.println("Type 'l' to login and 's' to signup or 'q' to quit");
                 switch (in.nextLine()) {
-                    case "l": {
+                    case "l":
+                        // TODO: are the following comments necessary? i.e. does it improve readability?
                         // login situation where it is checked if the inputted credentials are valid
-                        SessionController sessionController = new SessionController(access);
                         // initializes the userInput Hashmap and collects all inputted details
                         HashMap<String, String> userInfo = userInput(in, true);
-                        if (sessionController.login(userInfo.get("username"), userInfo.get("password")))
-                            loggedIn = true;
-                        else
+                        if (!session.login(userInfo.get("username"), userInfo.get("password")))
                             System.out.println("Username and password does not match. Please try again.");
                         break;
-                    }
                     case "s":
                         // signup situation where a user inputs info to make new account
                         // TODO do something similar as login where we validate then use if to change valid_input
@@ -62,14 +56,14 @@ public class SchedulerUI {
                     case "q":
                         running = false;
                         System.out.println("The program will now exit. See you soon!");
-                        InOutController.quit();
+                        System.exit(0);
                         break;
                     default:
                         System.out.println("Invalid input. Please try again");
                         //break;
                 }
             }
-            while (loggedIn) {
+            while (session.loggedIn()) {
                 System.out.println("Type 'c' to make a schedule or 'l' to logout:");
                 String option = in.nextLine();
                 switch (option) {
@@ -162,7 +156,7 @@ public class SchedulerUI {
                         }
                         break;
                     case "l":
-                        loggedIn = false;
+                        session.logout();
                         break;
                     default:
                         System.out.println("Invalid input; Please try again");
@@ -175,13 +169,13 @@ public class SchedulerUI {
     /**
      * Returns a HashMap of user account details that were inputted.
      * @param in the Scanner reading the user input
-     * @param is_login whether the user is logging in or not
+     * @param isLogin whether the user is logging in or not
      */
-    private static HashMap<String, String> userInput(Scanner in, boolean is_login) {
+    private static HashMap<String, String> userInput(Scanner in, boolean isLogin) {
         HashMap<String, String> userInput = new HashMap<>();
         System.out.println("Enter your username:");
         String input = in.nextLine();
-        while (!(validateUsername(input)) && !(is_login)){
+        while (!(validateUsername(input)) && !(isLogin)){
             System.out.println("Try again! Make sure username is between 8 to 20 characters long \n" +
                     "with only alphanumeric characters and special characters.");
             System.out.println("Enter your username:");
@@ -189,15 +183,15 @@ public class SchedulerUI {
         }
         userInput.put("username", input);
         System.out.println("Enter your password:");
-        input = in.nextLine();
-        while (!(validatePassword(input)) && !(is_login)){
+        userInput.put("password", in.nextLine());
+        while (!(validatePassword(input)) && !(isLogin)){
             System.out.println("Try again! Make sure password is between 8 to 30 characters long \n" +
                     "with no white spaces.");
             System.out.println("Enter your password:");
             input = in.nextLine();
         }
         userInput.put("password", input);
-        if (!is_login) {
+        if (!isLogin) {
             System.out.println("Enter a name:");
             input = in.nextLine();
             while (!(validateName(input))){
