@@ -9,4 +9,4 @@ Responsibilities:
 
 Collaborators:
 * UserManager
-* Workout.Schedule
+* Schedule.Schedule

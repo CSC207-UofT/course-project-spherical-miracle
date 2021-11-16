@@ -1,5 +1,4 @@
 import User.*;
-import Workout.*;
 
 /**
  * A controller that delegates management of a user's session upon logging in and out.
@@ -21,7 +20,7 @@ public class SessionController {
      * Constructs a SessionController with a given database of users to access.
      * @param database Interface to access database
      */
-    public SessionController(DataAccessInterface database) {
+    public SessionController(UserDataAccess database) {
         FetchUserUseCase data = new FetchUserUseCase(database);
         this.loginInputBoundary = new LoginUseCase(data);
         this.logoutInputBoundary = new LogoutUseCase();
@@ -36,7 +35,7 @@ public class SessionController {
      */
     public boolean login(String username, String password) {
         LoginUseCase.LoginResult result = loginInputBoundary.login(username, password);
-        // maybe throw exceptions when it fails?
+        // TODO: maybe throw exceptions when it fails?
         switch (result) {
             case SUCCESS:
                 return true;

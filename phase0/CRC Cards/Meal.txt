@@ -1,4 +1,4 @@
-Class name: Meal
+Class name: Schedule.Meal
 
 Responsibilities:
 * Stores name of the meal
@@ -6,4 +6,4 @@ Responsibilities:
 * Items in the meal
 
 Collaborators:
-* Workout.Schedule
+* Schedule.Schedule

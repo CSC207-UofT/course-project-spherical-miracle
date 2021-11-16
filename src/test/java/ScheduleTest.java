@@ -1,5 +1,4 @@
-import User.*;
-import Workout.*;
+import Schedule.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +29,9 @@ class ScheduleTest {
 
     @Test
     void addWorkout() {
-        week1.addWorkout(1, new Workout("ass", 500));
+        Day day = new Day();
+        week1.setDay(1, day);
+        assert week1.getDay(1) == day;
     }
 
 

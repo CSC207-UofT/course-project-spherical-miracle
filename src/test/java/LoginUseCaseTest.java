@@ -1,10 +1,7 @@
+import User.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import javax.xml.crypto.Data;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class LoginUseCaseTest {
 

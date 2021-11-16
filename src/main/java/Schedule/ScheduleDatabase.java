@@ -1,4 +1,4 @@
-package Workout;
+package Schedule;
 
 import java.util.HashMap;
 /**

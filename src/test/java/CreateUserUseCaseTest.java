@@ -1,8 +1,7 @@
+import User.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CreateUserUseCaseTest {
 
@@ -23,7 +22,7 @@ class CreateUserUseCaseTest {
         MockDatabase db = new MockDatabase();
         CreateUserUseCase create = new CreateUserUseCase(db);
         create.createUser(expectedUsername, expectedPassword, expectedName, expectedEmail);
-        String[] userInfo = db.findUser(expectedUsername);
+        String[] userInfo = db.findUserWithUsername(expectedUsername);
         assert userInfo[0].equals(expectedUsername);
         assert userInfo[1].equals(expectedPassword);
         assert userInfo[2].equals(expectedName);

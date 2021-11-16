@@ -1,11 +1,11 @@
 import User.*;
-import Workout.*;
+import Schedule.*;
 
 /**
  * A controller that delegates tasks based on user commands that are input.
  */
 
-public class  InOut {
+public class InOutController {
 
     // signup method
     // return a message describing if the user was successfully signed up
@@ -20,7 +20,7 @@ public class  InOut {
      * @return whether the user was successfully registered or not
      *
      */
-    public static String register(String username, String password, String name, String email, DataAccessInterface da) {
+    public static String register(String username, String password, String name, String email, UserDataAccess da) {
         UserController manageUser = new UserController(da);
         if (manageUser.addUser(username, password, name, email)) {
 
@@ -52,13 +52,45 @@ public class  InOut {
     }
 
     /**
-     * Creates a new workout in the desired schedule.
-     * @param sched the schedule that is being added to
-     * @param type the type of workout
-     * @param day the day that the workout is for
-     * @param cal an estimate of how many calories will be burned during the workout
+     * Creates a new workout in the desired day.
+     * @param day the day that is being added to
+     * @param workout the workout being added
      */
-    public static void createWorkout(Schedule sched, String type, int day, int cal){
-        sched.addWorkout(day, new Workout(type, cal));
+    public static void createWorkout(Day day, Workout workout){
+        day.addWorkout(workout);
+    }
+
+    /**
+     * Creates a new meal in the desired day.
+     * @param day the day that is being added to
+     * @param meal the meal being added
+     */
+    public static void createMeal(Day day, Meal meal){
+        day.addMeal(meal);
+    }
+
+    /**
+     * Merges two days together.
+     * @param day the original day
+     * @param day2 the day to put into the other day
+     */
+    public static Day mergeDay(Day day, Day day2){
+        for (Meal meal : day2.getMeals()) {
+            day.addMeal(meal);
+        }
+        for (Workout workout : day2.getWorkouts()) {
+            boolean submit = day.addWorkout(workout);
+            // remove this once the schedulerUI to do thing works
+            if (!submit) {
+                break;
+            }
+        }
+
+        return day;
     }
 }
+
+// for testing purposes:
+//    public static String login(){
+//        return "hi";
+//    }

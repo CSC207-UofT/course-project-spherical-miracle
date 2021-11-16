@@ -38,13 +38,13 @@ User.User
 
 User.UserDatabase (will be changed)
 
-Workout.Workout
+Schedule.Schedule
 
-Meal (To be implemented in the code in Phase 2)
+Schedule.Meal (To be implemented in the code in Phase 2)
 
-Workout.Schedule
+Schedule.Schedule
 
-Workout.ScheduleDatabase (will be changed)
+Schedule.ScheduleDatabase (will be changed)
 
 #### Use Cases
 
@@ -56,7 +56,7 @@ ManageData (to be done later)
 
 #### Interface Adapters
 
-InOut (Façade)
+InOutController (Façade)
 
 WorkoutSchedulerUI
 
@@ -81,15 +81,15 @@ They need to add something to the workout like day 1: chest, day 3: legs, day 5:
 For now, just put the broad name of the day (eg. the area of the body that is going to be worked on), but later on, will add the ability to specify the exercises done / and give reminders to workout.
 
 ## Skeleton Program
-InOut: controller that takes in data from the interface and hands it off to the respective classes to handle
+InOutController: controller that takes in data from the interface and hands it off to the respective classes to handle
 
-Workout.ManageSchedule: Adds and removes new schedules to the database
+Schedule.ScheduleController: Adds and removes new schedules to the database
 
 ManageUser: Adds and removes new users to the database
 
-Workout.Schedule: Entity for the weekly schedules 
+Schedule.Schedule: Entity for the weekly schedules 
 
-Workout.ScheduleDatabase: Database to keep all the schedules created
+Schedule.ScheduleDatabase: Database to keep all the schedules created
 
 User.User: Entity that stores information about a specific user’s account
 
@@ -97,7 +97,7 @@ User.UserDatabase: Entity that keeps track of multiple users
 
 UserLogin: Use Case that allows a user to log in with a password corresponding to their username
 
-Workout.Workout: Entity that stores the type/name of the workout and details about it (ex. number of calories burned during it)
+Schedule.Schedule: Entity that stores the type/name of the workout and details about it (ex. number of calories burned during it)
 
 WorkoutSchedulerUI: the interface, reads the commands and inputs from the program user
 

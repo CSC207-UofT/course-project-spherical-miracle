@@ -8,7 +8,7 @@ public class UserController {
     /**
      * An interface used to access the database
      */
-    private final DataAccessInterface database;
+    private final UserDataAccess database;
 
     /**
 
@@ -16,7 +16,7 @@ public class UserController {
      *
      * @param database the use case that handles saving user information.
      */
-    public UserController(DataAccessInterface database) {
+    public UserController(UserDataAccess database) {
         this.database = database;
     }
 

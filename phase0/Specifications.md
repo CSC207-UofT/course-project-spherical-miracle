@@ -3,7 +3,7 @@
 ### Phase 0
 Implemented Use Case: UserRegister (Walk through)
 - Inputs: name, username, email, password, workout plan
-- Outputs: Workout.Schedule for the week 
+- Outputs: Schedule.Schedule for the week 
 1. User.User enters their name, username, email and password
 2. If their input are valid, give the user access to create a schedule or quit
 3. Let the user input the schedule name
@@ -15,12 +15,12 @@ Implemented Use Case: UserRegister (Walk through)
 ### Phase 1
 #### Users can create workout plans
 User.User can add workouts to their plan for each day of the week 
-- Inputs: WorkoutName, CaloriesBurnt, Day of Week
-- Output: Workout.Workout object is created and added to a plan
+- Inputs: WorkoutName, CaloriesBurnt, Schedule.Day of Week
+- Output: Schedule.Schedule object is created and added to a plan
 
 #### Reminder prompt on Login
 Upon login, users are prompted with their plan(s) of the day 
-- Inputs: Day of the week, LoginSUCCESS/FAILURE
+- Inputs: Schedule.Day of the week, LoginSUCCESS/FAILURE
 - Output: String output of workout object(s)
 
 
