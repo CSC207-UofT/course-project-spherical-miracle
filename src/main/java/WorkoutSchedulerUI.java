@@ -2,6 +2,7 @@ import Schedule.*;
 
 import java.time.DateTimeException;
 import java.time.DayOfWeek;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 /**
@@ -71,8 +72,9 @@ public class WorkoutSchedulerUI {
                         System.out.println("Enter the name of the schedule");
                         String scheduleName = in.nextLine();
                         // TODO: user input to get whether they want their schedule to be public
-                        scheduleController.createSchedule(scheduleName, session.getUsernameOfLoggedInUser(), false);
-                        addDays();
+
+                        ArrayList<ArrayList<ArrayList<ArrayList<Object>>>> days = addDays();
+                        scheduleController.createSchedule(scheduleName, session.getUsernameOfLoggedInUser(), false, days);
 //                        String firstReminder = InOutController.finalizeSchedule(schedule, scheduleDatabase);
 //                        System.out.println(firstReminder);
                         break;
@@ -119,7 +121,7 @@ public class WorkoutSchedulerUI {
         return MongoClients.create(settings);
     }
 
-    public static void addDays() {
+    public static ArrayList<ArrayList<ArrayList<ArrayList<Object>>>> addDays() {
         Scanner in = new Scanner(System.in);
         while (true) {
             System.out.println("Enter a day to plan workout(s)/meal(s) for as an integer (1-7) " +
@@ -127,7 +129,8 @@ public class WorkoutSchedulerUI {
             try {
                 int option = Integer.parseInt(in.nextLine());
                 if (option == -1)
-                    return;
+                    // TODO: temporary
+                    return new ArrayList<>();
                 DayOfWeek dayOfWeek = DayOfWeek.of(option);
                 Day day = new Day();
                 addWorkoutsAndMeals(day);
