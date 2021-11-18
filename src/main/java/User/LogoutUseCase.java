@@ -6,13 +6,13 @@ package User;
 public class LogoutUseCase implements LogoutInputBoundary {
 
     /**
-     * Constructs a new User.LogoutUseCase.
+     * Constructs a use case that logs a user out.
      */
     public LogoutUseCase() {
     }
 
     /**
-     * Returns true.
+     * Returns true iff the user is successfully logged out.
      */
     @Override
     public boolean logout() {

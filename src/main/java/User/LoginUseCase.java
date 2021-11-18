@@ -7,15 +7,15 @@ package User;
 public class LoginUseCase implements LoginInputBoundary {
 
 
-    private final FetchUserUseCase database;
+    private final FetchUserUseCase fetchUserUseCase;
 
     /**
-     * Construct a userMap given a HashMap.
+     * Constructs a use case that can log a user in.
      *
-     * @param database Use case that enables fetching of users.
+     * @param fetchUserUseCase Use case that enables fetching of users.
      */
-    public LoginUseCase(FetchUserUseCase database){
-        this.database = database;
+    public LoginUseCase(FetchUserUseCase fetchUserUseCase){
+        this.fetchUserUseCase = fetchUserUseCase;
     }
 
     /**
@@ -24,16 +24,11 @@ public class LoginUseCase implements LoginInputBoundary {
     public enum LoginResult {
         SUCCESS, INCORRECT_PASSWORD, NO_SUCH_USER
     }
-    /**
-     * Login with the given username and password.
-     * @param username username of user
-     * @param password password of user
-     * @return the result of the login
-     */
+
     @Override
     public LoginResult login(String username, String password) {
         try {
-            User user = database.getUser(username);
+            User user = fetchUserUseCase.getUser(username);
             if (user.passwordMatches(password))
                 return LoginResult.SUCCESS;
             return LoginResult.INCORRECT_PASSWORD;

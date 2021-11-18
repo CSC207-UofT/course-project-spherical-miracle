@@ -1,5 +1,3 @@
-import User.*;
-
 class SessionControllerTest {
 
     private UserDatabase users;

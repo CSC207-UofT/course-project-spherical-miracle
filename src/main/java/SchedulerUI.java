@@ -1,9 +1,8 @@
 import Schedule.*;
 
+import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 /**
  * The user interface for scheduling workout session in a user's schedule.
@@ -47,7 +46,7 @@ public class SchedulerUI {
                         // TODO do something similar as login where we validate then use if to change valid_input
                         HashMap<String, String> info = userInput(in, false);
                         UserController userController = new UserController(access);
-                        if (userController.addUser(info.get("username"), info.get("password"), info.get("name"), info.get("email")))
+                        if (userController.createUser(info.get("username"), info.get("password"), info.get("name"), info.get("email")))
                             System.out.println("Successfully signed up!");
                         else
                             System.out.println("Unsuccessful signup. Username is already taken.");
@@ -143,11 +142,11 @@ public class SchedulerUI {
                                         }
                                     }
                                     // TODO: put in InOut.java and then send to use case
-                                    if ((schedule.getDay(date) == null)) {
-                                        schedule.setDay(date, day); // TODO: put in InOut.java and then send to use case
+                                    if ((schedule.getDay(DayOfWeek.of(date)) == null)) {
+                                        schedule.setDay(DayOfWeek.of(date), day); // TODO: put in InOut.java and then send to use case
                                         }
                                         else {
-                                            InOutController.mergeDay(day, schedule.getDay(date));
+                                            InOutController.mergeDay(day, schedule.getDay(DayOfWeek.of(date)));
                                         }
                                     }
                                 }catch (NumberFormatException e) {
@@ -219,7 +218,7 @@ public class SchedulerUI {
      * @return if the email is valid (any alphanumeric + special chars with an @ and then alphanumeric chars.
      */
     private static boolean validateEmail(String email){
-        return Pattern.matches("^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.]+$", email);
+        return Pattern.matches("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.]+$", email);
     }
 
     /**
@@ -228,7 +227,7 @@ public class SchedulerUI {
      * @return if the username is valid (any alphanumeric + special chars)
      */
     private static boolean validateUsername(String username){
-        return Pattern.matches("^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+$", username) && username.length() <= 20
+        return Pattern.matches("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+$", username) && username.length() <= 20
                 && username.length() >= 8;
     }
 

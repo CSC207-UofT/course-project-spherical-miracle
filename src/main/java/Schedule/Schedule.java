@@ -1,5 +1,6 @@
 package Schedule;
 
+import java.time.DayOfWeek;
 import java.util.UUID;
 
 /**
@@ -7,52 +8,48 @@ import java.util.UUID;
  */
 public class Schedule {
 
-    /**
-     * The name of the schedule
-     */
     private String name;
-
-    /**
-     * The unique identifier of this schedule.
-     */
     private UUID id;
 
-    /**
-     * An array with 7 slots that can be filled up with Workout.Workout objects.
-     */
     private Day[] plan = new Day[7];
 
     /**
-     * Construct a Workout.Schedule with the given name.
-     * @param name the given name
+     * Constructs a Schedule with the specified name.
+     * @param name name of the Schedule
      */
     public Schedule(String name) {
         this.name = name;
         this.id = UUID.randomUUID();
     }
-
+    /**
+     * Construct a Schedule with the specified name and id.
+     * @param name name of the Schedule
+     * @param id unique id of the Schedule
+     */
     public Schedule(String name, String id) {
         this.name = name;
         this.id = UUID.fromString(id);
     }
 
     /**
-     * Return the name of the schedule.
+     * Returns the name of this Schedule.
+     * @return name of this Schedule.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Return the unique identifier of this schedule.
-     * @return
+     * Returns the unique identifier of this schedule.
+     * @return the unique identifier of this schedule.
      */
     public String getId() {
         return id.toString();
     }
 
     /**
-     * Set the name of the schedule to be the given name.
+     * Sets the name of the schedule to be the given name.
+     * @param name - the specified new name of this schedule
      */
     public void setName(String name) {
         this.name = name;
@@ -60,12 +57,12 @@ public class Schedule {
 
     // TODO: Possibly track the exact hour of the workout
     /**
-     * Setting a given day into the schedule.
-     * @param date the days of the week from 0 being Sunday to 6 being Saturday
+     * Sets a given day into the schedule.
+     * @param dayOfWeek the days of the week from 0 being Sunday to 6 being Saturday
      * @param day the day being added
      */
-    public void setDay(int date, Day day) {
-        plan[date - 1] = day;
+    public void setDay(DayOfWeek dayOfWeek, Day day) {
+        plan[dayOfWeek.getValue() - 1] = day;
     }
 
     /**
@@ -77,10 +74,11 @@ public class Schedule {
 
     /**
      * Return the workout plan for a specific day.
-     * @param date the specific day
+     * @param dayOfWeek the specific day
+     * @return a Day
      */
-    public Day getDay(int date) {
-        return plan[date];
+    public Day getDay(DayOfWeek dayOfWeek) {
+        return plan[dayOfWeek.getValue()];
     }
 
     /**
@@ -89,19 +87,19 @@ public class Schedule {
     public String printSchedule(){
         String workout;
         String meal;
-        String output_msg = "";
-        for(int i=1; i <= 7; i++){
-            if (this.getDay(i-1) == null) {
+        String outputMsg = "";
+        for (DayOfWeek c: DayOfWeek.values()){
+            if (this.getDay(c) == null) {
                 workout = "Rest Day";
                 meal = "No meals";
             } else {
-                workout = this.getDay(i-1).getWorkoutString();
-                meal = this.getDay(i-1).getMealString();
+                workout = this.getDay(c).getWorkoutString();
+                meal = this.getDay(c).getMealString();
             }
             //String workout = sched.getWorkout(0).getName();
-            output_msg += "This is your plan(s) for day " + (i) + ": \n Workouts: " + workout + "\n" +
+            outputMsg += "This is your plan(s) for day " + (c.getValue()) + ": \n Workouts: " + workout + "\n" +
                     " Meal: " + meal + "\n ";
         }
-        return output_msg;
+        return outputMsg;
     }
 }

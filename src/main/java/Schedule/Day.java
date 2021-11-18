@@ -21,7 +21,7 @@ public class Day {
     // possible implement dates in the future: ex. November 11,2021
 
     /**
-     * Construct a Schedule.Day
+     * Construct a Day object.
      */
     public Day() {
         // hard coded limit of 5 different types of workouts per day
@@ -33,10 +33,10 @@ public class Day {
 
 
     /**
-     * Add a workout to the list of workouts and return true as long as the list isn't already filled.
-     *
-     * @return if adding the workout was successful or not
+     * Returns an array of workouts.
+     * @return
      */
+    //TODO: Perhaps return an iterator instead of the Array itself to prevent mutations outside of the class.
     public Workout[] getWorkouts(){
         return workouts;
     }

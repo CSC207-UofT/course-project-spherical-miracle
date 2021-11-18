@@ -3,11 +3,12 @@ import Schedule.ScheduleDataAccess;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     private ArrayList<User> users;
     @Override
-    public String[] findUserWithUsername(String username) throws UserDoesNotExistException {
+    public String[] loadUserWithUsername(String username) throws UserDoesNotExistException {
         for (User user: users) {
             if (user.getUsername().equals(username)) {
                 return new String[] {user.getUsername(), user.getPassword(), user.getName(), user.getEmail()};
@@ -21,17 +22,17 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public ArrayList<String> loadScheduleWithID(String scheduleID) {
+    public ScheduleInfo loadScheduleWithID(String scheduleID) {
+        return null;
+    }
+
+    @Override
+    public List<ScheduleInfo> loadSchedulesAssociatedWith(String username) {
         return new ArrayList<>();
     }
 
     @Override
-    public List<Object> loadUserSchedules(String username) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public void saveSchedule(String id, String scheduleName, String username, boolean isPublic, ArrayList<ArrayList<ArrayList<ArrayList<Object>>>> days) {
+    public void saveSchedule(String id, String scheduleName, String username, boolean isPublic, List<List<List<Map<String, String>>>> days) {
 
     }
 
@@ -50,7 +51,7 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public void editUser() {
+    public void editUser(String key, String change, String username) {
 
     }
 

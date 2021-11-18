@@ -1,6 +1,7 @@
 package Schedule;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A controller that manages a schedule for a user.
@@ -11,7 +12,7 @@ public class ScheduleController {
     private final ScheduleDataAccess scheduleDatabase;
 
     /**
-     * Construct a list of the information needed to create a new user and the User.UserDatabase data.
+     * Construct a list of the information needed to create a new user and the UserDatabase data.
      * @param scheduleDatabase the dataAccessInterface to the database for schedules.
      */
     public ScheduleController(ScheduleDataAccess scheduleDatabase){
@@ -22,7 +23,7 @@ public class ScheduleController {
      * Create a new schedule with the given name.
      * Otherwise, return false.
      **/
-    public void createSchedule(String scheduleName, String username, boolean isPublic, ArrayList<ArrayList<ArrayList<ArrayList<Object>>>> days) {
+    public void createSchedule(String scheduleName, String username, boolean isPublic, List<List<List<Map<String, String>>>> days) {
         //TODO: validating inputs
         //boolean is_valid = ;
         //if (is_valid) {

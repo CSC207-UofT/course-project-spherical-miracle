@@ -1,18 +1,23 @@
 package Schedule;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
 
-    private final ScheduleDataAccess database;
+    private final ScheduleDataAccess databaseInterface;
 
-    public CreateScheduleUseCase(ScheduleDataAccess database) {
-        this.database = database;
+    /**
+     * Instantiate a use case that creates a schedule.
+     * @param databaseInterface - the access interface boundary between the databaseInterface and the use case.
+     */
+    public CreateScheduleUseCase(ScheduleDataAccess databaseInterface) {
+        this.databaseInterface = databaseInterface;
     }
 
     @Override
-    public void createSchedule(String scheduleName, String username, boolean isPublic, ArrayList<ArrayList<ArrayList<ArrayList<Object>>>> days) {
-        Schedule schedule = new Schedule(scheduleName);
-        database.saveSchedule(schedule.getId(), scheduleName, username, isPublic, days);
+    public void createSchedule(String name, String username, boolean isPublic, List<List<List<Map<String, String>>>> days) {
+        Schedule schedule = new Schedule(name);
+        databaseInterface.saveSchedule(schedule.getId(), name, username, isPublic, days);
     }
 }

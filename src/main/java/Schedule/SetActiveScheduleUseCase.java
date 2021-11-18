@@ -2,13 +2,22 @@ package Schedule;
 
 public class SetActiveScheduleUseCase {
 
-    private ScheduleDataAccess scheduleDatabase;
+    private ScheduleDataAccess databaseInterface;
 
-    public SetActiveScheduleUseCase(ScheduleDataAccess database) {
-        this.scheduleDatabase = database;
+    /**
+     * Constructs a use case that sets the active schedule for a user.
+     * @param databaseInterface
+     */
+    public SetActiveScheduleUseCase(ScheduleDataAccess databaseInterface) {
+        this.databaseInterface = databaseInterface;
     }
 
+    /**
+     * Sets the given Schedule to be the active schedule of the specified user
+     * @param username - username of the given user
+     * @param schedule - instance of the given Schedule 
+     */
     public void setAsActiveSchedule(String username, Schedule schedule) {
-        scheduleDatabase.updateCurrentSchedule(username, schedule.getId());
+        databaseInterface.updateCurrentSchedule(username, schedule.getId());
     }
 }
