@@ -171,6 +171,12 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         uc.updateOne(equalComparison, Updates.addToSet(key, change)); // username is unique
     }
 
+    @Override
+    public ScheduleInfo loadActiveSchedule(String username) {
+        //TODO finish this later
+        return null;
+    }
+
     public void editUserScheduleCollection() {
 
     }
