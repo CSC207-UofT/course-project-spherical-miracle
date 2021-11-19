@@ -24,6 +24,13 @@ public interface ScheduleDataAccess {
     List<ScheduleInfo> loadSchedulesAssociatedWith(String username);
 
     /**
+     * 
+     * @param username
+     * @return
+     */
+    ScheduleInfo loadActiveSchedule(String username);
+    
+    /**
      * Saves the given schedule into the database.
      * @param id - the id of the schedule
      * @param scheduleName - the name of the given schedule
