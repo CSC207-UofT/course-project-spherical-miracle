@@ -45,20 +45,24 @@ public class FetchActiveScheduleUseCase{
         Schedule s = new Schedule(name, id);
         for (List<List<Map<String, String>>> day: scheduleInfo) {
             Day d = new Day();
+            if (day.size() == 0) {
 
-            for (Map<String, String> workout: day.get(0)) {
-                Workout w = new Workout(workout.get(databaseInterface.workoutName),
-                        Integer.parseInt(workout.get(databaseInterface.calories)));
-                d.addWorkout(w);
+            }
+            else {
+                for (Map<String, String> workout : day.get(0)) {
+                    Workout w = new Workout(workout.get(databaseInterface.workoutName),
+                            Integer.parseInt(workout.get(databaseInterface.calories)));
+                    d.addWorkout(w);
+                }
+
+                for (Map<String, String> meal : day.get(1)) {
+                    Meal m = new Meal(meal.get(databaseInterface.mealName),
+                            Integer.parseInt(meal.get(databaseInterface.calories)));
+                    d.addMeal(m);
+                }
             }
 
-            for (Map<String, String> meal: day.get(1)) {
-                Meal m = new Meal(meal.get(databaseInterface.mealName),
-                        Integer.parseInt(meal.get(databaseInterface.calories)));
-                d.addMeal(m);
-            }
-
-            s.setDay(DayOfWeek.of(List.of(scheduleInfo).indexOf(day)+1), d);// index of day + 1 because set day does -1
+            s.setDay(DayOfWeek.of(scheduleInfo.indexOf(day)+1), d);// index of day + 1 because set day does -1
         }
         return s;
     }

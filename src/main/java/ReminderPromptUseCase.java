@@ -19,7 +19,8 @@ public class ReminderPromptUseCase {
      * @param databaseInterface
      * @return a String representation of a User's day.
      */
-    public static String remind(String username, ScheduleDataAccess databaseInterface) {
+    public String remind(String username, ScheduleDataAccess databaseInterface) {
+        //TODO - move to controller and send in Date as argument
         LocalDate today = LocalDate.now();
         DayOfWeek currentDay = today.getDayOfWeek();
         FetchActiveScheduleUseCase activeSchedule = new FetchActiveScheduleUseCase(databaseInterface);

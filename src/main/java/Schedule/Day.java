@@ -16,8 +16,8 @@ import java.util.List;
 // how should we represent meals? just the name with the calories it has?
 
 public class Day {
-    private Workout[] workouts;
-    private ArrayList<Meal> meals;
+    private List<Workout> workouts;
+    private List<Meal> meals;
     private int intake;
     private int calBurnt;
     // possible implement dates in the future: ex. November 11,2021
@@ -27,7 +27,7 @@ public class Day {
      */
     public Day() {
         // hard coded limit of 5 different types of workouts per day
-        workouts = new Workout[5];
+        workouts = new ArrayList<>();
         meals = new ArrayList<>();
         intake = 0;
         calBurnt = 0;
@@ -39,7 +39,7 @@ public class Day {
      * @return
      */
     //TODO: Perhaps return an iterator instead of the Array itself to prevent mutations outside of the class.
-    public Workout[] getWorkouts(){
+    public List<Workout> getWorkouts(){
         return workouts;
     }
 
@@ -48,7 +48,7 @@ public class Day {
      *
      * @return if adding the workout was successful or not
      */
-    public ArrayList<Meal> getMeals(){
+    public List<Meal> getMeals(){
         return meals;
     }
 
@@ -59,17 +59,12 @@ public class Day {
      * @return if adding the workout was successful or not
      */
     public boolean addWorkout(Workout workout) {
-        int i = 0;
-        while ((workouts[i] != null) && (i < 5)) {
-            i = i + 1;
-        }
-        if (i < 5) {
-            workouts[i] = workout;
-            calBurnt = calBurnt + workout.getCaloriesBurnt();
+        if (workouts.size() < 5) {
+            workouts.add(workout);
             return true;
-        } else {
-            return false;
         }
+        else
+            return false;
     }
 
     /**
@@ -79,10 +74,10 @@ public class Day {
      * @return if removing the workout was successful or not
      */
     public boolean removeWorkout(Workout workout) {
-        for (int i = 0; i < 5; i++) {
-            if (workouts[i].getName().equals(workout.getName())) {
+        for (Workout w: workouts) {
+            if (w.getName().equals(workout.getName())) {
                 calBurnt = calBurnt - workout.getCaloriesBurnt();
-                return true;
+                    return true;
             }
         }
         return false;
@@ -193,10 +188,10 @@ public class Day {
         String workout;
         String meal;
         String outputMsg = "";
-        if (this.workouts.length == 0 && this.meals.size() == 0) {
+        if (isEmpty()) {
             workout = "Rest Day";
             meal = "No meals";
-        } else if (this.workouts.length == 0) {
+        } else if (this.workouts.size() == 0) {
             workout = "Rest Day";
             meal = this.getMealString();
         } else if (this.meals.size() == 0) {
@@ -214,11 +209,11 @@ public class Day {
 
 
     /**
-     * Return if this instance of the Schedule.Day is empty
+     * Return if this instance of the Day is empty
      *
      * @return if the day is empty
      */
     public boolean isEmpty() {
-        return Arrays.stream(workouts).allMatch(null) && meals.size() == 0;
+        return workouts.size() == 0 && meals.size() == 0;
     }
 }
