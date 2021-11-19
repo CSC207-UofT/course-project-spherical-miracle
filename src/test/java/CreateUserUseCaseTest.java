@@ -20,7 +20,7 @@ class CreateUserUseCaseTest {
         String expectedName = "Meric Gertler";
         String expectedEmail = "president@utoronto.ca";
         MockDatabase db = new MockDatabase();
-        CreateUserUseCase create = new CreateUserUseCase(db);
+        CreateUserUseCase create = new CreateUserUseCase(db, new Presenter());
         create.createUser(expectedUsername, expectedPassword, expectedName, expectedEmail);
         String[] userInfo = db.loadUserWithUsername(expectedUsername);
         assert userInfo[0].equals(expectedUsername);

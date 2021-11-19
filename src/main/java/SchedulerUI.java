@@ -26,7 +26,8 @@ public class SchedulerUI {
         MongoClient mongoClient = InitializeDB();
         DataAccess access = new DataAccess(mongoClient);
         ScheduleDatabase scheduleDatabase = new ScheduleDatabase();
-        SessionController session = new SessionController(access);
+        Presenter presenter = new Presenter();
+        SessionController session = new SessionController(access, presenter);
         Scanner in = new Scanner(System.in);
         boolean running = true;
         while (running) {
@@ -45,7 +46,7 @@ public class SchedulerUI {
                         // signup situation where a user inputs info to make new account
                         // TODO do something similar as login where we validate then use if to change valid_input
                         HashMap<String, String> info = userInput(in, false);
-                        UserController userController = new UserController(access);
+                        UserController userController = new UserController(access, presenter);
                         if (userController.createUser(info.get("username"), info.get("password"), info.get("name"), info.get("email")))
                             System.out.println("Successfully signed up!");
                         else

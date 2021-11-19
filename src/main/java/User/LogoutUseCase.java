@@ -5,17 +5,30 @@ package User;
  */
 public class LogoutUseCase implements LogoutInputBoundary {
 
+    private final FetchUserUseCase fetchUserUseCase;
+    private final UserOutputBoundary outputBoundary;
+
     /**
      * Constructs a use case that logs a user out.
+     * @param outputBoundary
+     * @param fetchUserUseCase
      */
-    public LogoutUseCase() {
+    public LogoutUseCase(UserOutputBoundary outputBoundary, FetchUserUseCase fetchUserUseCase) {
+        this.outputBoundary = outputBoundary;
+        this.fetchUserUseCase = fetchUserUseCase;
     }
 
     /**
      * Returns true iff the user is successfully logged out.
      */
     @Override
-    public boolean logout() {
-        return true;
+    public boolean logout(String username) {
+        try {
+            User user = fetchUserUseCase.getUser(username);
+            outputBoundary.logoutMessage(user.getName());
+            return true;
+        } catch (UserDoesNotExistException e) {
+            return false;
+        }
     }
 }

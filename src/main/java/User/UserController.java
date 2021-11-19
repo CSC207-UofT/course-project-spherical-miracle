@@ -6,15 +6,18 @@ package User;
 public class UserController {
 
     private final UserDataAccess databaseInterface;
+    private final UserOutputBoundary outputBoundary;
 
     /**
 
      * Constructs a controller that handles user-related actions.
      *
      * @param databaseInterface the access interface to the database.
+     * @param outputBoundary
      */
-    public UserController(UserDataAccess databaseInterface) {
+    public UserController(UserDataAccess databaseInterface, UserOutputBoundary outputBoundary) {
         this.databaseInterface = databaseInterface;
+        this.outputBoundary = outputBoundary;
     }
 
     /**
@@ -28,7 +31,7 @@ public class UserController {
     public boolean createUser(String username, String password, String name, String email) {
         if (!userInfoIsValid(username, password, name, email))
             return false;
-        CreateUserInputBoundary createUserInputBoundary = new CreateUserUseCase(databaseInterface);
+        CreateUserInputBoundary createUserInputBoundary = new CreateUserUseCase(databaseInterface, outputBoundary);
         boolean success = createUserInputBoundary.createUser(username, password, name, email);
         if (success)
             System.out.println("User added!");

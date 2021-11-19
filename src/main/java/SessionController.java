@@ -19,10 +19,10 @@ public class SessionController {
      *
      * @param databaseInterface Interface to access database
      */
-    public SessionController(UserDataAccess databaseInterface) {
-        FetchUserUseCase data = new FetchUserUseCase(databaseInterface);
-        this.loginInputBoundary = new LoginUseCase(data);
-        this.logoutInputBoundary = new LogoutUseCase();
+    public SessionController(UserDataAccess databaseInterface, UserOutputBoundary outputBoundary) {
+        FetchUserUseCase fetch = new FetchUserUseCase(databaseInterface);
+        this.loginInputBoundary = new LoginUseCase(fetch);
+        this.logoutInputBoundary = new LogoutUseCase(outputBoundary, fetch);
     }
 
     /**
@@ -60,7 +60,7 @@ public class SessionController {
      * Logs user out from the current session.
      */
     public void logout() {
-        logoutInputBoundary.logout();
+        logoutInputBoundary.logout(usernameOfLoggedInUser);
         changeLoginStatus();
         usernameOfLoggedInUser = "";
     }
