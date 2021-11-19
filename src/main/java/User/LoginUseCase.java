@@ -12,9 +12,10 @@ public class LoginUseCase implements LoginInputBoundary {
     /**
      * Constructs a use case that can log a user in.
      *
+     * @param outputBoundary
      * @param fetchUserUseCase Use case that enables fetching of users.
      */
-    public LoginUseCase(FetchUserUseCase fetchUserUseCase){
+    public LoginUseCase(UserOutputBoundary outputBoundary, FetchUserUseCase fetchUserUseCase){
         this.fetchUserUseCase = fetchUserUseCase;
     }
 

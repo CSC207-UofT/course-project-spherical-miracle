@@ -21,7 +21,7 @@ public class SessionController {
      */
     public SessionController(UserDataAccess databaseInterface, UserOutputBoundary outputBoundary) {
         FetchUserUseCase fetch = new FetchUserUseCase(databaseInterface);
-        this.loginInputBoundary = new LoginUseCase(fetch);
+        this.loginInputBoundary = new LoginUseCase(outputBoundary, fetch);
         this.logoutInputBoundary = new LogoutUseCase(outputBoundary, fetch);
     }
 
