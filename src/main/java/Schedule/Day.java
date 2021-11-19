@@ -1,6 +1,8 @@
 package Schedule;//import statements go here
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * A general day in the user's schedule that is not tied to a particular weekday.
@@ -182,6 +184,34 @@ public class Day {
 
         return stringMeals.toString();
     }
+
+    /**
+     * @param day the integer value of day of week
+     * @return returns everything scheduled for this Day
+     */
+    public String printDay(int day){
+        String workout;
+        String meal;
+        String outputMsg = "";
+        if (this.workouts.length == 0 && this.meals.size() == 0) {
+            workout = "Rest Day";
+            meal = "No meals";
+        } else if (this.workouts.length == 0) {
+            workout = "Rest Day";
+            meal = this.getMealString();
+        } else if (this.meals.size() == 0) {
+            workout = this.getWorkoutString();
+            meal = "No meals";
+        } else {
+            workout = this.getWorkoutString();
+            meal = this.getMealString();
+        }
+        //String workout = sched.getWorkout(0).getName();
+        outputMsg += "This is your plan(s) for day " + (DayOfWeek.of(day)) + ": \n Workouts: " + workout + "\n" +
+                " Meal: " + meal + "\n ";
+        return outputMsg;
+        }
+
 
     /**
      * Return if this instance of the Schedule.Day is empty
