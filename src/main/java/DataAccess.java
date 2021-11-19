@@ -26,8 +26,8 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 
     public void test(){
         Document doc = findData("Schedule", eq("UUID", "ass")).first();
-        for (Document item : (ArrayList<Document>)doc.get("ass")){
-//            item.get()
+        for (Object item : (List<Object>)doc.get("ass")){
+//            item.get("ass");
             System.out.println(item);
         }
         System.out.println(doc.get("ass"));
@@ -57,17 +57,31 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 //                e.printStackTrace();
 //            }
 //        }
-        List<Document> testing = (List<Document>) doc.get("days");
-        for (Document item: testing){
-            System.out.println(item);
+        List<List<List<Map<String,String>>>> days = new ArrayList<>();
+        for (List<Object> day: (List<List<Object>>)doc.get("days")){
+            List<List<Map<String, String>>> dayList = new ArrayList<>();
+            List<Map<String, String>> workoutList = new ArrayList<>();
+//            System.out.println(day.get(0));
+            for (Map<String, String> workout: (List<Map<String, String>>) day.get(0)){
+                HashMap<String, String> workoutMap = new HashMap<>();
+//                System.out.println(workout.get("workoutName"));
+//                System.out.println(workout.get("calories"));
+                workoutMap.put(workout.get("workoutName"),workout.get("calories"));
+                workoutList.add(workoutMap);
+            };
+            List<Map<String, String>> mealList = new ArrayList<>();
+            for (Map<String, String> meal: (List<Map<String, String>>) day.get(1)){
+                HashMap<String, String> mealMap = new HashMap<>();
+//                System.out.println(meal.get("mealName"));
+//                System.out.println(meal.get("calories"));
+                mealMap.put(meal.get("mealName"),meal.get("calories"));
+                mealList.add(mealMap);
+            };
+            dayList.add(workoutList);
+            dayList.add(mealList);
+            days.add(dayList);
         }
-        System.out.println(doc.getList("days", Document.class));
-//        ScheduleInfo scheduleInfo = new ScheduleInfo(doc.getString("Schedule_name"),
-//                                                     doc.getString("UUID"),
-//                doc.get("days", details ));
-        List<List<List<Map<String, String>>>> info = new ArrayList<>();
-        ScheduleInfo scheduleInfo = new ScheduleInfo("", "", info);
-        return scheduleInfo;
+        return new ScheduleInfo((String) doc.get("UUID"), (String) doc.get("Schedule_name"), days);
     }
 
     @Override
@@ -103,28 +117,28 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 
     public void saveSchedule(String id, String scheduleName, String username, boolean isPublic, List<List<List<Map<String, String>>>> days) {
         MongoCollection<Document> sc = database.getCollection("Schedule");
-        Document daysDocument = new Document();
+        ArrayList<Object> dayArray = new ArrayList<>();
         for (List<List<Map<String, String>>> day: days) {
-            Document workouts = new Document();
-            Document meals = new Document();
+            ArrayList<Object> workouts = new ArrayList<>();
+            ArrayList<Object> meals = new ArrayList<>();
             for (Map<String, String> workout: day.get(0)) {
                 Document workoutDocument = new Document();
                 workoutDocument.append("workoutName", workout.get(workoutName));
                 workoutDocument.append("calories", workout.get(calories));
-                workouts.append("workout", workoutDocument);
+                workouts.add(workoutDocument);
             }
             for (Map<String, String> meal: day.get(1)) {
                 Document mealDocument = new Document();
-                mealDocument.append("meal_name", meal.get(mealName));
+                mealDocument.append("mealName", meal.get(mealName));
                 mealDocument.append("calories", meal.get(calories));
-                meals.append("meal", mealDocument);
+                meals.add(mealDocument);
             }
             ArrayList<Object> array = new ArrayList<>();
             array.add(workouts);
             array.add(meals);
-            daysDocument.append("day",array);
+            dayArray.add(array);
         }
-        Document newSchedule = new Document("Schedule_name", scheduleName).append("public", isPublic).append("UUID", id).append("days", daysDocument);
+        Document newSchedule = new Document("Schedule_name", scheduleName).append("public", isPublic).append("UUID", id).append("days", dayArray);
         //TODO: implement this
         ObjectId newId = sc.insertOne(newSchedule).getInsertedId().asObjectId().getValue();
         saveUserScheduleCollection(username, id);
