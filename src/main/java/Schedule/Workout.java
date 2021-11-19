@@ -6,21 +6,14 @@ package Schedule;
 
 public class Workout {
 
-    /**
-     * The name of the workout.
-     */
     private String name;
 
-    /**
-     * The calories burnt for this workout.
-     */
     private int caloriesBurnt;
     //TODO: add duration?
 
     /**
-     * Construct a Workout.Workout, giving them the name of the workout
-     * and the caloriesBurnt.
-     * @param name name of the Workout.Workout
+     * Constructs a Workout with the given name and amount of calories burnt
+     * @param name name of the Workout
      * @param caloriesBurnt the amount of calories burnt for the workout
      */
     public Workout(String name, int caloriesBurnt) {
@@ -29,7 +22,7 @@ public class Workout {
     }
 
     /**
-     * Return the name of this Workout.Workout.
+     * Return the name of this Workout.
      * @return workout name
      */
     public String getName() {

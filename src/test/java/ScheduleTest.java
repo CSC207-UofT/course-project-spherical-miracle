@@ -3,6 +3,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.DayOfWeek;
+
 class ScheduleTest {
     Schedule week1;
 
@@ -30,8 +32,8 @@ class ScheduleTest {
     @Test
     void addWorkout() {
         Day day = new Day();
-        week1.setDay(1, day);
-        assert week1.getDay(1) == day;
+        week1.setDay(DayOfWeek.MONDAY, day);
+        assert week1.getDay(DayOfWeek.MONDAY) == day;
     }
 
 

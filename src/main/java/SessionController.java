@@ -5,19 +5,8 @@ import User.*;
  */
 public class SessionController {
 
-    /**
-     * An input boundary for the login use case.
-     */
     private final LoginInputBoundary loginInputBoundary;
-
-    /**
-     * An input boundary for the logout use case.
-     */
     private final LogoutInputBoundary logoutInputBoundary;
-
-    /**
-     * Whether there is a user logged in for this session. Is false by default.
-     */
     private boolean loggedIn;
 
     /**
@@ -25,18 +14,16 @@ public class SessionController {
      */
     private String usernameOfLoggedInUser = "";
 
-
     /**
      * Constructs a SessionController with a given database of users to access.
      *
-     * @param database Interface to access database
+     * @param databaseInterface Interface to access database
      */
-    public SessionController(UserDataAccess database) {
-        FetchUserUseCase data = new FetchUserUseCase(database);
+    public SessionController(UserDataAccess databaseInterface) {
+        FetchUserUseCase data = new FetchUserUseCase(databaseInterface);
         this.loginInputBoundary = new LoginUseCase(data);
         this.logoutInputBoundary = new LogoutUseCase();
     }
-    // public SessionController(User.LoginInputBoundary loginIB, logoutIB){}
 
     /**
      * Changes the logged in status.

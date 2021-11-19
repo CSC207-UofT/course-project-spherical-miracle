@@ -5,28 +5,24 @@ package User;
 
 public class CreateUserUseCase implements CreateUserInputBoundary {
 
-    private final UserDataAccess database;
-
-    public CreateUserUseCase(UserDataAccess database) {
-        this.database = database;
-    }
+    private final UserDataAccess databaseInterface;
 
     /**
-     * Creates a user with the specified details for it.
-     * @param name user's name
-     * @param username user's desired username
-     * @param email user's email
-     * @param password user's desired password
-     * @return True iff successfully created a user
+     * Constructs a use case that can create a user.
+     * @param databaseInterface - the access interface to the database
      */
+    public CreateUserUseCase(UserDataAccess databaseInterface) {
+        this.databaseInterface = databaseInterface;
+    }
+
     @Override
     public boolean createUser(String username, String password, String name, String email) {
-        FetchUserUseCase fetch = new FetchUserUseCase(database);
+        FetchUserUseCase fetch = new FetchUserUseCase(databaseInterface);
         try {
             fetch.getUser(username);
             return false;
         } catch (UserDoesNotExistException e) {
-            SaveUserUseCase save = new SaveUserUseCase(database);
+            SaveUserUseCase save = new SaveUserUseCase(databaseInterface);
             save.saveUser(new User(username, password, name, email));
             return true;
         }

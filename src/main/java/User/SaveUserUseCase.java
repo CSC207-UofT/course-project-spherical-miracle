@@ -1,16 +1,22 @@
 package User;
 
-import User.UserDataAccess;
-
 public class SaveUserUseCase {
 
-    private final UserDataAccess database;
+    private final UserDataAccess databaseInterface;
 
-    public SaveUserUseCase(UserDataAccess database) {
-        this.database = database;
+    /**
+     * Constructs a use case that can save a user's personal information.
+     * @param databaseInterface
+     */
+    public SaveUserUseCase(UserDataAccess databaseInterface) {
+        this.databaseInterface = databaseInterface;
     }
 
+    /**
+     * Saves the given User object to the database.
+     * @param user - the user object associated with a user.
+     */
     public void saveUser(User user) {
-        database.saveUser(user.getUsername(), user.getPassword(), user.getName(), user.getEmail());
+        databaseInterface.saveUser(user.getUsername(), user.getPassword(), user.getName(), user.getEmail());
     }
 }
