@@ -78,7 +78,7 @@ public class Schedule {
      * @return a Day
      */
     public Day getDay(DayOfWeek dayOfWeek) {
-        return plan[dayOfWeek.getValue()];
+        return plan[dayOfWeek.getValue() - 1];
     }
 
     /**
