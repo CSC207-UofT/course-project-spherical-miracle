@@ -66,7 +66,8 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
                 HashMap<String, String> workoutMap = new HashMap<>();
 //                System.out.println(workout.get("workoutName"));
 //                System.out.println(workout.get("calories"));
-                workoutMap.put(workout.get("workoutName"),workout.get("calories"));
+                workoutMap.put(workoutName,workout.get("workoutName"));
+                workoutMap.put(calories,workout.get("calories"));
                 workoutList.add(workoutMap);
             };
             List<Map<String, String>> mealList = new ArrayList<>();
@@ -74,7 +75,8 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
                 HashMap<String, String> mealMap = new HashMap<>();
 //                System.out.println(meal.get("mealName"));
 //                System.out.println(meal.get("calories"));
-                mealMap.put(meal.get("mealName"),meal.get("calories"));
+                mealMap.put(mealName,meal.get("mealName"));
+                mealMap.put(calories,meal.get("calories"));
                 mealList.add(mealMap);
             };
             dayList.add(workoutList);
