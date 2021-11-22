@@ -17,7 +17,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public void logoutMessage(String name) {
-
+        System.out.println("You have been logged out. Goodbye " + name + "!");
     }
 
     @Override

@@ -10,7 +10,7 @@ public class SessionController {
     private boolean loggedIn;
 
     /**
-     * The username of the user that is logged in. Non-empty if and only if isLoggedIn is true.
+     * The username of the user that is logged in. Non-empty if and only if LoggedIn is true.
      */
     private String usernameOfLoggedInUser = "";
 
