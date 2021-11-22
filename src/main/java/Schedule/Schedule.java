@@ -85,21 +85,10 @@ public class Schedule {
      * Print a string representation of a user's specific schedule.
      */
     public String printSchedule(){
-        String workout;
-        String meal;
-        String outputMsg = "";
+        StringBuilder outputMsg = new StringBuilder();
         for (DayOfWeek c: DayOfWeek.values()){
-            if (this.getDay(c) == null) {
-                workout = "Rest Day";
-                meal = "No meals";
-            } else {
-                workout = this.getDay(c).getWorkoutString();
-                meal = this.getDay(c).getMealString();
-            }
-            //String workout = sched.getWorkout(0).getName();
-            outputMsg += "This is your plan(s) for day " + (c.getValue()) + ": \n Workouts: " + workout + "\n" +
-                    " Meal: " + meal + "\n ";
+            outputMsg.append(this.getDay(c).printDay(c.getValue()));
         }
-        return outputMsg;
+        return outputMsg.toString();
     }
 }

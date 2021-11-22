@@ -2,7 +2,7 @@ package Schedule;
 
 public class RemoveScheduleUseCase implements RemoveScheduleInputBoundary {
 
-    private ScheduleDataAccess scheduleDatabase;
+    private final ScheduleDataAccess scheduleDatabase;
 
     public RemoveScheduleUseCase(ScheduleDataAccess scheduleDatabase) {
         this.scheduleDatabase = scheduleDatabase;

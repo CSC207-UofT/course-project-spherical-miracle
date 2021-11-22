@@ -1,11 +1,18 @@
+import Schedule.Schedule;
 import User.*;
 import Schedule.ScheduleDataAccess;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     private ArrayList<User> users;
+    private String scheduleID ;
+    private String scheduleName ;
+    private List<List<List<Map<String, String>>>> days;
+    private String username ;
+
     @Override
     public String[] loadUserWithUsername(String username) throws UserDoesNotExistException {
         for (User user: users) {
@@ -33,6 +40,18 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     @Override
     public void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic) {
 
+    }
+
+    public ScheduleInfo loadActiveSchedule(String username) {
+        ScheduleInfo s = new ScheduleInfo(scheduleID, scheduleName, days);
+        return s;
+    }
+
+    public void saveSchedule(String id, String scheduleName, String username, boolean isPublic, List<List<List<Map<String, String>>>> days) {
+        this.scheduleID = id;
+        this.scheduleName = scheduleName;
+        this.username = username;
+        this.days = days;
     }
 
     @Override

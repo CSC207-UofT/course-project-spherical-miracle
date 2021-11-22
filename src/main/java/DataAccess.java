@@ -176,9 +176,14 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         MongoCollection<Document> usc = database.getCollection("User_Schedule");
         Bson equalComparison = eq("username", username);
         usc.updateOne(equalComparison, Updates.addToSet(key, change)); // username is unique
-
-
     }
+
+    @Override
+    public ScheduleInfo loadActiveSchedule(String username) {
+        //TODO finish this later
+        return null;
+    }
+
 
     @Override
     public void updateCurrentSchedule(String username, String scheduleId){
