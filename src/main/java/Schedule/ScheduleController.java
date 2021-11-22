@@ -10,13 +10,15 @@ import java.util.Map;
 public class ScheduleController {
 
     private final ScheduleDataAccess scheduleDatabase;
+    private final ScheduleOutputBoundary scheduleOutputBoundary;
 
     /**
      * Construct a list of the information needed to create a new user and the UserDatabase data.
      * @param scheduleDatabase the dataAccessInterface to the database for schedules.
      */
-    public ScheduleController(ScheduleDataAccess scheduleDatabase){
+    public ScheduleController(ScheduleDataAccess scheduleDatabase, ScheduleOutputBoundary scheduleOutputBoundary){
         this.scheduleDatabase= scheduleDatabase;
+        this.scheduleOutputBoundary = scheduleOutputBoundary;
     }
 
     /**
@@ -27,7 +29,7 @@ public class ScheduleController {
         //TODO: validating inputs
         //boolean is_valid = ;
         //if (is_valid) {
-        CreateScheduleInputBoundary createScheduleInputBoundary= new CreateScheduleUseCase(scheduleDatabase);
+        CreateScheduleInputBoundary createScheduleInputBoundary= new CreateScheduleUseCase(scheduleDatabase, scheduleOutputBoundary);
         createScheduleInputBoundary.createSchedule(scheduleName, username, isPublic, days);
         //}
         //return false;

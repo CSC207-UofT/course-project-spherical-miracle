@@ -171,7 +171,11 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         uc.updateOne(equalComparison, Updates.addToSet(key, change)); // username is unique
     }
 
-    public void editUserScheduleCollection() {
+    public void editUserScheduleCollection(String key, String change, String username) {
+        MongoCollection<Document> usc = database.getCollection("User_Schedule");
+        Bson equalComparison = eq("username", username);
+        usc.updateOne(equalComparison, Updates.addToSet(key, change)); // username is unique
+
 
     }
 

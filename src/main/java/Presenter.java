@@ -1,9 +1,18 @@
 import User.UserOutputBoundary;
+import Schedule.ScheduleOutputBoundary;
 
-public class Presenter implements UserOutputBoundary {
+import java.util.List;
+
+public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     @Override
     public void loginMessage(boolean loggedIn) {
+        if (loggedIn) {
+            System.out.println("Login successful!");
 
+        } else {
+            System.out.println("Username and password does not match. Please try again.");
+
+        }
     }
 
     @Override
@@ -13,6 +22,11 @@ public class Presenter implements UserOutputBoundary {
 
     @Override
     public void signupMessage(boolean signedUp) {
+        if (signedUp) {
+            System.out.println("Sign up successful!");
+        } else {
+            System.out.println("Unsuccessful signup. Username is already taken.");
+        }
 
     }
 }
