@@ -9,7 +9,7 @@ import java.util.Map;
  * A use case that fetches Schedules from the database.
  */
 public class FetchSchedulesUseCase {
-    private ScheduleDataAccess databaseInterface;
+    private final ScheduleDataAccess databaseInterface;
 
     /**
      * Constructs a use case that can fetch lists of schedules.

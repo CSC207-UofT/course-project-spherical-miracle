@@ -2,7 +2,7 @@ package Schedule;
 
 public class SetActiveScheduleUseCase {
 
-    private ScheduleDataAccess databaseInterface;
+    private final ScheduleDataAccess databaseInterface;
 
     /**
      * Constructs a use case that sets the active schedule for a user.

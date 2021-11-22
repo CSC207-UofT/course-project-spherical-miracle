@@ -80,6 +80,7 @@ public class SchedulerUI {
                                 date = Integer.parseInt(in.nextLine());
                                 if (date == -1) {
                                     String firstReminder = InOutController.finalizeSchedule(schedule, scheduleDatabase);
+                                    // THIS IS WHERE REMINDER GETS PRINTED
                                     System.out.println(firstReminder);
                                 } else if ((date > 7) || (date < 1)) {
                                     System.out.println("Please enter an integer from 1 to 7");
