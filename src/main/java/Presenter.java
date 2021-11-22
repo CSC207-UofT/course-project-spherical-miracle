@@ -5,6 +5,10 @@ import java.util.List;
 
 public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     @Override
+    public void loginPrompt(String prompt) {
+    }
+
+    @Override
     public void loginMessage(boolean loggedIn) {
         if (loggedIn) {
             System.out.println("Login successful!");

@@ -3,7 +3,6 @@ import Schedule.ScheduleDataAccess;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     private ArrayList<User> users;
@@ -32,7 +31,7 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public void saveSchedule(String id, String scheduleName, String username, boolean isPublic, List<List<List<Map<String, String>>>> days) {
+    public void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic) {
 
     }
 

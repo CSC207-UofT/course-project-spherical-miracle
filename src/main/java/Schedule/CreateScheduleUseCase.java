@@ -1,5 +1,8 @@
 package Schedule;
 
+import java.time.DayOfWeek;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +23,33 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
     @Override
     public void createSchedule(String name, String username, boolean isPublic, List<List<List<Map<String, String>>>> days) {
         Schedule schedule = new Schedule(name);
+        databaseInterface.saveSchedule(scheduleToString(schedule), username, isPublic);
+    }
+
+    private ScheduleDataAccess.ScheduleInfo scheduleToString(Schedule schedule) {
+        List<List<List<Map<String, String>>>> days = new ArrayList<>();
+        for (DayOfWeek c: DayOfWeek.values()) {
+            List<List<Map<String, String>>> day = new ArrayList<>();
+            Day d = schedule.getDay(c);
+            List<Map<String, String>> workouts = new ArrayList<>();
+            for (Workout w: d.getWorkouts()) {
+                Map<String, String> workout = new HashMap<>();
+                workout.put(databaseInterface.workoutName, w.getName());
+                workout.put(databaseInterface.calories, Integer.toString(w.getCaloriesBurnt()));
+                workouts.add(workout);
+            }
+            List<Map<String, String>> meals = new ArrayList<>();
+            for (Meal m: d.getMeals()) {
+                Map<String, String> meal = new HashMap<>();
+                meal.put(databaseInterface.workoutName, m.getName());
+                meal.put(databaseInterface.calories, Integer.toString(m.getCalories()));
+                meals.add(meal);
+            }
+            day.add(workouts);
+            day.add(meals);
+            days.add(day);
+        }
+        return new ScheduleDataAccess.ScheduleInfo(schedule.getId(), schedule.getName(), days);
         databaseInterface.saveSchedule(schedule.getId(), name, username, isPublic, days);
         outputBoundary.scheduleMadeMessage(schedule.printSchedule());
     }
