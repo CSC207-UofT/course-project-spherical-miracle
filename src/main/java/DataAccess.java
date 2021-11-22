@@ -57,12 +57,14 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 //                e.printStackTrace();
 //            }
 //        }
+        // from outermost to inner: list of days, list of items in a day class (index 0 is workouts, index 1 is meals),
+        // list of instance variables in a workout/meal class, map of each variable name to the value of the instance variable
         List<List<List<Map<String,String>>>> days = new ArrayList<>();
-        for (List<Object> day: (List<List<Object>>)doc.get("days")){
+        for (List<Object> day: (List<List<Object>>)doc.get("days")){ // goes through list of days
             List<List<Map<String, String>>> dayList = new ArrayList<>();
             List<Map<String, String>> workoutList = new ArrayList<>();
 //            System.out.println(day.get(0));
-            for (Map<String, String> workout: (List<Map<String, String>>) day.get(0)){
+            for (Map<String, String> workout: (List<Map<String, String>>) day.get(0)){ // goes through list of items in workout class
                 HashMap<String, String> workoutMap = new HashMap<>();
 //                System.out.println(workout.get("workoutName"));
 //                System.out.println(workout.get("calories"));
@@ -71,7 +73,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
                 workoutList.add(workoutMap);
             };
             List<Map<String, String>> mealList = new ArrayList<>();
-            for (Map<String, String> meal: (List<Map<String, String>>) day.get(1)){
+            for (Map<String, String> meal: (List<Map<String, String>>) day.get(1)){ // goes through list of items in meal class
                 HashMap<String, String> mealMap = new HashMap<>();
 //                System.out.println(meal.get("mealName"));
 //                System.out.println(meal.get("calories"));
