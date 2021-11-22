@@ -23,7 +23,7 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
     @Override
     public void createSchedule(String name, String username, boolean isPublic, List<List<List<Map<String, String>>>> days) {
         Schedule schedule = new Schedule(name);
-        databaseInterface.saveSchedule(scheduleToString(schedule), username, isPublic);
+        databaseInterface.createSchedule(scheduleToString(schedule), username, isPublic);
     }
 
     private ScheduleDataAccess.ScheduleInfo scheduleToString(Schedule schedule) {
@@ -50,7 +50,7 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
             days.add(day);
         }
         return new ScheduleDataAccess.ScheduleInfo(schedule.getId(), schedule.getName(), days);
-        databaseInterface.saveSchedule(schedule.getId(), name, username, isPublic, days);
-        outputBoundary.scheduleMadeMessage(schedule.printSchedule());
+//        databaseInterface.createSchedule(scheduleInfo, days);
+//        outputBoundary.scheduleMadeMessage(schedule.printSchedule());
     }
 }
