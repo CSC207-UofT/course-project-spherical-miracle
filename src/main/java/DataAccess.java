@@ -12,8 +12,6 @@ import java.util.*;
 
 import org.bson.types.ObjectId;
 
-import javax.print.Doc;
-
 public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 
     // To directly connect to a single MongoDB server (note that this will not auto-discover the primary even
@@ -117,10 +115,10 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         //TODO: encrypt password?
     }
 
-    public void saveSchedule(String id, String scheduleName, String username, boolean isPublic, List<List<List<Map<String, String>>>> days) {
+    public void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic) {
         MongoCollection<Document> sc = database.getCollection("Schedule");
         ArrayList<Object> dayArray = new ArrayList<>();
-        for (List<List<Map<String, String>>> day: days) {
+        for (List<List<Map<String, String>>> day: scheduleInfo.getDetails()) {
             ArrayList<Object> workouts = new ArrayList<>();
             ArrayList<Object> meals = new ArrayList<>();
             for (Map<String, String> workout: day.get(0)) {
@@ -140,10 +138,13 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
             array.add(meals);
             dayArray.add(array);
         }
-        Document newSchedule = new Document("Schedule_name", scheduleName).append("public", isPublic).append("UUID", id).append("days", dayArray);
+        Document newSchedule = new Document("Schedule_name", scheduleInfo.getName())
+                                .append("public", isPublic)
+                                .append("UUID", scheduleInfo.getId())
+                                .append("days", dayArray);
         //TODO: implement this
         ObjectId newId = sc.insertOne(newSchedule).getInsertedId().asObjectId().getValue();
-        saveUserScheduleCollection(username, id);
+        saveUserScheduleCollection(username, scheduleInfo.getId());
     }
 
     @Override

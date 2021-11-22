@@ -2,6 +2,10 @@ import User.UserOutputBoundary;
 
 public class Presenter implements UserOutputBoundary {
     @Override
+    public void loginPrompt(String prompt) {
+    }
+
+    @Override
     public void loginMessage(boolean loggedIn) {
 
     }

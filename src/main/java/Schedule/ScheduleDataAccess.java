@@ -25,13 +25,11 @@ public interface ScheduleDataAccess {
 
     /**
      * Saves the given schedule into the database.
-     * @param id - the id of the schedule
-     * @param scheduleName - the name of the given schedule
+     * @param scheduleInfo
      * @param username - the username associated with the given schedule
      * @param isPublic - whether the schedule is public
-     * @param days - the details of the schedule
      */
-    void saveSchedule(String id, String scheduleName, String username, boolean isPublic, List<List<List<Map<String, String>>>> days);
+    void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic);
 
     /**
      * TODO: Complete javadoc after implementation.
