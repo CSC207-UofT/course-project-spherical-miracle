@@ -2,6 +2,7 @@ package Schedule;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -74,5 +75,37 @@ public class FetchSchedulesUseCase {
             s.setDay(DayOfWeek.of(List.of(scheduleInfo).indexOf(day)+1), d);// index of day + 1 because set day does -1
         }
         return s;
+    }
+
+    private Schedule.ScheduleDataAccess.ScheduleInfo scheduleToString(Schedule schedule){
+
+        List<List<List<Map<String, String>>>> scheduleDays = new ArrayList<>();
+        for (DayOfWeek dayNum: DayOfWeek.values()){
+            if (dayNum != null){
+                Day day = schedule.getDay(dayNum);
+                List<Map<String, String>> workoutList = new ArrayList<>();
+            for (Workout workout: day.getWorkouts()){
+                    Map<String, String> workoutMap = new HashMap<>();
+                    workoutMap.put("workoutName", workout.getName());
+                    workoutMap.put("calories", Integer.toString(workout.getCaloriesBurnt()));
+                    workoutList.add(workoutMap);
+                }
+
+                List<Map<String, String>> mealList = new ArrayList<>();
+            for (Meal meal: day.getMeals()){
+                HashMap<String, String> mealMap = new HashMap<>();
+                mealMap.put("mealName",meal.getName());
+                mealMap.put("calories",Integer.toString(meal.getCalories()));
+                mealList.add(mealMap);
+            }
+            List<List<Map<String, String>>> dayItems = new ArrayList<>();
+            dayItems.add(workoutList);
+            dayItems.add(mealList);
+                scheduleDays.add(dayItems);
+            }
+        }
+        return new ScheduleDataAccess.ScheduleInfo(schedule.getName(), schedule.getId(),
+                scheduleDays);
+
     }
 }

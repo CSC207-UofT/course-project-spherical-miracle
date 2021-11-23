@@ -35,6 +35,11 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
+    public void scheduleList(String listSchedules) {
+
+    }
+
+    @Override
     public void scheduleMadeMessage(String returnMessage) {
 
     }

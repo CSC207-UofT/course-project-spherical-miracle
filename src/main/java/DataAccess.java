@@ -17,9 +17,13 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     // To directly connect to a single MongoDB server (note that this will not auto-discover the primary even
 // if it's a member of a replica set:
     private final MongoDatabase database;
+    private final int workoutNum;
+    private final int mealNum;
 
     public DataAccess(MongoClient mongo) {
         database = mongo.getDatabase( "Application" );
+        workoutNum = 0;
+        mealNum = 1;
     }
 
     public void test(){
@@ -60,7 +64,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
             List<List<Map<String, String>>> dayList = new ArrayList<>();
             List<Map<String, String>> workoutList = new ArrayList<>();
 //            System.out.println(day.get(0));
-            for (Map<String, String> workout: (List<Map<String, String>>) day.get(0)){
+            for (Map<String, String> workout: (List<Map<String, String>>) day.get(workoutNum)){
                 HashMap<String, String> workoutMap = new HashMap<>();
 //                System.out.println(workout.get("workoutName"));
 //                System.out.println(workout.get("calories"));
@@ -69,7 +73,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
                 workoutList.add(workoutMap);
             };
             List<Map<String, String>> mealList = new ArrayList<>();
-            for (Map<String, String> meal: (List<Map<String, String>>) day.get(1)){
+            for (Map<String, String> meal: (List<Map<String, String>>) day.get(mealNum)){
                 HashMap<String, String> mealMap = new HashMap<>();
 //                System.out.println(meal.get("mealName"));
 //                System.out.println(meal.get("calories"));
@@ -121,13 +125,13 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         for (List<List<Map<String, String>>> day: scheduleInfo.getDetails()) {
             ArrayList<Object> workouts = new ArrayList<>();
             ArrayList<Object> meals = new ArrayList<>();
-            for (Map<String, String> workout: day.get(0)) {
+            for (Map<String, String> workout: day.get(workoutNum)) {
                 Document workoutDocument = new Document();
                 workoutDocument.append("workoutName", workout.get(workoutName));
                 workoutDocument.append("calories", workout.get(calories));
                 workouts.add(workoutDocument);
             }
-            for (Map<String, String> meal: day.get(1)) {
+            for (Map<String, String> meal: day.get(mealNum)) {
                 Document mealDocument = new Document();
                 mealDocument.append("mealName", meal.get(mealName));
                 mealDocument.append("calories", meal.get(calories));
