@@ -6,5 +6,6 @@ public interface ScheduleOutputBoundary {
     void scheduleInfoMessage(String name);
     void something(boolean signedUp);
     void listSchedules(List<String> schedules);
+    void deleteSchedule(String scheduleName);
 
 }

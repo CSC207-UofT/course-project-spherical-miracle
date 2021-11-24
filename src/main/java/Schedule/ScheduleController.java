@@ -42,5 +42,14 @@ public class ScheduleController {
     public void removeSchedule(String name) {
         //TODO: validating inputs
 
+
     }
+
+    public void viewListOfSchedule(String username){
+//        InputBoundary InputBoundary = new (scheduleDatabase, scheduleOutputBoundary);
+        FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(scheduleDatabase, scheduleOutputBoundary);
+        fetch.getScheduleAssociatedWith(username);
+
+    }
+
 }
