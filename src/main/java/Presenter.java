@@ -61,5 +61,9 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
         }
     }
 
+    @Override
+    public void deleteSchedule(String scheduleName) {
+
+    }
 
 }

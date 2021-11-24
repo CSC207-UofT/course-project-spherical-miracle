@@ -19,6 +19,7 @@ public class FetchSchedulesUseCase {
      */
     public FetchSchedulesUseCase(ScheduleDataAccess databaseInterface) {
         this.databaseInterface = databaseInterface;
+        this.outputBoundary = null;
     }
 
     public FetchSchedulesUseCase(ScheduleDataAccess databaseInterface, ScheduleOutputBoundary outputBoundary) {
