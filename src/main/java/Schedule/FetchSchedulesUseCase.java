@@ -11,6 +11,7 @@ import java.util.Map;
  */
 public class FetchSchedulesUseCase {
     private final ScheduleDataAccess databaseInterface;
+    private final ScheduleOutputBoundary outputBoundary;
 
     /**
      * Constructs a use case that can fetch lists of schedules.
@@ -18,6 +19,11 @@ public class FetchSchedulesUseCase {
      */
     public FetchSchedulesUseCase(ScheduleDataAccess databaseInterface) {
         this.databaseInterface = databaseInterface;
+    }
+
+    public FetchSchedulesUseCase(ScheduleDataAccess databaseInterface, ScheduleOutputBoundary outputBoundary) {
+        this.databaseInterface = databaseInterface;
+        this.outputBoundary = outputBoundary;
     }
 
     /**
@@ -38,9 +44,12 @@ public class FetchSchedulesUseCase {
     public List<Schedule> getScheduleAssociatedWith(String username) {
         List<Schedule> userSchedules = new ArrayList<>();
         List<ScheduleDataAccess.ScheduleInfo> schedules = databaseInterface.loadSchedulesAssociatedWith(username);
+        List<String> scheduleNames = new ArrayList<>();
         for (ScheduleDataAccess.ScheduleInfo scheduleString: schedules) {
             userSchedules.add(stringToSchedule(scheduleString.getId(), scheduleString.getName(), scheduleString.getDetails()));
+            scheduleNames.add(scheduleString.getName());
         }
+        outputBoundary.listSchedules(scheduleNames);
         return userSchedules;
     }
 

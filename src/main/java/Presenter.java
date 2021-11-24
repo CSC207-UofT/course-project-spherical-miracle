@@ -56,7 +56,9 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public void listSchedules(List<String> schedules) {
-
+        for (String scheduleName: schedules) {
+            System.out.println((schedules.indexOf(scheduleName) + 1) + ". " + scheduleName + "\n");
+        }
     }
 
 
