@@ -39,7 +39,10 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
 
     @Override
     public void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic) {
-
+        this.scheduleID = scheduleInfo.getId();
+        this.scheduleName = scheduleInfo.getName();
+        this.username = username;
+        this.days = scheduleInfo.getDetails();
     }
 
     public ScheduleInfo loadActiveSchedule(String username) {

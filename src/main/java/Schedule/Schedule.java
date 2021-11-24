@@ -18,8 +18,7 @@ public class Schedule {
      * @param name name of the Schedule
      */
     public Schedule(String name) {
-        this.name = name;
-        this.id = UUID.randomUUID();
+        this(name, UUID.randomUUID().toString());
     }
     /**
      * Construct a Schedule with the specified name and id.
@@ -29,7 +28,11 @@ public class Schedule {
     public Schedule(String name, String id) {
         this.name = name;
         this.id = UUID.fromString(id);
+        for (int i = 0; i != plan.length; i++) {
+            plan[i] = new Day();
+        }
     }
+
 
     /**
      * Returns the name of this Schedule.

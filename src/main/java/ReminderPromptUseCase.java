@@ -2,7 +2,7 @@
  * A reminder of the day's activities for the user upon login.
  */
 import Schedule.Day;
-import Schedule.FetchActiveScheduleUseCase;
+import Schedule.FetchSchedulesUseCase;
 import Schedule.Schedule;
 import Schedule.ScheduleDataAccess;
 
@@ -23,7 +23,7 @@ public class ReminderPromptUseCase {
         //TODO - move to controller and send in Date as argument
         LocalDate today = LocalDate.now();
         DayOfWeek currentDay = today.getDayOfWeek();
-        FetchActiveScheduleUseCase activeSchedule = new FetchActiveScheduleUseCase(databaseInterface);
+        FetchSchedulesUseCase activeSchedule = new FetchSchedulesUseCase(databaseInterface);
         Schedule currentSchedule = activeSchedule.getActiveSchedule(username);
         // getting specific day
         Day scheduledDay = currentSchedule.getDay(currentDay); // assign this value to scheduled workout

@@ -21,6 +21,16 @@ public class FetchSchedulesUseCase {
     }
 
     /**
+     * Returns the active Schedule associated with the given username.
+     * @param username - the username of the user.
+     * @return active schedule associated with the given username.
+     */
+    public Schedule getActiveSchedule(String username){
+        ScheduleDataAccess.ScheduleInfo schedule = databaseInterface.loadActiveSchedule(username);
+        return stringToSchedule(schedule.getId(), schedule.getName(), schedule.getDetails());
+    }
+    
+    /**
      * Returns a list of Schedules associated with the given username.
      * @param username - the username of the user.
      * @return list of schedules associated with the given username.
@@ -72,12 +82,12 @@ public class FetchSchedulesUseCase {
                 d.addMeal(m);
             }
 
-            s.setDay(DayOfWeek.of(List.of(scheduleInfo).indexOf(day)+1), d);// index of day + 1 because set day does -1
+            s.setDay(DayOfWeek.of(scheduleInfo.indexOf(day)+1), d);// index of day + 1 because set day does -1
         }
         return s;
     }
 
-    private Schedule.ScheduleDataAccess.ScheduleInfo scheduleToString(Schedule schedule){
+    private ScheduleDataAccess.ScheduleInfo scheduleToString(Schedule schedule){
 
         List<List<List<Map<String, String>>>> scheduleDays = new ArrayList<>();
         for (DayOfWeek dayNum: DayOfWeek.values()){

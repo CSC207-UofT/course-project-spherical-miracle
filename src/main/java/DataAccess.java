@@ -196,6 +196,12 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         suc.updateOne(equalComparison, Updates.set("active_schedule", scheduleId));
     }
 
+    public void deleteSchedule(String scheduleId){
+        MongoCollection<Document> sc = database.getCollection("Schedule");
+        Bson equalComparison = eq("UUID", scheduleId);
+        sc.deleteOne(equalComparison);
+    }
+
     private FindIterable<Document> findData(String collectionName, Bson... filters){
         MongoCollection<Document> collection = database.getCollection(collectionName);
         Bson equalComparison = and(filters);

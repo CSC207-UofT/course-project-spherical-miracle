@@ -26,6 +26,11 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
         databaseInterface.createSchedule(scheduleToString(schedule), username, isPublic);
     }
 
+    // TODO: Have subpackages within the Schedule package and make this protected (only other use cases have access)
+    public void createSchedule(Schedule schedule, String username, boolean isPublic) {
+        databaseInterface.createSchedule(scheduleToString(schedule), username, isPublic);
+    }
+
     private ScheduleDataAccess.ScheduleInfo scheduleToString(Schedule schedule) {
         List<List<List<Map<String, String>>>> days = new ArrayList<>();
         for (DayOfWeek c: DayOfWeek.values()) {
