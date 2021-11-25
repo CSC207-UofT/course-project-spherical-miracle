@@ -28,7 +28,7 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public ScheduleInfo loadScheduleWithID(String scheduleID) {
+    public ScheduleInfo loadScheduleWith(String scheduleID) {
         return null;
     }
 

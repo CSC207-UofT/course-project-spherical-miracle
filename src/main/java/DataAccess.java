@@ -26,13 +26,15 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         mealNum = 1;
     }
 
-    public void test(){
-        Document doc = findData("Schedule", eq("UUID", "ass")).first();
-        for (Object item : (List<Object>)doc.get("ass")){
-//            item.get("ass");
-            System.out.println(item);
+    public Object test() {
+        String s = "asdf";
+        MongoCursor<Document> cursor = findData("Schedule", eq("public", true)).cursor();
+        ArrayList<Object> publicSchedules = new ArrayList<>();
+        while (cursor.hasNext()) {
+            publicSchedules.add(cursor.next().entrySet().toArray()); //TODO: Figure out what should be in here
         }
-        System.out.println(doc.get("ass"));
+        System.out.println(publicSchedules);
+        return publicSchedules;
     }
 
     @Override
@@ -50,24 +52,15 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public ScheduleInfo loadScheduleWithID(String id) {
+    @SuppressWarnings("unchecked")
+    public ScheduleInfo loadScheduleWith(String id) {
         Document doc = findData("Schedule", eq("UUID", id)).first();
-//        if (scDoc == null) {
-//            try { // temp solution
-//                throw new SCDoesNotExistException(username);
-//            } catch (SCDoesNotExistException e) {
-//                e.printStackTrace();
-//            }
-//        }
         List<List<List<Map<String,String>>>> days = new ArrayList<>();
         for (List<Object> day: (List<List<Object>>)doc.get("days")){
             List<List<Map<String, String>>> dayList = new ArrayList<>();
             List<Map<String, String>> workoutList = new ArrayList<>();
-//            System.out.println(day.get(0));
             for (Map<String, String> workout: (List<Map<String, String>>) day.get(workoutNum)){
                 HashMap<String, String> workoutMap = new HashMap<>();
-//                System.out.println(workout.get("workoutName"));
-//                System.out.println(workout.get("calories"));
                 workoutMap.put(workoutName,workout.get("workoutName"));
                 workoutMap.put(calories,workout.get("calories"));
                 workoutList.add(workoutMap);
@@ -75,8 +68,6 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
             List<Map<String, String>> mealList = new ArrayList<>();
             for (Map<String, String> meal: (List<Map<String, String>>) day.get(mealNum)){
                 HashMap<String, String> mealMap = new HashMap<>();
-//                System.out.println(meal.get("mealName"));
-//                System.out.println(meal.get("calories"));
                 mealMap.put(mealName,meal.get("mealName"));
                 mealMap.put(calories,meal.get("calories"));
                 mealList.add(mealMap);
@@ -98,10 +89,11 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
                 e.printStackTrace();
             }
         }
+        assert doc != null;
         List<String> scheduleIDs = doc.getList("schedules_id", String.class);
         List<ScheduleInfo> schedules = new ArrayList<>();
         for(String scheduleID: scheduleIDs) {
-            schedules.add(loadScheduleWithID(scheduleID));
+            schedules.add(loadScheduleWith(scheduleID));
         }
         return schedules;
     }
@@ -112,10 +104,10 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         MongoCollection<Document> uc = database.getCollection("User");
         MongoCollection<Document> usc = database.getCollection("User_Schedule");
         Document newUser = new Document("name", name).append("username", username).append("email", email).append("password", password);
-        ObjectId id = uc.insertOne(newUser).getInsertedId().asObjectId().getValue();
+        ObjectId id = Objects.requireNonNull(uc.insertOne(newUser).getInsertedId()).asObjectId().getValue();
         List<DBObject> array = new ArrayList<>();
         Document new_us = new Document("username",username).append("active_schedule", "").append("schedules", array);
-        ObjectId id2 = usc.insertOne(new_us).getInsertedId().asObjectId().getValue();
+        ObjectId id2 = Objects.requireNonNull(usc.insertOne(new_us).getInsertedId()).asObjectId().getValue();
         //TODO: encrypt password?
     }
 
@@ -146,8 +138,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
                                 .append("public", isPublic)
                                 .append("UUID", scheduleInfo.getId())
                                 .append("days", dayArray);
-        //TODO: implement this
-        ObjectId newId = sc.insertOne(newSchedule).getInsertedId().asObjectId().getValue();
+        ObjectId newId = Objects.requireNonNull(sc.insertOne(newSchedule).getInsertedId()).asObjectId().getValue();
         saveUserScheduleCollection(username, scheduleInfo.getId());
     }
 
@@ -156,7 +147,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         MongoCursor<Document> cursor = findData("Schedule", eq("public", true)).cursor();
         ArrayList<Object> publicSchedules = new ArrayList<>();
         while (cursor.hasNext()) {
-            publicSchedules.add(cursor.next().toJson()); //TODO: Figure out what should be in here
+            publicSchedules.add(cursor.next().entrySet().toArray());
         }
         return publicSchedules;
     }
@@ -164,9 +155,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     public void saveUserScheduleCollection(String username, String scheduleId) {
         MongoCollection<Document> suc = database.getCollection("User_Schedule");
         Bson equalComparison = eq("username", username);
-//        uc.find(equalComparison).forEach(doc -> System.out.println(doc.toJson()));
         suc.updateOne(equalComparison, Updates.addToSet("schedules_id",scheduleId)); // username is unique
-
     }
 
     @Override
@@ -186,7 +175,8 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     public ScheduleInfo loadActiveSchedule(String username) {
         Bson equalComparison = eq("username", username);
         Document doc = findData("User_schedule", equalComparison).first();
-        return loadScheduleWithID(doc.getString("active_schedule"));
+        assert doc != null;
+        return loadScheduleWith(doc.getString("active_schedule"));
     }
 
 

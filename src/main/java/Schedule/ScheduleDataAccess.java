@@ -14,7 +14,7 @@ public interface ScheduleDataAccess {
      * @param scheduleID - the id of the desired schedule
      * @return an instance of ScheduleInfo containing the details of the schedule
      */
-    ScheduleInfo loadScheduleWithID(String scheduleID);
+    ScheduleInfo loadScheduleWith(String scheduleID);
 
     /**
      * Returns a list of the details of schedules associated with the specified user.
