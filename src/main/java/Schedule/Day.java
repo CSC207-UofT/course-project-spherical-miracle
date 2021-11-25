@@ -61,6 +61,7 @@ public class Day {
     public boolean addWorkout(Workout workout) {
         if (workouts.size() < 5) {
             workouts.add(workout);
+            calBurnt = calBurnt + workout.getCaloriesBurnt();
             return true;
         }
         else
@@ -74,10 +75,11 @@ public class Day {
      * @return if removing the workout was successful or not
      */
     public boolean removeWorkout(Workout workout) {
-        for (Workout w: workouts) {
-            if (w.getName().equals(workout.getName())) {
+        for (int i = 0; i < workouts.size(); i++) {
+            if (workouts.get(i).getName().equals(workout.getName())) {
                 calBurnt = calBurnt - workout.getCaloriesBurnt();
-                    return true;
+                workouts.remove(i);
+                return true;
             }
         }
         return false;
@@ -89,6 +91,7 @@ public class Day {
      * @param meal meal to be added for the day
      * @return if adding the meal was successful or not
      */
+    //TODO maybe change this to compare the workout objects and not just their names?
     public boolean addMeal(Meal meal) {
         meals.add(meal);
         intake = intake + meal.getCalories();
@@ -101,10 +104,12 @@ public class Day {
      * @param meal meal to be removed from day
      * @return if removing the meal was successful or not
      */
+    //TODO maybe change this to compare the meal objects and not just their names?
     public boolean removeMeal(Meal meal) {
-        for (Meal m : meals) {
-            if (m.equals(meal)) {
+        for (int i = 0; i < meals.size(); i++) {
+            if (meals.get(i).getName().equals(meal.getName())) {
                 intake = intake - meal.getCalories();
+                meals.remove(i);
                 return true;
             }
         }
@@ -202,7 +207,7 @@ public class Day {
             meal = this.getMealString();
         }
         //String workout = sched.getWorkout(0).getName();
-        outputMsg += "This is your plan(s) for day " + (DayOfWeek.of(day)) + ": \n Workouts: " + workout + "\n" +
+        outputMsg += "This is your plan(s) for " + (DayOfWeek.of(day)) + ": \n Workouts: " + workout + "\n" +
                 " Meal: " + meal + "\n ";
         return outputMsg;
         }
