@@ -33,10 +33,6 @@ public class UserController {
             return false;
         CreateUserInputBoundary createUserInputBoundary = new CreateUserUseCase(databaseInterface, outputBoundary);
         boolean success = createUserInputBoundary.createUser(username, password, name, email);
-        if (success)
-            System.out.println("User added!");
-        else
-            System.out.println("Username already taken. Please try again.");
         return success;
     }
 
