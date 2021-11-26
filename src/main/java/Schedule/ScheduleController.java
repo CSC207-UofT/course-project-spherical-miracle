@@ -3,6 +3,8 @@ package Schedule;
 import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Map;
+import Schedule.Boundary.*;
+import Schedule.UseCase.*;
 
 /**
  * A controller that manages a schedule for a user.

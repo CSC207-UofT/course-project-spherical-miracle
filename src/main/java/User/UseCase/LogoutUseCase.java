@@ -1,8 +1,7 @@
 package User.UseCase;
 
-import User.Boundary.LogoutInputBoundary;
+import User.Boundary.*;
 import User.Entities.User;
-import User.UserDoesNotExistException;
 
 /**
  * Logs a user out of their account.
@@ -10,14 +9,14 @@ import User.UserDoesNotExistException;
 public class LogoutUseCase implements LogoutInputBoundary {
 
     private final FetchUserUseCase fetchUserUseCase;
-    private final CreateUserUseCase.UserOutputBoundary outputBoundary;
+    private final UserOutputBoundary outputBoundary;
 
     /**
      * Constructs a use case that logs a user out.
      * @param outputBoundary
      * @param fetchUserUseCase
      */
-    public LogoutUseCase(CreateUserUseCase.UserOutputBoundary outputBoundary, FetchUserUseCase fetchUserUseCase) {
+    public LogoutUseCase(UserOutputBoundary outputBoundary, FetchUserUseCase fetchUserUseCase) {
         this.outputBoundary = outputBoundary;
         this.fetchUserUseCase = fetchUserUseCase;
     }

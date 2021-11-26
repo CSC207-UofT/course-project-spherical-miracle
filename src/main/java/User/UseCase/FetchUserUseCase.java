@@ -2,7 +2,6 @@ package User.UseCase;
 
 import User.Entities.User;
 import User.UserDataAccess;
-import User.UserDoesNotExistException;
 
 public class FetchUserUseCase {
 

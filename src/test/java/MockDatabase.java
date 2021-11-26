@@ -1,6 +1,7 @@
 import User.*;
 import Schedule.ScheduleDataAccess;
 import User.Entities.User;
+import User.UseCase.UserDoesNotExistException;
 
 import java.util.ArrayList;
 import java.util.List;

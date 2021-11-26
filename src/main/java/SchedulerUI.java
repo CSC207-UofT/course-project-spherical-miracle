@@ -50,14 +50,14 @@ public class SchedulerUI {
             switch (in.nextLine()) {
                 case "l":
                     userInfo = getUserInfo(true);
-                    mainController.login(userInfo.get("username"), userInfo.get("password"));
-                    toMainMenu();
+                    if (mainController.login(userInfo.get("username"), userInfo.get("password")))
+                        toMainMenu();
                     break;
                 case "s":
                     userInfo = getUserInfo(false);
-                    mainController.signup(userInfo.get("username"), userInfo.get("password"),
-                            userInfo.get("name"), userInfo.get("email"));
-                    toMainMenu();
+                    if (mainController.signup(userInfo.get("username"), userInfo.get("password"),
+                            userInfo.get("name"), userInfo.get("email")))
+                        toMainMenu();
                     break;
                 case "q":
                     System.out.println("The program will now exit. See you soon!");
@@ -115,7 +115,7 @@ public class SchedulerUI {
                             System.out.println("Incorrect input. Enter a number between 1 and 7.");
                             in.next();
                         }
-                        dayOfWeek = in.nextInt();
+                        dayOfWeek = Integer.parseInt(in.nextLine());
                     } while (!(1 <= dayOfWeek && dayOfWeek <= 7));
                     scheduleDetails.put(DayOfWeek.of(dayOfWeek), createDayMenu());
                     break;
@@ -134,7 +134,7 @@ public class SchedulerUI {
         while (true) {
             System.out.println("Type 'w' to create a workout, 'm' to create a meal, " +
                     "or 'f' if you are finished for this day:");
-            switch (in.nextLine()) {
+           switch (in.nextLine()) {
                 case "f":
                     return workoutsAndMeals;
                 case "w":
@@ -155,11 +155,12 @@ public class SchedulerUI {
         int calories = 0;
         while (calories <= 0) {
             System.out.println("Enter the calories burnt for this workout:");
-            while (!in.hasNextInt()) {
-                System.out.println("Please enter a positive number:");
-                in.next();
+            if (!in.hasNextInt()) {
+                System.out.println("Please enter a positive number. Try again:");
+                in.nextLine();
+                continue;
             }
-            calories = in.nextInt();
+            calories = Integer.parseInt(in.nextLine());
             if (calories <= 0) {
                 System.out.println("Please enter a positive number. Try again.");
             }

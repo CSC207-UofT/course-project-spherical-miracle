@@ -1,8 +1,7 @@
 package User.UseCase;
 
-import User.Boundary.LoginInputBoundary;
+import User.Boundary.*;
 import User.Entities.User;
-import User.UserDoesNotExistException;
 
 /**
  * Logs a user into their account when given the correct account information.
@@ -12,7 +11,7 @@ public class LoginUseCase implements LoginInputBoundary {
 
 
     private final FetchUserUseCase fetchUserUseCase;
-    private final CreateUserUseCase.UserOutputBoundary outputBoundary;
+    private final UserOutputBoundary outputBoundary;
 
     /**
      * Constructs a use case that can log a user in.
@@ -20,7 +19,7 @@ public class LoginUseCase implements LoginInputBoundary {
      * @param outputBoundary
      * @param fetchUserUseCase Use case that enables fetching of users.
      */
-    public LoginUseCase(CreateUserUseCase.UserOutputBoundary outputBoundary, FetchUserUseCase fetchUserUseCase){
+    public LoginUseCase(UserOutputBoundary outputBoundary, FetchUserUseCase fetchUserUseCase){
         this.fetchUserUseCase = fetchUserUseCase;
         this.outputBoundary = outputBoundary;
     }

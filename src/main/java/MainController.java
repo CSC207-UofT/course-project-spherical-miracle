@@ -18,13 +18,15 @@ public class MainController {
         this.presenter = presenter;
     }
 
-    public void signup(String username, String password, String name, String email) {
-        userController.createUser(username, password, name, email);
-        login(username, password);
+    public boolean signup(String username, String password, String name, String email) {
+        if (userController.createUser(username, password, name, email)) {
+            return login(username, password);
+        }
+        return false;
     }
 
-    public void login(String username, String password) {
-        sessionController.login(username, password);
+    public boolean login(String username, String password) {
+        return sessionController.login(username, password);
     }
 
     public void logout() {

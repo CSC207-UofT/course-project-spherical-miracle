@@ -1,12 +1,9 @@
-import User.UseCase.CreateUserUseCase;
-import Schedule.Boundary.ScheduleOutputBoundary;
+import Schedule.Boundary.*;
+import User.Boundary.*;
 
 import java.util.List;
 
-public class Presenter implements CreateUserUseCase.UserOutputBoundary, ScheduleOutputBoundary {
-    @Override
-    public void loginPrompt(String prompt) {
-    }
+public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public void loginMessage(boolean loggedIn) {

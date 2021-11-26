@@ -6,11 +6,12 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import static com.mongodb.client.model.Filters.*;
 import User.UserDataAccess;
-import User.UserDoesNotExistException;
+import User.UseCase.UserDoesNotExistException;
 
 import java.util.*;
 
 import org.bson.types.ObjectId;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 
@@ -103,7 +104,8 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     public void saveUser(String username, String password, String name, String email){
         MongoCollection<Document> uc = database.getCollection("User");
         MongoCollection<Document> usc = database.getCollection("User_Schedule");
-        Document newUser = new Document("name", name).append("username", username).append("email", email).append("password", password);
+        String pw_hash = BCrypt.hashpw(password, BCrypt.gensalt());
+        Document newUser = new Document("name", name).append("username", username).append("email", email).append("password", pw_hash);
         ObjectId id = Objects.requireNonNull(uc.insertOne(newUser).getInsertedId()).asObjectId().getValue();
         List<DBObject> array = new ArrayList<>();
         Document new_us = new Document("username",username).append("active_schedule", "").append("schedules", array);
