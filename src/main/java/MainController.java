@@ -1,6 +1,7 @@
 import Schedule.ScheduleController;
 import User.UserController;
 
+import java.time.DayOfWeek;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -35,7 +36,9 @@ public class MainController {
         sessionController.logout();
     }
 
-    public void createSchedule(String scheduleName) {
+    public void createSchedule(String scheduleName, Map<DayOfWeek,
+            Map<String, List<Map<String, String>>>> scheduleDetails) {
+        // TODO: Either turn Map
         List<List<List<Map<String, String>>>> days = new ArrayList<>();
         String username = sessionController.getUsernameOfLoggedInUser();
         scheduleController.createSchedule(scheduleName, username, false, days);
