@@ -1,10 +1,6 @@
 package Schedule;
 
-import Schedule.Boundary.CreateScheduleInputBoundary;
-import Schedule.Boundary.ScheduleOutputBoundary;
-import Schedule.UseCase.CreateScheduleUseCase;
-import Schedule.UseCase.FetchSchedulesUseCase;
-
+import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Map;
 
@@ -14,16 +10,16 @@ import java.util.Map;
 
 public class ScheduleController {
 
-    private final ScheduleDataAccess scheduleDatabase;
-    private final ScheduleOutputBoundary scheduleOutputBoundary;
+    private final ScheduleDataAccess databaseInterface;
+    private final ScheduleOutputBoundary outputBoundary;
 
     /**
      * Construct a list of the information needed to create a new user and the UserDatabase data.
-     * @param scheduleDatabase the dataAccessInterface to the database for schedules.
+     * @param databaseInterface the dataAccessInterface to the database for schedules.
      */
-    public ScheduleController(ScheduleDataAccess scheduleDatabase, ScheduleOutputBoundary scheduleOutputBoundary){
-        this.scheduleDatabase= scheduleDatabase;
-        this.scheduleOutputBoundary = scheduleOutputBoundary;
+    public ScheduleController(ScheduleDataAccess databaseInterface, ScheduleOutputBoundary outputBoundary){
+        this.databaseInterface = databaseInterface;
+        this.outputBoundary = outputBoundary;
     }
 
     /**
@@ -34,7 +30,7 @@ public class ScheduleController {
         //TODO: validating inputs
         //boolean is_valid = ;
         //if (is_valid) {
-        CreateScheduleInputBoundary createScheduleInputBoundary= new CreateScheduleUseCase(scheduleDatabase, scheduleOutputBoundary);
+        CreateScheduleInputBoundary createScheduleInputBoundary= new CreateScheduleUseCase(databaseInterface, outputBoundary);
         createScheduleInputBoundary.createSchedule(scheduleName, username, isPublic, days);
         //}
         //return false;
@@ -46,15 +42,24 @@ public class ScheduleController {
      */
     public void removeSchedule(String name) {
         //TODO: validating inputs
-
-
     }
 
     public void viewListOfSchedule(String username){
 //        InputBoundary InputBoundary = new (scheduleDatabase, scheduleOutputBoundary);
-        FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(scheduleDatabase, scheduleOutputBoundary);
+        FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
         fetch.getScheduleAssociatedWith(username);
-
     }
 
+    /**
+     * Displays the list of public schedules
+     */
+    public void viewPublicSchedules() {
+        FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
+        fetch.getPublicSchedules();
+    }
+
+    public void reminderFor(String username, DayOfWeek dayOfWeek) {
+        ReminderPromptUseCase reminder = new ReminderPromptUseCase(databaseInterface, outputBoundary);
+        reminder.remind(username, dayOfWeek);
+    }
 }

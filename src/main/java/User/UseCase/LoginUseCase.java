@@ -12,6 +12,7 @@ public class LoginUseCase implements LoginInputBoundary {
 
 
     private final FetchUserUseCase fetchUserUseCase;
+    private final UserOutputBoundary outputBoundary;
 
     /**
      * Constructs a use case that can log a user in.
@@ -21,6 +22,7 @@ public class LoginUseCase implements LoginInputBoundary {
      */
     public LoginUseCase(CreateUserUseCase.UserOutputBoundary outputBoundary, FetchUserUseCase fetchUserUseCase){
         this.fetchUserUseCase = fetchUserUseCase;
+        this.outputBoundary = outputBoundary;
     }
 
     /**
@@ -34,10 +36,14 @@ public class LoginUseCase implements LoginInputBoundary {
     public LoginResult login(String username, String password) {
         try {
             User user = fetchUserUseCase.getUser(username);
-            if (user.passwordMatches(password))
+            if (user.passwordMatches(password)) {
+                outputBoundary.loginMessage(true);
                 return LoginResult.SUCCESS;
+            }
+            outputBoundary.loginMessage(false);
             return LoginResult.INCORRECT_PASSWORD;
         } catch (UserDoesNotExistException e) {
+            outputBoundary.loginMessage(false);
             return LoginResult.NO_SUCH_USER;
         }
     }

@@ -83,10 +83,7 @@ public class SessionController {
     /**
      * Returns the username of the user that is logged in. Should only be called if loggedIn.
      */
-    public String getUsernameOfLoggedInUser() throws NotLoggedInException {
-        if (!loggedIn) {
-            throw new NotLoggedInException();
-        }
+    public String getUsernameOfLoggedInUser() {
         return usernameOfLoggedInUser;
     }
 }
