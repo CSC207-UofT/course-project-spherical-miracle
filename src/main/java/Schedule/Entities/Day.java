@@ -70,13 +70,13 @@ public class Day {
     /**
      * Remove a workout from the list of workouts and return true as long as the workout was removed.
      *
-     * @param workout workout to be removed from day
+     * @param name name of workout to be removed from day
      * @return if removing the workout was successful or not
      */
-    public boolean removeWorkout(Workout workout) {
+    public boolean removeWorkout(String name) {
         for (Workout w: workouts) {
-            if (w.getName().equals(workout.getName())) {
-                calBurnt = calBurnt - workout.getCaloriesBurnt();
+            if (w.getName().equals(name)) {
+                calBurnt = calBurnt - w.getCaloriesBurnt();
                     return true;
             }
         }
@@ -90,6 +90,11 @@ public class Day {
      * @return if adding the meal was successful or not
      */
     public boolean addMeal(Meal meal) {
+        for (Meal m: meals){
+            if (m.getName().equals(meal.getName())) {
+                return false;
+            }
+        }
         meals.add(meal);
         intake = intake + meal.getCalories();
         return true;
@@ -98,13 +103,13 @@ public class Day {
     /**
      * Remove a meal from the list of meals and return true as long as the meal was removed.
      *
-     * @param meal meal to be removed from day
+     * @param name name of meal to be removed from day
      * @return if removing the meal was successful or not
      */
-    public boolean removeMeal(Meal meal) {
+    public boolean removeMeal(String name) {
         for (Meal m : meals) {
-            if (m.equals(meal)) {
-                intake = intake - meal.getCalories();
+            if (m.getName().equals(name)) {
+                intake = intake - m.getCalories();
                 return true;
             }
         }

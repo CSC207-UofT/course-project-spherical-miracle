@@ -1,9 +1,9 @@
-import Schedule.Schedule;
-import Schedule.Day;
-import Schedule.Workout;
+import Schedule.Entities.Schedule;
+import Schedule.Entities.Day;
+import Schedule.Entities.Workout;
 import Schedule.ReminderPromptUseCase;
 
-import Schedule.CreateScheduleUseCase;
+import Schedule.UseCase.CreateScheduleUseCase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
