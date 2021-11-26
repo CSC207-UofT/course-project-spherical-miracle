@@ -1,4 +1,4 @@
-package User;
+package User.Boundary;
 
 public interface UserOutputBoundary {
     void loginMessage(boolean loggedIn);

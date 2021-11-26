@@ -12,7 +12,7 @@ public class LoginUseCase implements LoginInputBoundary {
 
 
     private final FetchUserUseCase fetchUserUseCase;
-    private final UserOutputBoundary outputBoundary;
+    private final CreateUserUseCase.UserOutputBoundary outputBoundary;
 
     /**
      * Constructs a use case that can log a user in.
