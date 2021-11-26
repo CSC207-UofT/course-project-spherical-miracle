@@ -1,5 +1,10 @@
 package Schedule;
 
+import Schedule.Boundary.CreateScheduleInputBoundary;
+import Schedule.Boundary.ScheduleOutputBoundary;
+import Schedule.UseCase.CreateScheduleUseCase;
+import Schedule.UseCase.FetchSchedulesUseCase;
+
 import java.util.List;
 import java.util.Map;
 

@@ -1,7 +1,7 @@
-package Schedule;//import statements go here
+package Schedule.Entities;//import statements go here
+
 import java.time.DayOfWeek;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

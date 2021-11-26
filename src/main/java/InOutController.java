@@ -1,5 +1,8 @@
-import User.*;
+import Schedule.Entities.Day;
 import Schedule.*;
+import Schedule.Entities.Meal;
+import Schedule.Entities.Schedule;
+import Schedule.Entities.Workout;
 
 /**
  * A controller that delegates tasks based on user commands that are input.

@@ -1,4 +1,4 @@
-package Schedule;
+package Schedule.Boundary;
 
 public interface RemoveScheduleInputBoundary {
     void remove();

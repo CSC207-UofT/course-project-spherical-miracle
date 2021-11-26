@@ -1,4 +1,4 @@
-package User;
+package User.Boundary;
 
 /**
  * Input boundary for the logout use case.

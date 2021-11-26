@@ -1,4 +1,9 @@
-package User;
+package User.UseCase;
+
+import User.*;
+import User.Boundary.CreateUserInputBoundary;
+import User.Entities.User;
+
 /**
  * Creates a new user account.
  */
@@ -31,5 +36,13 @@ public class CreateUserUseCase implements CreateUserInputBoundary {
             outputBoundary.signupMessage(true);
             return true;
         }
+    }
+
+    public static interface UserOutputBoundary {
+        void loginPrompt(String prompt);
+        void loginMessage(boolean loggedIn);
+        void logoutMessage(String name);
+        void signupMessage(boolean signedUp);
+        void scheduleList(String listSchedules);
     }
 }

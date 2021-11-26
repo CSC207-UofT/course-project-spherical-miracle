@@ -8,6 +8,10 @@ import java.util.regex.Pattern;
  * The user interface for scheduling workout session in a user's schedule.
  */
 
+import Schedule.Entities.Day;
+import Schedule.Entities.Meal;
+import Schedule.Entities.Schedule;
+import Schedule.Entities.Workout;
 import User.UserController;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -95,7 +99,7 @@ public class SchedulerUI {
                                         switch (option) {
                                             case "w": // add workouts into a day
                                                 // TODO: put this code chunk into helper?
-                                                while (i < 5) { // since each Schedule.Day object can contain up to 5 Workouts
+                                                while (i < 5) { // since each Schedule.entities.Day object can contain up to 5 Workouts
                                                     System.out.println("Enter a workout name or 'f' if you are finished adding workout plans for this day");
                                                     option = in.nextLine();
                                                     if (option.equals("f")) {

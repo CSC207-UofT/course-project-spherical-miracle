@@ -1,9 +1,9 @@
 /**
  * A reminder of the day's activities for the user upon login.
  */
-import Schedule.Day;
-import Schedule.FetchSchedulesUseCase;
-import Schedule.Schedule;
+import Schedule.Entities.Day;
+import Schedule.UseCase.FetchSchedulesUseCase;
+import Schedule.Entities.Schedule;
 import Schedule.ScheduleDataAccess;
 
 import java.time.DayOfWeek;

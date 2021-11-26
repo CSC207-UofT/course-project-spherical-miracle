@@ -1,12 +1,16 @@
 package User;
 
+import User.Boundary.CreateUserInputBoundary;
+import User.Entities.User;
+import User.UseCase.CreateUserUseCase;
+
 /**
  * A controller that delegates actions for managing a database of users.
  */
 public class UserController {
 
     private final UserDataAccess databaseInterface;
-    private final UserOutputBoundary outputBoundary;
+    private final User.CreateUserUseCase.UserOutputBoundary outputBoundary;
 
     /**
 
@@ -15,7 +19,7 @@ public class UserController {
      * @param databaseInterface the access interface to the database.
      * @param outputBoundary
      */
-    public UserController(UserDataAccess databaseInterface, UserOutputBoundary outputBoundary) {
+    public UserController(UserDataAccess databaseInterface, User.CreateUserUseCase.UserOutputBoundary outputBoundary) {
         this.databaseInterface = databaseInterface;
         this.outputBoundary = outputBoundary;
     }

@@ -1,6 +1,6 @@
-import Schedule.Schedule;
 import User.*;
 import Schedule.ScheduleDataAccess;
+import User.Entities.User;
 
 import java.util.ArrayList;
 import java.util.List;

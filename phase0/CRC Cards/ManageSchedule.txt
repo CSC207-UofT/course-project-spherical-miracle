@@ -4,5 +4,5 @@ Responsibilities:
 * Add/Remove schedules from HashMap in Schedule.ScheduleDatabase
 
 Collaborators:
-* Schedule.Schedule
+* Schedule.Entities.Schedule
 * Schedule.ScheduleDatabase

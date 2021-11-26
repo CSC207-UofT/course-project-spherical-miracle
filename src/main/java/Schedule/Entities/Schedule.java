@@ -1,4 +1,6 @@
-package Schedule;
+package Schedule.Entities;
+
+import Schedule.Entities.Day;
 
 import java.time.DayOfWeek;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package User;
+package User.Entities;
 
 /**
  * A user's account, which contains private details about the user.

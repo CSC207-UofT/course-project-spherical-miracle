@@ -1,4 +1,7 @@
-package Schedule;
+package Schedule.UseCase;
+
+import Schedule.Entities.Schedule;
+import Schedule.ScheduleDataAccess;
 
 public class SetActiveScheduleUseCase {
 

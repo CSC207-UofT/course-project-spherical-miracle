@@ -1,4 +1,4 @@
-package Schedule;
+package Schedule.Boundary;
 import java.util.List;
 
 public interface ScheduleOutputBoundary {

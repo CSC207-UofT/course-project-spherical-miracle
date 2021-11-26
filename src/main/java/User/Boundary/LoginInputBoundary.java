@@ -1,4 +1,6 @@
-package User;
+package User.Boundary;
+
+import User.UseCase.LoginUseCase;
 
 /**
  * Input boundary for the login use case.

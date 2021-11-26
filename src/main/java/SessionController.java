@@ -1,4 +1,11 @@
 import User.*;
+import User.Boundary.LoginInputBoundary;
+import User.Boundary.LogoutInputBoundary;
+import User.Entities.User;
+import User.UseCase.CreateUserUseCase;
+import User.UseCase.FetchUserUseCase;
+import User.UseCase.LoginUseCase;
+import User.UseCase.LogoutUseCase;
 
 /**
  * A controller that delegates management of a user's session upon logging in and out.
@@ -19,7 +26,7 @@ public class SessionController {
      *
      * @param databaseInterface Interface to access database
      */
-    public SessionController(UserDataAccess databaseInterface, UserOutputBoundary outputBoundary) {
+    public SessionController(UserDataAccess databaseInterface, CreateUserUseCase.UserOutputBoundary outputBoundary) {
         FetchUserUseCase fetch = new FetchUserUseCase(databaseInterface);
         this.loginInputBoundary = new LoginUseCase(outputBoundary, fetch);
         this.logoutInputBoundary = new LogoutUseCase(outputBoundary, fetch);

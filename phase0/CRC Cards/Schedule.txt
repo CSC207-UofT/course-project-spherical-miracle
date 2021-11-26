@@ -1,4 +1,4 @@
-Class name: Schedule.Schedule
+Class name: Schedule.Entities.Schedule
 
 Responsibilities:
 * Store plan for each week
@@ -6,5 +6,5 @@ Responsibilities:
 
 Collaborators:
 * ScheduleManager
-* Schedule.Schedule
-* Schedule.Meal
+* Schedule.Entities.Schedule
+* Schedule.Entities.Meal

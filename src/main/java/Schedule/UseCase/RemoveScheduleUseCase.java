@@ -1,4 +1,7 @@
-package Schedule;
+package Schedule.UseCase;
+
+import Schedule.Boundary.RemoveScheduleInputBoundary;
+import Schedule.ScheduleDataAccess;
 
 public class RemoveScheduleUseCase implements RemoveScheduleInputBoundary {
 

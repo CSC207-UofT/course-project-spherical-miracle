@@ -1,8 +1,14 @@
-package Schedule;
+package Schedule.UseCase;
+
+import Schedule.Boundary.ScheduleOutputBoundary;
+import Schedule.Entities.Day;
+import Schedule.Entities.Meal;
+import Schedule.Entities.Schedule;
+import Schedule.Entities.Workout;
+import Schedule.ScheduleDataAccess;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

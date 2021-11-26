@@ -1,4 +1,4 @@
-package Schedule;
+package Schedule.Entities;
 
 /**
  * A workout session.
