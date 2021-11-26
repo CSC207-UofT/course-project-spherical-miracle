@@ -20,7 +20,7 @@ public class App {
     }
 
     public void run() {
-        schedulerUI.home();
+        schedulerUI.toHome();
     }
 
     public static void main(String[] args) {

@@ -11,7 +11,7 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     private String scheduleID ;
     private String scheduleName ;
     private List<List<List<Map<String, String>>>> days;
-    private String username ;
+    private String username;
 
     @Override
     public String[] loadUserWithUsername(String username) throws UserDoesNotExistException {

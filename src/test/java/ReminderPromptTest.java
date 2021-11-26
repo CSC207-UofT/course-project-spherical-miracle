@@ -35,7 +35,7 @@ class ReminderPromptTest {
         Presenter p = new Presenter();
         CreateScheduleUseCase c = new CreateScheduleUseCase(mockDatabase, p);
         c.createSchedule(s, "michael", true);
-        ReminderPromptUseCase reminder = new ReminderPromptUseCase(mockDatabase);
+        ReminderPromptUseCase reminder = new ReminderPromptUseCase(mockDatabase, p);
         assert reminder.remind("michael", LocalDate.now().getDayOfWeek()).
                 equals(expectedDay.printDay(LocalDate.now().getDayOfWeek().getValue()));
     }

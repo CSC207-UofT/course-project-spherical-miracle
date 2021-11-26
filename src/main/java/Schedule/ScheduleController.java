@@ -11,15 +11,15 @@ import java.util.Map;
 public class ScheduleController {
 
     private final ScheduleDataAccess databaseInterface;
-    private final ScheduleOutputBoundary scheduleOutputBoundary;
+    private final ScheduleOutputBoundary outputBoundary;
 
     /**
      * Construct a list of the information needed to create a new user and the UserDatabase data.
      * @param databaseInterface the dataAccessInterface to the database for schedules.
      */
-    public ScheduleController(ScheduleDataAccess databaseInterface, ScheduleOutputBoundary scheduleOutputBoundary){
+    public ScheduleController(ScheduleDataAccess databaseInterface, ScheduleOutputBoundary outputBoundary){
         this.databaseInterface = databaseInterface;
-        this.scheduleOutputBoundary = scheduleOutputBoundary;
+        this.outputBoundary = outputBoundary;
     }
 
     /**
@@ -30,7 +30,7 @@ public class ScheduleController {
         //TODO: validating inputs
         //boolean is_valid = ;
         //if (is_valid) {
-        CreateScheduleInputBoundary createScheduleInputBoundary= new CreateScheduleUseCase(databaseInterface, scheduleOutputBoundary);
+        CreateScheduleInputBoundary createScheduleInputBoundary= new CreateScheduleUseCase(databaseInterface, outputBoundary);
         createScheduleInputBoundary.createSchedule(scheduleName, username, isPublic, days);
         //}
         //return false;
@@ -46,7 +46,7 @@ public class ScheduleController {
 
     public void viewListOfSchedule(String username){
 //        InputBoundary InputBoundary = new (scheduleDatabase, scheduleOutputBoundary);
-        FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, scheduleOutputBoundary);
+        FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
         fetch.getScheduleAssociatedWith(username);
     }
 
@@ -54,12 +54,12 @@ public class ScheduleController {
      * Displays the list of public schedules
      */
     public void viewPublicSchedules() {
-        FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, scheduleOutputBoundary);
+        FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
         fetch.getPublicSchedules();
     }
 
     public void reminderFor(String username, DayOfWeek dayOfWeek) {
-        ReminderPromptUseCase reminder = new ReminderPromptUseCase(databaseInterface);
+        ReminderPromptUseCase reminder = new ReminderPromptUseCase(databaseInterface, outputBoundary);
         reminder.remind(username, dayOfWeek);
     }
 }

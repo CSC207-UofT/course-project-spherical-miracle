@@ -3,7 +3,6 @@ import User.UserController;
 
 import java.time.DayOfWeek;
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class MainController {
 
@@ -17,10 +16,6 @@ public class MainController {
         scheduleController = new ScheduleController(databaseGateway, presenter);
         sessionController = new SessionController(databaseGateway, presenter);
         this.presenter = presenter;
-    }
-
-    private void createSchedule() {
-
     }
 
     public void signup(String username, String password, String name, String email) {
@@ -38,7 +33,7 @@ public class MainController {
 
     public void createSchedule(String scheduleName, Map<DayOfWeek,
             Map<String, List<Map<String, String>>>> scheduleDetails) {
-        // TODO: Either turn Map
+        // TODO: Either turn Map into List. OR change scheduleDetails to List<...> and updateUI accordingly
         List<List<List<Map<String, String>>>> days = new ArrayList<>();
         String username = sessionController.getUsernameOfLoggedInUser();
         scheduleController.createSchedule(scheduleName, username, false, days);
