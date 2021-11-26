@@ -50,7 +50,12 @@ public class MainController {
     }
 
     public void viewPublicSchedules() {
+        // TODO
         System.out.println("NOT IMPLEMENTED YET");
     }
 
+    public void sendReminderForDay(DayOfWeek dayOfWeek) {
+        String username = sessionController.getUsernameOfLoggedInUser();
+        scheduleController.reminderFor(username, dayOfWeek);
+    }
 }

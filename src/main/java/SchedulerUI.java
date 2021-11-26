@@ -1,6 +1,7 @@
 import Schedule.*;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Pattern;
 /**
@@ -94,6 +95,9 @@ public class SchedulerUI {
             case Commands.VIEW_PUBLIC_SCHEDULES:
                 mainController.viewPublicSchedules();
                 break;
+            case Commands.TODAYS_REMINDER:
+                DayOfWeek today = LocalDate.now().getDayOfWeek();
+                mainController.sendReminderForDay(today);
         }
     }
 

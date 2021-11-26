@@ -201,7 +201,6 @@ public class Day {
             workout = this.getWorkoutString();
             meal = this.getMealString();
         }
-        //String workout = sched.getWorkout(0).getName();
         outputMsg += "This is your plan(s) for day " + (DayOfWeek.of(day)) + ": \n Workouts: " + workout + "\n" +
                 " Meal: " + meal + "\n ";
         return outputMsg;

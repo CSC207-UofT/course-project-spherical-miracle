@@ -61,9 +61,11 @@ public class FetchSchedulesUseCase {
     public List<Schedule> getPublicSchedules() {
         List<Schedule> publicSchedules = new ArrayList<>();
         List<Object> schedules = databaseInterface.loadPublicSchedules();
+        List<String> scheduleNames = new ArrayList<>();
         for (Object scheduleString: schedules) {
            // publicSchedules.add(stringToSchedule(scheduleString));
         }
+        // TODO: Figure out if loadPublicSchedules should return List<Object> or List<ScheduleInfo>
         return publicSchedules;
     }
 
