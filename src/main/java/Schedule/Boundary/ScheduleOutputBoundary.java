@@ -8,4 +8,5 @@ public interface ScheduleOutputBoundary {
     void listSchedules(List<String> schedules);
     void deleteSchedule(String scheduleName);
 
+    void outputTooManyWorkout();
 }

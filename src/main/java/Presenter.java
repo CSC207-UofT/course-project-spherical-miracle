@@ -5,6 +5,10 @@ import java.util.List;
 
 public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
+    public class Prompts {
+        static final String WELCOME_MESSGAGE = "Welcome! Here are your options:";
+    }
+
     @Override
     public void loginMessage(boolean loggedIn) {
         if (loggedIn) {
@@ -61,6 +65,11 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     @Override
     public void deleteSchedule(String scheduleName) {
 
+    }
+
+    @Override
+    public void outputTooManyWorkout() {
+        System.out.println("You can't add any more workouts to this day.");
     }
 
 }

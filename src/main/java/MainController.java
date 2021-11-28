@@ -33,6 +33,11 @@ public class MainController {
         sessionController.logout();
     }
 
+    public void createSchedule(String scheduleName) {
+        String username = sessionController.getUsernameOfLoggedInUser();
+        String id = scheduleController.createSchedule(scheduleName, username);
+        sessionController.setWorkingScheduleID(id);
+    }
     public void createSchedule(String scheduleName, Map<DayOfWeek,
             Map<String, List<Map<String, String>>>> scheduleDetails) {
         // TODO: Either turn Map into List. OR change scheduleDetails to List<...> and updateUI accordingly
@@ -54,5 +59,10 @@ public class MainController {
     public void sendReminderForDay(DayOfWeek dayOfWeek) {
         String username = sessionController.getUsernameOfLoggedInUser();
         scheduleController.reminderFor(username, dayOfWeek);
+    }
+
+    public boolean checkDuplicateWorkout(String workoutName, DayOfWeek dayOfWeek, String scheduleID) {
+        String username = sessionController.getUsernameOfLoggedInUser();
+        return scheduleController.checkDuplicateFor(workoutName, dayOfWeek, sessionController.getWorkingScheduleID());
     }
 }

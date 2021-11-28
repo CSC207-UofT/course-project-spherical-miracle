@@ -28,6 +28,28 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
         this.outputBoundary = outputBoundary;
     }
 
+    /**
+     *
+     * @param name
+     * @param username
+     */
+    public String createSchedule(String name, String username) {
+        Schedule schedule = new Schedule(name);
+        databaseInterface.createSchedule(scheduleToString(schedule), username, false);
+        return schedule.getId();
+    }
+
+    public boolean appendWorkout(String workoutName, String calories, String scheduleID, DayOfWeek dayOfWeek) {
+        Workout workout = new Workout(workoutName, Integer.parseInt(calories));
+        FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
+        Schedule schedule = fetch.getScheduleWithID(scheduleID);
+        Day day = schedule.getDay(dayOfWeek);
+        boolean success = day.addWorkout(workout);
+        if (!success)
+            outputBoundary.outputTooManyWorkout();
+        return success;
+    }
+
     @Override
     public void createSchedule(String name, String username, boolean isPublic, List<List<List<Map<String, String>>>> days) {
         Schedule schedule = new Schedule(name);

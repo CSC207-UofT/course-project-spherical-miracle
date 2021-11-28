@@ -100,4 +100,8 @@ public class FetchSchedulesUseCase {
         }
         return s;
     }
+
+    public Schedule getScheduleWithID(String scheduleID) {
+        return new Schedule("123");
+    }
 }

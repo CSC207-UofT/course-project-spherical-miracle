@@ -104,13 +104,12 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     public void saveUser(String username, String password, String name, String email){
         MongoCollection<Document> uc = database.getCollection("User");
         MongoCollection<Document> usc = database.getCollection("User_Schedule");
-        String pw_hash = BCrypt.hashpw(password, BCrypt.gensalt());
-        Document newUser = new Document("name", name).append("username", username).append("email", email).append("password", pw_hash);
+        String pwHash = BCrypt.hashpw(password, BCrypt.gensalt(10));
+        Document newUser = new Document("name", name).append("username", username).append("email", email).append("password", pwHash);
         ObjectId id = Objects.requireNonNull(uc.insertOne(newUser).getInsertedId()).asObjectId().getValue();
         List<DBObject> array = new ArrayList<>();
         Document new_us = new Document("username",username).append("active_schedule", "").append("schedules", array);
         ObjectId id2 = Objects.requireNonNull(usc.insertOne(new_us).getInsertedId()).asObjectId().getValue();
-        //TODO: encrypt password?
     }
 
     public void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic) {

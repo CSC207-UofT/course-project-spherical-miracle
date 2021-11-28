@@ -15,6 +15,7 @@ public class SessionController {
      * The username of the user that is logged in. Non-empty if and only if LoggedIn is true.
      */
     private String usernameOfLoggedInUser = "";
+    private String workingScheduleID = "";
 
     /**
      * Constructs a SessionController with a given database of users to access.
@@ -25,6 +26,14 @@ public class SessionController {
         FetchUserUseCase fetch = new FetchUserUseCase(databaseInterface);
         this.loginInputBoundary = new LoginUseCase(outputBoundary, fetch);
         this.logoutInputBoundary = new LogoutUseCase(outputBoundary, fetch);
+    }
+
+    public void setWorkingScheduleID(String scheduleID) {
+        this.workingScheduleID = scheduleID;
+    }
+
+    public String getWorkingScheduleID() {
+        return workingScheduleID;
     }
 
     /**

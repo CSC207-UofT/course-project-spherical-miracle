@@ -26,4 +26,6 @@ public class FetchUserUseCase {
         User user = new User(userInfo[0], userInfo[1], userInfo[2] ,userInfo[3]);
         return user;
     }
+
+
 }

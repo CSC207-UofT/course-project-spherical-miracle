@@ -70,26 +70,28 @@ public class SchedulerUI {
 
     private void toMainMenu() {
         String option = selectOption(commands);
-        switch (option) {
-            case Commands.QUIT:
-                // TODO: Bad design, should let main function quit
-                System.exit(0);
-            case Commands.LOGOUT:
-                mainController.logout();
-                break;
-            case Commands.CREATE_SCHEDULE:
-                toCreateScheduleMenu();
-                break;
-            case Commands.VIEW_YOUR_SCHEDULES:
-                mainController.viewMySchedules();
-                break;
-            case Commands.VIEW_PUBLIC_SCHEDULES:
-                mainController.viewPublicSchedules();
-                break;
-            case Commands.TODAYS_REMINDER:
-                DayOfWeek today = LocalDate.now().getDayOfWeek();
-                mainController.sendReminderForDay(today);
-                // TODO: Edit schedule menu
+        while (true) {
+            switch (option) {
+                case Commands.QUIT:
+                    // TODO: Bad design, should let main function quit
+                    System.exit(0);
+                case Commands.LOGOUT:
+                    mainController.logout();
+                    return;
+                case Commands.CREATE_SCHEDULE:
+                    toCreateScheduleMenu();
+                    break;
+                case Commands.VIEW_YOUR_SCHEDULES:
+                    mainController.viewMySchedules();
+                    break;
+                case Commands.VIEW_PUBLIC_SCHEDULES:
+                    mainController.viewPublicSchedules();
+                    break;
+                case Commands.TODAYS_REMINDER:
+                    DayOfWeek today = LocalDate.now().getDayOfWeek();
+                    mainController.sendReminderForDay(today);
+                    // TODO: Edit schedule menu
+            }
         }
     }
 
@@ -97,6 +99,7 @@ public class SchedulerUI {
         System.out.println("NOT FINISHED YET!!");
         System.out.println("Enter the name of the schedule");
         String scheduleName = in.nextLine();
+        mainController.createSchedule(scheduleName);
         System.out.println("For each of the 7 days in your schedule, you can have up to five different workouts.");
         Map<DayOfWeek, Map<String, List<Map<String, String>>>> scheduleDetails = new HashMap<>();
         while (true) {
@@ -117,17 +120,17 @@ public class SchedulerUI {
                         }
                         dayOfWeek = Integer.parseInt(in.nextLine());
                     } while (!(1 <= dayOfWeek && dayOfWeek <= 7));
-                    scheduleDetails.put(DayOfWeek.of(dayOfWeek), createDayMenu());
+                    scheduleDetails.put(DayOfWeek.of(dayOfWeek), createDayMenu(dayOfWeek));
                     break;
                 default:
                     System.out.println("Incorrect input. Try again.");
             }
             // TODO: see createSchedule
-            mainController.createSchedule(scheduleName, scheduleDetails);
+//            mainController.createSchedule(scheduleName, scheduleDetails);
         }
     }
 
-    private Map<String, List<Map<String, String>>> createDayMenu() {
+    private Map<String, List<Map<String, String>>> createDayMenu(int dayOfWeek) {
         Map<String, List<Map<String, String>>> workoutsAndMeals = new HashMap<>();
         workoutsAndMeals.put("workouts", new ArrayList<>());
         workoutsAndMeals.put("meals", new ArrayList<>());
@@ -138,7 +141,7 @@ public class SchedulerUI {
                 case "f":
                     return workoutsAndMeals;
                 case "w":
-                    workoutsAndMeals.get("workouts").add(toCreateWorkoutMenu());
+                    workoutsAndMeals.get("workouts").add(toCreateWorkoutMenu(dayOfWeek));
                     break;
                 case "m":
                     workoutsAndMeals.get("meals").add(toCreateMealMenu());
@@ -149,9 +152,14 @@ public class SchedulerUI {
         }
     }
 
-    private Map<String, String> toCreateWorkoutMenu() {
+    private Map<String, String> toCreateWorkoutMenu(int dayOfWeek) {
         System.out.println("Enter a workout name:");
         String workoutName = in.nextLine();
+        while (mainController.checkDuplicateWorkout(workoutName, DayOfWeek.of(dayOfWeek), "1")) {
+            System.out.println("There is already a workout in this day with that name.");
+            System.out.println("Enter another workout name:");
+            workoutName = in.nextLine();
+        }
         int calories = 0;
         while (calories <= 0) {
             System.out.println("Enter the calories burnt for this workout:");

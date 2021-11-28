@@ -1,5 +1,7 @@
 package User.Entities;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 /**
  * A user's account, which contains private details about the user.
  */
@@ -54,7 +56,7 @@ public class User {
      * @return True iff tryPassword matches this User's password.
      */
     public boolean passwordMatches(String tryPassword) {
-        return password.equals(tryPassword);
+        return BCrypt.checkpw(tryPassword, password);
     }
 
     /**

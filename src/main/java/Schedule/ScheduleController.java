@@ -22,6 +22,12 @@ public class ScheduleController {
     public ScheduleController(ScheduleDataAccess databaseInterface, ScheduleOutputBoundary outputBoundary){
         this.databaseInterface = databaseInterface;
         this.outputBoundary = outputBoundary;
+
+    }
+
+    public String createSchedule(String scheduleName, String username) {
+        CreateScheduleUseCase c = new CreateScheduleUseCase(databaseInterface, outputBoundary);
+        return c.createSchedule(scheduleName, username);
     }
 
     /**
@@ -32,8 +38,8 @@ public class ScheduleController {
         //TODO: validating inputs
         //boolean is_valid = ;
         //if (is_valid) {
-        CreateScheduleInputBoundary createScheduleInputBoundary= new CreateScheduleUseCase(databaseInterface, outputBoundary);
-        createScheduleInputBoundary.createSchedule(scheduleName, username, isPublic, days);
+        CreateScheduleInputBoundary c = new CreateScheduleUseCase(databaseInterface, outputBoundary);
+        c.createSchedule(scheduleName, username, isPublic, days);
         //}
         //return false;
     }
@@ -63,5 +69,11 @@ public class ScheduleController {
     public void reminderFor(String username, DayOfWeek dayOfWeek) {
         ReminderPromptUseCase reminder = new ReminderPromptUseCase(databaseInterface, outputBoundary);
         reminder.remind(username, dayOfWeek);
+    }
+
+    public boolean checkDuplicateFor(String workoutName, DayOfWeek dayOfWeek, String scheduleID) {
+        FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
+        CheckDuplicateWorkoutUseCase checkDuplicate = new CheckDuplicateWorkoutUseCase(fetch);
+        return checkDuplicate.checkDuplicateFor(workoutName, dayOfWeek, scheduleID);
     }
 }
