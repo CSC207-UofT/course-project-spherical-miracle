@@ -1,4 +1,5 @@
-import User.*;
+import User.UseCase.CreateUserUseCase;
+import User.UseCase.UserDoesNotExistException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ class CreateUserUseCaseTest {
         String expectedName = "Meric Gertler";
         String expectedEmail = "president@utoronto.ca";
         MockDatabase db = new MockDatabase();
-        CreateUserUseCase create = new CreateUserUseCase(db);
+        CreateUserUseCase create = new CreateUserUseCase(db, new Presenter());
         create.createUser(expectedUsername, expectedPassword, expectedName, expectedEmail);
         String[] userInfo = db.loadUserWithUsername(expectedUsername);
         assert userInfo[0].equals(expectedUsername);

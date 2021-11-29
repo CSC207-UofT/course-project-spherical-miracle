@@ -7,7 +7,7 @@ Implemented Use Case: UserRegister (Walk through)
 
 #### Users can create workout plans
 
-User.User can add workouts to their plan for each day of the wee
+User.Entities.User can add workouts to their plan for each day of the wee
 
 #### Reminder prompt on Login
 
@@ -20,10 +20,10 @@ Interface to remove user/workouts/edit schedule templates
 
 
 ### Phase 2
-#### User.User can track height, weight, BMI, over time
+#### User.Entities.User can track height, weight, BMI, over time
 
 #### Weight loss/gain helper
-User.User will receive a suggested calorie intake based on their workout schedule and their height + height
+User.Entities.User will receive a suggested calorie intake based on their workout schedule and their height + height
 
 #### Implement UI - web app/android app?
 
@@ -34,15 +34,15 @@ User.User will receive a suggested calorie intake based on their workout schedul
 We have implemented the following CRC models.
 #### Entities
 
-User.User
+User.Entities.User
 
 User.UserDatabase (will be changed)
 
-Schedule.Schedule
+Schedule.Entities.Schedule
 
-Schedule.Meal (To be implemented in the code in Phase 2)
+Schedule.Entities.Meal (To be implemented in the code in Phase 2)
 
-Schedule.Schedule
+Schedule.Entities.Schedule
 
 Schedule.ScheduleDatabase (will be changed)
 
@@ -62,9 +62,9 @@ WorkoutSchedulerUI
 
 #### Interface
 
-User.CreateUserInputBoundary
+User.Boundary.CreateUserInputBoundary
 
-User.LoginInputBoundary
+User.Boundary.LoginInputBoundary
 
 
 ## Scenario Walk-through
@@ -87,21 +87,21 @@ Schedule.ScheduleController: Adds and removes new schedules to the database
 
 ManageUser: Adds and removes new users to the database
 
-Schedule.Schedule: Entity for the weekly schedules 
+Schedule.Entities.Schedule: Entity for the weekly schedules 
 
 Schedule.ScheduleDatabase: Database to keep all the schedules created
 
-User.User: Entity that stores information about a specific user’s account
+User.Entities.User: Entity that stores information about a specific user’s account
 
 User.UserDatabase: Entity that keeps track of multiple users
 
 UserLogin: Use Case that allows a user to log in with a password corresponding to their username
 
-Schedule.Schedule: Entity that stores the type/name of the workout and details about it (ex. number of calories burned during it)
+Schedule.Entities.Schedule: Entity that stores the type/name of the workout and details about it (ex. number of calories burned during it)
 
 WorkoutSchedulerUI: the interface, reads the commands and inputs from the program user
 
-User.LoginInputBoundary, User.CreateUserInputBoundary, User.CreateUserUseCase: in the process of being implemented for Phase 1
+User.Boundary.LoginInputBoundary, User.Boundary.CreateUserInputBoundary, User.UseCase.CreateUserUseCase: in the process of being implemented for Phase 1
 
 ## Our plans
 

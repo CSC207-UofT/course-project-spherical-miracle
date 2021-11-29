@@ -1,4 +1,4 @@
-package Schedule;
+package Schedule.Entities;
 
 import java.time.DayOfWeek;
 import java.util.UUID;
@@ -18,8 +18,7 @@ public class Schedule {
      * @param name name of the Schedule
      */
     public Schedule(String name) {
-        this.name = name;
-        this.id = UUID.randomUUID();
+        this(name, UUID.randomUUID().toString());
     }
     /**
      * Construct a Schedule with the specified name and id.
@@ -29,7 +28,11 @@ public class Schedule {
     public Schedule(String name, String id) {
         this.name = name;
         this.id = UUID.fromString(id);
+        for (int i = 0; i != plan.length; i++) {
+            plan[i] = new Day();
+        }
     }
+
 
     /**
      * Returns the name of this Schedule.
@@ -81,10 +84,11 @@ public class Schedule {
         return plan[dayOfWeek.getValue() - 1];
     }
 
+    @Override
     /**
      * Print a string representation of a user's specific schedule.
      */
-    public String printSchedule(){
+    public String toString(){
         StringBuilder outputMsg = new StringBuilder();
         for (DayOfWeek c: DayOfWeek.values()){
             outputMsg.append(this.getDay(c).printDay(c.getValue()));

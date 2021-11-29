@@ -32,13 +32,13 @@ Admin-level interface
 Interface to remove user/workouts/edit schedule templates
 
 Plans for Phase 2
-User.User can track height, weight, BMI, over time
+User.Entities.User can track height, weight, BMI, over time
 Input: Weight, Height, Date
 Output: A graph/table that shows the history
 Weight loss/gain helper
-User.User will receive a suggested calorie intake based on their workout schedule and their height + height
+User.Entities.User will receive a suggested calorie intake based on their workout schedule and their height + height
 
-Input: User.User health info, target weight
+Input: User.Entities.User health info, target weight
 Output: Suggested calorie intake, target amount of daily calories burned
 Implement UI - web app/android app
 

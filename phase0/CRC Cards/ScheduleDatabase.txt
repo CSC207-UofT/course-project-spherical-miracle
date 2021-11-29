@@ -4,4 +4,4 @@ Responsibilities:
 * Store all weekly schedules the user has created in a HashMap
 
 Collaborators:
-* Schedule.Schedule
+* Schedule.Entities.Schedule
