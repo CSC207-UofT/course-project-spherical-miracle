@@ -57,7 +57,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     public ScheduleInfo loadScheduleWith(String id) {
         Document doc = findData("Schedule", eq("UUID", id)).first();
         List<List<List<Map<String,String>>>> days = new ArrayList<>();
-        for (List<Object> day: (List<List<Object>>)doc.get("days")){
+        for (List<Object> day: (List<List<Object>>)doc.get("days")){ // goes through list of days
             List<List<Map<String, String>>> dayList = new ArrayList<>();
             List<Map<String, String>> workoutList = new ArrayList<>();
             for (Map<String, String> workout: (List<Map<String, String>>) day.get(workoutNum)){
