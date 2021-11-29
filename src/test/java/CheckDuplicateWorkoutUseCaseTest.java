@@ -15,12 +15,10 @@ class CheckDuplicateWorkoutUseCaseTest {
     void checkDuplicateFor() {
         Workout w1 = new Workout("name", 123);
         Workout w1Copy = new Workout("name", 200);
-        CreateScheduleUseCase
         FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(mockDatabase, presenter);
-        fetch.getScheduleWithID()
 
         CheckDuplicateWorkoutUseCase c = new CheckDuplicateWorkoutUseCase(
-                new FetchSchedulesUseCase(mockDatabase, presenter);
+                new FetchSchedulesUseCase(mockDatabase, presenter));
 //        c.checkDuplicateFor();
 
     }

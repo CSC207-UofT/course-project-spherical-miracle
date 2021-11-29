@@ -1,7 +1,5 @@
 package Schedule.Entities;
 
-import Schedule.Entities.Day;
-
 import java.time.DayOfWeek;
 import java.util.UUID;
 
@@ -86,10 +84,11 @@ public class Schedule {
         return plan[dayOfWeek.getValue() - 1];
     }
 
+    @Override
     /**
      * Print a string representation of a user's specific schedule.
      */
-    public String printSchedule(){
+    public String toString(){
         StringBuilder outputMsg = new StringBuilder();
         for (DayOfWeek c: DayOfWeek.values()){
             outputMsg.append(this.getDay(c).printDay(c.getValue()));

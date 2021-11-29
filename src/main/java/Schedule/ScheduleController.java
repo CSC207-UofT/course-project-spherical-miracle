@@ -1,6 +1,7 @@
 package Schedule;
 
 import java.time.DayOfWeek;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import Schedule.Boundary.*;
@@ -27,6 +28,7 @@ public class ScheduleController {
 
     public String createSchedule(String scheduleName, String username) {
         CreateScheduleUseCase c = new CreateScheduleUseCase(databaseInterface, outputBoundary);
+        System.out.println("For each of the 7 days in your schedule, you can have up to five different workouts.");
         return c.createSchedule(scheduleName, username);
     }
 
@@ -53,9 +55,15 @@ public class ScheduleController {
     }
 
     public void viewListOfSchedule(String username){
-//        InputBoundary InputBoundary = new (scheduleDatabase, scheduleOutputBoundary);
         FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
-        fetch.getScheduleAssociatedWith(username);
+        List<String> schedulesIDs = fetch.getScheduleAssociatedWith(username);
+        int index = outputBoundary.viewSpecificSchedule(schedulesIDs.size());
+        if (schedulesIDs.size() == 0)
+            return;
+        if (index != -1) {
+            DisplayScheduleUseCase display = new DisplayScheduleUseCase(outputBoundary);
+            display.displaySchedule(fetch.getScheduleWithID(schedulesIDs.get(index)));
+        }
     }
 
     /**

@@ -144,11 +144,15 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public List<Object> loadPublicSchedules() {
+    public List<ScheduleInfo> loadPublicSchedules() {
         MongoCursor<Document> cursor = findData("Schedule", eq("public", true)).cursor();
-        ArrayList<Object> publicSchedules = new ArrayList<>();
+        List<String> publicSchedulesIDs = new ArrayList<>();
         while (cursor.hasNext()) {
-            publicSchedules.add(cursor.next().entrySet().toArray());
+            publicSchedulesIDs.add(cursor.next().get("schedules", String.class));
+        }
+        List<ScheduleInfo> publicSchedules = new ArrayList<>();
+        for (String scheduleID: publicSchedulesIDs) {
+            publicSchedules.add(loadScheduleWith(scheduleID));
         }
         return publicSchedules;
     }

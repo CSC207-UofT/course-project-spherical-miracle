@@ -206,7 +206,7 @@ public class Day {
             workout = this.getWorkoutString();
             meal = this.getMealString();
         }
-        outputMsg += "This is your plan(s) for day " + (DayOfWeek.of(day)) + ": \n Workouts: " + workout + "\n" +
+        outputMsg += "This is your plan(s) for " + (DayOfWeek.of(day)) + ": \n Workouts: " + workout + "\n" +
                 " Meal: " + meal + "\n ";
         return outputMsg;
         }

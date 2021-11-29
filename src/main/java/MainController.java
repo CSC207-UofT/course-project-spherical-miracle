@@ -52,7 +52,7 @@ public class MainController {
     }
 
     public void viewPublicSchedules() {
-        // TODO
+        scheduleController.viewPublicSchedules();
         System.out.println("NOT IMPLEMENTED YET");
     }
 

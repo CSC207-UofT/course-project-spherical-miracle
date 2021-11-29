@@ -79,8 +79,8 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     public void updateCurrentSchedule(String username, String scheduleId) {};
 
     @Override
-    public List<Object> loadPublicSchedules() {
-        List<Object> schedules = new ArrayList<>();
+    public List<ScheduleInfo> loadPublicSchedules() {
+        List<ScheduleInfo> schedules = new ArrayList<>();
         for (String scheduleID: publicSchedules) {
             schedules.add(this.schedules.get(scheduleID));
         }

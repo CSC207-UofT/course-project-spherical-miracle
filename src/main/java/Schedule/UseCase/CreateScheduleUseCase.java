@@ -9,10 +9,7 @@ import Schedule.Entities.Workout;
 import Schedule.ScheduleDataAccess;
 
 import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
 
@@ -35,8 +32,37 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
      */
     public String createSchedule(String name, String username) {
         Schedule schedule = new Schedule(name);
+        String option = outputBoundary.createSchedulePrompt();
+        if (option.equals("e")) {
+            DayOfWeek dayOfWeek = outputBoundary.selectDay();
+            schedule.setDay(dayOfWeek, getDay());
+        }
+        assert option.equals("s");
         databaseInterface.createSchedule(scheduleToString(schedule), username, false);
         return schedule.getId();
+    }
+
+    private Day getDay() {
+        Day day = new Day();
+        String option;
+        while (true) {
+            option = outputBoundary.createDayPrompt();
+            if (option.equals("f"))
+                return day;
+            Map<String, String> nameAndCalories;
+            String type;
+            if (option.equals("w"))
+                type = "Workout";
+            else
+                type = "Meal";
+            nameAndCalories = outputBoundary.getNameAndCalories(type);
+            if (option.equals("w"))
+                day.addWorkout(new Workout(nameAndCalories.get("name"),
+                        Integer.parseInt(nameAndCalories.get("calories"))));
+            else
+                day.addMeal(new Meal(nameAndCalories.get("name"),
+                        Integer.parseInt(nameAndCalories.get("calories"))));
+        }
     }
 
     public boolean appendWorkout(String workoutName, String calories, String scheduleID, DayOfWeek dayOfWeek) {

@@ -49,7 +49,7 @@ public interface ScheduleDataAccess {
      * Returns a list of the details of all public schedules.
      * @return list of ScheduleInfo, each containing the details of a schedule
      */
-    List<Object> loadPublicSchedules();
+    List<ScheduleInfo> loadPublicSchedules();
     //TODO: DO we want to have editSchedule()?
 
     /**
