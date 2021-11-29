@@ -1,5 +1,7 @@
 package Schedule;
 
+import Schedule.Entities.Schedule;
+
 import java.util.HashMap;
 /**
  * A database for all the schedules for a user.

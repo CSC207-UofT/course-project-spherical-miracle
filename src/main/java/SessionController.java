@@ -1,4 +1,6 @@
 import User.*;
+import User.Boundary.*;
+import User.UseCase.*;
 
 /**
  * A controller that delegates management of a user's session upon logging in and out.
@@ -10,19 +12,28 @@ public class SessionController {
     private boolean loggedIn;
 
     /**
-     * The username of the user that is logged in. Non-empty if and only if isLoggedIn is true.
+     * The username of the user that is logged in. Non-empty if and only if LoggedIn is true.
      */
     private String usernameOfLoggedInUser = "";
+    private String workingScheduleID = "";
 
     /**
      * Constructs a SessionController with a given database of users to access.
      *
      * @param databaseInterface Interface to access database
      */
-    public SessionController(UserDataAccess databaseInterface) {
-        FetchUserUseCase data = new FetchUserUseCase(databaseInterface);
-        this.loginInputBoundary = new LoginUseCase(data);
-        this.logoutInputBoundary = new LogoutUseCase();
+    public SessionController(UserDataAccess databaseInterface, UserOutputBoundary outputBoundary) {
+        FetchUserUseCase fetch = new FetchUserUseCase(databaseInterface);
+        this.loginInputBoundary = new LoginUseCase(outputBoundary, fetch);
+        this.logoutInputBoundary = new LogoutUseCase(outputBoundary, fetch);
+    }
+
+    public void setWorkingScheduleID(String scheduleID) {
+        this.workingScheduleID = scheduleID;
+    }
+
+    public String getWorkingScheduleID() {
+        return workingScheduleID;
     }
 
     /**
@@ -60,7 +71,7 @@ public class SessionController {
      * Logs user out from the current session.
      */
     public void logout() {
-        logoutInputBoundary.logout();
+        logoutInputBoundary.logout(usernameOfLoggedInUser);
         changeLoginStatus();
         usernameOfLoggedInUser = "";
     }
@@ -76,10 +87,7 @@ public class SessionController {
     /**
      * Returns the username of the user that is logged in. Should only be called if loggedIn.
      */
-    public String getUsernameOfLoggedInUser() throws NotLoggedInException {
-        if (!loggedIn) {
-            throw new NotLoggedInException();
-        }
+    public String getUsernameOfLoggedInUser() {
         return usernameOfLoggedInUser;
     }
 }

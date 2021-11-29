@@ -1,5 +1,7 @@
 package User;
 
+import User.UseCase.UserDoesNotExistException;
+
 public interface UserDataAccess {
 
     /**

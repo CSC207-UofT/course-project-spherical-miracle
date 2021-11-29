@@ -1,4 +1,4 @@
-import User.User;
+import User.Entities.User;
 
 import java.util.HashMap;
 /**
@@ -8,7 +8,7 @@ public class UserDatabase {
     //TODO: replace with database
 
     /**
-     * A HashMap where User.User objects correspond to unique usernames.
+     * A HashMap where User.Entities.User objects correspond to unique usernames.
      */
     private HashMap<String, User> userMap;
 
@@ -29,7 +29,7 @@ public class UserDatabase {
 
     /**
      * Saves user to this database.
-     * @param user the specific User.User object to be saved
+     * @param user the specific User.Entities.User object to be saved
      */
     public void save(User user) {
         userMap.put(user.getUsername(), user);
@@ -38,16 +38,16 @@ public class UserDatabase {
     /**
      * Removes user from this database.
      * @param username the username of the user to be removed
-     * @return User.User object with this username
+     * @return User.Entities.User object with this username
      */
     public User remove(String username) {
         return userMap.remove(username);
     }
 
     /**
-     * Return User.User with given username.
+     * Return User.Entities.User with given username.
      * @param username username of the user of interest
-     * @return the User.User object with the corresponding username
+     * @return the User.Entities.User object with the corresponding username
      */
     public User getUserWithUsername(String username) {
         if (this.hasUserWithUsername(username))

@@ -1,13 +1,14 @@
+import Schedule.Entities.Schedule;
+import Schedule.Entities.Day;
+import Schedule.Entities.Workout;
+import Schedule.ReminderPromptUseCase;
+
+import Schedule.UseCase.CreateScheduleUseCase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ReminderPromptTest {
 
@@ -23,29 +24,20 @@ class ReminderPromptTest {
 
     @Test
     void remind() {
-        List<List<List<Map<String, String>>>> days = new ArrayList<>();
-        Map<String, String> workout = new HashMap<>();
-//        workout.put("workoutName", "testName");
-//        workout.put("calories", "123");
-        Map<String, String> meal = new HashMap<>();
-//        meal.put("mealName", "testName");
-//        meal.put("calories", "123");
-        List<Map<String, String>> workouts = new ArrayList<>();
-//        workouts.add(workout);
-        List<Map<String, String>> meals = new ArrayList<>();
-//        meals.add(meal);
-        for (DayOfWeek c: DayOfWeek.values()) {
-            days.add(new ArrayList<>());
-        }
-        LocalDate.now();
+        Schedule s = new Schedule("TestName");
+        Day expectedDay = new Day();
+        expectedDay.addWorkout(new Workout("WorkoutName", 120));
+        s.setDay(LocalDate.now().getDayOfWeek(), expectedDay);
+        Day otherDay = new Day();
+        otherDay.addWorkout(new Workout("NotThisWorkout", 130));
+        s.setDay(LocalDate.now().getDayOfWeek().plus(1), otherDay);
 
-        days.get(4).add(workouts);
-        days.get(4).add(meals);
-
-        UUID u = UUID.randomUUID();
-        mockDatabase.saveSchedule(u.toString(), "TestName", "michael", true, days);
-        ReminderPromptUseCase reminder = new ReminderPromptUseCase();
-        System.out.println(reminder.remind("michael", mockDatabase));
+        Presenter p = new Presenter();
+        CreateScheduleUseCase c = new CreateScheduleUseCase(mockDatabase, p);
+        c.createSchedule(s, "michael", true);
+        ReminderPromptUseCase reminder = new ReminderPromptUseCase(mockDatabase, p);
+        assert reminder.remind("michael", LocalDate.now().getDayOfWeek()).
+                equals(expectedDay.printDay(LocalDate.now().getDayOfWeek().getValue()));
     }
 
 }
