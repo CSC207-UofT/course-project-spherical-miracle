@@ -1,5 +1,10 @@
 package User.Entities;
 
+import User.ConvertStrategies.HeightStrategies.CmStrategy;
+import User.ConvertStrategies.HeightStrategies.FtAndInStrategy;
+import User.ConvertStrategies.HeightStrategies.HeightConverter;
+import User.ConvertStrategies.WeightStrategies.LbsStrategy;
+import User.ConvertStrategies.WeightStrategies.WeightConverter;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -48,6 +53,69 @@ public class User {
      **/
     public String getEmail() {
         return email;
+    }
+
+    /**
+     * Sets the weight of this User.
+     * @param weight user's weight
+     * @param units the unit of measurement for weight
+     */
+    public void setWeight(double weight, String units) {
+        if (units.equalsIgnoreCase("lbs")){
+            weightConverter = new LbsStrategy();
+        }
+        if (weightConverter != null){
+            this.weight = weightConverter.getKgs(weight);
+        } else {
+            this.weight = weight;
+        }
+    }
+
+    /**
+     * Returns the weight of this User.
+     * @return user's weight
+     **/
+    public double getWeight(){
+        return weight;
+    }
+
+    /**
+     * Sets the weight of this User.
+     * @param height user's height
+     * @param units the unit of measurement for height
+     */
+    public void setHeight(double height, String units){
+        if (units.equalsIgnoreCase("cm")){
+            heightConverter = new CmStrategy();
+        } else if (units.equalsIgnoreCase("FtAndIn")){
+            heightConverter = new FtAndInStrategy();
+        }
+        if (heightConverter != null){
+            this.height = heightConverter.getM(height);
+        } else {
+            this.height = height;
+        }
+
+    }
+
+    /**
+     * Sets the weight of this User.
+     * @returns user's current BMI, kg/m^2 and return 0 if Weight is 0 (not implemented)
+     */
+    public double getBMI(){
+        try {
+            return this.weight / Math.pow(this.height, 2);
+        } catch (ArithmeticException e){
+            return 0;
+        }
+    }
+
+    /**
+     * Returns the height of this User.
+     * @return user's height
+     */
+    public double getHeight(){
+        return height;
     }
 
     /**
