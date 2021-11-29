@@ -44,11 +44,13 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         if (doc == null) {
             throw new UserDoesNotExistException(username);
         }
-        String[] userInfo = new String[4];
+        String[] userInfo = new String[6];
         userInfo[0] = doc.getString("username");
         userInfo[1] = doc.getString("password");
         userInfo[2] = doc.getString("name");
         userInfo[3] = doc.getString("email");
+        userInfo[4] = doc.getString("currentWeight");
+        userInfo[5] = doc.getString("currentHeight");
         return userInfo;
     }
 
@@ -104,12 +106,16 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     public void saveUser(String username, String password, String name, String email){
         MongoCollection<Document> uc = database.getCollection("User");
         MongoCollection<Document> usc = database.getCollection("User_Schedule");
+        MongoCollection<Document> uWH = database.getCollection("User_WH");
         String pwHash = BCrypt.hashpw(password, BCrypt.gensalt(10));
         Document newUser = new Document("name", name).append("username", username).append("email", email).append("password", pwHash);
         ObjectId id = Objects.requireNonNull(uc.insertOne(newUser).getInsertedId()).asObjectId().getValue();
         List<DBObject> array = new ArrayList<>();
-        Document new_us = new Document("username",username).append("active_schedule", "").append("schedules", array);
-        ObjectId id2 = Objects.requireNonNull(usc.insertOne(new_us).getInsertedId()).asObjectId().getValue();
+        Document newUs = new Document("username",username).append("height", "").append("schedules", array);
+        ObjectId id2 = Objects.requireNonNull(usc.insertOne(newUs).getInsertedId()).asObjectId().getValue();
+//        Document newUWH = new Document("username",username).append("active_schedule", "").append("schedules", array);
+//        ObjectId id3 = Objects.requireNonNull(uWH.insertOne(newUWH).getInsertedId()).asObjectId().getValue();
+
     }
 
     public void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic) {

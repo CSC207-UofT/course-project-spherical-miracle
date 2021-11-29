@@ -16,6 +16,10 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private double weight;
+    private double height;
+    private HeightConverter heightConverter;
+    private WeightConverter weightConverter;
 
     /**
      * Constructs a User, giving them the name, username, email, and password.
@@ -29,6 +33,10 @@ public class User {
         this.password = password;
         this.email = email;
         this.name = name;
+        this.weight = 0;
+        this.height = 0;
+        this.heightConverter = null;
+        this.weightConverter = null;
     }
 
     /**
