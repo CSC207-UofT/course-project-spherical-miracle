@@ -91,7 +91,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
             }
         }
         assert doc != null;
-        List<String> scheduleIDs = doc.getList("schedules_id", String.class);
+        List<String> scheduleIDs = doc.getList("schedules", String.class);
         List<ScheduleInfo> schedules = new ArrayList<>();
         for(String scheduleID: scheduleIDs) {
             schedules.add(loadScheduleWith(scheduleID));
@@ -160,7 +160,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     public void saveUserScheduleCollection(String username, String scheduleId) {
         MongoCollection<Document> suc = database.getCollection("User_Schedule");
         Bson equalComparison = eq("username", username);
-        suc.updateOne(equalComparison, Updates.addToSet("schedules_id",scheduleId)); // username is unique
+        suc.updateOne(equalComparison, Updates.addToSet("schedules",scheduleId)); // username is unique
     }
 
     @Override
