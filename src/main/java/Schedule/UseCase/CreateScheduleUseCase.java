@@ -33,9 +33,10 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
     public String createSchedule(String name, String username) {
         Schedule schedule = new Schedule(name);
         String option = outputBoundary.createSchedulePrompt();
-        if (option.equals("e")) {
+        while (option.equals("c")) {
             DayOfWeek dayOfWeek = outputBoundary.selectDay();
-            schedule.setDay(dayOfWeek, getDay());
+            schedule.setDay(dayOfWeek, getDay(schedule.getDay(dayOfWeek)));
+            option = outputBoundary.createSchedulePrompt();
         }
         assert option.equals("s");
         boolean isPublic = outputBoundary.isPublic();
@@ -43,8 +44,7 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
         return schedule.getId();
     }
 
-    private Day getDay() {
-        Day day = new Day();
+    private Day getDay(Day day) {
         String option;
         while (true) {
             option = outputBoundary.createDayPrompt();
@@ -103,7 +103,7 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
             List<Map<String, String>> meals = new ArrayList<>();
             for (Meal m: d.getMeals()) {
                 Map<String, String> meal = new HashMap<>();
-                meal.put(databaseInterface.workoutName, m.getName());
+                meal.put(databaseInterface.mealName, m.getName());
                 meal.put(databaseInterface.calories, Integer.toString(m.getCalories()));
                 meals.add(meal);
             }

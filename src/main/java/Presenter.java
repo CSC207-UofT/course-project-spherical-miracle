@@ -11,7 +11,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     public class Messages {
         static final String WELCOME_MESSGAGE = "Welcome! Here are your options:";
         static final String INVALID_INPUT = "Invalid input. Try again.";
-        static final String CREATE_SCHEDULE_OPTIONS = "Type 'e' to start creating or 's' to save and return to the main menu.";
+        static final String CREATE_SCHEDULE_OPTIONS = "Type 'c' to make changes to a day or 's' to save and return to the main menu.";
     }
 
     public int getNumberBetweenInclusive(int min, int max) {
@@ -128,7 +128,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
         String option;
         while (true) {
             option = in.nextLine();
-            if (option.equals("e") || option.equals("s"))
+            if (option.equals("c") || option.equals("s"))
                 return option;
             System.out.println(Messages.INVALID_INPUT);
         }

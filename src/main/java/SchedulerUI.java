@@ -135,7 +135,7 @@ public class SchedulerUI {
         }
         userInput.put("username", input);
         System.out.println("Enter your password:");
-        userInput.put("password", in.nextLine());
+        input = in.nextLine();
         while (!(validatePassword(input)) && !(isLogin)) {
             System.out.println("Try again! Make sure password is between 8 to 30 characters long \n" +
                     "with no white spaces.");
