@@ -153,7 +153,10 @@ public class Day {
         for (Workout workout : workouts) {
             if (!(workout == null)) {
                 stringWorkouts.append(workout.getName());
-                stringWorkouts.append(", ");
+                stringWorkouts.append(": ");
+                stringWorkouts.append(workout.getCaloriesBurnt());
+                stringWorkouts.append(" kcal, ");
+
             }
         }
 
@@ -175,7 +178,9 @@ public class Day {
         StringBuilder stringMeals = new StringBuilder();
         for (Meal meal : meals) {
             stringMeals.append(meal.getName());
-            stringMeals.append(", ");
+            stringMeals.append(": ");
+            stringMeals.append(meal.getCalories());
+            stringMeals.append(" kcal, ");
         }
         // remove the last comma
         if(stringMeals.length() != 0) {

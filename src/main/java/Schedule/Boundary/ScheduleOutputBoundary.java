@@ -9,6 +9,7 @@ public interface ScheduleOutputBoundary {
     void something(boolean signedUp);
     void listSchedules(List<String> schedules);
     void deleteSchedule(String scheduleName);
+    boolean isPublic();
 
     /**
      * Returns the index of ID of the schedule that the user would like to view. If they do not want to view, return -1.

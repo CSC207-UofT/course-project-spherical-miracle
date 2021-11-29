@@ -42,6 +42,7 @@ public class ScheduleController {
         //if (is_valid) {
         CreateScheduleInputBoundary c = new CreateScheduleUseCase(databaseInterface, outputBoundary);
         c.createSchedule(scheduleName, username, isPublic, days);
+
         //}
         //return false;
     }

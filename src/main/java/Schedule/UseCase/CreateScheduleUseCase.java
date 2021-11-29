@@ -38,7 +38,8 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
             schedule.setDay(dayOfWeek, getDay());
         }
         assert option.equals("s");
-        databaseInterface.createSchedule(scheduleToString(schedule), username, false);
+        boolean isPublic = outputBoundary.isPublic();
+        databaseInterface.createSchedule(scheduleToString(schedule), username, isPublic);
         return schedule.getId();
     }
 
