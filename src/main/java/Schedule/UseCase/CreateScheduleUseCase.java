@@ -7,6 +7,7 @@ import Schedule.Entities.Meal;
 import Schedule.Entities.Schedule;
 import Schedule.Entities.Workout;
 import Schedule.ScheduleDataAccess;
+import Schedule.Entities.Day.addWorkoutResult;
 
 import java.time.DayOfWeek;
 import java.util.*;
@@ -26,9 +27,9 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
     }
 
     /**
-     *
-     * @param name
-     * @param username
+     * Creates a schedule and prompts the user for the necessary details.
+     * @param name - specified name of the schedule
+     * @param username - username of the user creating a schedule
      */
     public String createSchedule(String name, String username) {
         Schedule schedule = new Schedule(name);
@@ -57,24 +58,16 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
             else
                 type = "Meal";
             nameAndCalories = outputBoundary.getNameAndCalories(type);
-            if (option.equals("w"))
-                day.addWorkout(new Workout(nameAndCalories.get("name"),
-                        Integer.parseInt(nameAndCalories.get("calories"))));
+            if (option.equals("w")) {
+                Workout w = new Workout(nameAndCalories.get("name"),
+                        Integer.parseInt(nameAndCalories.get("calories")));
+                addWorkoutResult result = day.addWorkout(w);
+                outputBoundary.showAddWorkoutResult(result.ordinal(), nameAndCalories.get("name"));
+            }
             else
                 day.addMeal(new Meal(nameAndCalories.get("name"),
                         Integer.parseInt(nameAndCalories.get("calories"))));
         }
-    }
-
-    public boolean appendWorkout(String workoutName, String calories, String scheduleID, DayOfWeek dayOfWeek) {
-        Workout workout = new Workout(workoutName, Integer.parseInt(calories));
-        FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
-        Schedule schedule = fetch.getScheduleWithID(scheduleID);
-        Day day = schedule.getDay(dayOfWeek);
-        boolean success = day.addWorkout(workout);
-        if (!success)
-            outputBoundary.outputTooManyWorkout();
-        return success;
     }
 
     @Override
@@ -112,7 +105,5 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
             days.add(day);
         }
         return new ScheduleDataAccess.ScheduleInfo(schedule.getId(), schedule.getName(), days);
-//        databaseInterface.createSchedule(scheduleInfo, days);
-//        outputBoundary.scheduleMadeMessage(schedule.printSchedule());
     }
 }

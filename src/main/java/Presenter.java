@@ -103,10 +103,10 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     public int viewSpecificSchedule(int size) {
         Scanner in = new Scanner(System.in);
         if (size == 0) {
-            System.out.println("You have not created any schedules yet. Go create some!");
+            System.out.println("There are no schedules available here. Go create some!");
             return -1;
         }
-        System.out.println("Enter the number of the schedule that you would like to view. Or -1 to go back. ");
+        System.out.println("Enter the number of the schedule that you would like to view. Or -1 to go back.");
         while (true) {
             try {
                 int index = Integer.parseInt(in.nextLine());
@@ -115,11 +115,6 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
             } catch (NumberFormatException e ) {}
             System.out.println("Invalid input. Try again.");
         }
-    }
-
-    @Override
-    public void outputTooManyWorkout() {
-        System.out.println("You can't add any more workouts to this day.");
     }
 
     @Override
@@ -169,6 +164,22 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
             } catch (NumberFormatException e) {}
             System.out.println(Messages.INVALID_INPUT);
         }
+    }
+
+    @Override
+    public void showAddWorkoutResult(int result, String name) {
+        String output;
+        if (result == 0) {
+            output = "You have added the Workout " + name;
+        }
+        else if (result == 1) {
+            output = "There are too many workouts in this day. Try again.";
+        }
+        else {
+            assert result == 2;
+            output = "There is already a workout in this day with the same name. Try again.";
+        }
+        System.out.println(output);
     }
 
     @Override

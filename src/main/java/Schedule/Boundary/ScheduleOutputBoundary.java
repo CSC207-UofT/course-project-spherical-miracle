@@ -17,12 +17,20 @@ public interface ScheduleOutputBoundary {
      * @param size
      */
     int viewSpecificSchedule(int size);
-    void outputTooManyWorkout();
 
     String createSchedulePrompt();
     DayOfWeek selectDay();
 
     Map<String, String> getNameAndCalories(String meal);
 
+    /**
+     * Displays the result of adding a workout
+     * @param result - the ordinal value of the result
+     *                 0 - SUCCESS
+     *                 1 - TOO_MANY
+     *                 2 - DUPLICATE_NAME
+     * @param name
+     */
+    void showAddWorkoutResult(int result, String name);
     String createDayPrompt();
 }
