@@ -1,10 +1,7 @@
 import Schedule.Entities.Workout;
 import Schedule.UseCase.CheckDuplicateWorkoutUseCase;
-import Schedule.UseCase.CreateScheduleUseCase;
 import Schedule.UseCase.FetchSchedulesUseCase;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CheckDuplicateWorkoutUseCaseTest {
 

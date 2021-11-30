@@ -1,7 +1,6 @@
 package Schedule;
 
 import java.time.DayOfWeek;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import Schedule.Boundary.*;
@@ -27,9 +26,9 @@ public class ScheduleController {
     }
 
     public String createSchedule(String scheduleName, String username) {
-        CreateScheduleUseCase c = new CreateScheduleUseCase(databaseInterface, outputBoundary);
+        ManageScheduleUseCase c = new ManageScheduleUseCase(databaseInterface, outputBoundary);
         System.out.println("For each of the 7 days in your schedule, you can have up to five different workouts.");
-        return c.createSchedule(scheduleName, username);
+        return c.saveSchedule(scheduleName, username);
     }
 
     /**
@@ -40,7 +39,7 @@ public class ScheduleController {
         //TODO: validating inputs
         //boolean is_valid = ;
         //if (is_valid) {
-        CreateScheduleInputBoundary c = new CreateScheduleUseCase(databaseInterface, outputBoundary);
+        CreateScheduleInputBoundary c = new ManageScheduleUseCase(databaseInterface, outputBoundary);
         c.createSchedule(scheduleName, username, isPublic, days);
         //}
         //return false;

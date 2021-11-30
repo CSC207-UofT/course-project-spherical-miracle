@@ -104,11 +104,11 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public void outputTooManyWorkout() {
-        System.out.println("You can't add any more workouts to this day.");
+
     }
 
     @Override
-    public String createSchedulePrompt() {
+    public String selectEditOrSave() {
         System.out.println(Messages.CREATE_SCHEDULE_OPTIONS);
         String option;
         while (true) {

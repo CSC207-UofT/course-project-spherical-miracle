@@ -18,7 +18,7 @@ public interface ScheduleOutputBoundary {
     int viewSpecificSchedule(int size);
     void outputTooManyWorkout();
 
-    String createSchedulePrompt();
+    String selectEditOrSave();
     DayOfWeek selectDay();
 
     Map<String, String> getNameAndCalories(String meal);
