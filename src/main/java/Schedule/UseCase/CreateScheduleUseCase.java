@@ -18,7 +18,7 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
 
     /**
      * Instantiate a use case that creates a schedule.
-     * @param databaseInterface - the access interface boundary between the databaseInterface and the use case.
+     * @param databaseInterface - the access interface boundary between the database and the use case.
      */
     public CreateScheduleUseCase(ScheduleDataAccess databaseInterface, ScheduleOutputBoundary outputBoundary) {
         this.databaseInterface = databaseInterface;

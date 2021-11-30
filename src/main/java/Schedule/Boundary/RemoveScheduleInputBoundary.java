@@ -1,5 +1,5 @@
 package Schedule.Boundary;
 
 public interface RemoveScheduleInputBoundary {
-    void remove();
+    void remove(String username, String scheduleName);
 }

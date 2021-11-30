@@ -192,6 +192,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         suc.updateOne(equalComparison, Updates.set("active_schedule", scheduleId));
     }
 
+    @Override
     public void deleteSchedule(String scheduleId){
         MongoCollection<Document> sc = database.getCollection("Schedule");
         Bson equalComparison = eq("UUID", scheduleId);

@@ -39,9 +39,9 @@ public interface ScheduleDataAccess {
     void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic);
 
     /**
-     * TODO: Complete javadoc after implementation.
-     * @param username
-     * @param scheduleId
+     * Updates a user's schedule's status based on if it is currently an active schedule.
+     * @param username user that the schedule being updated belongs to
+     * @param scheduleId id of the schedule being updated
      */
     void updateCurrentSchedule(String username, String scheduleId);
 
@@ -51,6 +51,8 @@ public interface ScheduleDataAccess {
      */
     List<ScheduleInfo> loadPublicSchedules();
     //TODO: DO we want to have editSchedule()?
+
+    void deleteSchedule(String scheduleId);
 
     /**
      * A class encapsulating the details of a schedule.
@@ -83,5 +85,9 @@ public interface ScheduleDataAccess {
         public List<List<List<Map<String, String>>>> getDetails() {
             return details;
         }
+
+
     }
+
+
 }

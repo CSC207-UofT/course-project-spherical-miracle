@@ -1,4 +1,9 @@
+import Schedule.Boundary.RemoveScheduleInputBoundary;
 import Schedule.Boundary.ScheduleOutputBoundary;
+import Schedule.ScheduleDataAccess;
+import Schedule.ScheduleDatabase;
+import Schedule.UseCase.FetchSchedulesUseCase;
+import Schedule.UseCase.RemoveScheduleUseCase;
 import User.Boundary.*;
 
 import java.time.DayOfWeek;
@@ -30,10 +35,8 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     public void loginMessage(boolean loggedIn) {
         if (loggedIn) {
             System.out.println("Login successful!");
-
         } else {
             System.out.println("Username and password does not match. Please try again.");
-
         }
     }
 
@@ -54,6 +57,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public void scheduleList(String listSchedules) {
+        // TODO: do this but make two
 
     }
 
@@ -80,7 +84,14 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
-    public void deleteSchedule(String scheduleName) {
+    public void deleteSchedule(String username, String scheduleName) {
+            // TODO: validate if inputted name is valid in user's schedule, make use case for it
+            ScheduleDataAccess things = null;
+            RemoveScheduleInputBoundary thing = new RemoveScheduleUseCase(null);
+            thing.remove(username, scheduleName);
+            System.out.println("Schedule " + scheduleName + " has been successfully deleted!");
+            // if user didn't input name of a valid schedule that exists in their collection
+            // System.out.println("Invalid input. Try again.");
 
     }
 
