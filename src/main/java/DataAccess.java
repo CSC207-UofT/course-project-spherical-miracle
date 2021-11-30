@@ -8,6 +8,7 @@ import static com.mongodb.client.model.Filters.*;
 import User.UserDataAccess;
 import User.UseCase.UserDoesNotExistException;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import org.bson.types.ObjectId;
@@ -39,20 +40,55 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public String[] loadUserWithUsername(String username) throws UserDoesNotExistException {
+    public Object[] loadUserWithUsername(String username) throws UserDoesNotExistException {
         Document doc = findData("User", eq("username", username)).first();
-        if (doc == null) {
+        Document doc2 = findData("User_WH", eq("username", username)).first();
+        if (doc == null || doc2 == null) {
             throw new UserDoesNotExistException(username);
         }
-        String[] userInfo = new String[6];
+        Object[] userInfo = new String[6];
         userInfo[0] = doc.getString("username");
         userInfo[1] = doc.getString("password");
         userInfo[2] = doc.getString("name");
         userInfo[3] = doc.getString("email");
-        userInfo[4] = doc.getString("currentWeight");
-        userInfo[5] = doc.getString("currentHeight");
+
+        List<Double> weight = doc2.getList("weight", double.class);
+        List<Double> height = doc2.getList("height", double.class);
+        if (height.isEmpty()||weight.isEmpty()){
+            return userInfo;
+        } else {
+            userInfo[4] = weight.get(weight.size()-1);
+            userInfo[5] = height.get(height.size()-1);
+        }
         return userInfo;
     }
+
+    @Override
+    public void addHeightWeight(String username, double height, double weight){
+        LocalDate date = LocalDate.now();
+        MongoCollection<Document> uWH = database.getCollection("User_WH");
+        Bson equalComparison = eq("username", username);
+        uWH.updateOne(equalComparison,Updates.combine(Updates.push("height", height),
+                Updates.push("weight",weight),
+                Updates.push("date",date.toString()))
+        ); // username is unique
+
+    }
+
+    @Override
+    public BodyMeasurementRecord getHWListWith(String username){
+        Document doc2 = findData("User_WH", eq("username", username)).first();
+        assert doc2 != null;
+        List<Double> weight = doc2.getList("weight", Double.class);
+        List<Double> height = doc2.getList("height", Double.class);
+        List<String> date = doc2.getList("date", String.class);
+        List<LocalDate> localDates = new ArrayList<>();
+        for (String s : date){
+            localDates.add(LocalDate.parse(s));
+        }
+        return new BodyMeasurementRecord(username, weight, height, localDates);
+    }
+
 
     @Override
     @SuppressWarnings("unchecked")
@@ -111,11 +147,10 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         Document newUser = new Document("name", name).append("username", username).append("email", email).append("password", pwHash);
         ObjectId id = Objects.requireNonNull(uc.insertOne(newUser).getInsertedId()).asObjectId().getValue();
         List<DBObject> array = new ArrayList<>();
-        Document newUs = new Document("username",username).append("height", "").append("schedules", array);
+        Document newUs = new Document("username",username).append("active_schedule", "").append("schedules", array);
         ObjectId id2 = Objects.requireNonNull(usc.insertOne(newUs).getInsertedId()).asObjectId().getValue();
-//        Document newUWH = new Document("username",username).append("active_schedule", "").append("schedules", array);
-//        ObjectId id3 = Objects.requireNonNull(uWH.insertOne(newUWH).getInsertedId()).asObjectId().getValue();
-
+        Document newUWH = new Document("username",username).append("height", array).append("weight", array).append("date", array);
+        ObjectId id3 = Objects.requireNonNull(uWH.insertOne(newUWH).getInsertedId()).asObjectId().getValue();
     }
 
     public void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic) {

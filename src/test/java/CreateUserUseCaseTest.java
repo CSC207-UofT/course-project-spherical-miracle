@@ -23,7 +23,7 @@ class CreateUserUseCaseTest {
         MockDatabase db = new MockDatabase();
         CreateUserUseCase create = new CreateUserUseCase(db, new Presenter());
         create.createUser(expectedUsername, expectedPassword, expectedName, expectedEmail);
-        String[] userInfo = db.loadUserWithUsername(expectedUsername);
+        Object[] userInfo = db.loadUserWithUsername(expectedUsername);
         assert userInfo[0].equals(expectedUsername);
         assert userInfo[1].equals(expectedPassword);
         assert userInfo[2].equals(expectedName);
