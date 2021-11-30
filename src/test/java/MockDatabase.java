@@ -95,7 +95,7 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
 
     @Override
     public void addHeightWeight(String username, double height, double weight) {
-        
+
     }
 
     @Override
