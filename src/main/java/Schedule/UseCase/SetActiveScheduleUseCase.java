@@ -25,7 +25,6 @@ public class SetActiveScheduleUseCase {
      */
     public void setAsActiveSchedule(String username, Schedule schedule) {
         //steps
-
         databaseInterface.updateCurrentSchedule(username, schedule.getId());
 
     }

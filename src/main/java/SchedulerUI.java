@@ -94,7 +94,6 @@ public class SchedulerUI {
                     mainController.viewPublicSchedules();
                     break;
                 case Commands.TODAYS_REMINDER:
-                    // TODO: NOT DONE
                     DayOfWeek today = LocalDate.now().getDayOfWeek();
                     mainController.sendReminderForDay(today);
 

@@ -1,6 +1,5 @@
 package Schedule.UseCase;
 import Schedule.Boundary.ScheduleOutputBoundary;
-import Schedule.UseCase.*;
 import Schedule.Entities.*;
 import Schedule.ScheduleDataAccess;
 
@@ -25,12 +24,12 @@ public class ReminderPromptUseCase {
      * @param dayOfWeek
      * @return a String representation of a User's day.
      */
-    public String remind(String username, DayOfWeek dayOfWeek) {
+    public void remind(String username, DayOfWeek dayOfWeek) {
         FetchSchedulesUseCase activeSchedule = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
         Schedule currentSchedule = activeSchedule.getActiveSchedule(username);
         Day scheduledDay = currentSchedule.getDay(dayOfWeek); // assign this value to scheduled workout
         // TODO: Let presenter handle this print statement
-        System.out.println(scheduledDay.printDay(dayOfWeek.getValue()));
-        return scheduledDay.printDay(dayOfWeek.getValue());
+        outputBoundary.reminderPrompt(scheduledDay.printDay(dayOfWeek.getValue()));
+//        return scheduledDay.printDay(dayOfWeek.getValue());
     }
 }
