@@ -37,14 +37,7 @@ public class ScheduleController {
      * Otherwise, return false.
      **/
     public void createSchedule(String scheduleName, String username, boolean isPublic, List<List<List<Map<String, String>>>> days) {
-<<<<<<< HEAD
-        //TODO: validating inputs
-        //boolean is_valid = ;
-        //if (is_valid) {
         CreateScheduleInputBoundary c = new ManageScheduleUseCase(databaseInterface, outputBoundary);
-=======
-        CreateScheduleInputBoundary c = new CreateScheduleUseCase(databaseInterface, outputBoundary);
->>>>>>> 6b848e07dc37c3208085993a6f78dd0982aba082
         c.createSchedule(scheduleName, username, isPublic, days);
     }
 
