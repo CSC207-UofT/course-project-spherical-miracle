@@ -83,6 +83,7 @@ public class SchedulerUI {
                     break;
                 case Commands.VIEW_YOUR_SCHEDULES:
                     mainController.viewMySchedules();
+
                     break;
                 case Commands.VIEW_PUBLIC_SCHEDULES:
                     // TODO: NO option to make a schedule public yet
@@ -103,6 +104,11 @@ public class SchedulerUI {
         System.out.println("Enter the name of the schedule");
         String scheduleName = in.nextLine();
         mainController.createSchedule(scheduleName);
+    }
+
+    private void selectActiveSchedule(){
+        System.out.println("These are your current schedules.");
+        mainController.viewMySchedules();
     }
 
     private String selectOption(Map<String, String> commands) {

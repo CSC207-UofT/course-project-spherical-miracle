@@ -1,7 +1,8 @@
-package Schedule;
+package Schedule.UseCase;
 import Schedule.Boundary.ScheduleOutputBoundary;
 import Schedule.UseCase.*;
 import Schedule.Entities.*;
+import Schedule.ScheduleDataAccess;
 
 /**
  * A reminder of the day's activities for the user upon login.

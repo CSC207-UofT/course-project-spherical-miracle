@@ -85,6 +85,11 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
+    public String setActive() {
+        return null;
+    }
+
+    @Override
     public boolean isPublic() {
         System.out.println("Enter 't' if you want the schedule to be public, if not enter 'f'.");
         String option;

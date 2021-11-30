@@ -9,6 +9,7 @@ public interface ScheduleOutputBoundary {
     void something(boolean signedUp);
     void listSchedules(List<String> schedules);
     void deleteSchedule(String scheduleName);
+    String setActive();
     boolean isPublic();
 
     /**
