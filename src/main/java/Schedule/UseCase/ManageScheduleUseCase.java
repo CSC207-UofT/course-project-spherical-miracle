@@ -7,6 +7,7 @@ import Schedule.Entities.Meal;
 import Schedule.Entities.Schedule;
 import Schedule.Entities.Workout;
 import Schedule.ScheduleDataAccess;
+import Schedule.Entities.Day.addWorkoutResult;
 
 import java.time.DayOfWeek;
 import java.util.*;
@@ -26,27 +27,28 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
     }
 
     /**
-     * Creates a schedule and returns its ID.
-     * @param name
-     * @param username
+     * Creates a schedule and prompts the user for the necessary details.
+     * @param name - specified name of the schedule
+     * @param username - username of the user creating a schedule
      */
-    public String saveSchedule(String name, String username) {
+    public String createSchedule(String name, String username) {
         Schedule schedule = new Schedule(name);
         editSchedule(schedule);
-        databaseInterface.createSchedule(scheduleToString(schedule), username, false);
+        saveSchedule(schedule, username);
         return schedule.getId();
     }
 
     public void editSchedule(String scheduleID, String username) {
         FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
+        RemoveScheduleUseCase remove = new RemoveScheduleUseCase(databaseInterface);
         Schedule schedule = fetch.getScheduleWithID(scheduleID);
         editSchedule(schedule);
-        RemoveScheduleUseCase remove = new RemoveScheduleUseCase(databaseInterface);
         remove.removeScheduleFromUser(scheduleID, username);
         saveSchedule(schedule, username);
     }
 
     protected void saveSchedule(Schedule schedule, String username) {
+        boolean isPublic = outputBoundary.isPublic();
         databaseInterface.createSchedule(scheduleToString(schedule), username, isPublic);
     }
 
@@ -59,7 +61,6 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
         }
         assert option.equals("s");
     }
-
 
     private Day getDay(Day day) {
         String option;
@@ -74,9 +75,12 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
             else
                 type = "Meal";
             nameAndCalories = outputBoundary.getNameAndCalories(type);
-            if (option.equals("w"))
-                day.addWorkout(new Workout(nameAndCalories.get("name"),
-                        Integer.parseInt(nameAndCalories.get("calories"))));
+            if (option.equals("w")) {
+                Workout w = new Workout(nameAndCalories.get("name"),
+                        Integer.parseInt(nameAndCalories.get("calories")));
+                addWorkoutResult result = day.addWorkout(w);
+                outputBoundary.showAddWorkoutResult(result.ordinal(), nameAndCalories.get("name"));
+            }
             else
                 day.addMeal(new Meal(nameAndCalories.get("name"),
                         Integer.parseInt(nameAndCalories.get("calories"))));
@@ -88,10 +92,6 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
         Schedule schedule = new Schedule(name);
         databaseInterface.createSchedule(scheduleToString(schedule), username, isPublic);
     }
-
-    // TODO: Have subpackages within the Schedule package and make this protected (only other use cases have access)
-
-
 
     private ScheduleDataAccess.ScheduleInfo scheduleToString(Schedule schedule) {
         List<List<List<Map<String, String>>>> days = new ArrayList<>();
@@ -108,7 +108,7 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
             List<Map<String, String>> meals = new ArrayList<>();
             for (Meal m: d.getMeals()) {
                 Map<String, String> meal = new HashMap<>();
-                meal.put(databaseInterface.workoutName, m.getName());
+                meal.put(databaseInterface.mealName, m.getName());
                 meal.put(databaseInterface.calories, Integer.toString(m.getCalories()));
                 meals.add(meal);
             }
@@ -117,7 +117,5 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
             days.add(day);
         }
         return new ScheduleDataAccess.ScheduleInfo(schedule.getId(), schedule.getName(), days);
-//        databaseInterface.createSchedule(scheduleInfo, days);
-//        outputBoundary.scheduleMadeMessage(schedule.printSchedule());
     }
 }
