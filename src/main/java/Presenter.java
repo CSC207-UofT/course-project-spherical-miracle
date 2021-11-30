@@ -53,11 +53,6 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
-    public void scheduleList(String listSchedules) {
-
-    }
-
-    @Override
     public void scheduleMadeMessage(String returnMessage) {
 
     }
@@ -74,9 +69,20 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public void listSchedules(List<String> schedules) {
+        System.out.println("These are your kept schedules. \n");
         for (String scheduleName: schedules) {
             System.out.println((schedules.indexOf(scheduleName)) + ". " + scheduleName);
         }
+    }
+
+    @Override
+    public void currentActiveSchedule(String scheduleName){
+        System.out.println("your current active schedule is " + scheduleName);
+    }
+
+    @Override
+    public void noActiveSchedule(){
+        System.out.println("You don't have an active schedule yet.");
     }
 
     @Override
@@ -103,22 +109,30 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
         }
 
     }
+    @Override
+    public int activeSchedulePrompt(int size) {
+        return scheduleList(size, "Enter the number of the schedule that you want to activate. Or -1 to go back.");
+    }
 
     @Override
     public int viewSpecificSchedule(int size) {
+        return scheduleList(size, "Enter the number of the schedule that you would like to view. Or -1 to go back.");
+    }
+
+    private int scheduleList(int size, String message){
         Scanner in = new Scanner(System.in);
         if (size == 0) {
             System.out.println("There are no schedules available here. Go create some!");
             return -1;
         }
-        System.out.println("Enter the number of the schedule that you would like to view. Or -1 to go back.");
+        System.out.println(message);
         while (true) {
             try {
                 int index = Integer.parseInt(in.nextLine());
                 if (-1 <= index && index <= size - 1)
                     return index;
             } catch (NumberFormatException e ) {}
-            System.out.println("Invalid input. Try again.");
+            System.out.println(Messages.INVALID_INPUT);
         }
     }
 

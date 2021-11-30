@@ -179,8 +179,10 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     @Override
     public ScheduleInfo loadActiveSchedule(String username) {
         Bson equalComparison = eq("username", username);
-        Document doc = findData("User_schedule", equalComparison).first();
-        assert doc != null;
+        Document doc = findData("User_Schedule", equalComparison).first();
+        if (doc == null){
+            return null;
+        }
         return loadScheduleWith(doc.getString("active_schedule"));
     }
 

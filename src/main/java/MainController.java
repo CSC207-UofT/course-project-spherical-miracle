@@ -46,7 +46,9 @@ public class MainController {
     }
 
     public void setActiveSchedules(){
-        viewMySchedules();
+        String username = sessionController.getUsernameOfLoggedInUser();
+        List<String> ids = scheduleController.viewListOfSchedule(username);
+        scheduleController.setActiveSchedule(ids, username);
 
     }
 
