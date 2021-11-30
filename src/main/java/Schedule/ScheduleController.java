@@ -1,7 +1,6 @@
 package Schedule;
 
 import java.time.DayOfWeek;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import Schedule.Boundary.*;
@@ -15,6 +14,7 @@ public class ScheduleController {
 
     private final ScheduleDataAccess databaseInterface;
     private final ScheduleOutputBoundary outputBoundary;
+    private final FetchSchedulesUseCase fetch;
 
     /**
      * Construct a list of the information needed to create a new user and the UserDatabase data.
@@ -23,7 +23,7 @@ public class ScheduleController {
     public ScheduleController(ScheduleDataAccess databaseInterface, ScheduleOutputBoundary outputBoundary){
         this.databaseInterface = databaseInterface;
         this.outputBoundary = outputBoundary;
-
+        fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
     }
 
     public String createSchedule(String scheduleName, String username) {
@@ -37,13 +37,8 @@ public class ScheduleController {
      * Otherwise, return false.
      **/
     public void createSchedule(String scheduleName, String username, boolean isPublic, List<List<List<Map<String, String>>>> days) {
-        //TODO: validating inputs
-        //boolean is_valid = ;
-        //if (is_valid) {
         CreateScheduleInputBoundary c = new CreateScheduleUseCase(databaseInterface, outputBoundary);
         c.createSchedule(scheduleName, username, isPublic, days);
-        //}
-        //return false;
     }
 
     /**
@@ -55,23 +50,16 @@ public class ScheduleController {
     }
 
     public void viewListOfSchedule(String username){
-        FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
         List<String> schedulesIDs = fetch.getScheduleAssociatedWith(username);
-        int index = outputBoundary.viewSpecificSchedule(schedulesIDs.size());
-        if (schedulesIDs.size() == 0)
-            return;
-        if (index != -1) {
-            DisplayScheduleUseCase display = new DisplayScheduleUseCase(outputBoundary);
-            display.displaySchedule(fetch.getScheduleWithID(schedulesIDs.get(index)));
-        }
+        selectAndDisplaySchedule(schedulesIDs);
     }
 
     /**
      * Displays the list of public schedules
      */
     public void viewPublicSchedules() {
-        FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
-        fetch.getPublicSchedules();
+        List<String> schedulesIDs = fetch.getPublicSchedules();
+        selectAndDisplaySchedule(schedulesIDs);
     }
 
     public void reminderFor(String username, DayOfWeek dayOfWeek) {
@@ -79,9 +67,13 @@ public class ScheduleController {
         reminder.remind(username, dayOfWeek);
     }
 
-    public boolean checkDuplicateFor(String workoutName, DayOfWeek dayOfWeek, String scheduleID) {
-        FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
-        CheckDuplicateWorkoutUseCase checkDuplicate = new CheckDuplicateWorkoutUseCase(fetch);
-        return checkDuplicate.checkDuplicateFor(workoutName, dayOfWeek, scheduleID);
+    private void selectAndDisplaySchedule(List<String> schedulesIDs) {
+        int index = outputBoundary.viewSpecificSchedule(schedulesIDs.size());
+        if (schedulesIDs.size() == 0)
+            return;
+        if (index != -1) {
+            DisplayScheduleUseCase display = new DisplayScheduleUseCase(outputBoundary);
+            display.displaySchedule(fetch.getScheduleWithID(schedulesIDs.get(index)));
+        }
     }
 }

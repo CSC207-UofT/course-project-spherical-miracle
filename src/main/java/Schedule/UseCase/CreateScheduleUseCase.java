@@ -7,6 +7,7 @@ import Schedule.Entities.Meal;
 import Schedule.Entities.Schedule;
 import Schedule.Entities.Workout;
 import Schedule.ScheduleDataAccess;
+import Schedule.Entities.Day.addWorkoutResult;
 
 import java.time.DayOfWeek;
 import java.util.*;
@@ -26,24 +27,25 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
     }
 
     /**
-     *
-     * @param name
-     * @param username
+     * Creates a schedule and prompts the user for the necessary details.
+     * @param name - specified name of the schedule
+     * @param username - username of the user creating a schedule
      */
     public String createSchedule(String name, String username) {
         Schedule schedule = new Schedule(name);
         String option = outputBoundary.createSchedulePrompt();
-        if (option.equals("e")) {
+        while (option.equals("c")) {
             DayOfWeek dayOfWeek = outputBoundary.selectDay();
-            schedule.setDay(dayOfWeek, getDay());
+            schedule.setDay(dayOfWeek, getDay(schedule.getDay(dayOfWeek)));
+            option = outputBoundary.createSchedulePrompt();
         }
         assert option.equals("s");
-        databaseInterface.createSchedule(scheduleToString(schedule), username, false);
+        boolean isPublic = outputBoundary.isPublic();
+        databaseInterface.createSchedule(scheduleToString(schedule), username, isPublic);
         return schedule.getId();
     }
 
-    private Day getDay() {
-        Day day = new Day();
+    private Day getDay(Day day) {
         String option;
         while (true) {
             option = outputBoundary.createDayPrompt();
@@ -56,24 +58,16 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
             else
                 type = "Meal";
             nameAndCalories = outputBoundary.getNameAndCalories(type);
-            if (option.equals("w"))
-                day.addWorkout(new Workout(nameAndCalories.get("name"),
-                        Integer.parseInt(nameAndCalories.get("calories"))));
+            if (option.equals("w")) {
+                Workout w = new Workout(nameAndCalories.get("name"),
+                        Integer.parseInt(nameAndCalories.get("calories")));
+                addWorkoutResult result = day.addWorkout(w);
+                outputBoundary.showAddWorkoutResult(result.ordinal(), nameAndCalories.get("name"));
+            }
             else
                 day.addMeal(new Meal(nameAndCalories.get("name"),
                         Integer.parseInt(nameAndCalories.get("calories"))));
         }
-    }
-
-    public boolean appendWorkout(String workoutName, String calories, String scheduleID, DayOfWeek dayOfWeek) {
-        Workout workout = new Workout(workoutName, Integer.parseInt(calories));
-        FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
-        Schedule schedule = fetch.getScheduleWithID(scheduleID);
-        Day day = schedule.getDay(dayOfWeek);
-        boolean success = day.addWorkout(workout);
-        if (!success)
-            outputBoundary.outputTooManyWorkout();
-        return success;
     }
 
     @Override
@@ -102,7 +96,7 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
             List<Map<String, String>> meals = new ArrayList<>();
             for (Meal m: d.getMeals()) {
                 Map<String, String> meal = new HashMap<>();
-                meal.put(databaseInterface.workoutName, m.getName());
+                meal.put(databaseInterface.mealName, m.getName());
                 meal.put(databaseInterface.calories, Integer.toString(m.getCalories()));
                 meals.add(meal);
             }
@@ -111,7 +105,5 @@ public class CreateScheduleUseCase implements CreateScheduleInputBoundary {
             days.add(day);
         }
         return new ScheduleDataAccess.ScheduleInfo(schedule.getId(), schedule.getName(), days);
-//        databaseInterface.createSchedule(scheduleInfo, days);
-//        outputBoundary.scheduleMadeMessage(schedule.printSchedule());
     }
 }
