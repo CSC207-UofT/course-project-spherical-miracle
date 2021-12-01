@@ -94,8 +94,17 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     @SuppressWarnings("unchecked")
     public ScheduleInfo loadScheduleWith(String id) {
         Document doc = findData("Schedule", eq("UUID", id)).first();
+//        if (scDoc == null) {
+//            try { // temp solution
+//                throw new SCDoesNotExistException(username);
+//            } catch (SCDoesNotExistException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        // from outermost to inner: list of days, list of items in a day class (index 0 is workouts, index 1 is meals),
+        // list of instance variables in a workout/meal class, map of each variable name to the value of the instance variable
         List<List<List<Map<String,String>>>> days = new ArrayList<>();
-        for (List<Object> day: (List<List<Object>>)doc.get("days")){
+        for (List<Object> day: (List<List<Object>>)doc.get("days")){ // goes through list of days
             List<List<Map<String, String>>> dayList = new ArrayList<>();
             List<Map<String, String>> workoutList = new ArrayList<>();
             for (Map<String, String> workout: (List<Map<String, String>>) day.get(workoutNum)){
