@@ -49,9 +49,15 @@ public interface ScheduleDataAccess {
      * Returns a list of the details of all public schedules.
      * @return list of ScheduleInfo, each containing the details of a schedule
      */
+
     List<ScheduleInfo> loadPublicSchedules();
     //TODO: DO we want to have editSchedule()?
 
+
+    /**
+     *
+     * @param scheduleId
+     */
     void deleteSchedule(String scheduleId);
 
     /**
@@ -85,9 +91,5 @@ public interface ScheduleDataAccess {
         public List<List<List<Map<String, String>>>> getDetails() {
             return details;
         }
-
-
     }
-
-
 }
