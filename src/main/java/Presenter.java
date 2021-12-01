@@ -9,7 +9,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     private Scanner in = new Scanner(System.in);
 
     public class Messages {
-        static final String WELCOME_MESSGAGE = "Welcome! Here are your options:";
+        static final String WELCOME_MESSAGE = "Welcome! Here are your options:";
         static final String INVALID_INPUT = "Invalid input. Try again.";
         static final String CREATE_SCHEDULE_OPTIONS = "Type 'c' to make changes to a day or 's' to save and return to the main menu.";
     }
