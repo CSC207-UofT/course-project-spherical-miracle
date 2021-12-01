@@ -4,8 +4,6 @@ import Schedule.Boundary.RemoveScheduleInputBoundary;
 import Schedule.Boundary.ScheduleOutputBoundary;
 import Schedule.Entities.Schedule;
 import Schedule.ScheduleDataAccess;
-import Schedule.ScheduleDatabase;
-
 import java.util.List;
 
 public class RemoveScheduleUseCase implements RemoveScheduleInputBoundary {

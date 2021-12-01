@@ -44,10 +44,11 @@ public class ScheduleController {
 
     /**
      * Removes the schedule from a user's database of schedules.
-     * @param name the name of the schedule being removed
+     * @param username the username of who the schedule belongs to
      */
-    public void removeSchedule(String name) {
-        //TODO: validating inputs
+    public void removeSchedule(String username) {
+        RemoveScheduleInputBoundary rsu = new RemoveScheduleUseCase(databaseInterface);
+        rsu.removeScheduleFromUser(username);
     }
 
     public void viewListOfSchedule(String username){

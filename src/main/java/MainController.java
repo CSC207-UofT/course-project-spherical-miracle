@@ -51,6 +51,11 @@ public class MainController {
         scheduleController.viewListOfSchedule(username);
     }
 
+    public void deleteSchedule(){
+        String username = sessionController.getUsernameOfLoggedInUser();
+        scheduleController.removeSchedule(username);
+    }
+
     public void viewPublicSchedules() {
         scheduleController.viewPublicSchedules();
     }

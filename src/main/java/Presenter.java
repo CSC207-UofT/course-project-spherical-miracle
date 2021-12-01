@@ -1,7 +1,6 @@
 import Schedule.Boundary.RemoveScheduleInputBoundary;
 import Schedule.Boundary.ScheduleOutputBoundary;
 import Schedule.ScheduleDataAccess;
-import Schedule.ScheduleDatabase;
 import Schedule.UseCase.FetchSchedulesUseCase;
 import Schedule.UseCase.RemoveScheduleUseCase;
 import User.Boundary.*;
