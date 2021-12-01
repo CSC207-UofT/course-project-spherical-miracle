@@ -24,12 +24,11 @@ public class ReminderPromptUseCase {
      * @param dayOfWeek
      * @return a String representation of a User's day.
      */
-    public void remind(String username, DayOfWeek dayOfWeek) {
+    public String remind(String username, DayOfWeek dayOfWeek) {
         FetchSchedulesUseCase activeSchedule = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
         Schedule currentSchedule = activeSchedule.getActiveSchedule(username);
         Day scheduledDay = currentSchedule.getDay(dayOfWeek); // assign this value to scheduled workout
-        // TODO: Let presenter handle this print statement
         outputBoundary.reminderPrompt(scheduledDay.printDay(dayOfWeek.getValue()));
-//        return scheduledDay.printDay(dayOfWeek.getValue());
+        return scheduledDay.printDay(dayOfWeek.getValue());
     }
 }

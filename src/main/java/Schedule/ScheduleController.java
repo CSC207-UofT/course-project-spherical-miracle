@@ -77,9 +77,9 @@ public class ScheduleController {
         }
     }
 
-    public void reminderFor(String username, DayOfWeek dayOfWeek) {
+    public String reminderFor(String username, DayOfWeek dayOfWeek) {
         ReminderPromptUseCase reminder = new ReminderPromptUseCase(databaseInterface, outputBoundary);
-        reminder.remind(username, dayOfWeek);
+        return reminder.remind(username, dayOfWeek);
     }
 
 //    private void selectAndDisplaySchedule(List<String> schedulesIDs) {
