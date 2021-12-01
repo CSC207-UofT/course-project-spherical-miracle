@@ -48,6 +48,7 @@ public class UserController {
     }
 
     private boolean userInfoIsValid(String username, String password, String name, String email) {
+        // TODO: fix isBlank method that checks if all fields have been filled in
         String[] userInfo = {username, password, name, email};
         for (String info : userInfo) {
             // Could add more checks

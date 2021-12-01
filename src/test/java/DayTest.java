@@ -1,17 +1,11 @@
-import Schedule.Day;
-import Schedule.Meal;
-import Schedule.Workout;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import Schedule.Entities.*;
 
 class DayTest {
 
@@ -45,9 +39,9 @@ class DayTest {
     @Order(1)
     void addWorkout() {
         for (Workout workout: workouts) {
-            assert day.addWorkout(workout);
+            assert day.addWorkout(workout) == Day.addWorkoutResult.SUCCESS;
         }
-        assert !day.addWorkout(workouts[0]);
+        assert day.addWorkout(workouts[0]) == Day.addWorkoutResult.DUPLICATE_NAME;
     }
 
     @Test

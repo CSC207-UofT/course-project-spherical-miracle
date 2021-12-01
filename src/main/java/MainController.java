@@ -53,16 +53,10 @@ public class MainController {
 
     public void viewPublicSchedules() {
         scheduleController.viewPublicSchedules();
-        System.out.println("NOT IMPLEMENTED YET");
     }
 
     public void sendReminderForDay(DayOfWeek dayOfWeek) {
         String username = sessionController.getUsernameOfLoggedInUser();
         scheduleController.reminderFor(username, dayOfWeek);
-    }
-
-    public boolean checkDuplicateWorkout(String workoutName, DayOfWeek dayOfWeek, String scheduleID) {
-        String username = sessionController.getUsernameOfLoggedInUser();
-        return scheduleController.checkDuplicateFor(workoutName, dayOfWeek, sessionController.getWorkingScheduleID());
     }
 }

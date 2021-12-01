@@ -14,9 +14,9 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     private Scanner in = new Scanner(System.in);
 
     public class Messages {
-        static final String WELCOME_MESSGAGE = "Welcome! Here are your options:";
+        static final String WELCOME_MESSAGE = "Welcome! Here are your options:";
         static final String INVALID_INPUT = "Invalid input. Try again.";
-        static final String CREATE_SCHEDULE_OPTIONS = "Type 'e' to start creating or 's' to save and return to the main menu.";
+        static final String CREATE_SCHEDULE_OPTIONS = "Type 'c' to make changes to a day or 's' to save and return to the main menu.";
     }
 
     public int getNumberBetweenInclusive(int min, int max) {
@@ -52,18 +52,14 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
         } else {
             System.out.println("Unsuccessful signup. Username is already taken.");
         }
-
     }
 
     @Override
     public void scheduleList(String listSchedules) {
-        // TODO: do this but make two
-
     }
 
     @Override
     public void scheduleMadeMessage(String returnMessage) {
-
     }
 
     @Override
@@ -73,7 +69,6 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public void something(boolean signedUp) {
-        
     }
 
     @Override
@@ -84,14 +79,35 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
-    public void deleteSchedule(String username, String scheduleName) {
-            // TODO: validate if inputted name is valid in user's schedule, make use case for it
-            ScheduleDataAccess things = null;
-            RemoveScheduleInputBoundary thing = new RemoveScheduleUseCase(null);
-            thing.remove(username, scheduleName);
-            System.out.println("Schedule " + scheduleName + " has been successfully deleted!");
-            // if user didn't input name of a valid schedule that exists in their collection
-            // System.out.println("Invalid input. Try again.");
+    public String deleteSchedule(String scheduleID, String username) {
+        String choice;
+        System.out.println("Enter the ID of the schedule you want to delete.");
+        return in.nextLine();
+    }
+
+    // TODO: use this method
+    @Override
+    public void ifScheduleDeleted(boolean isDeleted){
+        if (isDeleted){
+            System.out.println("Schedule has been successfully deleted!");
+        } else {
+            System.out.println("Unsuccessful attempt to delete the schedule. Please enter a valid ID.");
+        }
+    }
+
+
+    @Override
+    public boolean isPublic() {
+        System.out.println("Enter 't' if you want the schedule to be public, if not enter 'f'.");
+        String option;
+        while (true) {
+            option = in.nextLine();
+            if (option.equals("t"))
+                return true;
+            else if (option.equals("f"))
+                return false;
+            System.out.println(Messages.INVALID_INPUT);
+        }
 
     }
 
@@ -99,10 +115,10 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     public int viewSpecificSchedule(int size) {
         Scanner in = new Scanner(System.in);
         if (size == 0) {
-            System.out.println("You have not created any schedules yet. Go create some!");
+            System.out.println("There are no schedules available here. Go create some!");
             return -1;
         }
-        System.out.println("Enter the number of the schedule that you would like to view. Or -1 to go back. ");
+        System.out.println("Enter the number of the schedule that you would like to view. Or -1 to go back.");
         while (true) {
             try {
                 int index = Integer.parseInt(in.nextLine());
@@ -114,17 +130,12 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
-    public void outputTooManyWorkout() {
-        System.out.println("You can't add any more workouts to this day.");
-    }
-
-    @Override
-    public String createSchedulePrompt() {
+    public String selectEditOrSave() {
         System.out.println(Messages.CREATE_SCHEDULE_OPTIONS);
         String option;
         while (true) {
             option = in.nextLine();
-            if (option.equals("e") || option.equals("s"))
+            if (option.equals("c") || option.equals("s"))
                 return option;
             System.out.println(Messages.INVALID_INPUT);
         }
@@ -165,6 +176,22 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
             } catch (NumberFormatException e) {}
             System.out.println(Messages.INVALID_INPUT);
         }
+    }
+
+    @Override
+    public void showAddWorkoutResult(int result, String name) {
+        String output;
+        if (result == 0) {
+            output = "You have added the Workout " + name;
+        }
+        else if (result == 1) {
+            output = "There are too many workouts in this day. Try again.";
+        }
+        else {
+            assert result == 2;
+            output = "There is already a workout in this day with the same name. Try again.";
+        }
+        System.out.println(output);
     }
 
     @Override
