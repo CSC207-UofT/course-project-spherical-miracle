@@ -26,6 +26,6 @@ public class RemoveScheduleUseCase implements RemoveScheduleInputBoundary {
                 break;
             }
         }
-        scheduleDatabase.deleteSchedule(uuid);
+        scheduleDatabase.deleteSchedule(username, uuid);
     }
 }

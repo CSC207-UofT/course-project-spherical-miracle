@@ -1,6 +1,4 @@
-import Schedule.Day;
-import Schedule.Meal;
-import Schedule.Workout;
+import Schedule.Entities.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;

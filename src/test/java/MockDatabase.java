@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
-    private final List<User> users;
-    private final Map<String, ScheduleDataAccess.ScheduleInfo> schedules;
-    private final Map<String, List<String>> userScheduleMap;
-    private final List<String> publicSchedules;
+    public final List<User> users;
+    public final Map<String, ScheduleInfo> schedules;
+    public final Map<String, List<String>> userScheduleMap;
+    public final List<String> publicSchedules;
     private String scheduleID ;
     private String scheduleName ;
     private List<List<List<Map<String, String>>>> days;
@@ -87,6 +87,13 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
         return schedules;
     }
 
+    @Override
+    public void deleteSchedule(String username, String scheduleId) {
+        schedules.remove(scheduleId);
+        if (publicSchedules.contains(scheduleId))
+            publicSchedules.remove(scheduleId);
+    }
+
 
     @Override
     public void editUser(String key, String change, String username) {
@@ -115,4 +122,29 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
         return s;
     }
 
+    public ScheduleInfo scheduleToString(Schedule schedule) {
+        List<List<List<Map<String, String>>>> days = new ArrayList<>();
+        for (DayOfWeek c : DayOfWeek.values()) {
+            List<List<Map<String, String>>> day = new ArrayList<>();
+            Day d = schedule.getDay(c);
+            List<Map<String, String>> workouts = new ArrayList<>();
+            for (Workout w : d.getWorkouts()) {
+                Map<String, String> workout = new HashMap<>();
+                workout.put(workoutName, w.getName());
+                workout.put(calories, Integer.toString(w.getCaloriesBurnt()));
+                workouts.add(workout);
+            }
+            List<Map<String, String>> meals = new ArrayList<>();
+            for (Meal m : d.getMeals()) {
+                Map<String, String> meal = new HashMap<>();
+                meal.put(mealName, m.getName());
+                meal.put(calories, Integer.toString(m.getCalories()));
+                meals.add(meal);
+            }
+            day.add(workouts);
+            day.add(meals);
+            days.add(day);
+        }
+        return new ScheduleInfo(schedule.getId(), schedule.getName(), days);
+    }
 }
