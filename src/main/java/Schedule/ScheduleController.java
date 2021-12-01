@@ -1,7 +1,10 @@
 package Schedule;
 
+import java.time.DayOfWeek;
 import java.util.List;
-import java.util.Map;
+
+import Schedule.Boundary.*;
+import Schedule.UseCase.*;
 
 /**
  * A controller that manages a schedule for a user.
@@ -9,29 +12,30 @@ import java.util.Map;
 
 public class ScheduleController {
 
-    private final ScheduleDataAccess scheduleDatabase;
+    private final ScheduleDataAccess databaseInterface;
+    private final ScheduleOutputBoundary outputBoundary;
+    private final FetchSchedulesUseCase fetch;
 
     /**
      * Construct a list of the information needed to create a new user and the UserDatabase data.
-     * @param scheduleDatabase the dataAccessInterface to the database for schedules.
+     * @param databaseInterface the dataAccessInterface to the database for schedules.
      */
-    public ScheduleController(ScheduleDataAccess scheduleDatabase){
-        this.scheduleDatabase= scheduleDatabase;
+    public ScheduleController(ScheduleDataAccess databaseInterface, ScheduleOutputBoundary outputBoundary){
+        this.databaseInterface = databaseInterface;
+        this.outputBoundary = outputBoundary;
+        fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
     }
 
     /**
      * Create a new schedule with the given name.
      * Otherwise, return false.
      **/
-    public void createSchedule(String scheduleName, String username, boolean isPublic, List<List<List<Map<String, String>>>> days) {
-        //TODO: validating inputs
-        //boolean is_valid = ;
-        //if (is_valid) {
-        CreateScheduleInputBoundary createScheduleInputBoundary= new CreateScheduleUseCase(scheduleDatabase);
-        createScheduleInputBoundary.createSchedule(scheduleName, username, isPublic, days);
-        //}
-        //return false;
+    public String createSchedule(String scheduleName, String username) {
+        ManageScheduleUseCase c = new ManageScheduleUseCase(databaseInterface, outputBoundary);
+        System.out.println("For each of the 7 days in your schedule, you can have up to five different workouts.");
+        return c.createSchedule(scheduleName, username);
     }
+
 
     /**
      * Removes the schedule from a user's database of schedules.
@@ -39,6 +43,52 @@ public class ScheduleController {
      */
     public void removeSchedule(String name) {
         //TODO: validating inputs
-
     }
+
+    public List<String> viewListOfSchedule(String username){
+        return fetch.getScheduleAssociatedWith(username);
+    }
+
+    public void selectAndDisplaySchedule(List<String> schedulesIDs) {
+        int index = outputBoundary.viewSpecificSchedule(schedulesIDs.size());
+        if (schedulesIDs.size() == 0)
+            return;
+        if (index != -1) {
+            DisplayScheduleUseCase display = new DisplayScheduleUseCase(outputBoundary);
+            display.displaySchedule(fetch.getScheduleWithID(schedulesIDs.get(index)));
+        }
+    }
+
+    /**
+     * Displays the list of public schedules
+     */
+    public void viewPublicSchedules() {
+        List<String> schedulesIDs = fetch.getPublicSchedules();
+        selectAndDisplaySchedule(schedulesIDs);
+    }
+
+    public void setActiveSchedule(List<String> schedulesIDs, String username){
+        int index = outputBoundary.activeSchedulePrompt(schedulesIDs.size());
+        if (schedulesIDs.size() == 0)
+            return;
+        if (index != -1) {
+            SetActiveScheduleUseCase setActiveScheduleUseCase = new SetActiveScheduleUseCase(databaseInterface, outputBoundary);
+            setActiveScheduleUseCase.setAsActiveSchedule(username, fetch.getScheduleWithID(schedulesIDs.get(index)));
+        }
+    }
+
+    public String reminderFor(String username, DayOfWeek dayOfWeek) {
+        ReminderPromptUseCase reminder = new ReminderPromptUseCase(databaseInterface, outputBoundary);
+        return reminder.remind(username, dayOfWeek);
+    }
+
+//    private void selectAndDisplaySchedule(List<String> schedulesIDs) {
+//        int index = outputBoundary.viewSpecificSchedule(schedulesIDs.size());
+//        if (schedulesIDs.size() == 0)
+//            return;
+//        if (index != -1) {
+//            DisplayScheduleUseCase display = new DisplayScheduleUseCase(outputBoundary);
+//            display.displaySchedule(fetch.getScheduleWithID(schedulesIDs.get(index)));
+//        }
+//    }
 }

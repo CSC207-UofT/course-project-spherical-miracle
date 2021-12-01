@@ -1,4 +1,4 @@
-package User;
+package User.UseCase;
 
 public class UserDoesNotExistException extends Exception {
 

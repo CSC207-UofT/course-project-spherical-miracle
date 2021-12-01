@@ -14,7 +14,7 @@ public interface ScheduleDataAccess {
      * @param scheduleID - the id of the desired schedule
      * @return an instance of ScheduleInfo containing the details of the schedule
      */
-    ScheduleInfo loadScheduleWithID(String scheduleID);
+    ScheduleInfo loadScheduleWith(String scheduleID);
 
     /**
      * Returns a list of the details of schedules associated with the specified user.
@@ -32,13 +32,11 @@ public interface ScheduleDataAccess {
     
     /**
      * Saves the given schedule into the database.
-     * @param id - the id of the schedule
-     * @param scheduleName - the name of the given schedule
+     * @param scheduleInfo
      * @param username - the username associated with the given schedule
      * @param isPublic - whether the schedule is public
-     * @param days - the details of the schedule
      */
-    void saveSchedule(String id, String scheduleName, String username, boolean isPublic, List<List<List<Map<String, String>>>> days);
+    void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic);
 
     /**
      * TODO: Complete javadoc after implementation.
@@ -51,8 +49,16 @@ public interface ScheduleDataAccess {
      * Returns a list of the details of all public schedules.
      * @return list of ScheduleInfo, each containing the details of a schedule
      */
-    List<Object> loadPublicSchedules();
+
+    List<ScheduleInfo> loadPublicSchedules();
     //TODO: DO we want to have editSchedule()?
+
+
+    /**
+     *
+     * @param scheduleId
+     */
+    void deleteSchedule(String scheduleId);
 
     /**
      * A class encapsulating the details of a schedule.

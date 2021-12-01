@@ -1,7 +1,7 @@
-package Schedule;//import statements go here
+package Schedule.Entities;//import statements go here
+
 import java.time.DayOfWeek;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,6 +22,9 @@ public class Day {
     private int calBurnt;
     // possible implement dates in the future: ex. November 11,2021
 
+    public enum addWorkoutResult {
+        SUCCESS, TOO_MANY, DUPLICATE_NAME;
+    }
     /**
      * Construct a Day object.
      */
@@ -58,28 +61,36 @@ public class Day {
      * @param workout workout to be added for the day
      * @return if adding the workout was successful or not
      */
-    public boolean addWorkout(Workout workout) {
+    public addWorkoutResult addWorkout(Workout workout) {
         if (workouts.size() < 5) {
+            if (hasDuplicateName(workout))
+                return addWorkoutResult.DUPLICATE_NAME;
             workouts.add(workout);
-            calBurnt = calBurnt + workout.getCaloriesBurnt();
-            return true;
+            return addWorkoutResult.SUCCESS;
         }
         else
-            return false;
+            return addWorkoutResult.TOO_MANY;
+    }
+
+    private boolean hasDuplicateName(Workout workout) {
+        for (Workout w: workouts) {
+            if (w.getName().equals(workout.getName()))
+                return true;
+        }
+        return false;
     }
 
     /**
      * Remove a workout from the list of workouts and return true as long as the workout was removed.
      *
-     * @param workout workout to be removed from day
+     * @param name name of workout to be removed from day
      * @return if removing the workout was successful or not
      */
-    public boolean removeWorkout(Workout workout) {
-        for (int i = 0; i < workouts.size(); i++) {
-            if (workouts.get(i).getName().equals(workout.getName())) {
-                calBurnt = calBurnt - workout.getCaloriesBurnt();
-                workouts.remove(i);
-                return true;
+    public boolean removeWorkout(String name) {
+        for (Workout w: workouts) {
+            if (w.getName().equals(name)) {
+                calBurnt = calBurnt - w.getCaloriesBurnt();
+                    return true;
             }
         }
         return false;
@@ -91,8 +102,12 @@ public class Day {
      * @param meal meal to be added for the day
      * @return if adding the meal was successful or not
      */
-    //TODO maybe change this to compare the workout objects and not just their names?
     public boolean addMeal(Meal meal) {
+        for (Meal m: meals){
+            if (m.getName().equals(meal.getName())) {
+                return false;
+            }
+        }
         meals.add(meal);
         intake = intake + meal.getCalories();
         return true;
@@ -101,15 +116,13 @@ public class Day {
     /**
      * Remove a meal from the list of meals and return true as long as the meal was removed.
      *
-     * @param meal meal to be removed from day
+     * @param name name of meal to be removed from day
      * @return if removing the meal was successful or not
      */
-    //TODO maybe change this to compare the meal objects and not just their names?
-    public boolean removeMeal(Meal meal) {
-        for (int i = 0; i < meals.size(); i++) {
-            if (meals.get(i).getName().equals(meal.getName())) {
-                intake = intake - meal.getCalories();
-                meals.remove(i);
+    public boolean removeMeal(String name) {
+        for (Meal m : meals) {
+            if (m.getName().equals(name)) {
+                intake = intake - m.getCalories();
                 return true;
             }
         }
@@ -153,7 +166,10 @@ public class Day {
         for (Workout workout : workouts) {
             if (!(workout == null)) {
                 stringWorkouts.append(workout.getName());
-                stringWorkouts.append(", ");
+                stringWorkouts.append(": ");
+                stringWorkouts.append(workout.getCaloriesBurnt());
+                stringWorkouts.append(" kcal, ");
+
             }
         }
 
@@ -175,7 +191,9 @@ public class Day {
         StringBuilder stringMeals = new StringBuilder();
         for (Meal meal : meals) {
             stringMeals.append(meal.getName());
-            stringMeals.append(", ");
+            stringMeals.append(": ");
+            stringMeals.append(meal.getCalories());
+            stringMeals.append(" kcal, ");
         }
         // remove the last comma
         if(stringMeals.length() != 0) {
@@ -206,7 +224,6 @@ public class Day {
             workout = this.getWorkoutString();
             meal = this.getMealString();
         }
-        //String workout = sched.getWorkout(0).getName();
         outputMsg += "This is your plan(s) for " + (DayOfWeek.of(day)) + ": \n Workouts: " + workout + "\n" +
                 " Meal: " + meal + "\n ";
         return outputMsg;

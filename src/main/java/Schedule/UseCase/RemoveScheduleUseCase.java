@@ -1,4 +1,7 @@
-package Schedule;
+package Schedule.UseCase;
+
+import Schedule.Boundary.RemoveScheduleInputBoundary;
+import Schedule.ScheduleDataAccess;
 
 public class RemoveScheduleUseCase implements RemoveScheduleInputBoundary {
 
@@ -8,7 +11,7 @@ public class RemoveScheduleUseCase implements RemoveScheduleInputBoundary {
         this.scheduleDatabase = scheduleDatabase;
     }
     @Override
-    public void remove() {
+    public void removeScheduleFromUser(String scheduleID, String username) {
         //TODO: implement remove() in ScheduleDataAccess
     }
 }

@@ -1,9 +1,9 @@
 Class name: ManageUser
 
 Responsibilities:
-* Check if new User.User is valid and then adds to HashMap in User.UserDatabase
-* Remove User.User
+* Check if new User.Entities.User is valid and then adds to HashMap in User.UserDatabase
+* Remove User.Entities.User
 
 Collaborators:
 * User.UserDatabase
-* User.User
+* User.Entities.User
