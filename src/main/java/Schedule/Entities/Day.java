@@ -66,6 +66,7 @@ public class Day {
             if (hasDuplicateName(workout))
                 return addWorkoutResult.DUPLICATE_NAME;
             workouts.add(workout);
+            calBurnt = calBurnt + workout.getCaloriesBurnt();
             return addWorkoutResult.SUCCESS;
         }
         else
@@ -87,10 +88,11 @@ public class Day {
      * @return if removing the workout was successful or not
      */
     public boolean removeWorkout(String name) {
-        for (Workout w: workouts) {
-            if (w.getName().equals(name)) {
-                calBurnt = calBurnt - w.getCaloriesBurnt();
-                    return true;
+        for (int i = 0; i < workouts.size(); i++) {
+            if (workouts.get(i).getName().equals(name)) {
+                calBurnt = calBurnt - workouts.get(i).getCaloriesBurnt();
+                workouts.remove(i);
+                return true;
             }
         }
         return false;
@@ -120,9 +122,10 @@ public class Day {
      * @return if removing the meal was successful or not
      */
     public boolean removeMeal(String name) {
-        for (Meal m : meals) {
-            if (m.getName().equals(name)) {
-                intake = intake - m.getCalories();
+        for (int i = 0; i < meals.size(); i++) {
+            if (meals.get(i).getName().equals(name)) {
+                intake = intake - meals.get(i).getCalories();
+                meals.remove(i);
                 return true;
             }
         }
