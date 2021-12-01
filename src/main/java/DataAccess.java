@@ -148,7 +148,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         MongoCursor<Document> cursor = findData("Schedule", eq("public", true)).cursor();
         List<String> publicSchedulesIDs = new ArrayList<>();
         while (cursor.hasNext()) {
-            publicSchedulesIDs.add(cursor.next().get("schedules", String.class));
+            publicSchedulesIDs.add(cursor.next().get("UUID", String.class));
         }
         List<ScheduleInfo> publicSchedules = new ArrayList<>();
         for (String scheduleID: publicSchedulesIDs) {
