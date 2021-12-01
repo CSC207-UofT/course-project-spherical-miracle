@@ -5,4 +5,6 @@ public interface UserOutputBoundary {
     void logoutMessage(String name);
     void signupMessage(boolean signedUp);
     void scheduleList(String listSchedules);
+    void addWeightHeightPrompt();
+    void bmiMessage(double bmi, String weightCategory);
 }

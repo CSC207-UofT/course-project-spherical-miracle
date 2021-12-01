@@ -47,6 +47,12 @@ public class UserController {
         // users.remove(username);
     }
 
+    public String getCurrentWeightHeightBMI(String username){
+
+        return null;
+
+    }
+
     private boolean userInfoIsValid(String username, String password, String name, String email) {
         String[] userInfo = {username, password, name, email};
         for (String info : userInfo) {

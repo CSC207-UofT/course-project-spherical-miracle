@@ -65,4 +65,16 @@ public class MainController {
         String username = sessionController.getUsernameOfLoggedInUser();
         return scheduleController.checkDuplicateFor(workoutName, dayOfWeek, sessionController.getWorkingScheduleID());
     }
+
+    public void addWeightHeight(String weight, String height){
+
+    }
+
+    public String[] currentWeightHeightBMI(){
+        String username = sessionController.getUsernameOfLoggedInUser();
+        userController.getCurrentWeightHeightBMI(username);
+
+        return null;
+    }
+
 }

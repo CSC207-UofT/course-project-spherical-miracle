@@ -41,6 +41,20 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
+    public void addWeightHeightPrompt() {
+
+    }
+
+    @Override
+    public void bmiMessage(double bmi, String weightCategory) {
+        if (weightCategory.equals("N/A")){
+            System.out.println("Unable to calculate BMI. Please make sure your weight and height inputted are greater than 0");
+        } else {
+            System.out.println("Your BMI is:" + bmi + ". Your weight category is: " + weightCategory + ". ");
+        }
+    }
+
+    @Override
     public void scheduleMadeMessage(String returnMessage) {
 
     }

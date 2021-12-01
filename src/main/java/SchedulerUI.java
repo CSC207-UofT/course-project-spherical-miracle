@@ -17,6 +17,7 @@ public class SchedulerUI {
         static final String VIEW_YOUR_SCHEDULES = "3";
         static final String VIEW_PUBLIC_SCHEDULES = "4";
         static final String TODAYS_REMINDER = "5";
+        static final String WEIGHT_HEIGHT_BMI = "6";
     }
 
     private final Map<String, String> commands = setCommands();
@@ -31,6 +32,7 @@ public class SchedulerUI {
         commands.put(Commands.VIEW_YOUR_SCHEDULES, "View your schedules");
         commands.put(Commands.VIEW_PUBLIC_SCHEDULES, "View available schedule templates");
         commands.put(Commands.TODAYS_REMINDER, "See your reminders for today");
+        commands.put(Commands.WEIGHT_HEIGHT_BMI, "To add information about your Height/Weight and see your BMI");
         return commands;
     }
 
@@ -91,6 +93,8 @@ public class SchedulerUI {
                     DayOfWeek today = LocalDate.now().getDayOfWeek();
                     mainController.sendReminderForDay(today);
                     // TODO: Edit schedule menu
+                case Commands.WEIGHT_HEIGHT_BMI:
+                    weightHeightBMIMenu();
             }
         }
     }
@@ -262,6 +266,42 @@ public class SchedulerUI {
         return userInput;
     }
 
+    private void weightHeightBMIMenu() {
+
+        while (true) {
+            System.out.println("Type 'c' to view your current Weight/Height, 'a' to add a record of your Weight/Height or 'r' to return to the main menu.");
+            switch (in.nextLine()) {
+                case "r":
+                    return;
+                case "c":
+                    mainController.currentWeightHeightBMI();
+                case "a":
+                    String[] s = askUnitType();
+
+                    //not true
+                    mainController.addWeightHeight(s[0], s[1]);
+                default:
+                    System.out.println("Incorrect input. Try again.");
+            }
+
+
+        }
+    }
+
+    private String[] askUnitType(){
+        while (true) {
+            System.out.println("Select your preferred unit for weight. If centimeters, enter 'cm', if meters, enter 'm'. if feet, enter 'f'");
+            switch (in.nextLine()) {
+                case "f":
+            }
+//                System.out.println("Select your preferred unit for weight. If meters, enter 'm'. if feet, enter 'f'");
+//                weightunit = in.nextLine();
+//
+//                System.out.println("Enter an email:");
+//                input = in.nextLine();
+
+        }
+    }
     /**
      * Returns if the information is valid.
      *
