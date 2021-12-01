@@ -3,7 +3,6 @@ package Schedule.UseCase;
 import Schedule.Boundary.RemoveScheduleInputBoundary;
 import Schedule.Entities.Schedule;
 import Schedule.ScheduleDataAccess;
-import Schedule.ScheduleDatabase;
 
 import java.util.List;
 

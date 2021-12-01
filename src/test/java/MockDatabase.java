@@ -14,13 +14,18 @@ import java.util.List;
 import java.util.Map;
 
 public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
-    public final List<User> users;
-    public final Map<String, ScheduleInfo> schedules;
-    public final Map<String, List<String>> userScheduleMap;
-    public final List<String> publicSchedules;
-    private String scheduleID ;
-    private String scheduleName ;
-    private List<List<List<Map<String, String>>>> days;
+    private final List<User> users;
+    private final Map<String, ScheduleDataAccess.ScheduleInfo> schedules;
+    private final Map<String, List<String>> userScheduleMap;
+    private final List<String> publicSchedules;
+    private String activeScheduleID ;
+
+    public MockDatabase() {
+        users = new ArrayList<>();
+        schedules = new HashMap<>();
+        userScheduleMap = new HashMap<>();
+        publicSchedules = new ArrayList<>();
+    }
 
     @Override
     public void saveUser(String username, String password, String name, String email) {
@@ -39,12 +44,6 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
         throw new UserDoesNotExistException(username);
     }
 
-    public MockDatabase() {
-        users = new ArrayList<>();
-        schedules = new HashMap<>();
-        userScheduleMap = new HashMap<>();
-        publicSchedules = new ArrayList<>();
-    }
 
     @Override
     public ScheduleInfo loadScheduleWith(String scheduleID) {
@@ -65,13 +64,14 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     public void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic) {
         String id = scheduleInfo.getId();
         schedules.put(id, scheduleInfo);
-        userScheduleMap.get(username).add(id);
+        if (!userScheduleMap.get(username).contains(id))
+            userScheduleMap.get(username).add(id);
         if (isPublic)
             publicSchedules.add(id);
     }
 
     public ScheduleInfo loadActiveSchedule(String username) {
-        ScheduleInfo s = new ScheduleInfo(scheduleID, scheduleName, days);
+        ScheduleInfo s = loadScheduleWith(activeScheduleID);
         return s;
     }
 
