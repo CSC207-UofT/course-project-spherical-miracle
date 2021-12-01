@@ -15,8 +15,9 @@ public class SchedulerUI {
         static final String LOGOUT = "1";
         static final String CREATE_SCHEDULE = "2";
         static final String VIEW_YOUR_SCHEDULES = "3";
-        static final String VIEW_PUBLIC_SCHEDULES = "4";
-        static final String TODAYS_REMINDER = "5";
+        static final String SET_YOUR_ACTIVE_SCHEDULE = "4";
+        static final String VIEW_PUBLIC_SCHEDULES = "5";
+        static final String TODAYS_REMINDER = "6";
     }
 
     private final Map<String, String> commands = setCommands();
@@ -29,6 +30,7 @@ public class SchedulerUI {
         commands.put(Commands.LOGOUT, "Logout");
         commands.put(Commands.CREATE_SCHEDULE, "Create a schedule");
         commands.put(Commands.VIEW_YOUR_SCHEDULES, "View your schedules");
+        commands.put(Commands.SET_YOUR_ACTIVE_SCHEDULE, "Set an active schedule");
         commands.put(Commands.VIEW_PUBLIC_SCHEDULES, "View available schedule templates");
         commands.put(Commands.TODAYS_REMINDER, "See your reminders for today");
         return commands;
@@ -84,12 +86,14 @@ public class SchedulerUI {
                 case Commands.VIEW_YOUR_SCHEDULES:
                     mainController.viewMySchedules();
                     break;
+                case Commands.SET_YOUR_ACTIVE_SCHEDULE:
+                    mainController.setActiveSchedules();
+                    break;
                 case Commands.VIEW_PUBLIC_SCHEDULES:
                     // TODO: NO option to make a schedule public yet
                     mainController.viewPublicSchedules();
                     break;
                 case Commands.TODAYS_REMINDER:
-                    // TODO: NOT DONE
                     DayOfWeek today = LocalDate.now().getDayOfWeek();
                     mainController.sendReminderForDay(today);
 
@@ -104,6 +108,7 @@ public class SchedulerUI {
         String scheduleName = in.nextLine();
         mainController.createSchedule(scheduleName);
     }
+
 
     private String selectOption(Map<String, String> commands) {
         System.out.println("Select an option from the list:");
