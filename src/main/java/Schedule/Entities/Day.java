@@ -66,7 +66,7 @@ public class Day {
             if (hasDuplicateName(workout))
                 return addWorkoutResult.DUPLICATE_NAME;
             workouts.add(workout);
-            calBurnt = calBurnt + workout.getCaloriesBurnt();
+            calBurnt = calBurnt + workout.getCalories();
             return addWorkoutResult.SUCCESS;
         }
         else
@@ -90,7 +90,7 @@ public class Day {
     public boolean removeWorkout(String name) {
         for (int i = 0; i < workouts.size(); i++) {
             if (workouts.get(i).getName().equals(name)) {
-                calBurnt = calBurnt - workouts.get(i).getCaloriesBurnt();
+                calBurnt = calBurnt - workouts.get(i).getCalories();
                 workouts.remove(i);
                 return true;
             }
@@ -170,7 +170,7 @@ public class Day {
             if (!(workout == null)) {
                 stringWorkouts.append(workout.getName());
                 stringWorkouts.append(": ");
-                stringWorkouts.append(workout.getCaloriesBurnt());
+                stringWorkouts.append(workout.getCalories());
                 stringWorkouts.append(" kcal, ");
 
             }
