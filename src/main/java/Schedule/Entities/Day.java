@@ -89,7 +89,7 @@ public class Day {
     public boolean removeWorkout(String name) {
         for (Workout w: workouts) {
             if (w.getName().equals(name)) {
-                calBurnt = calBurnt - w.getCaloriesBurnt();
+                calBurnt = calBurnt - w.getCalories();
                     return true;
             }
         }
@@ -167,7 +167,7 @@ public class Day {
             if (!(workout == null)) {
                 stringWorkouts.append(workout.getName());
                 stringWorkouts.append(": ");
-                stringWorkouts.append(workout.getCaloriesBurnt());
+                stringWorkouts.append(workout.getCalories());
                 stringWorkouts.append(" kcal, ");
 
             }

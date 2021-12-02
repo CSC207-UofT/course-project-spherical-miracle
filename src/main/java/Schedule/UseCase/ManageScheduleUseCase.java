@@ -102,7 +102,7 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
             for (Workout w: d.getWorkouts()) {
                 Map<String, String> workout = new HashMap<>();
                 workout.put(databaseInterface.workoutName, w.getName());
-                workout.put(databaseInterface.calories, Integer.toString(w.getCaloriesBurnt()));
+                workout.put(databaseInterface.calories, Integer.toString(w.getCalories()));
                 workouts.add(workout);
             }
             List<Map<String, String>> meals = new ArrayList<>();

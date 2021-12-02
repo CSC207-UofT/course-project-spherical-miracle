@@ -4,11 +4,10 @@ package Schedule.Entities;
  * A Meal.
  */
 
-public class Meal {
+public class Meal extends AbstractMealWorkout{
 
-    private String name;
-    private int calories;
-    //TODO: add macros? (keep this for last)
+    private final String name;
+    private final int calories;
 
     /**
      * Constructs a Meal with the given name and the calories in it.
@@ -16,23 +15,8 @@ public class Meal {
      * @param calories the caloric intake of the meal
      */
     public Meal(String name, int calories) {
+        super(name, calories);
         this.name = name;
         this.calories = calories;
-    }
-
-    /**
-     * Returns the name of this Meal.
-     * @return meal name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Returns the caloric intake of this Meal.
-     * @return the calories in this meal
-     */
-    public int getCalories() {
-        return calories;
     }
 }
