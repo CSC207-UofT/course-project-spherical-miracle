@@ -80,7 +80,7 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
                 outputBoundary.showAddWorkoutResult(result.ordinal(), nameAndCalories.get("name"));
             }
             else
-                day.addMeal(new Meal(nameAndCalories.get("name"),
+                day.addMeal((Meal) factory.getScheduleEntity(option, nameAndCalories.get("name"),
                         Integer.parseInt(nameAndCalories.get("calories"))));
         }
     }
