@@ -2,10 +2,7 @@ package Schedule.UseCase;
 
 import Schedule.Boundary.CreateScheduleInputBoundary;
 import Schedule.Boundary.ScheduleOutputBoundary;
-import Schedule.Entities.Day;
-import Schedule.Entities.Meal;
-import Schedule.Entities.Schedule;
-import Schedule.Entities.Workout;
+import Schedule.Entities.*;
 import Schedule.ScheduleDataAccess;
 import Schedule.Entities.Day.addWorkoutResult;
 
@@ -64,6 +61,7 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
 
     private Day getDay(Day day) {
         String option;
+        ScheduleEntityFactory factory = new ScheduleEntityFactory();
         while (true) {
             option = outputBoundary.createDayPrompt();
             if (option.equals("f"))
@@ -76,7 +74,7 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
                 type = "Meal";
             nameAndCalories = outputBoundary.getNameAndCalories(type);
             if (option.equals("w")) {
-                Workout w = new Workout(nameAndCalories.get("name"),
+                Workout w = (Workout) factory.getScheduleEntity(option, nameAndCalories.get("name"),
                         Integer.parseInt(nameAndCalories.get("calories")));
                 addWorkoutResult result = day.addWorkout(w);
                 outputBoundary.showAddWorkoutResult(result.ordinal(), nameAndCalories.get("name"));

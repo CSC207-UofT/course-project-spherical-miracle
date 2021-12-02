@@ -1,10 +1,10 @@
 package Schedule.Entities;
 
-abstract class AbstractMealWorkout implements FactoryMealWorkout{
+abstract class AbstractScheduleEntity implements ScheduleEntity {
     private final String name;
     private final int calories;
 
-    public AbstractMealWorkout(String name, int calories){
+    public AbstractScheduleEntity(String name, int calories){
         this.name = name;
         this.calories = calories;
     }

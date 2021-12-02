@@ -4,7 +4,7 @@ package Schedule.Entities;
  * A workout session.
  */
 
-public class Workout extends AbstractMealWorkout{
+public class Workout extends AbstractScheduleEntity implements ScheduleEntity{
 
     private final String name;
     private final int caloriesBurnt;

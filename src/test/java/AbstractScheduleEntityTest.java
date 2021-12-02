@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AbstractMealWorkoutTest {
+class AbstractScheduleEntityTest {
 
     private Meal meal1;
     private Meal meal2;
