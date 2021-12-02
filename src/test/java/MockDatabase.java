@@ -6,6 +6,8 @@ import User.*;
 import Schedule.ScheduleDataAccess;
 import User.Entities.User;
 import User.UseCase.UserDoesNotExistException;
+import org.mindrot.jbcrypt.BCrypt;
+
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
