@@ -190,7 +190,6 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         return loadScheduleWith(doc.getString("active_schedule"));
     }
 
-
     @Override
     public void updateCurrentSchedule(String username, String scheduleId){
         MongoCollection<Document> suc = database.getCollection("User_Schedule");
