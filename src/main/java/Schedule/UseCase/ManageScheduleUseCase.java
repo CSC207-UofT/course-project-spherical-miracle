@@ -40,7 +40,7 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
 
     public void editSchedule(String scheduleID, String username) {
         FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
-        RemoveScheduleUseCase remove = new RemoveScheduleUseCase(databaseInterface);
+        RemoveScheduleUseCase remove = new RemoveScheduleUseCase(databaseInterface, outputBoundary);
         Schedule schedule = fetch.getScheduleWithID(scheduleID);
         editSchedule(schedule);
         remove.remove(scheduleID, username);

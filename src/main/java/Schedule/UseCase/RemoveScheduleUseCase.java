@@ -1,7 +1,7 @@
 package Schedule.UseCase;
 
 import Schedule.Boundary.RemoveScheduleInputBoundary;
-import Schedule.Entities.Schedule;
+import Schedule.Boundary.ScheduleOutputBoundary;
 import Schedule.ScheduleDataAccess;
 
 import java.util.List;
@@ -9,22 +9,17 @@ import java.util.List;
 public class RemoveScheduleUseCase implements RemoveScheduleInputBoundary {
 
     private final ScheduleDataAccess scheduleDatabase;
+    private final ScheduleOutputBoundary outputBoundary;
 
-    public RemoveScheduleUseCase(ScheduleDataAccess scheduleDatabase) {
+    public RemoveScheduleUseCase(ScheduleDataAccess scheduleDatabase, ScheduleOutputBoundary outputBoundary) {
         this.scheduleDatabase = scheduleDatabase;
+        this.outputBoundary = outputBoundary;
     }
     @Override
-    public void remove(String username, String scheduleName) {
-        String uuid = "";
-        List<ScheduleDataAccess.ScheduleInfo> schedList = scheduleDatabase.loadSchedulesAssociatedWith(username);
-        for (ScheduleDataAccess.ScheduleInfo item: schedList){
-            if (item.getName().equals(scheduleName)) {
-                // gets id of first schedule it encounters with matching name
-                // TODO: ask user if they want to delete which schedule if duplicate names?
-                uuid = item.getId();
-                break;
-            }
-        }
-        scheduleDatabase.deleteSchedule(uuid);
+    public void remove(String username, String scheduleID) {
+        scheduleDatabase.updateCurrentSchedule(username, "");
+        scheduleDatabase.deleteUserSchedule(username, scheduleID);
+        outputBoundary.deleteSchedule(username, scheduleID);
+
 }
 }

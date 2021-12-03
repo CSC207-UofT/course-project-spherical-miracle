@@ -60,6 +60,8 @@ public interface ScheduleDataAccess {
      */
     void deleteSchedule(String scheduleId);
 
+    void deleteUserSchedule(String username, String scheduleId);
+
     /**
      * A class encapsulating the details of a schedule.
      */

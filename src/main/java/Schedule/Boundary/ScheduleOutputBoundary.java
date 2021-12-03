@@ -14,13 +14,14 @@ public interface ScheduleOutputBoundary {
     void noActiveSchedule();
     void reminderPrompt(String s);
     void deleteSchedule(String user, String scheduleName);
+    String DetailDeleteActivateOption();
 
     /**
      * Returns the index of ID of the schedule that the user would like to view. If they do not want to view, return -1.
      * @return
      * @param size
      */
-    int viewSpecificSchedule(int size);
+    int chooseScheduleFromList(int size);
 
     int activeSchedulePrompt(int size);
 
