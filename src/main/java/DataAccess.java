@@ -109,15 +109,6 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     @SuppressWarnings("unchecked")
     public ScheduleInfo loadScheduleWith(String id) {
         Document doc = findData("Schedule", eq("UUID", id)).first();
-//        if (scDoc == null) {
-//            try { // temp solution
-//                throw new SCDoesNotExistException(username);
-//            } catch (SCDoesNotExistException e) {
-//                e.printStackTrace();
-//            }
-//        }
-        // from outermost to inner: list of days, list of items in a day class (index 0 is workouts, index 1 is meals),
-        // list of instance variables in a workout/meal class, map of each variable name to the value of the instance variable
         List<List<List<Map<String,String>>>> days = new ArrayList<>();
         assert doc != null;
         for (List<Object> day: (List<List<Object>>)doc.get("days")){ // goes through list of days
@@ -154,7 +145,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
             }
         }
         assert doc != null;
-        List<String> scheduleIDs = doc.getList("schedules_id", String.class);
+        List<String> scheduleIDs = doc.getList("schedules", String.class);
         List<ScheduleInfo> schedules = new ArrayList<>();
         for(String scheduleID: scheduleIDs) {
             schedules.add(loadScheduleWith(scheduleID));
@@ -195,11 +186,15 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public List<Object> loadPublicSchedules() {
+    public List<ScheduleInfo> loadPublicSchedules() {
         MongoCursor<Document> cursor = findData("Schedule", eq("public", true)).cursor();
-        ArrayList<Object> publicSchedules = new ArrayList<>();
+        List<String> publicSchedulesIDs = new ArrayList<>();
         while (cursor.hasNext()) {
-            publicSchedules.add(cursor.next().entrySet().toArray());
+            publicSchedulesIDs.add(cursor.next().get("UUID", String.class));
+        }
+        List<ScheduleInfo> publicSchedules = new ArrayList<>();
+        for (String scheduleID: publicSchedulesIDs) {
+            publicSchedules.add(loadScheduleWith(scheduleID));
         }
         return publicSchedules;
     }
@@ -207,7 +202,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     public void saveUserScheduleCollection(String username, String scheduleId) {
         MongoCollection<Document> suc = database.getCollection("User_Schedule");
         Bson equalComparison = eq("username", username);
-        suc.updateOne(equalComparison, Updates.addToSet("schedules_id",scheduleId)); // username is unique
+        suc.updateOne(equalComparison, Updates.addToSet("schedules",scheduleId)); // username is unique
     }
 
     @Override
@@ -226,8 +221,10 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     @Override
     public ScheduleInfo loadActiveSchedule(String username) {
         Bson equalComparison = eq("username", username);
-        Document doc = findData("User_schedule", equalComparison).first();
-        assert doc != null;
+        Document doc = findData("User_Schedule", equalComparison).first();
+        if (doc == null){
+            return null;
+        }
         return loadScheduleWith(doc.getString("active_schedule"));
     }
 
@@ -239,6 +236,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         suc.updateOne(equalComparison, Updates.set("active_schedule", scheduleId));
     }
 
+    @Override
     public void deleteSchedule(String scheduleId){
         MongoCollection<Document> sc = database.getCollection("Schedule");
         Bson equalComparison = eq("UUID", scheduleId);

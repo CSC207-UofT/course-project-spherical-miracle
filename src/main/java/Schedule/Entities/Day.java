@@ -22,6 +22,9 @@ public class Day {
     private int calBurnt;
     // possible implement dates in the future: ex. November 11,2021
 
+    public enum addWorkoutResult {
+        SUCCESS, TOO_MANY, DUPLICATE_NAME;
+    }
     /**
      * Construct a Day object.
      */
@@ -58,13 +61,23 @@ public class Day {
      * @param workout workout to be added for the day
      * @return if adding the workout was successful or not
      */
-    public boolean addWorkout(Workout workout) {
+    public addWorkoutResult addWorkout(Workout workout) {
         if (workouts.size() < 5) {
+            if (hasDuplicateName(workout))
+                return addWorkoutResult.DUPLICATE_NAME;
             workouts.add(workout);
-            return true;
+            return addWorkoutResult.SUCCESS;
         }
         else
-            return false;
+            return addWorkoutResult.TOO_MANY;
+    }
+
+    private boolean hasDuplicateName(Workout workout) {
+        for (Workout w: workouts) {
+            if (w.getName().equals(workout.getName()))
+                return true;
+        }
+        return false;
     }
 
     /**
@@ -153,7 +166,10 @@ public class Day {
         for (Workout workout : workouts) {
             if (!(workout == null)) {
                 stringWorkouts.append(workout.getName());
-                stringWorkouts.append(", ");
+                stringWorkouts.append(": ");
+                stringWorkouts.append(workout.getCaloriesBurnt());
+                stringWorkouts.append(" kcal, ");
+
             }
         }
 
@@ -175,7 +191,9 @@ public class Day {
         StringBuilder stringMeals = new StringBuilder();
         for (Meal meal : meals) {
             stringMeals.append(meal.getName());
-            stringMeals.append(", ");
+            stringMeals.append(": ");
+            stringMeals.append(meal.getCalories());
+            stringMeals.append(" kcal, ");
         }
         // remove the last comma
         if(stringMeals.length() != 0) {
@@ -206,7 +224,7 @@ public class Day {
             workout = this.getWorkoutString();
             meal = this.getMealString();
         }
-        outputMsg += "This is your plan(s) for day " + (DayOfWeek.of(day)) + ": \n Workouts: " + workout + "\n" +
+        outputMsg += "This is your plan(s) for " + (DayOfWeek.of(day)) + ": \n Workouts: " + workout + "\n" +
                 " Meal: " + meal + "\n ";
         return outputMsg;
         }

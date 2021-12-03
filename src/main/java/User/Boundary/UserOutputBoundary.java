@@ -7,4 +7,5 @@ public interface UserOutputBoundary {
     void scheduleList(String listSchedules);
     void addWeightHeightPrompt();
     void bmiMessage(double bmi, String weightCategory);
+
 }

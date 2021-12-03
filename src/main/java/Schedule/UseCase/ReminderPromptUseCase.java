@@ -1,7 +1,7 @@
-package Schedule;
+package Schedule.UseCase;
 import Schedule.Boundary.ScheduleOutputBoundary;
-import Schedule.UseCase.*;
 import Schedule.Entities.*;
+import Schedule.ScheduleDataAccess;
 
 /**
  * A reminder of the day's activities for the user upon login.
@@ -28,8 +28,7 @@ public class ReminderPromptUseCase {
         FetchSchedulesUseCase activeSchedule = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
         Schedule currentSchedule = activeSchedule.getActiveSchedule(username);
         Day scheduledDay = currentSchedule.getDay(dayOfWeek); // assign this value to scheduled workout
-        // TODO: Let presenter handle this print statement
-        System.out.println(scheduledDay.printDay(dayOfWeek.getValue()));
+        outputBoundary.reminderPrompt(scheduledDay.printDay(dayOfWeek.getValue()));
         return scheduledDay.printDay(dayOfWeek.getValue());
     }
 }

@@ -6,6 +6,7 @@ import Schedule.Entities.Meal;
 import Schedule.Entities.Schedule;
 import Schedule.Entities.Workout;
 import Schedule.ScheduleDataAccess;
+import Schedule.ScheduleDataAccess.ScheduleInfo;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
@@ -38,37 +39,52 @@ public class FetchSchedulesUseCase {
         ScheduleDataAccess.ScheduleInfo schedule = databaseInterface.loadActiveSchedule(username);
         return stringToSchedule(schedule.getId(), schedule.getName(), schedule.getDetails());
     }
-    
+
+    private List<String> schedulesToScheduleIDs(List<Schedule> schedules) {
+        List<String> schedulesIDs = new ArrayList<>();
+        for (Schedule schedule: schedules) {
+            schedulesIDs.add(schedule.getId());
+        }
+        return schedulesIDs;
+    }
+
     /**
-     * Returns a list of Schedules associated with the given username.
+     * Returns a list of IDs for the schedules associated with the given username.
      * @param username - the username of the user.
-     * @return list of schedules associated with the given username.
+     * @return list of IDs for the schedules associated with the given username.
      */
-    public List<Schedule> getScheduleAssociatedWith(String username) {
-        List<Schedule> userSchedules = new ArrayList<>();
-        List<ScheduleDataAccess.ScheduleInfo> schedules = databaseInterface.loadSchedulesAssociatedWith(username);
+    public List<String> getScheduleAssociatedWith(String username) {
+        List<Schedule> schedules = new ArrayList<>();
+        List<ScheduleDataAccess.ScheduleInfo> schedulesInfos = databaseInterface.loadSchedulesAssociatedWith(username);
         List<String> scheduleNames = new ArrayList<>();
-        for (ScheduleDataAccess.ScheduleInfo scheduleString: schedules) {
-            userSchedules.add(stringToSchedule(scheduleString.getId(), scheduleString.getName(), scheduleString.getDetails()));
+        ScheduleDataAccess.ScheduleInfo activeInfo = databaseInterface.loadActiveSchedule(username);
+        for (ScheduleDataAccess.ScheduleInfo scheduleString: schedulesInfos) {
+            schedules.add(stringToSchedule(scheduleString.getId(), scheduleString.getName(), scheduleString.getDetails()));
             scheduleNames.add(scheduleString.getName());
         }
         outputBoundary.listSchedules(scheduleNames);
-        return userSchedules;
+        if (activeInfo == null){
+            outputBoundary.noActiveSchedule();
+        } else {
+            outputBoundary.currentActiveSchedule(activeInfo.getName());
+        }
+        return schedulesToScheduleIDs(schedules);
     }
 
     /**
      * Returns the list of public schedules.
      * @return list of public schedules.
      */
-    public List<Schedule> getPublicSchedules() {
+    public List<String> getPublicSchedules() {
         List<Schedule> publicSchedules = new ArrayList<>();
-        List<Object> schedules = databaseInterface.loadPublicSchedules();
+        List<ScheduleInfo> scheduleInfos = databaseInterface.loadPublicSchedules();
         List<String> scheduleNames = new ArrayList<>();
-        for (Object scheduleString: schedules) {
-           // publicSchedules.add(stringToSchedule(scheduleString));
+        for (ScheduleInfo scheduleString: scheduleInfos) {
+           publicSchedules.add(stringToSchedule(scheduleString.getId(), scheduleString.getName(), scheduleString.getDetails()));
+           scheduleNames.add(scheduleString.getName());
         }
-        // TODO: Figure out if loadPublicSchedules should return List<Object> or List<ScheduleInfo>
-        return publicSchedules;
+        outputBoundary.listSchedules(scheduleNames);
+        return schedulesToScheduleIDs(publicSchedules);
     }
 
     /**
@@ -102,6 +118,7 @@ public class FetchSchedulesUseCase {
     }
 
     public Schedule getScheduleWithID(String scheduleID) {
-        return new Schedule("123");
+        ScheduleInfo s = databaseInterface.loadScheduleWith(scheduleID);
+        return stringToSchedule(s.getId(), s.getName(), s.getDetails());
     }
 }
