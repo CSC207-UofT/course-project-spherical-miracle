@@ -32,8 +32,6 @@ public class UserController {
      * @return whether the user's info was valid and the user was added to the database or not
      **/
     public boolean createUser(String username, String password, String name, String email) {
-        if (!userInfoIsValid(username, password, name, email))
-            return false;
         CreateUserInputBoundary createUserInputBoundary = new CreateUserUseCase(databaseInterface, outputBoundary);
         boolean success = createUserInputBoundary.createUser(username, password, name, email);
         return success;
@@ -60,13 +58,4 @@ public class UserController {
 
     }
 
-    private boolean userInfoIsValid(String username, String password, String name, String email) {
-        String[] userInfo = {username, password, name, email};
-        for (String info : userInfo) {
-            // Could add more checks
-            if (info.isBlank())
-                return false;
-        }
-        return true;
-    }
 }

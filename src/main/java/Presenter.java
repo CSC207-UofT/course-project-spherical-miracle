@@ -1,5 +1,8 @@
-import Schedule.Boundary.*;
-import User.Boundary.*;
+import Schedule.Boundary.RemoveScheduleInputBoundary;
+import Schedule.Boundary.ScheduleOutputBoundary;
+import Schedule.ScheduleDataAccess;
+import Schedule.UseCase.RemoveScheduleUseCase;
+import User.Boundary.UserOutputBoundary;
 
 import java.time.DayOfWeek;
 import java.util.*;
@@ -118,8 +121,25 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
-    public void deleteSchedule(String scheduleName) {
+    public void deleteSchedule(String username, String scheduleName) {
+            // TODO: validate if inputted name is valid in user's schedule, make use case for it
+            System.out.println("Schedule " + scheduleName + " has been successfully deleted!");
+            // if user didn't input name of a valid schedule that exists in their collection
+            // System.out.println("Invalid input. Try again.");
 
+    }
+
+    @Override
+    public String DetailDeleteActivateOption(){
+        while (true){
+            System.out.println("To view detail input 'detail', to delete input 'delete', to activate input 'a'. Otherwise input 'r' to return");
+            String option = in.nextLine();
+            if (option.equalsIgnoreCase("detail") || option.equalsIgnoreCase("delete") || option.equalsIgnoreCase("a") ||option.equalsIgnoreCase("r")){
+                return option;
+            } else {
+                System.out.println(Messages.INVALID_INPUT);
+            }
+        }
     }
 
     @Override
@@ -153,8 +173,8 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
-    public int viewSpecificSchedule(int size) {
-        return scheduleList(size, "Enter the number of the schedule that you would like to view. Or -1 to go back.");
+    public int chooseScheduleFromList(int size) {
+        return scheduleList(size, "To view, delete, or activate a schedule, input its number. Otherwise, -1 to go back.");
     }
 
     private int scheduleList(int size, String message){

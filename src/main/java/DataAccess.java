@@ -225,15 +225,31 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         if (doc == null){
             return null;
         }
+        String activeSchedule = doc.getString("active_schedule");
+        if (activeSchedule.equals("")){
+            return null;
+        }
         return loadScheduleWith(doc.getString("active_schedule"));
     }
-
 
     @Override
     public void updateCurrentSchedule(String username, String scheduleId){
         MongoCollection<Document> suc = database.getCollection("User_Schedule");
         Bson equalComparison = eq("username", username);
         suc.updateOne(equalComparison, Updates.set("active_schedule", scheduleId));
+    }
+
+    @Override
+    public void deleteUserSchedule(String username, String scheduleId){
+        Document doc = findData("User_Schedule",eq("username",username)).first();
+        String active = doc.getString("active_schedule");
+        if (active.equals(scheduleId)){
+            updateCurrentSchedule(username, "");
+        }
+        MongoCollection<Document> suc = database.getCollection("User_Schedule");
+        Bson equalComparison = eq("username", username);
+        suc.updateOne(equalComparison, Updates.pull("schedules",scheduleId));
+        deleteSchedule(scheduleId);
     }
 
     @Override

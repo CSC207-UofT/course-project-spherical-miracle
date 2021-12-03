@@ -19,7 +19,7 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
 
     /**
      * Instantiate a use case that creates a schedule.
-     * @param databaseInterface - the access interface boundary between the databaseInterface and the use case.
+     * @param databaseInterface - the access interface boundary between the database and the use case.
      */
     public ManageScheduleUseCase(ScheduleDataAccess databaseInterface, ScheduleOutputBoundary outputBoundary) {
         this.databaseInterface = databaseInterface;
@@ -40,10 +40,10 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
 
     public void editSchedule(String scheduleID, String username) {
         FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
-        RemoveScheduleUseCase remove = new RemoveScheduleUseCase(databaseInterface);
+        RemoveScheduleUseCase remove = new RemoveScheduleUseCase(databaseInterface, outputBoundary);
         Schedule schedule = fetch.getScheduleWithID(scheduleID);
         editSchedule(schedule);
-        remove.removeScheduleFromUser(scheduleID, username);
+        remove.remove(scheduleID, username);
         saveSchedule(schedule, username);
     }
 
