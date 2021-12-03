@@ -61,6 +61,19 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     public void addWeightHeightPrompt() {
 
     }
+    @Override
+    //todo: add cm display and pound display
+    public void currentHeightWeight(Double height, Double weight){
+        if (height == 0.0 && weight ==0.0) {
+            System.out.println("Height: N/A. Weight: N/A.");
+        } else if (height == 0.0){
+            System.out.println("Height: N/A. Weight: " + weight + ". ");
+        } else if (weight == 0.0){
+            System.out.println("Height: "+ height + ".  Weight: N/A" );
+        } else {
+            System.out.println("Height: "+ height + ".  Weight: " + weight + ". " );
+        }
+    }
 
     @Override
     public void bmiMessage(double bmi, String weightCategory) {
