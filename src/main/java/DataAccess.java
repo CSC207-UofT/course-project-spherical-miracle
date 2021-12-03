@@ -57,7 +57,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     public ScheduleInfo loadScheduleWith(String id) {
         Document doc = findData("Schedule", eq("UUID", id)).first();
         List<List<List<Map<String,String>>>> days = new ArrayList<>();
-        for (List<Object> day: (List<List<Object>>)doc.get("days")){ // goes through list of days
+        for (List<Object> day: (List<List<Object>>)doc.get("days")){
             List<List<Map<String, String>>> dayList = new ArrayList<>();
             List<Map<String, String>> workoutList = new ArrayList<>();
             for (Map<String, String> workout: (List<Map<String, String>>) day.get(workoutNum)){
@@ -148,7 +148,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         MongoCursor<Document> cursor = findData("Schedule", eq("public", true)).cursor();
         List<String> publicSchedulesIDs = new ArrayList<>();
         while (cursor.hasNext()) {
-            publicSchedulesIDs.add(cursor.next().get("schedules", String.class));
+            publicSchedulesIDs.add(cursor.next().get("UUID", String.class));
         }
         List<ScheduleInfo> publicSchedules = new ArrayList<>();
         for (String scheduleID: publicSchedulesIDs) {
@@ -179,11 +179,16 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     @Override
     public ScheduleInfo loadActiveSchedule(String username) {
         Bson equalComparison = eq("username", username);
-        Document doc = findData("User_schedule", equalComparison).first();
-        assert doc != null;
+        Document doc = findData("User_Schedule", equalComparison).first();
+        if (doc == null){
+            return null;
+        }
+        String activeSchedule = doc.getString("active_schedule");
+        if (activeSchedule.equals("")){
+            return null;
+        }
         return loadScheduleWith(doc.getString("active_schedule"));
     }
-
 
     @Override
     public void updateCurrentSchedule(String username, String scheduleId){

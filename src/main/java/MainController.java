@@ -38,17 +38,18 @@ public class MainController {
         String id = scheduleController.createSchedule(scheduleName, username);
         sessionController.setWorkingScheduleID(id);
     }
-    public void createSchedule(String scheduleName, Map<DayOfWeek,
-            Map<String, List<Map<String, String>>>> scheduleDetails) {
-        // TODO: Either turn Map into List. OR change scheduleDetails to List<...> and updateUI accordingly
-        List<List<List<Map<String, String>>>> days = new ArrayList<>();
-        String username = sessionController.getUsernameOfLoggedInUser();
-        scheduleController.createSchedule(scheduleName, username, false, days);
-    }
 
     public void viewMySchedules() {
         String username = sessionController.getUsernameOfLoggedInUser();
-        scheduleController.viewListOfSchedule(username);
+        List<String> ids = scheduleController.viewListOfSchedule(username);
+        scheduleController.selectAndDisplaySchedule(ids);
+    }
+
+    public void setActiveSchedules(){
+        String username = sessionController.getUsernameOfLoggedInUser();
+        List<String> ids = scheduleController.viewListOfSchedule(username);
+        scheduleController.setActiveSchedule(ids, username);
+
     }
 
     public void viewPublicSchedules() {

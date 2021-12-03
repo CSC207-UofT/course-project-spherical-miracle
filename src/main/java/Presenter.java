@@ -1,15 +1,21 @@
+import Schedule.Boundary.RemoveScheduleInputBoundary;
 import Schedule.Boundary.ScheduleOutputBoundary;
-import User.Boundary.*;
+import Schedule.ScheduleDataAccess;
+import Schedule.UseCase.RemoveScheduleUseCase;
+import User.Boundary.UserOutputBoundary;
 
 import java.time.DayOfWeek;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     private Scanner in = new Scanner(System.in);
 
     public class Messages {
-        static final String WELCOME_MESSGAGE = "Welcome! Here are your options:";
+        static final String WELCOME_MESSAGE = "Welcome! Here are your options:";
         static final String INVALID_INPUT = "Invalid input. Try again.";
         static final String CREATE_SCHEDULE_OPTIONS = "Type 'c' to make changes to a day or 's' to save and return to the main menu.";
     }
@@ -30,10 +36,8 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     public void loginMessage(boolean loggedIn) {
         if (loggedIn) {
             System.out.println("Login successful!");
-
         } else {
             System.out.println("Username and password does not match. Please try again.");
-
         }
     }
 
@@ -52,8 +56,8 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     }
 
-    @Override
     public void scheduleList(String listSchedules) {
+        // TODO: do this but make two
 
     }
 
@@ -74,14 +78,37 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public void listSchedules(List<String> schedules) {
+        System.out.println("These are your kept schedules. \n");
         for (String scheduleName: schedules) {
             System.out.println((schedules.indexOf(scheduleName)) + ". " + scheduleName);
         }
     }
 
     @Override
-    public void deleteSchedule(String scheduleName) {
+    public void currentActiveSchedule(String scheduleName){
+        System.out.println("your current active schedule is " + scheduleName);
+    }
 
+    @Override
+    public void noActiveSchedule(){
+        System.out.println("You don't have an active schedule yet.");
+    }
+
+    @Override
+    public void deleteSchedule(String username, String scheduleName) {
+            // TODO: validate if inputted name is valid in user's schedule, make use case for it
+            ScheduleDataAccess things = null;
+            RemoveScheduleInputBoundary thing = new RemoveScheduleUseCase(null);
+            thing.remove(username, scheduleName);
+            System.out.println("Schedule " + scheduleName + " has been successfully deleted!");
+            // if user didn't input name of a valid schedule that exists in their collection
+            // System.out.println("Invalid input. Try again.");
+
+    }
+
+    @Override
+    public String setActive() {
+        return null;
     }
 
     @Override
@@ -100,20 +127,34 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
+    public void reminderPrompt(String s) {
+        System.out.println(s);
+    }
+
+    @Override
+    public int activeSchedulePrompt(int size) {
+        return scheduleList(size, "Enter the number of the schedule that you want to activate. Or -1 to go back.");
+    }
+
+    @Override
     public int viewSpecificSchedule(int size) {
+        return scheduleList(size, "Enter the number of the schedule that you would like to view. Or -1 to go back.");
+    }
+
+    private int scheduleList(int size, String message){
         Scanner in = new Scanner(System.in);
         if (size == 0) {
             System.out.println("There are no schedules available here. Go create some!");
             return -1;
         }
-        System.out.println("Enter the number of the schedule that you would like to view. Or -1 to go back.");
+        System.out.println(message);
         while (true) {
             try {
                 int index = Integer.parseInt(in.nextLine());
                 if (-1 <= index && index <= size - 1)
                     return index;
             } catch (NumberFormatException e ) {}
-            System.out.println("Invalid input. Try again.");
+            System.out.println(Messages.INVALID_INPUT);
         }
     }
 

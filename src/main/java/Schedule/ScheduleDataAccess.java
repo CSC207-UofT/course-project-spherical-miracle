@@ -39,9 +39,9 @@ public interface ScheduleDataAccess {
     void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic);
 
     /**
-     * TODO: Complete javadoc after implementation.
-     * @param username
-     * @param scheduleId
+     * Updates a user's schedule's status based on if it is currently an active schedule.
+     * @param username user that the schedule being updated belongs to
+     * @param scheduleId id of the schedule being updated
      */
     void updateCurrentSchedule(String username, String scheduleId);
 
