@@ -16,7 +16,7 @@ public class BMIUseCase {
      * @param outputBoundary
      * @param fetchUserUseCase
      */
-    public BMIUseCase(UserOutputBoundary outputBoundary, FetchUserUseCase fetchUserUseCase) {
+    public BMIUseCase(FetchUserUseCase fetchUserUseCase, UserOutputBoundary outputBoundary) {
         this.outputBoundary = outputBoundary;
         this.fetchUserUseCase = fetchUserUseCase;
     }
@@ -26,20 +26,25 @@ public class BMIUseCase {
     public boolean BMIMessage(String username) {
         try {
             User user = fetchUserUseCase.getUser(username);
-            Double userBMI = user.getBMI();
+            Object userBMI = user.getBMI();
             String weightCategory;
-            if (userBMI == 0) {
-                weightCategory = "N/A";
-            } else if (userBMI < 18.5) {
-                weightCategory = "Underweight";
-            } else if (userBMI < 24.9) {
-                weightCategory = "Healthy Weight";
-            } else if (userBMI < 29.9) {
-                weightCategory = "Overweight";
+            if (userBMI instanceof Double) {
+                if ((Double) userBMI == 0) {
+                    weightCategory = "N/A";
+                } else if ((Double) userBMI < 18.5) {
+                    weightCategory = "Underweight";
+                } else if ((Double) userBMI < 24.9) {
+                    weightCategory = "Healthy Weight";
+                } else if ((Double) userBMI < 29.9) {
+                    weightCategory = "Overweight";
+                } else {
+                    weightCategory = "Obesity";
+                }
+                outputBoundary.currentHeightWeight(user.getHeight(),user.getWeight());
+                outputBoundary.bmiMessage((Double) userBMI, weightCategory);
             } else {
-                weightCategory = "Obesity";
+                outputBoundary.noBMI((String) userBMI);
             }
-            outputBoundary.bmiMessage(userBMI, weightCategory);
             return true;
         } catch (UserDoesNotExistException e) {
             return false;

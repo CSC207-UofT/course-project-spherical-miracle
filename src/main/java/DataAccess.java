@@ -61,14 +61,14 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         if (doc == null || doc2 == null) {
             throw new UserDoesNotExistException(username);
         }
-        Object[] userInfo = new String[6];
+        Object[] userInfo = new Object[6];
         userInfo[0] = doc.getString("username");
         userInfo[1] = doc.getString("password");
         userInfo[2] = doc.getString("name");
         userInfo[3] = doc.getString("email");
 
-        List<Double> weight = doc2.getList("weight", double.class);
-        List<Double> height = doc2.getList("height", double.class);
+        List<Double> weight = doc2.getList("weight", Double.class);
+        List<Double> height = doc2.getList("height", Double.class);
         if (height.isEmpty()||weight.isEmpty()){
             return userInfo;
         } else {

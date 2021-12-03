@@ -11,6 +11,7 @@ public class UserController {
     private final UserDataAccess databaseInterface;
     private final UserOutputBoundary outputBoundary;
 
+
     /**
 
      * Constructs a controller that handles user-related actions.
@@ -47,9 +48,15 @@ public class UserController {
         // users.remove(username);
     }
 
-    public String getCurrentWeightHeightBMI(String username){
+    public void getCurrentWeightHeightBMI(String username){
+        FetchUserUseCase fetch = new FetchUserUseCase(databaseInterface);
+        BMIUseCase bmiUseCase = new BMIUseCase(fetch, outputBoundary);
+        bmiUseCase.BMIMessage(username);
+    }
 
-        return null;
+    public void addHeightWeight(String username){
+        AddHeightWeightUseCase addHeightWeightUseCase = new AddHeightWeightUseCase(databaseInterface, outputBoundary);
+        addHeightWeightUseCase.addHeightWeight(username);
 
     }
 

@@ -67,7 +67,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
         if (weightCategory.equals("N/A")){
             System.out.println("Unable to calculate BMI. Please make sure your weight and height inputted are greater than 0");
         } else {
-            System.out.println("Your BMI is:" + bmi + ". Your weight category is: " + weightCategory + ". ");
+            System.out.format("Your BMI is: %.2f. Your weight category is: " + weightCategory + ". \n", bmi);
         }
     }
 
@@ -240,4 +240,45 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     }
 
+    public void noBMI(String message){
+        System.out.println(message);
+    }
+
+    //todo: we probably can design this better
+    @Override
+    public String[] askUnitType(){
+        while (true) {
+            System.out.println("Select your preferred unit for height. If centimeters, enter 'cm', if feet, enter 'f'.");
+            String[] units = new String[2];
+            units[0] = in.nextLine();
+            if (units[0].equals("cm") || units[0].equals("f")) {
+                System.out.println("Select your preferred unit for weight. If kilograms, enter 'kg', if lbs, enter 'lbs'.");
+                units[1] = in.nextLine();
+                while(!units[1].equals("kg") && !units[1].equals("lbs")) {
+                    System.out.println("Incorrect input. Try again.");
+                    units[1] = in.nextLine();
+                }
+                return units;
+            } else{
+                System.out.println(Messages.INVALID_INPUT);
+            }
+        }
+    }
+
+    @Override
+    public Double askMeasurements(String message) {
+        while (true) {
+            System.out.println("Input your " + message + ", if it didn't change from last time, put -1.");
+            try {
+                double measurement = in.nextDouble();
+                if (!(measurement == -1) && measurement <= 0) {
+                    System.out.println("Value must be positive value. Please try again.");
+                }
+                return measurement;
+            } catch (InputMismatchException e) {
+                System.out.println("Incorrect input. Try again.");
+            }
+
+        }
+    }
 }

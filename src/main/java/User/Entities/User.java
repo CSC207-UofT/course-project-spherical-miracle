@@ -112,7 +112,7 @@ public class User {
     public void setHeight(double height, String units){
         if (units.equalsIgnoreCase("cm")){
             heightConverter = new CmStrategy();
-        } else if (units.equalsIgnoreCase("FtAndIn")){
+        } else if (units.equalsIgnoreCase("f")){
             heightConverter = new FtAndInStrategy();
         }
         if (heightConverter != null){
@@ -127,11 +127,12 @@ public class User {
      * Sets the weight of this User.
      * @returns user's current BMI, kg/m^2 and return 0 if Weight is 0 (not implemented)
      */
-    public double getBMI(){
-        try {
-            return this.weight / Math.pow(this.height, 2);
-        } catch (ArithmeticException e){
-            return 0;
+    public Object getBMI(){
+        double output = this.weight / Math.pow(this.height, 2);
+        if (Double.isNaN(output)) {
+            return "Incalculable. You have to have to add your Height/Weight in order to calculate your BMI.";
+        }else{
+            return output;
         }
     }
 

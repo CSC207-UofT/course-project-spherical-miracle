@@ -61,20 +61,17 @@ public class MainController {
         scheduleController.reminderFor(username, dayOfWeek);
     }
 
-    public boolean checkDuplicateWorkout(String workoutName, DayOfWeek dayOfWeek, String scheduleID) {
+
+    public void addHeightWeight(){
         String username = sessionController.getUsernameOfLoggedInUser();
-        return scheduleController.checkDuplicateFor(workoutName, dayOfWeek, sessionController.getWorkingScheduleID());
-    }
-
-    public void addHeightWeight(String heightUnit, String weightUnit, Double height, Double weight){
+        userController.addHeightWeight(username);
 
     }
 
-    public String[] currentWeightHeightBMI(){
+    public void currentWeightHeightBMI(){
         String username = sessionController.getUsernameOfLoggedInUser();
         userController.getCurrentWeightHeightBMI(username);
 
-        return null;
     }
 
 }
