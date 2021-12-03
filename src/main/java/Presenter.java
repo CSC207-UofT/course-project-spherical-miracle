@@ -1,12 +1,14 @@
 import Schedule.Boundary.RemoveScheduleInputBoundary;
 import Schedule.Boundary.ScheduleOutputBoundary;
 import Schedule.ScheduleDataAccess;
-import Schedule.UseCase.FetchSchedulesUseCase;
 import Schedule.UseCase.RemoveScheduleUseCase;
-import User.Boundary.*;
+import User.Boundary.UserOutputBoundary;
 
 import java.time.DayOfWeek;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 

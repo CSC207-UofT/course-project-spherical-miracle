@@ -183,9 +183,12 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         if (doc == null){
             return null;
         }
+        String activeSchedule = doc.getString("active_schedule");
+        if (activeSchedule.equals("")){
+            return null;
+        }
         return loadScheduleWith(doc.getString("active_schedule"));
     }
-
 
     @Override
     public void updateCurrentSchedule(String username, String scheduleId){
