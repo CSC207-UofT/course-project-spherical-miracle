@@ -38,6 +38,23 @@ public class User {
         this.heightConverter = null;
         this.weightConverter = null;
     }
+    /**
+     * Constructs a User, giving them the name, username, email, and password.
+     * @param name the name of the user
+     * @param username the username of the user
+     * @param email the email of the user
+     * @param password the password of the user
+     */
+    public User(String username, String password, String name, String email, double height, double weight) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.name = name;
+        this.height = height;
+        this.weight = weight;
+        this.heightConverter = null;
+        this.weightConverter = null;
+    }
 
     /**
      * Returns the name of this User.

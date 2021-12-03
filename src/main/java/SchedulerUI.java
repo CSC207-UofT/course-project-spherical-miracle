@@ -92,9 +92,11 @@ public class SchedulerUI {
                 case Commands.TODAYS_REMINDER:
                     DayOfWeek today = LocalDate.now().getDayOfWeek();
                     mainController.sendReminderForDay(today);
+                    break;
                     // TODO: Edit schedule menu
                 case Commands.WEIGHT_HEIGHT_BMI:
                     weightHeightBMIMenu();
+                    break;
             }
         }
     }
@@ -267,7 +269,6 @@ public class SchedulerUI {
     }
 
     private void weightHeightBMIMenu() {
-
         while (true) {
             System.out.println("Type 'c' to view your current Weight/Height, 'a' to add a record of your Weight/Height or 'r' to return to the main menu.");
             switch (in.nextLine()) {
@@ -275,11 +276,13 @@ public class SchedulerUI {
                     return;
                 case "c":
                     mainController.currentWeightHeightBMI();
+                    break;
                 case "a":
-                    String[] s = askUnitType();
-
-                    //not true
-                    mainController.addWeightHeight(s[0], s[1]);
+                    String[] unitType = askUnitType();
+                    Double height = askMeasurements("height");
+                    Double weight = askMeasurements("weight");
+                    mainController.addHeightWeight(unitType[0], unitType[1], height, weight);
+                    break;
                 default:
                     System.out.println("Incorrect input. Try again.");
             }
@@ -288,20 +291,43 @@ public class SchedulerUI {
         }
     }
 
+
+    //todo: we probably can design this better
     private String[] askUnitType(){
         while (true) {
-            System.out.println("Select your preferred unit for weight. If centimeters, enter 'cm', if meters, enter 'm'. if feet, enter 'f'");
-            switch (in.nextLine()) {
-                case "f":
+            System.out.println("Select your preferred unit for height. If centimeters, enter 'cm', if feet, enter 'f'.");
+            String[] units = new String[2];
+            units[0] = in.nextLine();
+            if (units[0].equals("cm") || units[0].equals("f")) {
+                System.out.println("Select your preferred unit for weight. If kilograms, enter 'kg', if lbs, enter 'lbs'.");
+                units[1] = in.nextLine();
+                while(!units[1].equals("kg") && !units[1].equals("lbs")) {
+                    System.out.println("Incorrect input. Try again.");
+                    units[1] = in.nextLine();
+                }
+                    return units;
+            } else{
+                System.out.println("Incorrect input. Try again.");
             }
-//                System.out.println("Select your preferred unit for weight. If meters, enter 'm'. if feet, enter 'f'");
-//                weightunit = in.nextLine();
-//
-//                System.out.println("Enter an email:");
-//                input = in.nextLine();
+        }
+    }
+
+    private Double askMeasurements(String message) {
+        while (true) {
+            System.out.println("Input your " + message + ", if it didn't change from last time, put -1.");
+            try {
+                double measurement = in.nextDouble();
+                if (!(measurement == -1) && measurement <= 0) {
+                    System.out.println("Value must be positive value. Please try again.");
+                }
+                return measurement;
+            } catch (InputMismatchException e) {
+                System.out.println("Incorrect input. Try again.");
+            }
 
         }
     }
+
     /**
      * Returns if the information is valid.
      *

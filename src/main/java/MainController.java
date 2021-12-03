@@ -66,7 +66,7 @@ public class MainController {
         return scheduleController.checkDuplicateFor(workoutName, dayOfWeek, sessionController.getWorkingScheduleID());
     }
 
-    public void addWeightHeight(String weight, String height){
+    public void addHeightWeight(String heightUnit, String weightUnit, Double height, Double weight){
 
     }
 

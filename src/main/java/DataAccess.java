@@ -40,6 +40,21 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
+    public void saveUser(String username, String password, String name, String email){
+        MongoCollection<Document> uc = database.getCollection("User");
+        MongoCollection<Document> usc = database.getCollection("User_Schedule");
+        MongoCollection<Document> uWH = database.getCollection("User_WH");
+        String pwHash = BCrypt.hashpw(password, BCrypt.gensalt(10));
+        Document newUser = new Document("name", name).append("username", username).append("email", email).append("password", pwHash);
+        ObjectId id = Objects.requireNonNull(uc.insertOne(newUser).getInsertedId()).asObjectId().getValue();
+        List<DBObject> array = new ArrayList<>();
+        Document newUs = new Document("username",username).append("active_schedule", "").append("schedules", array);
+        ObjectId id2 = Objects.requireNonNull(usc.insertOne(newUs).getInsertedId()).asObjectId().getValue();
+        Document newUWH = new Document("username",username).append("height", array).append("weight", array).append("date", array);
+        ObjectId id3 = Objects.requireNonNull(uWH.insertOne(newUWH).getInsertedId()).asObjectId().getValue();
+    }
+
+    @Override
     public Object[] loadUserWithUsername(String username) throws UserDoesNotExistException {
         Document doc = findData("User", eq("username", username)).first();
         Document doc2 = findData("User_WH", eq("username", username)).first();
@@ -57,8 +72,8 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         if (height.isEmpty()||weight.isEmpty()){
             return userInfo;
         } else {
-            userInfo[4] = weight.get(weight.size()-1);
-            userInfo[5] = height.get(height.size()-1);
+            userInfo[4] = height.get(height.size()-1);
+            userInfo[5] = weight.get(weight.size()-1);
         }
         return userInfo;
     }
@@ -104,6 +119,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         // from outermost to inner: list of days, list of items in a day class (index 0 is workouts, index 1 is meals),
         // list of instance variables in a workout/meal class, map of each variable name to the value of the instance variable
         List<List<List<Map<String,String>>>> days = new ArrayList<>();
+        assert doc != null;
         for (List<Object> day: (List<List<Object>>)doc.get("days")){ // goes through list of days
             List<List<Map<String, String>>> dayList = new ArrayList<>();
             List<Map<String, String>> workoutList = new ArrayList<>();
@@ -146,21 +162,6 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         return schedules;
     }
 
-
-    @Override
-    public void saveUser(String username, String password, String name, String email){
-        MongoCollection<Document> uc = database.getCollection("User");
-        MongoCollection<Document> usc = database.getCollection("User_Schedule");
-        MongoCollection<Document> uWH = database.getCollection("User_WH");
-        String pwHash = BCrypt.hashpw(password, BCrypt.gensalt(10));
-        Document newUser = new Document("name", name).append("username", username).append("email", email).append("password", pwHash);
-        ObjectId id = Objects.requireNonNull(uc.insertOne(newUser).getInsertedId()).asObjectId().getValue();
-        List<DBObject> array = new ArrayList<>();
-        Document newUs = new Document("username",username).append("active_schedule", "").append("schedules", array);
-        ObjectId id2 = Objects.requireNonNull(usc.insertOne(newUs).getInsertedId()).asObjectId().getValue();
-        Document newUWH = new Document("username",username).append("height", array).append("weight", array).append("date", array);
-        ObjectId id3 = Objects.requireNonNull(uWH.insertOne(newUWH).getInsertedId()).asObjectId().getValue();
-    }
 
     public void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic) {
         MongoCollection<Document> sc = database.getCollection("Schedule");
