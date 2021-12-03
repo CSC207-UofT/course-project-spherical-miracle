@@ -18,6 +18,7 @@ public class SchedulerUI {
         static final String SET_YOUR_ACTIVE_SCHEDULE = "4";
         static final String VIEW_PUBLIC_SCHEDULES = "5";
         static final String TODAYS_REMINDER = "6";
+        static final String WEIGHT_HEIGHT_BMI = "7";
     }
 
     private final Map<String, String> commands = setCommands();
@@ -33,6 +34,7 @@ public class SchedulerUI {
         commands.put(Commands.SET_YOUR_ACTIVE_SCHEDULE, "Set an active schedule");
         commands.put(Commands.VIEW_PUBLIC_SCHEDULES, "View available schedule templates");
         commands.put(Commands.TODAYS_REMINDER, "See your reminders for today");
+        commands.put(Commands.WEIGHT_HEIGHT_BMI, "To add information about your Height/Weight and see your BMI");
         return commands;
     }
 
@@ -96,8 +98,11 @@ public class SchedulerUI {
                 case Commands.TODAYS_REMINDER:
                     DayOfWeek today = LocalDate.now().getDayOfWeek();
                     mainController.sendReminderForDay(today);
-
+                    break;
                     // TODO: Edit schedule menu
+                case Commands.WEIGHT_HEIGHT_BMI:
+                    weightHeightBMIMenu();
+                    break;
             }
             option = selectOption(commands);
         }
@@ -169,6 +174,27 @@ public class SchedulerUI {
         }
         return userInput;
     }
+
+    private void weightHeightBMIMenu() {
+        while (true) {
+            System.out.println("Type 'c' to view your current Weight/Height and BMI, 'a' to add a record of your Weight/Height or 'r' to return to the main menu.");
+            switch (in.nextLine()) {
+                case "r":
+                    return;
+                case "c":
+                    mainController.currentWeightHeightBMI();
+                    break;
+                case "a":
+                    mainController.addHeightWeight();
+                    break;
+                default:
+                    System.out.println("Incorrect input. Try again.");
+            }
+
+
+        }
+    }
+
 
     /**
      * Returns if the information is valid.

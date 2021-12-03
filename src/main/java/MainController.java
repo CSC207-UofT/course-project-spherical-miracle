@@ -60,4 +60,18 @@ public class MainController {
         String username = sessionController.getUsernameOfLoggedInUser();
         scheduleController.reminderFor(username, dayOfWeek);
     }
+
+
+    public void addHeightWeight(){
+        String username = sessionController.getUsernameOfLoggedInUser();
+        userController.addHeightWeight(username);
+
+    }
+
+    public void currentWeightHeightBMI(){
+        String username = sessionController.getUsernameOfLoggedInUser();
+        userController.getCurrentWeightHeightBMI(username);
+
+    }
+
 }
