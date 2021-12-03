@@ -22,9 +22,12 @@ public class FetchUserUseCase {
      * @throws UserDoesNotExistException - if no existing users have the given username
      */
     public User getUser(String username) throws UserDoesNotExistException {
-        String[] userInfo = databaseInterface.loadUserWithUsername(username);
-        User user = new User(userInfo[0], userInfo[1], userInfo[2] ,userInfo[3]);
-        return user;
+        Object[] userInfo = databaseInterface.loadUserWithUsername(username);
+        if(userInfo[4] == null) {
+            return new User((String) userInfo[0], (String) userInfo[1], (String) userInfo[2], (String) userInfo[3]);
+        }else{
+        return new User((String) userInfo[0], (String) userInfo[1], (String) userInfo[2], (String) userInfo[3], (double) userInfo[4], (double) userInfo[5]);
+        }
     }
 
 

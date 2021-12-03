@@ -1,5 +1,10 @@
 package User.Entities;
 
+import User.ConvertStrategies.HeightStrategies.CmStrategy;
+import User.ConvertStrategies.HeightStrategies.FtAndInStrategy;
+import User.ConvertStrategies.HeightStrategies.HeightConverter;
+import User.ConvertStrategies.WeightStrategies.LbsStrategy;
+import User.ConvertStrategies.WeightStrategies.WeightConverter;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -11,6 +16,10 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private double weight;
+    private double height;
+    private HeightConverter heightConverter;
+    private WeightConverter weightConverter;
 
     /**
      * Constructs a User, giving them the name, username, email, and password.
@@ -24,6 +33,27 @@ public class User {
         this.password = password;
         this.email = email;
         this.name = name;
+        this.weight = 0;
+        this.height = 0;
+        this.heightConverter = null;
+        this.weightConverter = null;
+    }
+    /**
+     * Constructs a User, giving them the name, username, email, and password.
+     * @param name the name of the user
+     * @param username the username of the user
+     * @param email the email of the user
+     * @param password the password of the user
+     */
+    public User(String username, String password, String name, String email, double height, double weight) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.name = name;
+        this.height = height;
+        this.weight = weight;
+        this.heightConverter = null;
+        this.weightConverter = null;
     }
 
     /**
@@ -48,6 +78,70 @@ public class User {
      **/
     public String getEmail() {
         return email;
+    }
+
+    /**
+     * Sets the weight of this User.
+     * @param weight user's weight
+     * @param units the unit of measurement for weight
+     */
+    public void setWeight(double weight, String units) {
+        if (units.equalsIgnoreCase("lbs")){
+            weightConverter = new LbsStrategy();
+        }
+        if (weightConverter != null){
+            this.weight = weightConverter.getKgs(weight);
+        } else {
+            this.weight = weight;
+        }
+    }
+
+    /**
+     * Returns the weight of this User.
+     * @return user's weight
+     **/
+    public double getWeight(){
+        return weight;
+    }
+
+    /**
+     * Sets the weight of this User.
+     * @param height user's height
+     * @param units the unit of measurement for height
+     */
+    public void setHeight(double height, String units){
+        if (units.equalsIgnoreCase("cm")){
+            heightConverter = new CmStrategy();
+        } else if (units.equalsIgnoreCase("f")){
+            heightConverter = new FtAndInStrategy();
+        }
+        if (heightConverter != null){
+            this.height = heightConverter.getM(height);
+        } else {
+            this.height = height;
+        }
+
+    }
+
+    /**
+     * Sets the weight of this User.
+     * @returns user's current BMI, kg/m^2 and return 0 if Weight is 0 (not implemented)
+     */
+    public Object getBMI(){
+        double output = this.weight / Math.pow(this.height, 2);
+        if (Double.isNaN(output)) {
+            return "Incalculable. You have to have to add your Height/Weight in order to calculate your BMI.";
+        }else{
+            return output;
+        }
+    }
+
+    /**
+     * Returns the height of this User.
+     * @return user's height
+     */
+    public double getHeight(){
+        return height;
     }
 
     /**
