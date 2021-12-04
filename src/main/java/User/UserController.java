@@ -11,6 +11,7 @@ public class UserController {
     private final UserDataAccess databaseInterface;
     private final UserOutputBoundary outputBoundary;
 
+
     /**
 
      * Constructs a controller that handles user-related actions.
@@ -31,8 +32,6 @@ public class UserController {
      * @return whether the user's info was valid and the user was added to the database or not
      **/
     public boolean createUser(String username, String password, String name, String email) {
-        if (!userInfoIsValid(username, password, name, email))
-            return false;
         CreateUserInputBoundary createUserInputBoundary = new CreateUserUseCase(databaseInterface, outputBoundary);
         boolean success = createUserInputBoundary.createUser(username, password, name, email);
         return success;
@@ -47,14 +46,16 @@ public class UserController {
         // users.remove(username);
     }
 
-    private boolean userInfoIsValid(String username, String password, String name, String email) {
-        // TODO: fix isBlank method that checks if all fields have been filled in
-        String[] userInfo = {username, password, name, email};
-        for (String info : userInfo) {
-            // Could add more checks
-            if (info.isBlank())
-                return false;
-        }
-        return true;
+    public void getCurrentWeightHeightBMI(String username){
+        FetchUserUseCase fetch = new FetchUserUseCase(databaseInterface);
+        BMIUseCase bmiUseCase = new BMIUseCase(fetch, outputBoundary);
+        bmiUseCase.BMIMessage(username);
     }
+
+    public void addHeightWeight(String username){
+        AddHeightWeightUseCase addHeightWeightUseCase = new AddHeightWeightUseCase(databaseInterface, outputBoundary);
+        addHeightWeightUseCase.addHeightWeight(username);
+
+    }
+
 }

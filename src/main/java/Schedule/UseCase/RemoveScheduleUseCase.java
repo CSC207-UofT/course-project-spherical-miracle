@@ -2,22 +2,24 @@ package Schedule.UseCase;
 
 import Schedule.Boundary.RemoveScheduleInputBoundary;
 import Schedule.Boundary.ScheduleOutputBoundary;
-import Schedule.Entities.Schedule;
 import Schedule.ScheduleDataAccess;
+
 import java.util.List;
 
 public class RemoveScheduleUseCase implements RemoveScheduleInputBoundary {
 
     private final ScheduleDataAccess scheduleDatabase;
-    private final ScheduleOutputBoundary outputBoundary = null;
+    private final ScheduleOutputBoundary outputBoundary;
 
-    public RemoveScheduleUseCase(ScheduleDataAccess scheduleDatabase) {
+    public RemoveScheduleUseCase(ScheduleDataAccess scheduleDatabase, ScheduleOutputBoundary outputBoundary) {
         this.scheduleDatabase = scheduleDatabase;
+        this.outputBoundary = outputBoundary;
     }
-
     @Override
-    public void removeScheduleFromUser(String username) {
-        String scheduleID = outputBoundary.deleteSchedule(username, username);
-        scheduleDatabase.deleteSchedule(scheduleID);
-    }
+    public void remove(String username, String scheduleID) {
+        scheduleDatabase.updateCurrentSchedule(username, "");
+        scheduleDatabase.deleteUserSchedule(username, scheduleID);
+        outputBoundary.deleteSchedule(username, scheduleID);
+
+}
 }

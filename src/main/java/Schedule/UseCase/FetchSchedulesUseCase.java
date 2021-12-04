@@ -57,11 +57,17 @@ public class FetchSchedulesUseCase {
         List<Schedule> schedules = new ArrayList<>();
         List<ScheduleDataAccess.ScheduleInfo> schedulesInfos = databaseInterface.loadSchedulesAssociatedWith(username);
         List<String> scheduleNames = new ArrayList<>();
+        ScheduleDataAccess.ScheduleInfo activeInfo = databaseInterface.loadActiveSchedule(username);
         for (ScheduleDataAccess.ScheduleInfo scheduleString: schedulesInfos) {
             schedules.add(stringToSchedule(scheduleString.getId(), scheduleString.getName(), scheduleString.getDetails()));
             scheduleNames.add(scheduleString.getName());
         }
         outputBoundary.listSchedules(scheduleNames);
+        if (activeInfo == null){
+            outputBoundary.noActiveSchedule();
+        } else {
+            outputBoundary.currentActiveSchedule(activeInfo.getName());
+        }
         return schedulesToScheduleIDs(schedules);
     }
 
@@ -75,6 +81,7 @@ public class FetchSchedulesUseCase {
         List<String> scheduleNames = new ArrayList<>();
         for (ScheduleInfo scheduleString: scheduleInfos) {
            publicSchedules.add(stringToSchedule(scheduleString.getId(), scheduleString.getName(), scheduleString.getDetails()));
+           scheduleNames.add(scheduleString.getName());
         }
         outputBoundary.listSchedules(scheduleNames);
         return schedulesToScheduleIDs(publicSchedules);

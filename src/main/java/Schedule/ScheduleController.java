@@ -2,7 +2,7 @@ package Schedule;
 
 import java.time.DayOfWeek;
 import java.util.List;
-import java.util.Map;
+
 import Schedule.Boundary.*;
 import Schedule.UseCase.*;
 import User.Entities.User;
@@ -27,20 +27,16 @@ public class ScheduleController {
         fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
     }
 
+    /**
+     * Create a new schedule with the given name.
+     * Otherwise, return false.
+     **/
     public String createSchedule(String scheduleName, String username) {
         ManageScheduleUseCase c = new ManageScheduleUseCase(databaseInterface, outputBoundary);
         System.out.println("For each of the 7 days in your schedule, you can have up to five different workouts.");
         return c.createSchedule(scheduleName, username);
     }
 
-    /**
-     * Create a new schedule with the given name.
-     * Otherwise, return false.
-     **/
-    public void createSchedule(String scheduleName, String username, boolean isPublic, List<List<List<Map<String, String>>>> days) {
-        CreateScheduleInputBoundary c = new ManageScheduleUseCase(databaseInterface, outputBoundary);
-        c.createSchedule(scheduleName, username, isPublic, days);
-    }
 
     /**
      * Removes the schedule from a user's database of schedules.
@@ -51,9 +47,31 @@ public class ScheduleController {
         rsu.removeScheduleFromUser(username);
     }
 
-    public void viewListOfSchedule(String username){
-        List<String> schedulesIDs = fetch.getScheduleAssociatedWith(username);
-        selectAndDisplaySchedule(schedulesIDs);
+    public List<String> viewListOfSchedule(String username){
+        return fetch.getScheduleAssociatedWith(username);
+    }
+
+    public void DisplayDeleteActivateSchedule(String username, List<String> schedulesIDs) {
+        int index = outputBoundary.chooseScheduleFromList(schedulesIDs.size());
+        if (schedulesIDs.size() == 0)
+            return;
+        if (index != -1) {
+            while (true){
+            String option = outputBoundary.DetailDeleteActivateOption();
+            if (option.equalsIgnoreCase("delete")){
+                RemoveScheduleUseCase removeScheduleUseCase = new RemoveScheduleUseCase(databaseInterface, outputBoundary);
+                removeScheduleUseCase.remove(username, schedulesIDs.get(index));
+            } else if (option.equalsIgnoreCase("detail")) {
+                DisplayScheduleUseCase display = new DisplayScheduleUseCase(outputBoundary);
+                display.displaySchedule(fetch.getScheduleWithID(schedulesIDs.get(index)));
+            } else if (option.equalsIgnoreCase("a")){
+                SetActiveScheduleUseCase setActiveScheduleUseCase = new SetActiveScheduleUseCase(databaseInterface, outputBoundary);
+                setActiveScheduleUseCase.setAsActiveSchedule(username, fetch.getScheduleWithID(schedulesIDs.get(index)));
+            } else if (option.equalsIgnoreCase("r")){
+                break;
+                }
+            }
+        }
     }
 
     /**
@@ -61,21 +79,31 @@ public class ScheduleController {
      */
     public void viewPublicSchedules() {
         List<String> schedulesIDs = fetch.getPublicSchedules();
-        selectAndDisplaySchedule(schedulesIDs);
+
     }
 
-    public void reminderFor(String username, DayOfWeek dayOfWeek) {
-        ReminderPromptUseCase reminder = new ReminderPromptUseCase(databaseInterface, outputBoundary);
-        reminder.remind(username, dayOfWeek);
-    }
-
-    private void selectAndDisplaySchedule(List<String> schedulesIDs) {
-        int index = outputBoundary.viewSpecificSchedule(schedulesIDs.size());
+    public void setActiveSchedule(List<String> schedulesIDs, String username){
+        int index = outputBoundary.activeSchedulePrompt(schedulesIDs.size());
         if (schedulesIDs.size() == 0)
             return;
         if (index != -1) {
-            DisplayScheduleUseCase display = new DisplayScheduleUseCase(outputBoundary);
-            display.displaySchedule(fetch.getScheduleWithID(schedulesIDs.get(index)));
+            SetActiveScheduleUseCase setActiveScheduleUseCase = new SetActiveScheduleUseCase(databaseInterface, outputBoundary);
+            setActiveScheduleUseCase.setAsActiveSchedule(username, fetch.getScheduleWithID(schedulesIDs.get(index)));
         }
     }
+
+    public String reminderFor(String username, DayOfWeek dayOfWeek) {
+        ReminderPromptUseCase reminder = new ReminderPromptUseCase(databaseInterface, outputBoundary);
+        return reminder.remind(username, dayOfWeek);
+    }
+
+//    private void selectAndDisplaySchedule(List<String> schedulesIDs) {
+//        int index = outputBoundary.viewSpecificSchedule(schedulesIDs.size());
+//        if (schedulesIDs.size() == 0)
+//            return;
+//        if (index != -1) {
+//            DisplayScheduleUseCase display = new DisplayScheduleUseCase(outputBoundary);
+//            display.displaySchedule(fetch.getScheduleWithID(schedulesIDs.get(index)));
+//        }
+//    }
 }

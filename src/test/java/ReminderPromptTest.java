@@ -1,7 +1,7 @@
 import Schedule.Entities.Schedule;
 import Schedule.Entities.Day;
 import Schedule.Entities.Workout;
-import Schedule.ReminderPromptUseCase;
+import Schedule.UseCase.ReminderPromptUseCase;
 
 import Schedule.UseCase.ManageScheduleUseCase;
 import org.junit.jupiter.api.AfterEach;
