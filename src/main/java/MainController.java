@@ -42,13 +42,7 @@ public class MainController {
     public void viewMySchedules() {
         String username = sessionController.getUsernameOfLoggedInUser();
         List<String> ids = scheduleController.viewListOfSchedule(username);
-        scheduleController.selectAndDisplaySchedule(ids);
-    }
-
-    public void setActiveSchedules(){
-        String username = sessionController.getUsernameOfLoggedInUser();
-        List<String> ids = scheduleController.viewListOfSchedule(username);
-        scheduleController.setActiveSchedule(ids, username);
+        scheduleController.DisplayDeleteActivateSchedule(username, ids);
 
     }
 
@@ -60,4 +54,18 @@ public class MainController {
         String username = sessionController.getUsernameOfLoggedInUser();
         scheduleController.reminderFor(username, dayOfWeek);
     }
+
+
+    public void addHeightWeight(){
+        String username = sessionController.getUsernameOfLoggedInUser();
+        userController.addHeightWeight(username);
+
+    }
+
+    public void currentWeightHeightBMI(){
+        String username = sessionController.getUsernameOfLoggedInUser();
+        userController.getCurrentWeightHeightBMI(username);
+
+    }
+
 }

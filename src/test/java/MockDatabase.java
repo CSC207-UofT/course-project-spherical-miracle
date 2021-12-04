@@ -38,10 +38,10 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public String[] loadUserWithUsername(String username) throws UserDoesNotExistException {
+    public Object[] loadUserWithUsername(String username) throws UserDoesNotExistException {
         for (User user: users) {
             if (user.getUsername().equals(username)) {
-                return new String[] {user.getUsername(), user.getPassword(), user.getName(), user.getEmail()};
+                return new Object[] {user.getUsername(), user.getPassword(), user.getName(), user.getEmail()};
             }
         }
         throw new UserDoesNotExistException(username);
@@ -99,6 +99,16 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     @Override
     public void editUser(String key, String change, String username) {
 
+    }
+
+    @Override
+    public void addHeightWeight(String username, double height, double weight) {
+
+    }
+
+    @Override
+    public BodyMeasurementRecord getHWListWith(String username) {
+        return null;
     }
 
     public Schedule stringToSchedule(ScheduleInfo scheduleInfo) {

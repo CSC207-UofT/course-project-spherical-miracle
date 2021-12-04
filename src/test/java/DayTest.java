@@ -1,15 +1,8 @@
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import java.time.DayOfWeek;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import java.lang.reflect.Array;
-import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 import Schedule.Entities.*;
 
@@ -31,7 +24,7 @@ class DayTest {
                 new Meal("Steak", 342)};
         totalCalBurnt = 0;
         for (Workout workout: workouts) {
-            totalCalBurnt = totalCalBurnt + workout.getCaloriesBurnt();
+            totalCalBurnt = totalCalBurnt + workout.getCalories();
         }
 
         totalIntake = 0;
@@ -58,7 +51,7 @@ class DayTest {
         List<Workout> dayWorkouts = day.getWorkouts();
         for (int i = 0; i < workouts.length; i++){
             assert workouts[i].getName().equals(dayWorkouts.get(i).getName());
-            assert workouts[i].getCaloriesBurnt() == dayWorkouts.get(i).getCaloriesBurnt();
+            assert workouts[i].getCalories() == dayWorkouts.get(i).getCalories();
         }
     }
 
@@ -89,7 +82,7 @@ class DayTest {
         addToDay();
         for (Workout workout: workouts) {
             assert day.removeWorkout(workout.getName());
-            calBurntRemoved = calBurntRemoved + workout.getCaloriesBurnt();
+            calBurntRemoved = calBurntRemoved + workout.getCalories();
             assert day.getOuttake() == totalCalBurnt - calBurntRemoved;
         }
         assert !day.removeWorkout(workouts[0].getName());

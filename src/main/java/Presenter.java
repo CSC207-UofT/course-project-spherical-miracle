@@ -1,5 +1,8 @@
+import Schedule.Boundary.RemoveScheduleInputBoundary;
 import Schedule.Boundary.ScheduleOutputBoundary;
-import User.Boundary.*;
+import Schedule.ScheduleDataAccess;
+import Schedule.UseCase.RemoveScheduleUseCase;
+import User.Boundary.UserOutputBoundary;
 
 import java.time.DayOfWeek;
 import java.util.*;
@@ -53,6 +56,38 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
+    public void scheduleList(String listSchedules) {
+
+    }
+
+    @Override
+    public void addWeightHeightPrompt() {
+
+    }
+    @Override
+    //todo: add cm display and pound display
+    public void currentHeightWeight(Double height, Double weight){
+        if (height == 0.0 && weight ==0.0) {
+            System.out.println("Height: N/A. Weight: N/A.");
+        } else if (height == 0.0){
+            System.out.println("Height: N/A. Weight: " + weight + ". ");
+        } else if (weight == 0.0){
+            System.out.println("Height: "+ height + ".  Weight: N/A" );
+        } else {
+            System.out.println("Height: "+ height + ".  Weight: " + weight + ". " );
+        }
+    }
+
+    @Override
+    public void bmiMessage(double bmi, String weightCategory) {
+        if (weightCategory.equals("N/A")){
+            System.out.println("Unable to calculate BMI. Please make sure your weight and height inputted are greater than 0");
+        } else {
+            System.out.format("Your BMI is: %.2f. Your weight category is: " + weightCategory + ". \n", bmi);
+        }
+    }
+
+    @Override
     public void scheduleMadeMessage(String returnMessage) {
 
     }
@@ -86,8 +121,25 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
-    public void deleteSchedule(String scheduleName) {
+    public void deleteSchedule(String username, String scheduleName) {
+            // TODO: validate if inputted name is valid in user's schedule, make use case for it
+            System.out.println("Schedule " + scheduleName + " has been successfully deleted!");
+            // if user didn't input name of a valid schedule that exists in their collection
+            // System.out.println("Invalid input. Try again.");
 
+    }
+
+    @Override
+    public String DetailDeleteActivateOption(){
+        while (true){
+            System.out.println("To view detail input 'detail', to delete input 'delete', to activate input 'a'. Otherwise input 'r' to return");
+            String option = in.nextLine();
+            if (option.equalsIgnoreCase("detail") || option.equalsIgnoreCase("delete") || option.equalsIgnoreCase("a") ||option.equalsIgnoreCase("r")){
+                return option;
+            } else {
+                System.out.println(Messages.INVALID_INPUT);
+            }
+        }
     }
 
     @Override
@@ -121,8 +173,8 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
-    public int viewSpecificSchedule(int size) {
-        return scheduleList(size, "Enter the number of the schedule that you would like to view. Or -1 to go back.");
+    public int chooseScheduleFromList(int size) {
+        return scheduleList(size, "To view, delete, or activate a schedule, input its number. Otherwise, -1 to go back.");
     }
 
     private int scheduleList(int size, String message){
@@ -221,4 +273,45 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     }
 
+    public void noBMI(String message){
+        System.out.println(message);
+    }
+
+    //todo: we probably can design this better
+    @Override
+    public String[] askUnitType(){
+        while (true) {
+            System.out.println("Select your preferred unit for height. If centimeters, enter 'cm', if feet, enter 'f'.");
+            String[] units = new String[2];
+            units[0] = in.nextLine();
+            if (units[0].equals("cm") || units[0].equals("f")) {
+                System.out.println("Select your preferred unit for weight. If kilograms, enter 'kg', if lbs, enter 'lbs'.");
+                units[1] = in.nextLine();
+                while(!units[1].equals("kg") && !units[1].equals("lbs")) {
+                    System.out.println("Incorrect input. Try again.");
+                    units[1] = in.nextLine();
+                }
+                return units;
+            } else{
+                System.out.println(Messages.INVALID_INPUT);
+            }
+        }
+    }
+
+    @Override
+    public Double askMeasurements(String message) {
+        while (true) {
+            System.out.println("Input your " + message + ", if it didn't change from last time, put -1.");
+            try {
+                double measurement = in.nextDouble();
+                if (!(measurement == -1) && measurement <= 0) {
+                    System.out.println("Value must be positive value. Please try again.");
+                }
+                return measurement;
+            } catch (InputMismatchException e) {
+                System.out.println("Incorrect input. Try again.");
+            }
+
+        }
+    }
 }
