@@ -42,7 +42,7 @@ public class MainController {
     public void viewMySchedules() {
         String username = sessionController.getUsernameOfLoggedInUser();
         List<String> ids = scheduleController.viewListOfSchedule(username);
-        scheduleController.DisplayDeleteActivateSchedule(username, ids);
+        scheduleController.displayDeleteActivateSchedule(username, ids);
 
     }
 

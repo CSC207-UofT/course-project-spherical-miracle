@@ -16,7 +16,7 @@ public class RemoveScheduleUseCase implements RemoveScheduleInputBoundary {
         this.outputBoundary = outputBoundary;
     }
     @Override
-    public void remove(String username, String scheduleID) {
+    public void removeSchedule(String username, String scheduleID) {
         scheduleDatabase.updateCurrentSchedule(username, "");
         scheduleDatabase.deleteUserSchedule(username, scheduleID);
         outputBoundary.deleteSchedule(username, scheduleID);

@@ -14,7 +14,7 @@ public interface ScheduleOutputBoundary {
     void noActiveSchedule();
     void reminderPrompt(String s);
     void deleteSchedule(String user, String scheduleName);
-    String DetailDeleteActivateOption();
+    String detailDeleteActivateOption();
 
     /**
      * Returns the index of ID of the schedule that the user would like to view. If they do not want to view, return -1.
@@ -26,9 +26,11 @@ public interface ScheduleOutputBoundary {
     int activeSchedulePrompt(int size);
 
 
-    String selectEditOrSave();
+    String selectEditOptions();
     DayOfWeek selectDay();
 
+    String getName();
+    void showNameChange(String oldName, String newName);
     Map<String, String> getNameAndCalories(String meal);
 
     /**

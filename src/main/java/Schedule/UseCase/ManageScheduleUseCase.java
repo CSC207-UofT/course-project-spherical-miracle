@@ -40,7 +40,7 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
         RemoveScheduleUseCase remove = new RemoveScheduleUseCase(databaseInterface, outputBoundary);
         Schedule schedule = fetch.getScheduleWithID(scheduleID);
         editSchedule(schedule);
-        remove.remove(scheduleID, username);
+        remove.removeSchedule(username, scheduleID);
         saveSchedule(schedule, username);
     }
 
@@ -50,13 +50,20 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
     }
 
     private void editSchedule(Schedule schedule) {
-        String option = outputBoundary.selectEditOrSave();
-        while (option.equals("c")) {
-            DayOfWeek dayOfWeek = outputBoundary.selectDay();
-            schedule.setDay(dayOfWeek, getDay(schedule.getDay(dayOfWeek)));
-            option = outputBoundary.selectEditOrSave();
+        String option = outputBoundary.selectEditOptions();
+        while (!option.equalsIgnoreCase("s")) {
+            if (option.equals("c")) {
+                DayOfWeek dayOfWeek = outputBoundary.selectDay();
+                schedule.setDay(dayOfWeek, getDay(schedule.getDay(dayOfWeek)));
+            } else if (option.equals("n")) {
+                String oldName = schedule.getName();
+                String newName = outputBoundary.getName();
+                schedule.setName(newName);
+                outputBoundary.showNameChange(oldName, newName);
+            }
+
+            option = outputBoundary.selectEditOptions();
         }
-        assert option.equals("s");
     }
 
     private Day getDay(Day day) {

@@ -1,7 +1,4 @@
-import Schedule.Boundary.RemoveScheduleInputBoundary;
 import Schedule.Boundary.ScheduleOutputBoundary;
-import Schedule.ScheduleDataAccess;
-import Schedule.UseCase.RemoveScheduleUseCase;
 import User.Boundary.UserOutputBoundary;
 
 import java.time.DayOfWeek;
@@ -11,10 +8,13 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     private Scanner in = new Scanner(System.in);
 
-    public class Messages {
+    public static class Messages {
         static final String WELCOME_MESSAGE = "Welcome! Here are your options:";
         static final String INVALID_INPUT = "Invalid input. Try again.";
-        static final String CREATE_SCHEDULE_OPTIONS = "Type 'c' to make changes to a day or 's' to save and return to the main menu.";
+        static final String EDIT_SCHEDULE_OPTIONS = "Type: \n" +
+                "'n' to change the name of this schedule \n" +
+                "'c' to make changes to a day\n" +
+                "'s' to save and return to the main menu";
     }
 
     public int getNumberBetweenInclusive(int min, int max) {
@@ -104,9 +104,11 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public void listSchedules(List<String> schedules) {
-        System.out.println("These are your kept schedules. \n");
+        System.out.println("Here are your schedules: \n");
+        int index = 0;
         for (String scheduleName: schedules) {
-            System.out.println((schedules.indexOf(scheduleName)) + ". " + scheduleName);
+            System.out.println(index + ". " + scheduleName);
+            index++;
         }
     }
 
@@ -130,11 +132,15 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
-    public String DetailDeleteActivateOption(){
+    public String detailDeleteActivateOption(){
         while (true){
-            System.out.println("To view detail input 'detail', to delete input 'delete', to activate input 'a'. Otherwise input 'r' to return");
+            System.out.println("To view detail input 'detail', to edit input 'edit', to delete input 'delete', to activate input 'a'. Otherwise input 'r' to return");
             String option = in.nextLine();
-            if (option.equalsIgnoreCase("detail") || option.equalsIgnoreCase("delete") || option.equalsIgnoreCase("a") ||option.equalsIgnoreCase("r")){
+            if (option.equalsIgnoreCase("detail") ||
+                    option.equalsIgnoreCase("edit") ||
+                    option.equalsIgnoreCase("delete") ||
+                    option.equalsIgnoreCase("a") ||
+                    option.equalsIgnoreCase("r")){
                 return option;
             } else {
                 System.out.println(Messages.INVALID_INPUT);
@@ -174,7 +180,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public int chooseScheduleFromList(int size) {
-        return scheduleList(size, "To view, delete, or activate a schedule, input its number. Otherwise, -1 to go back.");
+        return scheduleList(size, "To view, edit, delete, or activate a schedule, input its number. Otherwise, -1 to go back.");
     }
 
     private int scheduleList(int size, String message){
@@ -195,12 +201,12 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
-    public String selectEditOrSave() {
-        System.out.println(Messages.CREATE_SCHEDULE_OPTIONS);
+    public String selectEditOptions() {
+        System.out.println(Messages.EDIT_SCHEDULE_OPTIONS);
         String option;
         while (true) {
             option = in.nextLine();
-            if (option.equals("c") || option.equals("s"))
+            if (option.equals("c") || option.equals("s") || option.equals("n"))
                 return option;
             System.out.println(Messages.INVALID_INPUT);
         }
@@ -221,6 +227,23 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
             } catch (NumberFormatException e) {}
             System.out.println(Messages.INVALID_INPUT);
         }
+    }
+
+    @Override
+    public String getName() {
+        System.out.println("Enter a new name:");
+        String name = in.nextLine();
+        while (name.isBlank()) {
+            System.out.println("The name cannot be blank. Try again.");
+            System.out.println("Enter a new name:");
+            name = in.nextLine();
+        }
+        return name;
+    }
+
+    @Override
+    public void showNameChange(String oldName, String newName) {
+        System.out.println("The name has changed from " + oldName + " -> " + newName + ".");
     }
 
     @Override

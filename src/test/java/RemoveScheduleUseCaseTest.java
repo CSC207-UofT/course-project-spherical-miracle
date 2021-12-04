@@ -4,8 +4,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class RemoveScheduleUseCaseTest {
 
     private MockDatabase mock = new MockDatabase();
@@ -27,7 +25,7 @@ class RemoveScheduleUseCaseTest {
     void remove() {
         Schedule s = new Schedule("s");
         mock.createSchedule(mock.scheduleToString(s), username, false);
-        remover.remove(username, "s");
+        remover.removeSchedule(username, "s");
         assert mock.schedules.isEmpty();
     }
 
@@ -37,7 +35,7 @@ class RemoveScheduleUseCaseTest {
         Schedule s2 = new Schedule("s");
         mock.createSchedule(mock.scheduleToString(s1), username, false);
         mock.createSchedule(mock.scheduleToString(s2), username, false);
-        remover.remove(username, "s");
+        remover.removeSchedule(username, "s");
         assert mock.schedules.size() == 1;
     }
 }
