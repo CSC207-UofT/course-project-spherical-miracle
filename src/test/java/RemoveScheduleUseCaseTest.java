@@ -11,10 +11,11 @@ class RemoveScheduleUseCaseTest {
     private MockDatabase mock = new MockDatabase();
     private RemoveScheduleUseCase remover;
     private String username = "username1";
+    private Presenter presenter = new Presenter();
 
     @BeforeEach
     void setUp() {
-        remover = new RemoveScheduleUseCase(mock);
+        remover = new RemoveScheduleUseCase(mock, presenter);
         mock.saveUser(username, "", "", "");
     }
 

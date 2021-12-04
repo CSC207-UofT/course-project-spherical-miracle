@@ -15,9 +15,9 @@ public class SchedulerUI {
         static final String LOGOUT = "1";
         static final String CREATE_SCHEDULE = "2";
         static final String VIEW_YOUR_SCHEDULES = "3";
-        static final String SET_YOUR_ACTIVE_SCHEDULE = "4";
-        static final String VIEW_PUBLIC_SCHEDULES = "5";
-        static final String TODAYS_REMINDER = "6";
+        static final String VIEW_PUBLIC_SCHEDULES = "4";
+        static final String TODAYS_REMINDER = "5";
+        static final String WEIGHT_HEIGHT_BMI = "6";
     }
 
     private final Map<String, String> commands = setCommands();
@@ -30,9 +30,9 @@ public class SchedulerUI {
         commands.put(Commands.LOGOUT, "Logout");
         commands.put(Commands.CREATE_SCHEDULE, "Create a schedule");
         commands.put(Commands.VIEW_YOUR_SCHEDULES, "View your schedules");
-        commands.put(Commands.SET_YOUR_ACTIVE_SCHEDULE, "Set an active schedule");
         commands.put(Commands.VIEW_PUBLIC_SCHEDULES, "View available schedule templates");
         commands.put(Commands.TODAYS_REMINDER, "See your reminders for today");
+        commands.put(Commands.WEIGHT_HEIGHT_BMI, "To add information about your Height/Weight and see your BMI");
         return commands;
     }
 
@@ -86,9 +86,6 @@ public class SchedulerUI {
                 case Commands.VIEW_YOUR_SCHEDULES:
                     mainController.viewMySchedules();
                     break;
-                case Commands.SET_YOUR_ACTIVE_SCHEDULE:
-                    mainController.setActiveSchedules();
-                    break;
                 case Commands.VIEW_PUBLIC_SCHEDULES:
                     // TODO: NO option to make a schedule public yet
                     mainController.viewPublicSchedules();
@@ -96,8 +93,11 @@ public class SchedulerUI {
                 case Commands.TODAYS_REMINDER:
                     DayOfWeek today = LocalDate.now().getDayOfWeek();
                     mainController.sendReminderForDay(today);
-
+                    break;
                     // TODO: Edit schedule menu
+                case Commands.WEIGHT_HEIGHT_BMI:
+                    weightHeightBMIMenu();
+                    break;
             }
             option = selectOption(commands);
         }
@@ -169,6 +169,27 @@ public class SchedulerUI {
         }
         return userInput;
     }
+
+    private void weightHeightBMIMenu() {
+        while (true) {
+            System.out.println("Type 'c' to view your current Weight/Height and BMI, 'a' to add a record of your Weight/Height or 'r' to return to the main menu.");
+            switch (in.nextLine()) {
+                case "r":
+                    return;
+                case "c":
+                    mainController.currentWeightHeightBMI();
+                    break;
+                case "a":
+                    mainController.addHeightWeight();
+                    break;
+                default:
+                    System.out.println("Incorrect input. Try again.");
+            }
+
+
+        }
+    }
+
 
     /**
      * Returns if the information is valid.

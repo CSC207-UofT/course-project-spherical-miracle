@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     private final List<User> users;
-    private final Map<String, ScheduleDataAccess.ScheduleInfo> schedules;
+    public final Map<String, ScheduleDataAccess.ScheduleInfo> schedules;
     private final Map<String, List<String>> userScheduleMap;
     private final List<String> publicSchedules;
     private String activeScheduleID ;
@@ -35,10 +35,10 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public String[] loadUserWithUsername(String username) throws UserDoesNotExistException {
+    public Object[] loadUserWithUsername(String username) throws UserDoesNotExistException {
         for (User user: users) {
             if (user.getUsername().equals(username)) {
-                return new String[] {user.getUsername(), user.getPassword(), user.getName(), user.getEmail()};
+                return new Object[] {user.getUsername(), user.getPassword(), user.getName(), user.getEmail()};
             }
         }
         throw new UserDoesNotExistException(username);
@@ -88,7 +88,12 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public void deleteSchedule(String username, String scheduleId) {
+    public void deleteSchedule(String username) {
+
+    }
+
+    @Override
+    public void deleteUserSchedule(String username, String scheduleId) {
         schedules.remove(scheduleId);
         if (publicSchedules.contains(scheduleId))
             publicSchedules.remove(scheduleId);
@@ -98,6 +103,16 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     @Override
     public void editUser(String key, String change, String username) {
 
+    }
+
+    @Override
+    public void addHeightWeight(String username, double height, double weight) {
+
+    }
+
+    @Override
+    public BodyMeasurementRecord getHWListWith(String username) {
+        return null;
     }
 
     public Schedule stringToSchedule(ScheduleInfo scheduleInfo) {
@@ -131,7 +146,7 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
             for (Workout w : d.getWorkouts()) {
                 Map<String, String> workout = new HashMap<>();
                 workout.put(workoutName, w.getName());
-                workout.put(calories, Integer.toString(w.getCaloriesBurnt()));
+                workout.put(calories, Integer.toString(w.getCalories()));
                 workouts.add(workout);
             }
             List<Map<String, String>> meals = new ArrayList<>();
