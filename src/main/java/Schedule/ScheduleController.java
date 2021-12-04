@@ -74,9 +74,19 @@ public class ScheduleController {
 
     /**
      * Displays the list of public schedules
+     * @param username
      */
-    public void viewPublicSchedules() {
+    public void viewPublicSchedules(String username) {
         List<String> schedulesIDs = fetch.getPublicSchedules();
+        int index = outputBoundary.chooseScheduleFromList(schedulesIDs.size());
+        if (schedulesIDs.size() == 0)
+            return;
+        if (index != -1){
+            AddPublicScheduleUseCase addPublicScheduleUseCase = new AddPublicScheduleUseCase(databaseInterface, outputBoundary);
+            addPublicScheduleUseCase.addPublicSchedule(username, schedulesIDs.get(index));
+        }
+
+
 
     }
 
