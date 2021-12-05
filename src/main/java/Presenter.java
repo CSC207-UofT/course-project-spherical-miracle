@@ -6,6 +6,8 @@ import java.util.*;
 
 public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
+    private final double LBS_CONVERTER = 2.205;
+    private final double FT_CONVERTER = 3.281;
     private Scanner in = new Scanner(System.in);
 
     public class Messages {
@@ -67,11 +69,11 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
         if (height == 0.0 && weight ==0.0) {
             System.out.println("Height: N/A. Weight: N/A.");
         } else if (height == 0.0){
-            System.out.println("Height: N/A. Weight: " + weight + ". ");
+            System.out.println("Height: N/A. Weight: " + weight + "kg (" + weight*LBS_CONVERTER + "lbs).");
         } else if (weight == 0.0){
-            System.out.println("Height: "+ height + ".  Weight: N/A" );
+            System.out.println("Height: "+ height*100 + "cm (" +  height*FT_CONVERTER + "lbs).  Weight: N/A" );
         } else {
-            System.out.println("Height: "+ height + ".  Weight: " + weight + ". " );
+            System.out.println("Height: "+ height*100 + "cm (" +  height*FT_CONVERTER + "lbs). Weight: " + weight + "kg (" + weight*LBS_CONVERTER + "lbs)." );
         }
     }
 
