@@ -8,19 +8,11 @@ import java.util.List;
  * A general day in the user's schedule that is not tied to a particular weekday.
  */
 
-//how to attach the specific weekday to a day object?
-
-// will need to also update Schedule based on new structure of storing workouts
-
-// when implementing meals + be a part of the daily summaries
-// how should we represent meals? just the name with the calories it has?
-
 public class Day {
     private List<Workout> workouts;
     private List<Meal> meals;
     private int intake;
     private int calBurnt;
-    // possible implement dates in the future: ex. November 11,2021
 
     public enum addWorkoutResult {
         SUCCESS, TOO_MANY, DUPLICATE_NAME;
@@ -29,7 +21,6 @@ public class Day {
      * Construct a Day object.
      */
     public Day() {
-        // hard coded limit of 5 different types of workouts per day
         workouts = new ArrayList<>();
         meals = new ArrayList<>();
         intake = 0;
@@ -39,7 +30,7 @@ public class Day {
 
     /**
      * Returns an array of workouts.
-     * @return
+     * @return array of workouts
      */
     //TODO: Perhaps return an iterator instead of the Array itself to prevent mutations outside of the class.
     public List<Workout> getWorkouts(){

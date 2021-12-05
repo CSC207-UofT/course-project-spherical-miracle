@@ -125,7 +125,7 @@ public class User {
 
     /**
      * Sets the weight of this User.
-     * @returns user's current BMI, kg/m^2 and return 0 if Weight is 0 (not implemented)
+     * @return user's current BMI, kg/m^2 and return 0 if Weight is 0 (not implemented)
      */
     public Object getBMI(){
         double output = this.weight / Math.pow(this.height, 2);

@@ -4,8 +4,6 @@ import Schedule.Boundary.RemoveScheduleInputBoundary;
 import Schedule.Boundary.ScheduleOutputBoundary;
 import Schedule.ScheduleDataAccess;
 
-import java.util.List;
-
 public class RemoveScheduleUseCase implements RemoveScheduleInputBoundary {
 
     private final ScheduleDataAccess scheduleDatabase;
@@ -15,6 +13,12 @@ public class RemoveScheduleUseCase implements RemoveScheduleInputBoundary {
         this.scheduleDatabase = scheduleDatabase;
         this.outputBoundary = outputBoundary;
     }
+
+    /**
+     * Removes schedule from database
+     * @param username username of the User to remove the schedule from
+     * @param scheduleID ID of Schedule to remove
+     */
     @Override
     public void remove(String username, String scheduleID) {
         scheduleDatabase.updateCurrentSchedule(username, "");

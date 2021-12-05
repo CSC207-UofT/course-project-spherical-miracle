@@ -95,6 +95,11 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
 
     }
 
+    @Override
+    public void deleteUserSchedule(String username, String scheduleId) {
+
+    }
+
 
     @Override
     public void editUser(String key, String change, String username) {

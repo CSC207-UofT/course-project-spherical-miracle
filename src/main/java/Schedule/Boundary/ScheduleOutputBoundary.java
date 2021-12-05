@@ -18,8 +18,8 @@ public interface ScheduleOutputBoundary {
 
     /**
      * Returns the index of ID of the schedule that the user would like to view. If they do not want to view, return -1.
-     * @return
-     * @param size
+     * @return index of ID of the schedule
+     * @param size size of the schedule ID list
      */
     int chooseScheduleFromList(int size);
 
@@ -37,7 +37,7 @@ public interface ScheduleOutputBoundary {
      *                 0 - SUCCESS
      *                 1 - TOO_MANY
      *                 2 - DUPLICATE_NAME
-     * @param name
+     * @param name Workout name
      */
     void showAddWorkoutResult(int result, String name);
     String createDayPrompt();

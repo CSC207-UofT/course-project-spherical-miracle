@@ -1,7 +1,4 @@
-import Schedule.Boundary.RemoveScheduleInputBoundary;
 import Schedule.Boundary.ScheduleOutputBoundary;
-import Schedule.ScheduleDataAccess;
-import Schedule.UseCase.RemoveScheduleUseCase;
 import User.Boundary.UserOutputBoundary;
 
 import java.time.DayOfWeek;
@@ -24,7 +21,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                 int n = Integer.parseInt(in.nextLine());
                 if (min <= n && n <= max)
                     return n;
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException ignored) {
             }
             System.out.println("Please enter a number between " + min + " and " + max);
         }
@@ -189,7 +186,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                 int index = Integer.parseInt(in.nextLine());
                 if (-1 <= index && index <= size - 1)
                     return index;
-            } catch (NumberFormatException e ) {}
+            } catch (NumberFormatException ignored) {}
             System.out.println(Messages.INVALID_INPUT);
         }
     }
@@ -218,7 +215,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                 dayOfWeek = Integer.parseInt(in.nextLine());
                 if (1 <= dayOfWeek && dayOfWeek <= 7)
                     return DayOfWeek.of(dayOfWeek);
-            } catch (NumberFormatException e) {}
+            } catch (NumberFormatException ignored) {}
             System.out.println(Messages.INVALID_INPUT);
         }
     }
@@ -238,7 +235,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                     nameAndCalories.put("calories", String.valueOf(calories));
                     return nameAndCalories;
                 }
-            } catch (NumberFormatException e) {}
+            } catch (NumberFormatException ignored) {}
             System.out.println(Messages.INVALID_INPUT);
         }
     }
