@@ -47,7 +47,8 @@ public class MainController {
     }
 
     public void viewPublicSchedules() {
-        scheduleController.viewPublicSchedules();
+        String username = sessionController.getUsernameOfLoggedInUser();
+        scheduleController.viewPublicSchedules(username);
     }
 
     public void sendReminderForDay(DayOfWeek dayOfWeek) {
