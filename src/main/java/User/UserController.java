@@ -69,4 +69,9 @@ public class UserController {
         }
         return true;
     }
+
+    public void viewListofHeightWeightOvertime(String username){
+        HeightWeightOvertimeUseCase heightWeightOvertimeUseCase = new HeightWeightOvertimeUseCase(outputBoundary,databaseInterface);
+        heightWeightOvertimeUseCase.displayHeightWeightOvertime(username);
+    }
 }

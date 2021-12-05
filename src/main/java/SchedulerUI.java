@@ -177,12 +177,15 @@ public class SchedulerUI {
 
     private void weightHeightBMIMenu() {
         while (true) {
-            System.out.println("Type 'c' to view your current Weight/Height and BMI, 'a' to add a record of your Weight/Height or 'r' to return to the main menu.");
+            System.out.println("Type 'c' to view your current Weight/Height and BMI, 'd' to see the histories of your height&weight changes, 'a' to add a record of your Weight/Height or 'r' to return to the main menu.");
             switch (in.nextLine()) {
                 case "r":
                     return;
                 case "c":
                     mainController.currentWeightHeightBMI();
+                    break;
+                case "d":
+                    mainController.viewListofHeightWeightOvertime();
                     break;
                 case "a":
                     mainController.addHeightWeight();

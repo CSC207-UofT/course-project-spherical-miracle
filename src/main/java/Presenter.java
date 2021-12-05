@@ -2,6 +2,8 @@ import Schedule.Boundary.*;
 import User.Boundary.*;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
@@ -63,9 +65,22 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     public void addWeightHeightPrompt() {
 
     }
+
     @Override
-    //todo: add cm display and pound display
-    public void currentHeightWeight(Double height, Double weight){
+    public boolean printListOfHeightWeight(List<Map<String,Object>> days){
+        if (days.size() == 0){
+            return false;
+        }
+        System.out.println("Your Weight/Height change overtime is:");
+        for (Map<String, Object> day: days){
+            System.out.println(day.get("date") +": ");
+            printHeightWeight((double) day.get("height"), (double) day.get("weight"));
+        }
+        return true;
+    }
+
+    @Override
+    public void printHeightWeight(Double height, Double weight){
         if (height == 0.0 && weight ==0.0) {
             System.out.println("Height: N/A. Weight: N/A.");
         } else if (height == 0.0){
@@ -74,6 +89,14 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
             System.out.println("Height: "+ height*100 + "cm (" +  height*FT_CONVERTER + "lbs).  Weight: N/A" );
         } else {
             System.out.println("Height: "+ height*100 + "cm (" +  height*FT_CONVERTER + "lbs). Weight: " + weight + "kg (" + weight*LBS_CONVERTER + "lbs)." );
+        }
+    }
+
+    public void noScheduleFoundMessage(Object lastDate){
+        if (lastDate instanceof LocalDate) {
+            System.out.println("There was no data found in your selected date. The latest entry is done on: " + lastDate);
+        } else if (lastDate instanceof Boolean){
+            System.out.println("There is no previous entry. Add records everyday to see your change overtime!");
         }
     }
 
@@ -291,6 +314,19 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                 }
                 return measurement;
             } catch (InputMismatchException e) {
+                System.out.println("Incorrect input. Try again.");
+            }
+
+        }
+    }
+
+    @Override
+    public LocalDate askDate(){
+        while (true) {
+            System.out.println("Input the start date to view history from. (yyyy-mm-dd)");
+            try {
+                return LocalDate.parse(in.nextLine());
+            } catch (DateTimeParseException e) {
                 System.out.println("Incorrect input. Try again.");
             }
 
