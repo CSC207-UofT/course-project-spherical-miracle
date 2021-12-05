@@ -35,6 +35,11 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
         return schedule.getId();
     }
 
+    /**
+     *
+     * @param scheduleID
+     * @param username
+     */
     public void editSchedule(String scheduleID, String username) {
         FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
         RemoveScheduleUseCase remove = new RemoveScheduleUseCase(databaseInterface, outputBoundary);
@@ -44,11 +49,20 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
         saveSchedule(schedule, username);
     }
 
+    /**
+     *
+     * @param schedule
+     * @param username
+     */
     protected void saveSchedule(Schedule schedule, String username) {
         boolean isPublic = outputBoundary.isPublic();
         databaseInterface.createSchedule(scheduleToString(schedule), username, isPublic);
     }
 
+    /**
+     *
+     * @param schedule
+     */
     private void editSchedule(Schedule schedule) {
         String option = outputBoundary.selectEditOrSave();
         while (option.equals("c")) {
@@ -59,6 +73,11 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
         assert option.equals("s");
     }
 
+    /**
+     *
+     * @param day
+     * @return
+     */
     private Day getDay(Day day) {
         String option;
         ScheduleEntityFactory factory = new ScheduleEntityFactory();
@@ -85,12 +104,24 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
         }
     }
 
+    /**
+     *
+     * @param name - the desired name of the schedule
+     * @param username - the username of the User creating the schedule
+     * @param isPublic - whether this schedule is public
+     * @param days - the details of this schedule
+     */
     @Override
     public void createSchedule(String name, String username, boolean isPublic, List<List<List<Map<String, String>>>> days) {
         Schedule schedule = new Schedule(name);
         databaseInterface.createSchedule(scheduleToString(schedule), username, isPublic);
     }
 
+    /**
+     * 
+     * @param schedule
+     * @return
+     */
     private ScheduleDataAccess.ScheduleInfo scheduleToString(Schedule schedule) {
         List<List<List<Map<String, String>>>> days = new ArrayList<>();
         for (DayOfWeek c: DayOfWeek.values()) {

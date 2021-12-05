@@ -9,7 +9,7 @@ public class FetchUserUseCase {
 
     /**
      * Constructs a use case that can fetch a specified user.
-     * @param databaseInterface
+     * @param databaseInterface interface of database
      */
     public FetchUserUseCase(UserDataAccess databaseInterface) {
         this.databaseInterface = databaseInterface;

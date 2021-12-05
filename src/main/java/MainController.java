@@ -3,7 +3,7 @@ import User.UserController;
 
 import java.time.DayOfWeek;
 import java.util.*;
-
+// TODO: DOCUMENTATION FOR THIS
 public class MainController {
 
     private final UserController userController;

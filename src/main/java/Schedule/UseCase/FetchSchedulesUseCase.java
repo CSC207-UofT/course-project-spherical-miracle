@@ -22,8 +22,8 @@ public class FetchSchedulesUseCase {
 
     /**
      * Constructs a use case that can fetch lists of schedules.
-     * @param databaseInterface
-     * @param outputBoundary
+     * @param databaseInterface interface of database
+     * @param outputBoundary output boundary for Schedule entity
      */
     public FetchSchedulesUseCase(ScheduleDataAccess databaseInterface, ScheduleOutputBoundary outputBoundary) {
         this.databaseInterface = databaseInterface;
@@ -32,14 +32,19 @@ public class FetchSchedulesUseCase {
 
     /**
      * Returns the active Schedule associated with the given username.
-     * @param username - the username of the user.
-     * @return active schedule associated with the given username.
+     * @param username - the username of the user
+     * @return active schedule associated with the given username
      */
     public Schedule getActiveSchedule(String username){
         ScheduleDataAccess.ScheduleInfo schedule = databaseInterface.loadActiveSchedule(username);
         return stringToSchedule(schedule.getId(), schedule.getName(), schedule.getDetails());
     }
 
+    /**
+     * Creates a list of Schedule IDs from a list of Schedules.
+     * @param schedules list of Schedules
+     * @return list of Schedule IDs
+     */
     private List<String> schedulesToScheduleIDs(List<Schedule> schedules) {
         List<String> schedulesIDs = new ArrayList<>();
         for (Schedule schedule: schedules) {
@@ -92,7 +97,7 @@ public class FetchSchedulesUseCase {
      *
      * @param id UUID of schedule
      * @param name string representation of schedule from dat
-     * @param scheduleInfo
+     * @param scheduleInfo list of information for Schedule entity
      * @return a Schedule object
      */
     private Schedule stringToSchedule(String id, String name, List<List<List<Map<String, String>>>> scheduleInfo) {
@@ -117,6 +122,11 @@ public class FetchSchedulesUseCase {
         return s;
     }
 
+    /**
+     * Gets a schedule from a schedule ID
+     * @param scheduleID String of Schedule ID
+     * @return Schedule corresponding with the ID
+     */
     public Schedule getScheduleWithID(String scheduleID) {
         ScheduleInfo s = databaseInterface.loadScheduleWith(scheduleID);
         return stringToSchedule(s.getId(), s.getName(), s.getDetails());

@@ -13,6 +13,12 @@ public class RemoveScheduleUseCase implements RemoveScheduleInputBoundary {
         this.databaseInterface = databaseInterface;
         this.outputBoundary = outputBoundary;
     }
+
+    /**
+     * Removes schedule from database
+     * @param username username of the User to remove the schedule from
+     * @param scheduleID ID of Schedule to remove
+     */
     @Override
     public void remove(String username, String scheduleID) {
         databaseInterface.updateCurrentSchedule(username, "");
