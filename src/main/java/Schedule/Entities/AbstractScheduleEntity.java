@@ -1,5 +1,12 @@
 package Schedule.Entities;
 
+/**
+ * An abstract class for everytype of schedule entity/item
+ * Currently this includes:
+ * - Meal
+ * - Workout
+ */
+
 abstract class AbstractScheduleEntity implements ScheduleEntity {
     private String name;
     private int calories;
