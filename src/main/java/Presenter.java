@@ -336,15 +336,18 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public Double askMeasurements(String message) {
+        double measurement;
         while (true) {
             System.out.println("Input your " + message + ", if it didn't change from last time, put -1.");
             try {
-                double measurement = in.nextDouble();
+                measurement = Double.parseDouble(in.nextLine());
                 if (!(measurement == -1) && measurement <= 0) {
                     System.out.println("Value must be positive value. Please try again.");
                 }
-                return measurement;
-            } catch (InputMismatchException ignored) {}
+                else{
+                    return measurement;
+                }
+            } catch (NumberFormatException ignored) {}
             System.out.println(Messages.INVALID_INPUT);
         }
     }
