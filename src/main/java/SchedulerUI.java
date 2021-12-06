@@ -34,7 +34,7 @@ public class SchedulerUI {
         commands.put(Commands.SET_YOUR_ACTIVE_SCHEDULE, "Set an active schedule");
         commands.put(Commands.VIEW_PUBLIC_SCHEDULES, "View available schedule templates");
         commands.put(Commands.TODAYS_REMINDER, "See your reminders for today");
-        commands.put(Commands.WEIGHT_HEIGHT_BMI, "To add information about your Height/Weight and see your BMI");
+        commands.put(Commands.WEIGHT_HEIGHT_BMI, "Add information about your Height/Weight and see your BMI");
         return commands;
     }
 
@@ -177,7 +177,9 @@ public class SchedulerUI {
 
     private void weightHeightBMIMenu() {
         while (true) {
-            System.out.println("Type 'c' to view your current Weight/Height and BMI, 'd' to see the histories of your height&weight changes, 'a' to add a record of your Weight/Height or 'r' to return to the main menu.");
+            System.out.println("Type 'c' to view your current Weight/Height and BMI, 'd' to see the " +
+                    "histories of your height & weight changes, 'a' to add a record of your Weight/Height" +
+                    " or 'r' to return to the main menu.");
             switch (in.nextLine()) {
                 case "r":
                     return;
@@ -185,7 +187,7 @@ public class SchedulerUI {
                     mainController.currentWeightHeightBMI();
                     break;
                 case "d":
-                    mainController.viewListofHeightWeightOvertime();
+                    mainController.viewListOfHeightWeightOvertime();
                     break;
                 case "a":
                     mainController.addHeightWeight();

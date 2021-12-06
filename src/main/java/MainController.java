@@ -74,9 +74,9 @@ public class MainController {
 
     }
 
-    public void viewListofHeightWeightOvertime(){
+    public void viewListOfHeightWeightOvertime(){
         String username = sessionController.getUsernameOfLoggedInUser();
-        userController.viewListofHeightWeightOvertime(username);
+        userController.viewListOfHeightWeightOvertime(username);
     }
 
 }

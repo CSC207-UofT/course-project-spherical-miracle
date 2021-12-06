@@ -15,7 +15,8 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     public class Messages {
         static final String WELCOME_MESSAGE = "Welcome! Here are your options:";
         static final String INVALID_INPUT = "Invalid input. Try again.";
-        static final String CREATE_SCHEDULE_OPTIONS = "Type 'c' to make changes to a day or 's' to save and return to the main menu.";
+        static final String CREATE_SCHEDULE_OPTIONS = "Type 'c' to make changes to a day or 's' to save and " +
+                "return to the main menu.";
     }
 
     public int getNumberBetweenInclusive(int min, int max) {
@@ -25,7 +26,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                 int n = Integer.parseInt(in.nextLine());
                 if (min <= n && n <= max)
                     return n;
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException ignored) {
             }
             System.out.println("Please enter a number between " + min + " and " + max);
         }
@@ -81,20 +82,24 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public void printHeightWeight(Double height, Double weight){
+        double roundedHeight = Math.round(height * FT_CONVERTER * 100.0) / 100.0;
+        double roundedWeight = Math.round(weight * LBS_CONVERTER * 100.0) / 100.0;
         if (height == 0.0 && weight ==0.0) {
             System.out.println("Height: N/A. Weight: N/A.");
         } else if (height == 0.0){
-            System.out.println("Height: N/A. Weight: " + weight + "kg (" + weight*LBS_CONVERTER + "lbs).");
+            System.out.println("Height: N/A. Weight: " + weight + "kg (" + roundedWeight + "lbs).");
         } else if (weight == 0.0){
-            System.out.println("Height: "+ height*100 + "cm (" +  height*FT_CONVERTER + "lbs).  Weight: N/A" );
+            System.out.println("Height: "+ height*100 + "cm (" +  roundedHeight + "ft).  Weight: N/A" );
         } else {
-            System.out.println("Height: "+ height*100 + "cm (" +  height*FT_CONVERTER + "lbs). Weight: " + weight + "kg (" + weight*LBS_CONVERTER + "lbs)." );
+            System.out.println("Height: "+ height*100 + "cm (" +  roundedHeight + "ft). Weight: " + weight
+                    + "kg (" + roundedWeight + "lbs)." );
         }
     }
 
     public void noScheduleFoundMessage(Object lastDate){
         if (lastDate instanceof LocalDate) {
-            System.out.println("There was no data found in your selected date. The latest entry is done on: " + lastDate);
+            System.out.println("There was no data found in your selected date. The latest entry is done on: "
+                    + lastDate);
         } else if (lastDate instanceof Boolean){
             System.out.println("There is no previous entry. Add records everyday to see your change overtime!");
         }
@@ -103,7 +108,8 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     @Override
     public void bmiMessage(double bmi, String weightCategory) {
         if (weightCategory.equals("N/A")){
-            System.out.println("Unable to calculate BMI. Please make sure your weight and height inputted are greater than 0");
+            System.out.println("Unable to calculate BMI. Please make sure your weight and height inputted are " +
+                    "greater than 0");
         } else {
             System.out.format("Your BMI is: %.2f. Your weight category is: " + weightCategory + ". \n", bmi);
         }
@@ -174,12 +180,14 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public int activeSchedulePrompt(int size) {
-        return scheduleList(size, "Enter the number of the schedule that you want to activate. Or -1 to go back.");
+        return scheduleList(size, "Enter the number of the schedule that you want to " +
+                "activate or -1 to go back.");
     }
 
     @Override
     public int viewSpecificSchedule(int size) {
-        return scheduleList(size, "Enter the number of the schedule that you would like to view. Or -1 to go back.");
+        return scheduleList(size, "Enter the number of the schedule that you would like to " +
+                "view or -1 to go back.");
     }
 
     private int scheduleList(int size, String message){
@@ -194,7 +202,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                 int index = Integer.parseInt(in.nextLine());
                 if (-1 <= index && index <= size - 1)
                     return index;
-            } catch (NumberFormatException e ) {}
+            } catch (NumberFormatException ignored) {}
             System.out.println(Messages.INVALID_INPUT);
         }
     }
@@ -223,7 +231,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                 dayOfWeek = Integer.parseInt(in.nextLine());
                 if (1 <= dayOfWeek && dayOfWeek <= 7)
                     return DayOfWeek.of(dayOfWeek);
-            } catch (NumberFormatException e) {}
+            } catch (NumberFormatException ignored) {}
             System.out.println(Messages.INVALID_INPUT);
         }
     }
@@ -243,7 +251,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                     nameAndCalories.put("calories", String.valueOf(calories));
                     return nameAndCalories;
                 }
-            } catch (NumberFormatException e) {}
+            } catch (NumberFormatException ignored) {}
             System.out.println(Messages.INVALID_INPUT);
         }
     }
@@ -286,11 +294,13 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     @Override
     public String[] askUnitType(){
         while (true) {
-            System.out.println("Select your preferred unit for height. If centimeters, enter 'cm', if feet, enter 'f'.");
+            System.out.println("Select your preferred unit for height. If centimeters, enter 'cm'," +
+                    " if feet, enter 'f'.");
             String[] units = new String[2];
             units[0] = in.nextLine();
             if (units[0].equals("cm") || units[0].equals("f")) {
-                System.out.println("Select your preferred unit for weight. If kilograms, enter 'kg', if lbs, enter 'lbs'.");
+                System.out.println("Select your preferred unit for weight. If kilograms, enter 'kg'," +
+                        " if lbs, enter 'lbs'.");
                 units[1] = in.nextLine();
                 while(!units[1].equals("kg") && !units[1].equals("lbs")) {
                     System.out.println("Incorrect input. Try again.");
