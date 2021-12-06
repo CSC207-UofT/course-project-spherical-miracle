@@ -49,17 +49,22 @@ public class ScheduleController {
         return fetch.getScheduleAssociatedWith(username);
     }
 
-    public void displayDeleteActivateSchedule(String username, List<String> schedulesIDs) {
+    /**
+     * Allows the user to choose a schedule from a list, and view, edit, delete, or activate the schedule.
+     * @param username username of the user performing the action
+     * @param schedulesIDs the list of IDs of schedules to choose from
+     */
+    public void selectThenViewEditDeleteActivateSchedule(String username, List<String> schedulesIDs) {
         int index = outputBoundary.chooseScheduleFromList(schedulesIDs.size());
         if (schedulesIDs.size() == 0)
             return;
         if (index != -1) {
             while (true) {
-                String option = outputBoundary.detailDeleteActivateOption();
+                String option = outputBoundary.viewEditDeleteActivateOptions();
                 if (option.equalsIgnoreCase("delete")) {
                     RemoveScheduleUseCase removeScheduleUseCase = new RemoveScheduleUseCase(databaseInterface, outputBoundary);
                     removeScheduleUseCase.removeSchedule(username, schedulesIDs.get(index));
-                } else if (option.equalsIgnoreCase("detail")) {
+                } else if (option.equalsIgnoreCase("view")) {
                     DisplayScheduleUseCase display = new DisplayScheduleUseCase(outputBoundary);
                     display.displaySchedule(fetch.getScheduleWithID(schedulesIDs.get(index)));
                 }
@@ -67,11 +72,11 @@ public class ScheduleController {
                     ManageScheduleUseCase manager = new ManageScheduleUseCase(databaseInterface, outputBoundary);
                     manager.editSchedule(schedulesIDs.get(index), username);
                 }
-                else if (option.equalsIgnoreCase("a")){
+                else if (option.equalsIgnoreCase("activate")){
                     SetActiveScheduleUseCase setActiveScheduleUseCase = new SetActiveScheduleUseCase(databaseInterface, outputBoundary);
                     setActiveScheduleUseCase.setAsActiveSchedule(username, fetch.getScheduleWithID(schedulesIDs.get(index)));
                 } else if (option.equalsIgnoreCase("r")){
-                    break;
+                    return;
                 }
             }
         }

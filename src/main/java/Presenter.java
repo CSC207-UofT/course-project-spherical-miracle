@@ -17,6 +17,11 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                 "'s' to save and return to the main menu";
     }
 
+    @Override
+    public void print(String s) {
+        System.out.println(s);
+    }
+
     public int getNumberBetweenInclusive(int min, int max) {
         Scanner in = new Scanner(System.in);
         while (true) {
@@ -29,15 +34,13 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
             System.out.println("Please enter a number between " + min + " and " + max);
         }
     }
+
     @Override
     public void loginMessage(boolean loggedIn) {
-        if (loggedIn) {
+        if (loggedIn)
             System.out.println("Login successful!");
-
-        } else {
+        else
             System.out.println("Username and password does not match. Please try again.");
-
-        }
     }
 
     @Override
@@ -47,12 +50,10 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public void signupMessage(boolean signedUp) {
-        if (signedUp) {
+        if (signedUp)
             System.out.println("Sign up successful!");
-        } else {
+        else
             System.out.println("Unsuccessful signup. Username is already taken.");
-        }
-
     }
 
     @Override
@@ -104,7 +105,9 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public void listSchedules(List<String> schedules) {
-        System.out.println("Here are your schedules: \n");
+        if (schedules.isEmpty())
+            return;
+        System.out.println("Here are your schedules:");
         int index = 0;
         for (String scheduleName: schedules) {
             System.out.println(index + ". " + scheduleName);
@@ -114,32 +117,33 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public void currentActiveSchedule(String scheduleName){
-        System.out.println("your current active schedule is " + scheduleName);
+        System.out.println("Your current active schedule is " + scheduleName);
     }
 
     @Override
     public void noActiveSchedule(){
-        System.out.println("You don't have an active schedule yet.");
+        System.out.println("You don't have an active schedule yet :(");
     }
 
     @Override
     public void deleteSchedule(String username, String scheduleName) {
-            // TODO: validate if inputted name is valid in user's schedule, make use case for it
             System.out.println("Schedule " + scheduleName + " has been successfully deleted!");
-            // if user didn't input name of a valid schedule that exists in their collection
-            // System.out.println("Invalid input. Try again.");
-
     }
 
     @Override
-    public String detailDeleteActivateOption(){
+    public String viewEditDeleteActivateOptions(){
         while (true){
-            System.out.println("To view detail input 'detail', to edit input 'edit', to delete input 'delete', to activate input 'a'. Otherwise input 'r' to return");
+            System.out.println("Type: \n" +
+                    "'view' to view the details of this schedule\n" +
+                    "'edit' to make edits to this schedule\n" +
+                    "'delete' to delete this schedule\n" +
+                    "'activate' to activate this schedule\n" +
+                    "'r' to return to the main menu");
             String option = in.nextLine();
-            if (option.equalsIgnoreCase("detail") ||
+            if (option.equalsIgnoreCase("view") ||
                     option.equalsIgnoreCase("edit") ||
                     option.equalsIgnoreCase("delete") ||
-                    option.equalsIgnoreCase("a") ||
+                    option.equalsIgnoreCase("activate") ||
                     option.equalsIgnoreCase("r")){
                 return option;
             } else {
@@ -149,13 +153,15 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
-    public String setActive() {
-        return null;
+    public void setActive(String scheduleName) {
+        System.out.println(scheduleName + " is now your active schedule.");
     }
 
     @Override
     public boolean isPublic() {
-        System.out.println("Enter 't' if you want the schedule to be public, if not enter 'f'.");
+        System.out.println("Would you like to make this schedule public? Type\n" +
+                "'t' for public\n" +
+                "'f' for private");
         String option;
         while (true) {
             option = in.nextLine();
@@ -169,24 +175,27 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
-    public void reminderPrompt(String s) {
-        System.out.println(s);
-    }
-
-    @Override
     public int activeSchedulePrompt(int size) {
-        return scheduleList(size, "Enter the number of the schedule that you want to activate. Or -1 to go back.");
+        return chooseObjectFromList(size,
+                "Enter the # for the schedule that you want to activate. Enter -1 to go back.",
+                "schedules");
     }
 
     @Override
     public int chooseScheduleFromList(int size) {
-        return scheduleList(size, "To view, edit, delete, or activate a schedule, input its number. Otherwise, -1 to go back.");
+        return chooseObjectFromList(size, "Enter the # for the schedule that you want to view, edit, delete, or activate.\n" +
+                "Enter -1 to go back.", "schedules");
     }
 
-    private int scheduleList(int size, String message){
+    public int chooseWorkoutFromList(int size) {
+        return chooseObjectFromList(size, "Enter the # for the workout that you want to remove.\n" +
+                "Enter -1 to go back", "workouts");
+    }
+
+    private int chooseObjectFromList(int size, String message, String objectType){
         Scanner in = new Scanner(System.in);
         if (size == 0) {
-            System.out.println("There are no schedules available here. Go create some!");
+            System.out.println("There are no " + objectType + " available here. Go create some!");
             return -1;
         }
         System.out.println(message);
@@ -284,16 +293,36 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public String createDayPrompt() {
-        System.out.println("Type 'w' to create a workout, 'm' to create a meal, " +
-                "or 'f' if you are finished for this day:");
+        System.out.println("Type\n" +
+                "'cw' to create a workout\n" +
+                "'cm' to create a meal\n" +
+                "'rw' to remove a workout\n" +
+                "'rm' to remove a meal\n" +
+                "'f' if you are finished for this day");
         String option;
         while (true) {
             option = in.nextLine();
-            if (option.equals("w") || option.equals("m") || option.equals("f"))
+            Set<String> availableOptions = new HashSet<>(Arrays.asList("cw", "cm", "rw", "rm", "f"));
+            if (availableOptions.contains(option))
                 return option;
             System.out.println(Messages.INVALID_INPUT);
         }
 
+    }
+
+    @Override
+    public String selectByName(List<String> names) {
+        System.out.println("Here are the names to pick from:");
+        for (String name: names) {
+            System.out.println(name);
+        }
+        System.out.println("Choose a name from the list:");
+        String selectedName = in.nextLine();
+        while (!names.contains(selectedName)) {
+            System.out.println("Invalid input. Try again.");
+            selectedName = in.nextLine();
+        }
+        return selectedName;
     }
 
     public void noBMI(String message){

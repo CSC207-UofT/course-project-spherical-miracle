@@ -87,7 +87,6 @@ public class SchedulerUI {
                     mainController.viewMySchedules();
                     break;
                 case Commands.VIEW_PUBLIC_SCHEDULES:
-                    // TODO: NO option to make a schedule public yet
                     mainController.viewPublicSchedules();
                     break;
                 case Commands.TODAYS_REMINDER:

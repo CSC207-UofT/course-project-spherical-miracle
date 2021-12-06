@@ -19,9 +19,8 @@ public class MainController {
     }
 
     public boolean signup(String username, String password, String name, String email) {
-        if (userController.createUser(username, password, name, email)) {
+        if (userController.createUser(username, password, name, email))
             return login(username, password);
-        }
         return false;
     }
 
@@ -42,8 +41,7 @@ public class MainController {
     public void viewMySchedules() {
         String username = sessionController.getUsernameOfLoggedInUser();
         List<String> ids = scheduleController.viewListOfSchedule(username);
-        scheduleController.displayDeleteActivateSchedule(username, ids);
-
+        scheduleController.selectThenViewEditDeleteActivateSchedule(username, ids);
     }
 
     public void viewPublicSchedules() {
@@ -59,13 +57,11 @@ public class MainController {
     public void addHeightWeight(){
         String username = sessionController.getUsernameOfLoggedInUser();
         userController.addHeightWeight(username);
-
     }
 
     public void currentWeightHeightBMI(){
         String username = sessionController.getUsernameOfLoggedInUser();
         userController.getCurrentWeightHeightBMI(username);
-
     }
 
 }

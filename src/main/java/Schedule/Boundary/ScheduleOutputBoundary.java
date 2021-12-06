@@ -9,19 +9,21 @@ public interface ScheduleOutputBoundary {
     void something(boolean signedUp);
     void listSchedules(List<String> schedules);
     void currentActiveSchedule(String scheduleName);
-    String setActive();
+    void setActive(String scheduleName);
     boolean isPublic();
     void noActiveSchedule();
-    void reminderPrompt(String s);
+    void print(String s);
     void deleteSchedule(String user, String scheduleName);
-    String detailDeleteActivateOption();
+    String viewEditDeleteActivateOptions();
 
     /**
-     * Returns the index of ID of the schedule that the user would like to view. If they do not want to view, return -1.
+     * Returns the number corresponding to the schedule that the user would like to view.
+     * If they do not want to view, returns -1.
      * @return
      * @param size
      */
     int chooseScheduleFromList(int size);
+    int chooseWorkoutFromList(int size);
 
     int activeSchedulePrompt(int size);
 
@@ -43,4 +45,6 @@ public interface ScheduleOutputBoundary {
      */
     void showAddWorkoutResult(int result, String name);
     String createDayPrompt();
+
+    String selectByName(List<String> names);
 }

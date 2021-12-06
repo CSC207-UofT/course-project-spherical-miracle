@@ -51,7 +51,6 @@ public interface ScheduleDataAccess {
      */
 
     List<ScheduleInfo> loadPublicSchedules();
-    //TODO: DO we want to have editSchedule()?
 
     void deleteSchedule(String username);
 

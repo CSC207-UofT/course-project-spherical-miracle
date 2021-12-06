@@ -4,6 +4,7 @@ import Schedule.Boundary.CreateScheduleInputBoundary;
 import Schedule.Boundary.ScheduleOutputBoundary;
 import Schedule.Entities.*;
 import Schedule.ScheduleDataAccess;
+import Schedule.ScheduleDataAccess.ScheduleInfo;
 import Schedule.Entities.Day.addWorkoutResult;
 
 import java.time.DayOfWeek;
@@ -40,7 +41,7 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
         RemoveScheduleUseCase remove = new RemoveScheduleUseCase(databaseInterface, outputBoundary);
         Schedule schedule = fetch.getScheduleWithID(scheduleID);
         editSchedule(schedule);
-        remove.removeSchedule(username, scheduleID);
+        remove.editRemoveSchedule(username, scheduleID);
         saveSchedule(schedule, username);
     }
 
@@ -54,41 +55,69 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
         while (!option.equalsIgnoreCase("s")) {
             if (option.equals("c")) {
                 DayOfWeek dayOfWeek = outputBoundary.selectDay();
-                schedule.setDay(dayOfWeek, getDay(schedule.getDay(dayOfWeek)));
+                schedule.setDay(dayOfWeek, getEditedDay(schedule.getDay(dayOfWeek)));
             } else if (option.equals("n")) {
                 String oldName = schedule.getName();
                 String newName = outputBoundary.getName();
                 schedule.setName(newName);
                 outputBoundary.showNameChange(oldName, newName);
             }
-
             option = outputBoundary.selectEditOptions();
         }
     }
 
-    private Day getDay(Day day) {
+    private Day getEditedDay(Day day) {
         String option;
         ScheduleEntityFactory factory = new ScheduleEntityFactory();
         while (true) {
             option = outputBoundary.createDayPrompt();
             if (option.equals("f"))
                 return day;
+            String type, name;
+            type = (option.charAt(option.length() - 1) == 'w') ? "Workout" : "Meal";
             Map<String, String> nameAndCalories;
-            String type;
-            if (option.equals("w"))
-                type = "Workout";
-            else
-                type = "Meal";
-            nameAndCalories = outputBoundary.getNameAndCalories(type);
-            if (option.equals("w")) {
-                Workout w = (Workout) factory.getScheduleEntity(option, nameAndCalories.get("name"),
-                        Integer.parseInt(nameAndCalories.get("calories")));
-                addWorkoutResult result = day.addWorkout(w);
-                outputBoundary.showAddWorkoutResult(result.ordinal(), nameAndCalories.get("name"));
+            List<String> names = new ArrayList<>();
+            switch (option) {
+                case "cw":
+                    nameAndCalories = outputBoundary.getNameAndCalories(type);
+                    Workout w = (Workout) factory.getScheduleEntity("w", nameAndCalories.get("name"),
+                            Integer.parseInt(nameAndCalories.get("calories")));
+                    addWorkoutResult result = day.addWorkout(w);
+                    outputBoundary.showAddWorkoutResult(result.ordinal(), nameAndCalories.get("name"));
+                    break;
+                case "cm":
+                    nameAndCalories = outputBoundary.getNameAndCalories(type);
+                    day.addMeal((Meal) factory.getScheduleEntity("m", nameAndCalories.get("name"),
+                            Integer.parseInt(nameAndCalories.get("calories"))));
+                    break;
+                case "rw":
+                    // TODO: is there a way to make this better code?
+                    for (Workout workout : day.getWorkouts()) {
+                        names.add(workout.getName());
+                    }
+                    if (!names.isEmpty()) {
+                        name = outputBoundary.selectByName(names);
+                        System.out.println(day.removeWorkout(name));
+                        System.out.println("Workout '" + name + "' has been removed!");
+                    }
+                    else {
+                        System.out.println("There are no workouts to be found.");
+                    }
+                    break;
+                case "rm":
+                    for (Meal meal: day.getMeals()) {
+                        names.add(meal.getName());
+                    }
+                    if (names.isEmpty()) {
+                        name = outputBoundary.selectByName(names);
+                        day.removeMeal(name);
+                        System.out.println("Meal '" + name + "' has been removed!");
+                    }
+                    else {
+                        System.out.println("There are no meals to be found.");
+                    }
+                    break;
             }
-            else
-                day.addMeal((Meal) factory.getScheduleEntity(option, nameAndCalories.get("name"),
-                        Integer.parseInt(nameAndCalories.get("calories"))));
         }
     }
 
@@ -98,7 +127,7 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
         databaseInterface.createSchedule(scheduleToString(schedule), username, isPublic);
     }
 
-    private ScheduleDataAccess.ScheduleInfo scheduleToString(Schedule schedule) {
+    private ScheduleInfo scheduleToString(Schedule schedule) {
         List<List<List<Map<String, String>>>> days = new ArrayList<>();
         for (DayOfWeek c: DayOfWeek.values()) {
             List<List<Map<String, String>>> day = new ArrayList<>();
@@ -121,6 +150,6 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
             day.add(meals);
             days.add(day);
         }
-        return new ScheduleDataAccess.ScheduleInfo(schedule.getId(), schedule.getName(), days);
+        return new ScheduleInfo(schedule.getId(), schedule.getName(), days);
     }
 }
