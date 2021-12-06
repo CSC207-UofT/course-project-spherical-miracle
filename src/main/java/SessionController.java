@@ -14,6 +14,7 @@ public class SessionController {
 
     /**
      * Constructs a SessionController with a given database of users to access.
+     *
      * @param databaseInterface Interface to access database
      * @param outputBoundary outputBoundary
      */
@@ -32,6 +33,7 @@ public class SessionController {
 
     /**
      * Logs user in with the given username and password.
+     *
      * @param username the given username
      * @param password the given password
      * @return whether the user was able to successfully log in or not
@@ -58,6 +60,14 @@ public class SessionController {
         logoutInputBoundary.logout(usernameOfLoggedInUser);
         changeLoginStatus();
         usernameOfLoggedInUser = "";
+    }
+
+    /**
+     * Returns whether a user is logged in.
+     * @return whether user is logged in
+     */
+    public boolean loggedIn() {
+        return loggedIn;
     }
 
     /**

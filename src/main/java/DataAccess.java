@@ -7,16 +7,13 @@ import org.bson.conversions.Bson;
 import static com.mongodb.client.model.Filters.*;
 import User.UserDataAccess;
 import User.UseCase.UserDoesNotExistException;
-
 import java.time.LocalDate;
 import java.util.*;
-
 import org.bson.types.ObjectId;
 import org.mindrot.jbcrypt.BCrypt;
 
-
 public class DataAccess implements UserDataAccess, ScheduleDataAccess {
-
+    
     private final MongoDatabase database;
     private final int workoutNum;
     private final int mealNum;
@@ -29,7 +26,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         workoutNum = 0;
         mealNum = 1;
     }
-
+    
     @Override
     public void saveUser(String username, String password, String name, String email){
         MongoCollection<Document> uc = database.getCollection("User");
@@ -73,12 +70,11 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     public void addHeightWeight(String username, double height, double weight){
         LocalDate date = LocalDate.now();
         MongoCollection<Document> uWH = database.getCollection("User_WH");
-        Bson equalComparison = eq("username", username);
+        Bson equalComparison = eq("username", username); // username is unique
         uWH.updateOne(equalComparison,Updates.combine(Updates.push("height", height),
                 Updates.push("weight",weight),
                 Updates.push("date",date.toString()))
-        ); // username is unique
-
+        );
     }
 
     @Override
@@ -101,7 +97,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         Document doc = findData("Schedule", eq("UUID", id)).first();
         List<List<List<Map<String,String>>>> days = new ArrayList<>();
         assert doc != null;
-        for (List<Object> day: (List<List<Object>>) Objects.requireNonNull(doc.get("days"))){ // goes through list of days
+        for (List<Object> day: (List<List<Object>>)doc.get("days")){ // goes through list of days
             List<List<Map<String, String>>> dayList = new ArrayList<>();
             List<Map<String, String>> workoutList = new ArrayList<>();
             for (Map<String, String> workout: (List<Map<String, String>>) day.get(workoutNum)){
@@ -109,14 +105,14 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
                 workoutMap.put(workoutName,workout.get("workoutName"));
                 workoutMap.put(calories,workout.get("calories"));
                 workoutList.add(workoutMap);
-            }
+            };
             List<Map<String, String>> mealList = new ArrayList<>();
             for (Map<String, String> meal: (List<Map<String, String>>) day.get(mealNum)){
                 HashMap<String, String> mealMap = new HashMap<>();
                 mealMap.put(mealName,meal.get("mealName"));
                 mealMap.put(calories,meal.get("calories"));
                 mealList.add(mealMap);
-            }
+            };
             dayList.add(workoutList);
             dayList.add(mealList);
             days.add(dayList);

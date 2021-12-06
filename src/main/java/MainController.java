@@ -68,7 +68,8 @@ public class MainController {
      * Allows user to view all public schedules.
      */
     public void viewPublicSchedules() {
-        scheduleController.viewPublicSchedules();
+        String username = sessionController.getUsernameOfLoggedInUser();
+        scheduleController.viewPublicSchedules(username);
     }
 
     /**
