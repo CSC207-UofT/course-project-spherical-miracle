@@ -35,8 +35,6 @@ public class User {
         this.name = name;
         this.weight = 0;
         this.height = 0;
-        this.heightConverter = null;
-        this.weightConverter = null;
     }
 
     /**
@@ -53,8 +51,6 @@ public class User {
         this.name = name;
         this.height = height;
         this.weight = weight;
-        this.heightConverter = null;
-        this.weightConverter = null;
     }
 
     /**
@@ -79,22 +75,6 @@ public class User {
      **/
     public String getEmail() {
         return email;
-    }
-
-    /**
-     * Sets the weight of this User.
-     * @param weight user's weight
-     * @param units the unit of measurement for weight
-     */
-    public void setWeight(double weight, String units) {
-        if (units.equalsIgnoreCase("lbs")){
-            weightConverter = new LbsStrategy();
-        }
-        if (weightConverter != null){
-            this.weight = weightConverter.getKgs(weight);
-        } else {
-            this.weight = weight;
-        }
     }
 
     /**
