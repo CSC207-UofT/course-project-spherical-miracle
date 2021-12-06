@@ -72,7 +72,7 @@ public class Schedule {
      * @param date the specified day
      * Precondition: the given date exists in this current schedule
      */
-    public void cancelDay(int date) { plan[date] = null; }
+    public void cancelDay(int date) { plan[date] = new Day(); }
 
     /**
      * Return the workout plan for a specific day.
