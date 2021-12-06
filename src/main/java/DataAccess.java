@@ -13,11 +13,9 @@ import java.util.*;
 
 import org.bson.types.ObjectId;
 import org.mindrot.jbcrypt.BCrypt;
-
+// TODO DOCUMENTATION FOR THIS
 public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 
-    // To directly connect to a single MongoDB server (note that this will not auto-discover the primary even
-// if it's a member of a replica set:
     private final MongoDatabase database;
     private final int workoutNum;
     private final int mealNum;
@@ -26,17 +24,6 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         database = mongo.getDatabase( "Application" );
         workoutNum = 0;
         mealNum = 1;
-    }
-
-    public Object test() {
-        String s = "asdf";
-        MongoCursor<Document> cursor = findData("Schedule", eq("public", true)).cursor();
-        ArrayList<Object> publicSchedules = new ArrayList<>();
-        while (cursor.hasNext()) {
-            publicSchedules.add(cursor.next().entrySet().toArray()); //TODO: Figure out what should be in here
-        }
-        System.out.println(publicSchedules);
-        return publicSchedules;
     }
 
     @Override
@@ -119,14 +106,14 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
                 workoutMap.put(workoutName,workout.get("workoutName"));
                 workoutMap.put(calories,workout.get("calories"));
                 workoutList.add(workoutMap);
-            };
+            }
             List<Map<String, String>> mealList = new ArrayList<>();
             for (Map<String, String> meal: (List<Map<String, String>>) day.get(mealNum)){
                 HashMap<String, String> mealMap = new HashMap<>();
                 mealMap.put(mealName,meal.get("mealName"));
                 mealMap.put(calories,meal.get("calories"));
                 mealList.add(mealMap);
-            };
+            }
             dayList.add(workoutList);
             dayList.add(mealList);
             days.add(dayList);

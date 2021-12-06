@@ -11,7 +11,7 @@ public class SetActiveScheduleUseCase {
 
     /**
      * Constructs a use case that sets the active schedule for a user.
-     * @param databaseInterface
+     * @param databaseInterface interface for database
      */
     public SetActiveScheduleUseCase(ScheduleDataAccess databaseInterface, ScheduleOutputBoundary scheduleOutputBoundary) {
         this.databaseInterface = databaseInterface;

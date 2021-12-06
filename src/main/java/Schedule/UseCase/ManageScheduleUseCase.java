@@ -36,6 +36,11 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
         return schedule.getId();
     }
 
+    /**
+     *
+     * @param scheduleID
+     * @param username
+     */
     public void editSchedule(String scheduleID, String username) {
         FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
         RemoveScheduleUseCase remove = new RemoveScheduleUseCase(databaseInterface, outputBoundary);
@@ -45,11 +50,20 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
         saveSchedule(schedule, username);
     }
 
+    /**
+     *
+     * @param schedule
+     * @param username
+     */
     protected void saveSchedule(Schedule schedule, String username) {
         boolean isPublic = outputBoundary.isPublic();
         databaseInterface.createSchedule(scheduleToString(schedule), username, isPublic);
     }
 
+    /**
+     *
+     * @param schedule
+     */
     private void editSchedule(Schedule schedule) {
         String option = outputBoundary.selectEditOptions();
         while (!option.equalsIgnoreCase("s")) {
@@ -66,6 +80,11 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
         }
     }
 
+    /**
+     *
+     * @param day
+     * @return
+     */
     private Day getEditedDay(Day day) {
         String option;
         ScheduleEntityFactory factory = new ScheduleEntityFactory();
@@ -121,6 +140,13 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
         }
     }
 
+    /**
+     *
+     * @param name - the desired name of the schedule
+     * @param username - the username of the User creating the schedule
+     * @param isPublic - whether this schedule is public
+     * @param days - the details of this schedule
+     */
     @Override
     public void createSchedule(String name, String username, boolean isPublic, List<List<List<Map<String, String>>>> days) {
         Schedule schedule = new Schedule(name);

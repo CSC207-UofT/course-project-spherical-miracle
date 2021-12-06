@@ -5,10 +5,6 @@ package Schedule.Entities;
  */
 
 public class Workout extends AbstractScheduleEntity implements ScheduleEntity{
-
-    private final String name;
-    private final int caloriesBurnt;
-
     /**
      * Constructs a Workout with the given name and amount of calories burnt
      * @param name name of the Workout
@@ -16,7 +12,5 @@ public class Workout extends AbstractScheduleEntity implements ScheduleEntity{
      */
     public Workout(String name, int caloriesBurnt) {
         super(name, caloriesBurnt);
-        this.name = name;
-        this.caloriesBurnt = caloriesBurnt;
     }
 }

@@ -2,11 +2,15 @@ import Schedule.Boundary.ScheduleOutputBoundary;
 import User.Boundary.UserOutputBoundary;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
-    private Scanner in = new Scanner(System.in);
+    private final double LBS_CONVERTER = 2.205;
+    private final double FT_CONVERTER = 3.281;
+    private final Scanner in = new Scanner(System.in);
 
     public static class Messages {
         static final String WELCOME_MESSAGE = "Welcome! Here are your options:";
@@ -15,24 +19,13 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                 "'n' to change the name of this schedule \n" +
                 "'c' to make changes to a day\n" +
                 "'s' to save and return to the main menu";
+        static final String CREATE_SCHEDULE_OPTIONS = "Type 'c' to make changes to a day or 's' to save and " +
+                "return to the main menu.";
     }
 
     @Override
     public void print(String s) {
         System.out.println(s);
-    }
-
-    public int getNumberBetweenInclusive(int min, int max) {
-        Scanner in = new Scanner(System.in);
-        while (true) {
-            try {
-                int n = Integer.parseInt(in.nextLine());
-                if (min <= n && n <= max)
-                    return n;
-            } catch (NumberFormatException e) {
-            }
-            System.out.println("Please enter a number between " + min + " and " + max);
-        }
     }
 
     @Override
@@ -65,24 +58,50 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     public void addWeightHeightPrompt() {
 
     }
+
     @Override
-    //todo: add cm display and pound display
-    public void currentHeightWeight(Double height, Double weight){
+    public boolean printListOfHeightWeight(List<Map<String,Object>> days){
+        if (days.size() == 0){
+            return false;
+        }
+        System.out.println("Your Weight/Height change overtime is:");
+        for (Map<String, Object> day: days){
+            System.out.println(day.get("date") +": ");
+            printHeightWeight((double) day.get("height"), (double) day.get("weight"));
+        }
+        return true;
+    }
+
+    @Override
+    public void printHeightWeight(Double height, Double weight){
+        double roundedHeight = Math.round(height * FT_CONVERTER * 100.0) / 100.0;
+        double roundedWeight = Math.round(weight * LBS_CONVERTER * 100.0) / 100.0;
         if (height == 0.0 && weight ==0.0) {
             System.out.println("Height: N/A. Weight: N/A.");
         } else if (height == 0.0){
-            System.out.println("Height: N/A. Weight: " + weight + ". ");
+            System.out.println("Height: N/A. Weight: " + weight + "kg (" + roundedWeight + "lbs).");
         } else if (weight == 0.0){
-            System.out.println("Height: "+ height + ".  Weight: N/A" );
+            System.out.println("Height: "+ height*100 + "cm (" +  roundedHeight + "ft).  Weight: N/A" );
         } else {
-            System.out.println("Height: "+ height + ".  Weight: " + weight + ". " );
+            System.out.println("Height: "+ height*100 + "cm (" +  roundedHeight + "ft). Weight: " + weight
+                    + "kg (" + roundedWeight + "lbs)." );
+        }
+    }
+
+    public void noScheduleFoundMessage(Object lastDate){
+        if (lastDate instanceof LocalDate) {
+            System.out.println("There was no data found in your selected date. The latest entry is done on: "
+                    + lastDate);
+        } else if (lastDate instanceof Boolean){
+            System.out.println("There is no previous entry. Add records everyday to see your change overtime!");
         }
     }
 
     @Override
     public void bmiMessage(double bmi, String weightCategory) {
         if (weightCategory.equals("N/A")){
-            System.out.println("Unable to calculate BMI. Please make sure your weight and height inputted are greater than 0");
+            System.out.println("Unable to calculate BMI. Please make sure your weight and height inputted are " +
+                    "greater than 0");
         } else {
             System.out.format("Your BMI is: %.2f. Your weight category is: " + weightCategory + ". \n", bmi);
         }
@@ -204,7 +223,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                 int index = Integer.parseInt(in.nextLine());
                 if (-1 <= index && index <= size - 1)
                     return index;
-            } catch (NumberFormatException e ) {}
+            } catch (NumberFormatException ignored) {}
             System.out.println(Messages.INVALID_INPUT);
         }
     }
@@ -233,7 +252,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                 dayOfWeek = Integer.parseInt(in.nextLine());
                 if (1 <= dayOfWeek && dayOfWeek <= 7)
                     return DayOfWeek.of(dayOfWeek);
-            } catch (NumberFormatException e) {}
+            } catch (NumberFormatException ignored) {}
             System.out.println(Messages.INVALID_INPUT);
         }
     }
@@ -270,7 +289,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                     nameAndCalories.put("calories", String.valueOf(calories));
                     return nameAndCalories;
                 }
-            } catch (NumberFormatException e) {}
+            } catch (NumberFormatException ignored) {}
             System.out.println(Messages.INVALID_INPUT);
         }
     }
@@ -329,22 +348,28 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
         System.out.println(message);
     }
 
-    //todo: we probably can design this better
     @Override
     public String[] askUnitType(){
+        String[] units = new String[2];
         while (true) {
-            System.out.println("Select your preferred unit for height. If centimeters, enter 'cm', if feet, enter 'f'.");
-            String[] units = new String[2];
+            System.out.println("Select your preferred unit for height. If centimeters, enter 'cm'," +
+                    " if feet, enter 'f'.");
             units[0] = in.nextLine();
             if (units[0].equals("cm") || units[0].equals("f")) {
-                System.out.println("Select your preferred unit for weight. If kilograms, enter 'kg', if lbs, enter 'lbs'.");
-                units[1] = in.nextLine();
-                while(!units[1].equals("kg") && !units[1].equals("lbs")) {
-                    System.out.println("Incorrect input. Try again.");
-                    units[1] = in.nextLine();
-                }
+                break;
+            }
+            else {
+                System.out.println(Messages.INVALID_INPUT);
+            }
+        }
+        while (true) {
+            System.out.println("Select your preferred unit for weight. If kilograms, enter 'kg'," +
+                    " if lbs, enter 'lbs'.");
+            units[1] = in.nextLine();
+            if (units[1].equals("kg") || units[1].equals("lbs")) {
                 return units;
-            } else{
+            }
+            else {
                 System.out.println(Messages.INVALID_INPUT);
             }
         }
@@ -352,15 +377,29 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public Double askMeasurements(String message) {
+        double measurement;
         while (true) {
             System.out.println("Input your " + message + ", if it didn't change from last time, put -1.");
             try {
-                double measurement = in.nextDouble();
+                measurement = Double.parseDouble(in.nextLine());
                 if (!(measurement == -1) && measurement <= 0) {
                     System.out.println("Value must be positive value. Please try again.");
                 }
-                return measurement;
-            } catch (InputMismatchException e) {
+                else{
+                    return measurement;
+                }
+            } catch (NumberFormatException ignored) {}
+            System.out.println(Messages.INVALID_INPUT);
+        }
+    }
+
+    @Override
+    public LocalDate askDate(){
+        while (true) {
+            System.out.println("Input the start date to view history from. (yyyy-mm-dd)");
+            try {
+                return LocalDate.parse(in.nextLine());
+            } catch (DateTimeParseException e) {
                 System.out.println("Incorrect input. Try again.");
             }
 

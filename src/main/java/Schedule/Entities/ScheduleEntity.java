@@ -1,14 +1,18 @@
 package Schedule.Entities;
 
 /**
- * Design pattern for Meal and Workout entity
+ * Interface for factory design pattern of schedule entities.
  */
 
 public interface ScheduleEntity {
     /**
-     * Returns name of the item
-     * @return name of the item
+     * Returns name of the schedule entity
+     * @return name
      */
     String getName();
+    /**
+     * Returns calories of the schedule entity
+     * @return calories
+     */
     int getCalories();
 }

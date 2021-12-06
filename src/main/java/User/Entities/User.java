@@ -35,9 +35,8 @@ public class User {
         this.name = name;
         this.weight = 0;
         this.height = 0;
-        this.heightConverter = null;
-        this.weightConverter = null;
     }
+
     /**
      * Constructs a User, giving them the name, username, email, and password.
      * @param name the name of the user
@@ -52,8 +51,6 @@ public class User {
         this.name = name;
         this.height = height;
         this.weight = weight;
-        this.heightConverter = null;
-        this.weightConverter = null;
     }
 
     /**
@@ -81,22 +78,6 @@ public class User {
     }
 
     /**
-     * Sets the weight of this User.
-     * @param weight user's weight
-     * @param units the unit of measurement for weight
-     */
-    public void setWeight(double weight, String units) {
-        if (units.equalsIgnoreCase("lbs")){
-            weightConverter = new LbsStrategy();
-        }
-        if (weightConverter != null){
-            this.weight = weightConverter.getKgs(weight);
-        } else {
-            this.weight = weight;
-        }
-    }
-
-    /**
      * Returns the weight of this User.
      * @return user's weight
      **/
@@ -106,26 +87,7 @@ public class User {
 
     /**
      * Sets the weight of this User.
-     * @param height user's height
-     * @param units the unit of measurement for height
-     */
-    public void setHeight(double height, String units){
-        if (units.equalsIgnoreCase("cm")){
-            heightConverter = new CmStrategy();
-        } else if (units.equalsIgnoreCase("f")){
-            heightConverter = new FtAndInStrategy();
-        }
-        if (heightConverter != null){
-            this.height = heightConverter.getM(height);
-        } else {
-            this.height = height;
-        }
-
-    }
-
-    /**
-     * Sets the weight of this User.
-     * @returns user's current BMI, kg/m^2 and return 0 if Weight is 0 (not implemented)
+     * @return user's current BMI, kg/m^2 (return error message if invalid input for height/weight).
      */
     public Object getBMI(){
         double output = this.weight / Math.pow(this.height, 2);

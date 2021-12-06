@@ -2,6 +2,7 @@ package Schedule;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public interface ScheduleDataAccess {
 
@@ -61,7 +62,7 @@ public interface ScheduleDataAccess {
      */
     class ScheduleInfo {
         private final String name;
-        private final String id;
+        private String id;
         private final List<List<List<Map<String, String>>>> details;
 
         /**
@@ -79,6 +80,8 @@ public interface ScheduleDataAccess {
         public String getId() {
             return id;
         }
+
+        public void randomizeId(){ id = UUID.randomUUID().toString();}
 
         public String getName() {
             return name;

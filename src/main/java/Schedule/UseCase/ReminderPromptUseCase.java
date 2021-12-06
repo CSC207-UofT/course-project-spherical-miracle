@@ -22,7 +22,7 @@ public class ReminderPromptUseCase {
     /**
      * Returns the string representation of the reminder for the given day.
      * @param username username of the user
-     * @param dayOfWeek the specified day
+     * @param dayOfWeek day to remind user
      * @return a String representation of a User's day.
      */
     public String remind(String username, DayOfWeek dayOfWeek) {

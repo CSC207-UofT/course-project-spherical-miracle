@@ -3,7 +3,7 @@ import User.UserController;
 
 import java.time.DayOfWeek;
 import java.util.*;
-
+// TODO: DOCUMENTATION FOR THIS
 public class MainController {
 
     private final UserController userController;
@@ -45,7 +45,8 @@ public class MainController {
     }
 
     public void viewPublicSchedules() {
-        scheduleController.viewPublicSchedules();
+        String username = sessionController.getUsernameOfLoggedInUser();
+        scheduleController.viewPublicSchedules(username);
     }
 
     public void sendReminderForDay(DayOfWeek dayOfWeek) {
@@ -62,6 +63,11 @@ public class MainController {
     public void currentWeightHeightBMI(){
         String username = sessionController.getUsernameOfLoggedInUser();
         userController.getCurrentWeightHeightBMI(username);
+    }
+
+    public void viewListOfHeightWeightOvertime(){
+        String username = sessionController.getUsernameOfLoggedInUser();
+        userController.viewListOfHeightWeightOvertime(username);
     }
 
 }

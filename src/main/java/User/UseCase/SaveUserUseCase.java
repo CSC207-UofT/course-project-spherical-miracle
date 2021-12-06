@@ -9,7 +9,7 @@ public class SaveUserUseCase {
 
     /**
      * Constructs a use case that can save a user's personal information.
-     * @param databaseInterface
+     * @param databaseInterface interface for database
      */
     public SaveUserUseCase(UserDataAccess databaseInterface) {
         this.databaseInterface = databaseInterface;

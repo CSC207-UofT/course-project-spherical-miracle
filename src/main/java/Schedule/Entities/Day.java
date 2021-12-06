@@ -8,19 +8,12 @@ import java.util.List;
  * A general day in the user's schedule that is not tied to a particular weekday.
  */
 
-//how to attach the specific weekday to a day object?
-
-// will need to also update Schedule based on new structure of storing workouts
-
-// when implementing meals + be a part of the daily summaries
-// how should we represent meals? just the name with the calories it has?
-
 public class Day {
+
     private List<Workout> workouts;
     private List<Meal> meals;
     private int intake;
     private int calBurnt;
-    // possible implement dates in the future: ex. November 11,2021
 
     public enum addWorkoutResult {
         SUCCESS, TOO_MANY, DUPLICATE_NAME;
@@ -29,7 +22,6 @@ public class Day {
      * Construct a Day object.
      */
     public Day() {
-        // hard coded limit of 5 different types of workouts per day
         workouts = new ArrayList<>();
         meals = new ArrayList<>();
         intake = 0;
@@ -39,7 +31,7 @@ public class Day {
 
     /**
      * Returns an array of workouts.
-     * @return
+     * @return array of workouts
      */
     //TODO: Perhaps return an iterator instead of the Array itself to prevent mutations outside of the class.
     public List<Workout> getWorkouts(){
@@ -47,16 +39,16 @@ public class Day {
     }
 
     /**
-     * Add a workout to the list of workouts and return true as long as the list isn't already filled.
-     *
-     * @return if adding the workout was successful or not
+     * Return array of meals
+     * @return array of meals
      */
     public List<Meal> getMeals(){
         return meals;
     }
 
     /**
-     * Add a workout to the list of workouts and return true as long as the list isn't already filled.
+     * Add a workout to the list of workouts and return true as long as the list isn't already filled or isn't already
+     * added.
      *
      * @param workout workout to be added for the day
      * @return if adding the workout was successful or not
@@ -73,6 +65,12 @@ public class Day {
             return addWorkoutResult.TOO_MANY;
     }
 
+    /**
+     * Returns if the argument workout is already added to the list of workouts
+     *
+     * @param workout workout being checked if already added
+     * @return boolean
+     */
     private boolean hasDuplicateName(Workout workout) {
         for (Workout w: workouts) {
             if (w.getName().equals(workout.getName()))
@@ -180,10 +178,8 @@ public class Day {
         if (stringWorkouts.length() != 0) {
             stringWorkouts = new StringBuilder(stringWorkouts.substring(0, stringWorkouts.length() - 2));
         }
-
         return stringWorkouts.toString();
     }
-
 
     /**
      * Return a string representation of the meal.
@@ -202,13 +198,14 @@ public class Day {
         if(stringMeals.length() != 0) {
             stringMeals = new StringBuilder(stringMeals.substring(0, stringMeals.length() - 2));
         }
-
         return stringMeals.toString();
     }
 
     /**
+     * Returns a string representation of the Day
+     *
      * @param day the integer value of day of week
-     * @return returns everything scheduled for this Day
+     * @return a day's schedule
      */
     public String printDay(int day){
         String workout;

@@ -40,7 +40,7 @@ public class BMIUseCase {
                 } else {
                     weightCategory = "Obesity";
                 }
-                outputBoundary.currentHeightWeight(user.getHeight(),user.getWeight());
+                outputBoundary.printHeightWeight(user.getHeight(),user.getWeight());
                 outputBoundary.bmiMessage((Double) userBMI, weightCategory);
             } else {
                 outputBoundary.noBMI((String) userBMI);

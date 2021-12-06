@@ -19,7 +19,7 @@ public interface ScheduleOutputBoundary {
     /**
      * Returns the number corresponding to the schedule that the user would like to view.
      * If they do not want to view, returns -1.
-     * @return
+     * @return - number corresponding to the desired schedule
      * @param size
      */
     int chooseScheduleFromList(int size);
@@ -41,7 +41,7 @@ public interface ScheduleOutputBoundary {
      *                 0 - SUCCESS
      *                 1 - TOO_MANY
      *                 2 - DUPLICATE_NAME
-     * @param name
+     * @param name Workout name
      */
     void showAddWorkoutResult(int result, String name);
     String createDayPrompt();

@@ -6,6 +6,8 @@ import User.*;
 import Schedule.ScheduleDataAccess;
 import User.Entities.User;
 import User.UseCase.UserDoesNotExistException;
+import org.mindrot.jbcrypt.BCrypt;
+
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
@@ -29,7 +31,8 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
 
     @Override
     public void saveUser(String username, String password, String name, String email) {
-        User user = new User(username, password, name, email);
+        String pwHash = BCrypt.hashpw(password, BCrypt.gensalt(10));
+        User user = new User(username, pwHash, name, email);
         users.add(user);
         userScheduleMap.put(username, new ArrayList<>());
     }

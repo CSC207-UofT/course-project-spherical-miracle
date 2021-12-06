@@ -58,7 +58,6 @@ public class Schedule {
         this.name = name;
     }
 
-    // TODO: Possibly track the exact hour of the workout
     /**
      * Sets a given day into the schedule.
      * @param dayOfWeek the days of the week from 0 being Sunday to 6 being Saturday
@@ -73,7 +72,7 @@ public class Schedule {
      * @param date the specified day
      * Precondition: the given date exists in this current schedule
      */
-    public void cancelDay(int date) { plan[date] = null; }
+    public void cancelDay(int date) { plan[date] = new Day(); }
 
     /**
      * Return the workout plan for a specific day.
@@ -84,10 +83,11 @@ public class Schedule {
         return plan[dayOfWeek.getValue() - 1];
     }
 
-    @Override
     /**
      * Print a string representation of a user's specific schedule.
+     * @return string representation of schedule
      */
+    @Override
     public String toString(){
         StringBuilder outputMsg = new StringBuilder();
         for (DayOfWeek c: DayOfWeek.values()){

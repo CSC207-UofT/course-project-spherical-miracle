@@ -78,7 +78,7 @@ public class SessionController {
 
     /**
      * Returns whether a user is logged in.
-     * @return
+     * @return whether user is logged in
      */
     public boolean loggedIn() {
         return loggedIn;
