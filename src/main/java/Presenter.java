@@ -125,11 +125,6 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
-    public int activeSchedulePrompt(int size) {
-        return scheduleList(size, "Enter the number of the schedule that you want to activate. Or -1 to go back.");
-    }
-
-    @Override
     public int chooseScheduleFromList(int size) {
         return scheduleList(size);
     }
