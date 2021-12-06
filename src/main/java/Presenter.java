@@ -126,7 +126,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     public void listSchedules(List<String> schedules) {
         if (schedules.isEmpty())
             return;
-        System.out.println("Here are your schedules:");
+        System.out.println("Here are the schedules:");
         int index = 0;
         for (String scheduleName: schedules) {
             System.out.println(index + ". " + scheduleName);
