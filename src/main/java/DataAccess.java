@@ -11,7 +11,6 @@ import User.UseCase.UserDoesNotExistException;
 import java.time.LocalDate;
 import java.util.*;
 
-import org.bson.types.ObjectId;
 import org.mindrot.jbcrypt.BCrypt;
 // TODO DOCUMENTATION FOR THIS
 public class DataAccess implements UserDataAccess, ScheduleDataAccess {
@@ -33,12 +32,12 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         MongoCollection<Document> uWH = database.getCollection("User_WH");
         String pwHash = BCrypt.hashpw(password, BCrypt.gensalt(10));
         Document newUser = new Document("name", name).append("username", username).append("email", email).append("password", pwHash);
-        ObjectId id = Objects.requireNonNull(uc.insertOne(newUser).getInsertedId()).asObjectId().getValue();
+        Objects.requireNonNull(uc.insertOne(newUser).getInsertedId()).asObjectId();
         List<DBObject> array = new ArrayList<>();
         Document newUs = new Document("username",username).append("active_schedule", "").append("schedules", array);
-        ObjectId id2 = Objects.requireNonNull(usc.insertOne(newUs).getInsertedId()).asObjectId().getValue();
+        Objects.requireNonNull(usc.insertOne(newUs).getInsertedId()).asObjectId();
         Document newUWH = new Document("username",username).append("height", array).append("weight", array).append("date", array);
-        ObjectId id3 = Objects.requireNonNull(uWH.insertOne(newUWH).getInsertedId()).asObjectId().getValue();
+        Objects.requireNonNull(uWH.insertOne(newUWH).getInsertedId()).asObjectId();
     }
 
     @Override
@@ -168,7 +167,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
                                 .append("public", isPublic)
                                 .append("UUID", scheduleInfo.getId())
                                 .append("days", dayArray);
-        ObjectId newId = Objects.requireNonNull(sc.insertOne(newSchedule).getInsertedId()).asObjectId().getValue();
+        Objects.requireNonNull(sc.insertOne(newSchedule).getInsertedId()).asObjectId();
         saveUserScheduleCollection(username, scheduleInfo.getId());
     }
 
@@ -199,12 +198,6 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         uc.updateOne(equalComparison, Updates.addToSet(key, change)); // username is unique
     }
 
-    public void editUserScheduleCollection(String key, String change, String username) {
-        MongoCollection<Document> usc = database.getCollection("User_Schedule");
-        Bson equalComparison = eq("username", username);
-        usc.updateOne(equalComparison, Updates.addToSet(key, change)); // username is unique
-    }
-
     @Override
     public ScheduleInfo loadActiveSchedule(String username) {
         Bson equalComparison = eq("username", username);
@@ -229,6 +222,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     @Override
     public void deleteUserSchedule(String username, String scheduleId){
         Document doc = findData("User_Schedule", eq("username", username)).first();
+        assert doc != null;
         String active = doc.getString("active_schedule");
         if (active.equals(scheduleId)){
             updateCurrentSchedule(username, "");
