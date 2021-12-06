@@ -2,16 +2,21 @@ import Schedule.Boundary.ScheduleOutputBoundary;
 import User.Boundary.UserOutputBoundary;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
+    private final double LBS_CONVERTER = 2.205;
+    private final double FT_CONVERTER = 3.281;
     private Scanner in = new Scanner(System.in);
 
     public class Messages {
         static final String WELCOME_MESSAGE = "Welcome! Here are your options:";
         static final String INVALID_INPUT = "Invalid input. Try again.";
-        static final String CREATE_SCHEDULE_OPTIONS = "Type 'c' to make changes to a day or 's' to save and return to the main menu.";
+        static final String CREATE_SCHEDULE_OPTIONS = "Type 'c' to make changes to a day or 's' to save and " +
+                "return to the main menu.";
     }
 
     public int getNumberBetweenInclusive(int min, int max) {
@@ -61,24 +66,50 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     public void addWeightHeightPrompt() {
 
     }
+
     @Override
-    //todo: add cm display and pound display
-    public void currentHeightWeight(Double height, Double weight){
+    public boolean printListOfHeightWeight(List<Map<String,Object>> days){
+        if (days.size() == 0){
+            return false;
+        }
+        System.out.println("Your Weight/Height change overtime is:");
+        for (Map<String, Object> day: days){
+            System.out.println(day.get("date") +": ");
+            printHeightWeight((double) day.get("height"), (double) day.get("weight"));
+        }
+        return true;
+    }
+
+    @Override
+    public void printHeightWeight(Double height, Double weight){
+        double roundedHeight = Math.round(height * FT_CONVERTER * 100.0) / 100.0;
+        double roundedWeight = Math.round(weight * LBS_CONVERTER * 100.0) / 100.0;
         if (height == 0.0 && weight ==0.0) {
             System.out.println("Height: N/A. Weight: N/A.");
         } else if (height == 0.0){
-            System.out.println("Height: N/A. Weight: " + weight + ". ");
+            System.out.println("Height: N/A. Weight: " + weight + "kg (" + roundedWeight + "lbs).");
         } else if (weight == 0.0){
-            System.out.println("Height: "+ height + ".  Weight: N/A" );
+            System.out.println("Height: "+ height*100 + "cm (" +  roundedHeight + "ft).  Weight: N/A" );
         } else {
-            System.out.println("Height: "+ height + ".  Weight: " + weight + ". " );
+            System.out.println("Height: "+ height*100 + "cm (" +  roundedHeight + "ft). Weight: " + weight
+                    + "kg (" + roundedWeight + "lbs)." );
+        }
+    }
+
+    public void noScheduleFoundMessage(Object lastDate){
+        if (lastDate instanceof LocalDate) {
+            System.out.println("There was no data found in your selected date. The latest entry is done on: "
+                    + lastDate);
+        } else if (lastDate instanceof Boolean){
+            System.out.println("There is no previous entry. Add records everyday to see your change overtime!");
         }
     }
 
     @Override
     public void bmiMessage(double bmi, String weightCategory) {
         if (weightCategory.equals("N/A")){
-            System.out.println("Unable to calculate BMI. Please make sure your weight and height inputted are greater than 0");
+            System.out.println("Unable to calculate BMI. Please make sure your weight and height inputted are " +
+                    "greater than 0");
         } else {
             System.out.format("Your BMI is: %.2f. Your weight category is: " + weightCategory + ". \n", bmi);
         }
@@ -166,12 +197,14 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public int activeSchedulePrompt(int size) {
-        return scheduleList(size, "Enter the number of the schedule that you want to activate. Or -1 to go back.");
+        return scheduleList(size, "Enter the number of the schedule that you want to " +
+                "activate or -1 to go back.");
     }
 
     @Override
-    public int chooseScheduleFromList(int size) {
-        return scheduleList(size, "To view, delete, or activate a schedule, input its number. Otherwise, -1 to go back.");
+    public int viewSpecificSchedule(int size) {
+        return scheduleList(size, "Enter the number of the schedule that you would like to " +
+                "view or -1 to go back.");
     }
 
     private int scheduleList(int size, String message){
@@ -274,22 +307,28 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
         System.out.println(message);
     }
 
-    //todo: we probably can design this better
     @Override
     public String[] askUnitType(){
+        String[] units = new String[2];
         while (true) {
-            System.out.println("Select your preferred unit for height. If centimeters, enter 'cm', if feet, enter 'f'.");
-            String[] units = new String[2];
+            System.out.println("Select your preferred unit for height. If centimeters, enter 'cm'," +
+                    " if feet, enter 'f'.");
             units[0] = in.nextLine();
             if (units[0].equals("cm") || units[0].equals("f")) {
-                System.out.println("Select your preferred unit for weight. If kilograms, enter 'kg', if lbs, enter 'lbs'.");
-                units[1] = in.nextLine();
-                while(!units[1].equals("kg") && !units[1].equals("lbs")) {
-                    System.out.println("Incorrect input. Try again.");
-                    units[1] = in.nextLine();
-                }
+                break;
+            }
+            else {
+                System.out.println(Messages.INVALID_INPUT);
+            }
+        }
+        while (true) {
+            System.out.println("Select your preferred unit for weight. If kilograms, enter 'kg'," +
+                    " if lbs, enter 'lbs'.");
+            units[1] = in.nextLine();
+            if (units[1].equals("kg") || units[1].equals("lbs")) {
                 return units;
-            } else{
+            }
+            else {
                 System.out.println(Messages.INVALID_INPUT);
             }
         }
@@ -305,7 +344,18 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                     System.out.println("Value must be positive value. Please try again.");
                 }
                 return measurement;
-            } catch (InputMismatchException e) {
+            } catch (InputMismatchException ignored) {}
+            System.out.println(Messages.INVALID_INPUT);
+        }
+    }
+
+    @Override
+    public LocalDate askDate(){
+        while (true) {
+            System.out.println("Input the start date to view history from. (yyyy-mm-dd)");
+            try {
+                return LocalDate.parse(in.nextLine());
+            } catch (DateTimeParseException e) {
                 System.out.println("Incorrect input. Try again.");
             }
 
