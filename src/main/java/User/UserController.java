@@ -15,8 +15,8 @@ public class UserController {
     /**
 
      * Constructs a controller that handles user-related actions.
-     *  @param databaseInterface the access interface to the database.
-     * @param outputBoundary
+     *  @param databaseInterface the access interface to the database
+     * @param outputBoundary output boundary for User
      */
     public UserController(UserDataAccess databaseInterface, UserOutputBoundary outputBoundary) {
         this.databaseInterface = databaseInterface;
@@ -35,8 +35,7 @@ public class UserController {
         if (!userInfoIsValid(username, password, name, email))
             return false;
         CreateUserInputBoundary createUserInputBoundary = new CreateUserUseCase(databaseInterface, outputBoundary);
-        boolean success = createUserInputBoundary.createUser(username, password, name, email);
-        return success;
+        return createUserInputBoundary.createUser(username, password, name, email);
     }
 
     /**
