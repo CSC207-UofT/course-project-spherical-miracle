@@ -72,16 +72,6 @@ public class ScheduleController {
 
     }
 
-    public void setActiveSchedule(List<String> schedulesIDs, String username){
-        int index = outputBoundary.activeSchedulePrompt(schedulesIDs.size());
-        if (schedulesIDs.size() == 0)
-            return;
-        if (index != -1) {
-            SetActiveScheduleUseCase setActiveScheduleUseCase = new SetActiveScheduleUseCase(databaseInterface, outputBoundary);
-            setActiveScheduleUseCase.setAsActiveSchedule(username, fetch.getScheduleWithID(schedulesIDs.get(index)));
-        }
-    }
-
     public String reminderFor(String username, DayOfWeek dayOfWeek) {
         ReminderPromptUseCase reminder = new ReminderPromptUseCase(databaseInterface, outputBoundary);
         return reminder.remind(username, dayOfWeek);

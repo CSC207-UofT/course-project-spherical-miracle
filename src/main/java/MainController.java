@@ -64,11 +64,9 @@ public class MainController {
         scheduleController.DisplayDeleteActivateSchedule(username, ids);
     }
 
-    public void deleteSchedule(){
-        String username = sessionController.getUsernameOfLoggedInUser();
-        scheduleController.removeSchedule(username);
-    }
-
+    /**
+     * Allows user to view all public schedules.
+     */
     public void viewPublicSchedules() {
         scheduleController.viewPublicSchedules();
     }

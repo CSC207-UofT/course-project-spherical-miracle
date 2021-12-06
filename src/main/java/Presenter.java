@@ -106,11 +106,6 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
-    public String setActive() {
-        return null;
-    }
-
-    @Override
     public boolean isPublic() {
         System.out.println("Enter 't' if you want the schedule to be public, if not enter 'f'.");
         String option;
@@ -127,11 +122,6 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     @Override
     public void reminderPrompt(String s) {
         System.out.println(s);
-    }
-
-    @Override
-    public int activeSchedulePrompt(int size) {
-        return scheduleList(size, "Enter the number of the schedule that you want to activate. Or -1 to go back.");
     }
 
     @Override

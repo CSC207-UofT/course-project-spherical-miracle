@@ -30,17 +30,6 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         mealNum = 1;
     }
 
-    public Object test() {
-        String s = "asdf";
-        MongoCursor<Document> cursor = findData("Schedule", eq("public", true)).cursor();
-        ArrayList<Object> publicSchedules = new ArrayList<>();
-        while (cursor.hasNext()) {
-            publicSchedules.add(cursor.next().entrySet().toArray()); //TODO: Figure out what should be in here
-        }
-        System.out.println(publicSchedules);
-        return publicSchedules;
-    }
-
     @Override
     public void saveUser(String username, String password, String name, String email){
         MongoCollection<Document> uc = database.getCollection("User");
@@ -112,7 +101,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         Document doc = findData("Schedule", eq("UUID", id)).first();
         List<List<List<Map<String,String>>>> days = new ArrayList<>();
         assert doc != null;
-        for (List<Object> day: (List<List<Object>>)doc.get("days")){ // goes through list of days
+        for (List<Object> day: (List<List<Object>>) Objects.requireNonNull(doc.get("days"))){ // goes through list of days
             List<List<Map<String, String>>> dayList = new ArrayList<>();
             List<Map<String, String>> workoutList = new ArrayList<>();
             for (Map<String, String> workout: (List<Map<String, String>>) day.get(workoutNum)){
@@ -120,14 +109,14 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
                 workoutMap.put(workoutName,workout.get("workoutName"));
                 workoutMap.put(calories,workout.get("calories"));
                 workoutList.add(workoutMap);
-            };
+            }
             List<Map<String, String>> mealList = new ArrayList<>();
             for (Map<String, String> meal: (List<Map<String, String>>) day.get(mealNum)){
                 HashMap<String, String> mealMap = new HashMap<>();
                 mealMap.put(mealName,meal.get("mealName"));
                 mealMap.put(calories,meal.get("calories"));
                 mealList.add(mealMap);
-            };
+            }
             dayList.add(workoutList);
             dayList.add(mealList);
             days.add(dayList);
