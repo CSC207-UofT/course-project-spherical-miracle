@@ -5,7 +5,7 @@ import Schedule.Entities.*;
 
 public class DisplayScheduleUseCase {
 
-    private ScheduleOutputBoundary outputBoundary;
+    private final ScheduleOutputBoundary outputBoundary;
 
     public DisplayScheduleUseCase(ScheduleOutputBoundary outputBoundary) {
         this.outputBoundary = outputBoundary;

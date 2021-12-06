@@ -13,8 +13,8 @@ public class LogoutUseCase implements LogoutInputBoundary {
 
     /**
      * Constructs a use case that logs a user out.
-     * @param outputBoundary
-     * @param fetchUserUseCase
+     * @param outputBoundary output boundary for User
+     * @param fetchUserUseCase use case to fetch User
      */
     public LogoutUseCase(UserOutputBoundary outputBoundary, FetchUserUseCase fetchUserUseCase) {
         this.outputBoundary = outputBoundary;

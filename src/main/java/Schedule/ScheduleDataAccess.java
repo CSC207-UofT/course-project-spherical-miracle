@@ -2,6 +2,7 @@ package Schedule;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public interface ScheduleDataAccess {
 
@@ -39,9 +40,9 @@ public interface ScheduleDataAccess {
     void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic);
 
     /**
-     * TODO: Complete javadoc after implementation.
-     * @param username
-     * @param scheduleId
+     * Updates a user's schedule's status based on if it is currently an active schedule.
+     * @param username user that the schedule being updated belongs to
+     * @param scheduleId id of the schedule being updated
      */
     void updateCurrentSchedule(String username, String scheduleId);
 
@@ -60,12 +61,14 @@ public interface ScheduleDataAccess {
      */
     void deleteSchedule(String scheduleId);
 
+    void deleteUserSchedule(String username, String scheduleId);
+
     /**
      * A class encapsulating the details of a schedule.
      */
     class ScheduleInfo {
         private final String name;
-        private final String id;
+        private String id;
         private final List<List<List<Map<String, String>>>> details;
 
         /**
@@ -83,6 +86,8 @@ public interface ScheduleDataAccess {
         public String getId() {
             return id;
         }
+
+        public void randomizeId(){ id = UUID.randomUUID().toString();}
 
         public String getName() {
             return name;

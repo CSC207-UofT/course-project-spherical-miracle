@@ -49,22 +49,45 @@ public class ScheduleController {
         return fetch.getScheduleAssociatedWith(username);
     }
 
-    public void selectAndDisplaySchedule(List<String> schedulesIDs) {
-        int index = outputBoundary.viewSpecificSchedule(schedulesIDs.size());
+    public void DisplayDeleteActivateSchedule(String username, List<String> schedulesIDs) {
+        int index = outputBoundary.chooseScheduleFromList(schedulesIDs.size());
         if (schedulesIDs.size() == 0)
             return;
         if (index != -1) {
-            DisplayScheduleUseCase display = new DisplayScheduleUseCase(outputBoundary);
-            display.displaySchedule(fetch.getScheduleWithID(schedulesIDs.get(index)));
+            while (true){
+            String option = outputBoundary.DetailDeleteActivateOption();
+            if (option.equalsIgnoreCase("delete")){
+                RemoveScheduleUseCase removeScheduleUseCase = new RemoveScheduleUseCase(databaseInterface, outputBoundary);
+                removeScheduleUseCase.remove(username, schedulesIDs.get(index));
+            } else if (option.equalsIgnoreCase("detail")) {
+                DisplayScheduleUseCase display = new DisplayScheduleUseCase(outputBoundary);
+                display.displaySchedule(fetch.getScheduleWithID(schedulesIDs.get(index)));
+            } else if (option.equalsIgnoreCase("a")){
+                SetActiveScheduleUseCase setActiveScheduleUseCase = new SetActiveScheduleUseCase(databaseInterface, outputBoundary);
+                setActiveScheduleUseCase.setAsActiveSchedule(username, fetch.getScheduleWithID(schedulesIDs.get(index)));
+            } else if (option.equalsIgnoreCase("r")){
+                break;
+                }
+            }
         }
     }
 
     /**
      * Displays the list of public schedules
+     * @param username
      */
-    public void viewPublicSchedules() {
+    public void viewPublicSchedules(String username) {
         List<String> schedulesIDs = fetch.getPublicSchedules();
-        selectAndDisplaySchedule(schedulesIDs);
+        int index = outputBoundary.chooseScheduleFromList(schedulesIDs.size());
+        if (schedulesIDs.size() == 0)
+            return;
+        if (index != -1){
+            AddPublicScheduleUseCase addPublicScheduleUseCase = new AddPublicScheduleUseCase(databaseInterface, outputBoundary);
+            addPublicScheduleUseCase.addPublicSchedule(username, schedulesIDs.get(index));
+        }
+
+
+
     }
 
     public void setActiveSchedule(List<String> schedulesIDs, String username){

@@ -8,19 +8,11 @@ import java.util.List;
  * A general day in the user's schedule that is not tied to a particular weekday.
  */
 
-//how to attach the specific weekday to a day object?
-
-// will need to also update Schedule based on new structure of storing workouts
-
-// when implementing meals + be a part of the daily summaries
-// how should we represent meals? just the name with the calories it has?
-
 public class Day {
     private List<Workout> workouts;
     private List<Meal> meals;
     private int intake;
     private int calBurnt;
-    // possible implement dates in the future: ex. November 11,2021
 
     public enum addWorkoutResult {
         SUCCESS, TOO_MANY, DUPLICATE_NAME;
@@ -29,7 +21,6 @@ public class Day {
      * Construct a Day object.
      */
     public Day() {
-        // hard coded limit of 5 different types of workouts per day
         workouts = new ArrayList<>();
         meals = new ArrayList<>();
         intake = 0;
@@ -39,7 +30,7 @@ public class Day {
 
     /**
      * Returns an array of workouts.
-     * @return
+     * @return array of workouts
      */
     //TODO: Perhaps return an iterator instead of the Array itself to prevent mutations outside of the class.
     public List<Workout> getWorkouts(){
@@ -66,6 +57,7 @@ public class Day {
             if (hasDuplicateName(workout))
                 return addWorkoutResult.DUPLICATE_NAME;
             workouts.add(workout);
+            calBurnt = calBurnt + workout.getCalories();
             return addWorkoutResult.SUCCESS;
         }
         else
@@ -87,10 +79,11 @@ public class Day {
      * @return if removing the workout was successful or not
      */
     public boolean removeWorkout(String name) {
-        for (Workout w: workouts) {
-            if (w.getName().equals(name)) {
-                calBurnt = calBurnt - w.getCaloriesBurnt();
-                    return true;
+        for (int i = 0; i < workouts.size(); i++) {
+            if (workouts.get(i).getName().equals(name)) {
+                calBurnt = calBurnt - workouts.get(i).getCalories();
+                workouts.remove(i);
+                return true;
             }
         }
         return false;
@@ -120,9 +113,10 @@ public class Day {
      * @return if removing the meal was successful or not
      */
     public boolean removeMeal(String name) {
-        for (Meal m : meals) {
-            if (m.getName().equals(name)) {
-                intake = intake - m.getCalories();
+        for (int i = 0; i < meals.size(); i++) {
+            if (meals.get(i).getName().equals(name)) {
+                intake = intake - meals.get(i).getCalories();
+                meals.remove(i);
                 return true;
             }
         }
@@ -167,7 +161,7 @@ public class Day {
             if (!(workout == null)) {
                 stringWorkouts.append(workout.getName());
                 stringWorkouts.append(": ");
-                stringWorkouts.append(workout.getCaloriesBurnt());
+                stringWorkouts.append(workout.getCalories());
                 stringWorkouts.append(" kcal, ");
 
             }

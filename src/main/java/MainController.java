@@ -3,7 +3,7 @@ import User.UserController;
 
 import java.time.DayOfWeek;
 import java.util.*;
-
+// TODO: DOCUMENTATION FOR THIS
 public class MainController {
 
     private final UserController userController;
@@ -42,18 +42,13 @@ public class MainController {
     public void viewMySchedules() {
         String username = sessionController.getUsernameOfLoggedInUser();
         List<String> ids = scheduleController.viewListOfSchedule(username);
-        scheduleController.selectAndDisplaySchedule(ids);
-    }
-
-    public void setActiveSchedules(){
-        String username = sessionController.getUsernameOfLoggedInUser();
-        List<String> ids = scheduleController.viewListOfSchedule(username);
-        scheduleController.setActiveSchedule(ids, username);
+        scheduleController.DisplayDeleteActivateSchedule(username, ids);
 
     }
 
     public void viewPublicSchedules() {
-        scheduleController.viewPublicSchedules();
+        String username = sessionController.getUsernameOfLoggedInUser();
+        scheduleController.viewPublicSchedules(username);
     }
 
     public void sendReminderForDay(DayOfWeek dayOfWeek) {
