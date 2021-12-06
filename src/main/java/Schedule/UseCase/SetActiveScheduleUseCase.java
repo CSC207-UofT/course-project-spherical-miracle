@@ -24,8 +24,7 @@ public class SetActiveScheduleUseCase {
      * @param schedule - instance of the given Schedule 
      */
     public void setAsActiveSchedule(String username, Schedule schedule) {
-        //steps
         databaseInterface.updateCurrentSchedule(username, schedule.getId());
-
+        scheduleOutputBoundary.setActive(schedule.getName());
     }
 }

@@ -228,7 +228,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 
     @Override
     public void deleteUserSchedule(String username, String scheduleId){
-        Document doc = findData("User_Schedule",eq("username",username)).first();
+        Document doc = findData("User_Schedule", eq("username", username)).first();
         String active = doc.getString("active_schedule");
         if (active.equals(scheduleId)){
             updateCurrentSchedule(username, "");

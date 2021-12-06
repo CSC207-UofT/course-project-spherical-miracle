@@ -52,14 +52,8 @@ public interface ScheduleDataAccess {
      */
 
     List<ScheduleInfo> loadPublicSchedules();
-    //TODO: DO we want to have editSchedule()?
 
-
-    /**
-     *
-     * @param scheduleId
-     */
-    void deleteSchedule(String scheduleId);
+    void deleteSchedule(String username);
 
     void deleteUserSchedule(String username, String scheduleId);
 

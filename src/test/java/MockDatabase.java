@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     private final List<User> users;
-    private final Map<String, ScheduleDataAccess.ScheduleInfo> schedules;
+    public final Map<String, ScheduleDataAccess.ScheduleInfo> schedules;
     private final Map<String, List<String>> userScheduleMap;
     private final List<String> publicSchedules;
     private String activeScheduleID ;
@@ -91,13 +91,15 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public void deleteSchedule(String scheduleId) {
+    public void deleteSchedule(String username) {
 
     }
 
     @Override
     public void deleteUserSchedule(String username, String scheduleId) {
-
+        schedules.remove(scheduleId);
+        if (publicSchedules.contains(scheduleId))
+            publicSchedules.remove(scheduleId);
     }
 
 
@@ -138,4 +140,29 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
         return s;
     }
 
+    public ScheduleInfo scheduleToString(Schedule schedule) {
+        List<List<List<Map<String, String>>>> days = new ArrayList<>();
+        for (DayOfWeek c : DayOfWeek.values()) {
+            List<List<Map<String, String>>> day = new ArrayList<>();
+            Day d = schedule.getDay(c);
+            List<Map<String, String>> workouts = new ArrayList<>();
+            for (Workout w : d.getWorkouts()) {
+                Map<String, String> workout = new HashMap<>();
+                workout.put(workoutName, w.getName());
+                workout.put(calories, Integer.toString(w.getCalories()));
+                workouts.add(workout);
+            }
+            List<Map<String, String>> meals = new ArrayList<>();
+            for (Meal m : d.getMeals()) {
+                Map<String, String> meal = new HashMap<>();
+                meal.put(mealName, m.getName());
+                meal.put(calories, Integer.toString(m.getCalories()));
+                meals.add(meal);
+            }
+            day.add(workouts);
+            day.add(meals);
+            days.add(day);
+        }
+        return new ScheduleInfo(schedule.getId(), schedule.getName(), days);
+    }
 }

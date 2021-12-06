@@ -1,10 +1,11 @@
+import Schedule.Entities.*;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import java.time.DayOfWeek;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 
-import Schedule.Entities.*;
 
 class DayTest {
 

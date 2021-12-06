@@ -22,8 +22,8 @@ public class FetchSchedulesUseCase {
 
     /**
      * Constructs a use case that can fetch lists of schedules.
-     * @param databaseInterface interface of database
-     * @param outputBoundary output boundary for Schedule entity
+     * @param databaseInterface - the database gateway
+     * @param outputBoundary - the output boundary
      */
     public FetchSchedulesUseCase(ScheduleDataAccess databaseInterface, ScheduleOutputBoundary outputBoundary) {
         this.databaseInterface = databaseInterface;
