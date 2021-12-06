@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface ScheduleOutputBoundary {
-    void scheduleMadeMessage(String returnMessage);
     void scheduleInfoMessage(String name);
-    void something(boolean signedUp);
     void listSchedules(List<String> schedules);
     void currentActiveSchedule(String scheduleName);
     String setActive();
@@ -18,7 +16,7 @@ public interface ScheduleOutputBoundary {
 
     /**
      * Returns the index of ID of the schedule that the user would like to view. If they do not want to view, return -1.
-     * @return
+     * @return index of the desired schedule ID
      * @param size
      */
     int chooseScheduleFromList(int size);

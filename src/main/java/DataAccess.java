@@ -14,14 +14,16 @@ import java.util.*;
 import org.bson.types.ObjectId;
 import org.mindrot.jbcrypt.BCrypt;
 
+
 public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 
-    // To directly connect to a single MongoDB server (note that this will not auto-discover the primary even
-// if it's a member of a replica set:
     private final MongoDatabase database;
     private final int workoutNum;
     private final int mealNum;
 
+    /**
+     * Constructs a DataAccess object.
+     */
     public DataAccess(MongoClient mongo) {
         database = mongo.getDatabase( "Application" );
         workoutNum = 0;
@@ -104,7 +106,6 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         return new BodyMeasurementRecord(username, weight, height, localDates);
     }
 
-
     @Override
     @SuppressWarnings("unchecked")
     public ScheduleInfo loadScheduleWith(String id) {
@@ -153,7 +154,9 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         return schedules;
     }
 
-
+    /**
+     * Creates a schedule with the desired details given by the User.
+     */
     public void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic) {
         MongoCollection<Document> sc = database.getCollection("Schedule");
         ArrayList<Object> dayArray = new ArrayList<>();
@@ -199,6 +202,9 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         return publicSchedules;
     }
 
+    /**
+     * Saves a schedule ID into user's list of schedules.
+     */
     public void saveUserScheduleCollection(String username, String scheduleId) {
         MongoCollection<Document> suc = database.getCollection("User_Schedule");
         Bson equalComparison = eq("username", username);
@@ -210,12 +216,6 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         MongoCollection<Document> uc = database.getCollection("User");
         Bson equalComparison = eq("username", username);
         uc.updateOne(equalComparison, Updates.addToSet(key, change)); // username is unique
-    }
-
-    public void editUserScheduleCollection(String key, String change, String username) {
-        MongoCollection<Document> usc = database.getCollection("User_Schedule");
-        Bson equalComparison = eq("username", username);
-        usc.updateOne(equalComparison, Updates.addToSet(key, change)); // username is unique
     }
 
     @Override
@@ -242,6 +242,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     @Override
     public void deleteUserSchedule(String username, String scheduleId){
         Document doc = findData("User_Schedule",eq("username",username)).first();
+        assert doc != null;
         String active = doc.getString("active_schedule");
         if (active.equals(scheduleId)){
             updateCurrentSchedule(username, "");

@@ -10,30 +10,17 @@ public class SessionController {
     private final LoginInputBoundary loginInputBoundary;
     private final LogoutInputBoundary logoutInputBoundary;
     private boolean loggedIn;
-
-    /**
-     * The username of the user that is logged in. Non-empty if and only if LoggedIn is true.
-     */
     private String usernameOfLoggedInUser = "";
-    private String workingScheduleID = "";
 
     /**
      * Constructs a SessionController with a given database of users to access.
-     *
      * @param databaseInterface Interface to access database
+     * @param outputBoundary outputBoundary
      */
     public SessionController(UserDataAccess databaseInterface, UserOutputBoundary outputBoundary) {
         FetchUserUseCase fetch = new FetchUserUseCase(databaseInterface);
         this.loginInputBoundary = new LoginUseCase(outputBoundary, fetch);
         this.logoutInputBoundary = new LogoutUseCase(outputBoundary, fetch);
-    }
-
-    public void setWorkingScheduleID(String scheduleID) {
-        this.workingScheduleID = scheduleID;
-    }
-
-    public String getWorkingScheduleID() {
-        return workingScheduleID;
     }
 
     /**
@@ -45,14 +32,12 @@ public class SessionController {
 
     /**
      * Logs user in with the given username and password.
-     *
      * @param username the given username
      * @param password the given password
      * @return whether the user was able to successfully log in or not
      */
     public boolean login(String username, String password) {
         LoginUseCase.LoginResult result = loginInputBoundary.login(username, password);
-        // TODO: maybe throw exceptions when it fails?
         switch (result) {
             case SUCCESS:
                 changeLoginStatus();
@@ -64,7 +49,6 @@ public class SessionController {
             default:
                 throw new IllegalArgumentException();
         }
-        // usernameOfCurrentUser = username;
     }
 
     /**
@@ -74,14 +58,6 @@ public class SessionController {
         logoutInputBoundary.logout(usernameOfLoggedInUser);
         changeLoginStatus();
         usernameOfLoggedInUser = "";
-    }
-
-    /**
-     * Returns whether a user is logged in.
-     * @return
-     */
-    public boolean loggedIn() {
-        return loggedIn;
     }
 
     /**

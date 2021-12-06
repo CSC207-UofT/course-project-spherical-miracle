@@ -8,10 +8,16 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Scanner;
 
+/**
+ * The schedule planner application.
+ */
 public class App {
 
     private final SchedulerUI schedulerUI;
 
+    /**
+     * Constructs an App object.
+     */
     public App(Scanner in) {
         DataAccess databaseGateway = new DataAccess(initializeDatabase());
         Presenter presenter = new Presenter();
@@ -19,10 +25,16 @@ public class App {
         schedulerUI = new SchedulerUI(in, mainController);
     }
 
+    /**
+     * Sets the app to the home page.
+     */
     public void run() {
         schedulerUI.toHome();
     }
 
+    /**
+     * The main program for running the app.
+     */
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         App app = new App(in);
@@ -40,6 +52,4 @@ public class App {
                 .build();
         return MongoClients.create(settings);
     }
-
-
 }
