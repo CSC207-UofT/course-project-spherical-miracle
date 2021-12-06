@@ -70,7 +70,8 @@ public class UserController {
     }
 
     public void viewListOfHeightWeightOvertime(String username){
-        HeightWeightOvertimeUseCase heightWeightOvertimeUseCase = new HeightWeightOvertimeUseCase(outputBoundary,databaseInterface);
+        HeightWeightOvertimeUseCase heightWeightOvertimeUseCase = new HeightWeightOvertimeUseCase(outputBoundary,
+                databaseInterface);
         heightWeightOvertimeUseCase.displayHeightWeightOvertime(username);
     }
 }

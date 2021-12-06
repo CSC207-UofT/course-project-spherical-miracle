@@ -290,24 +290,28 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
         System.out.println(message);
     }
 
-    //todo: we probably can design this better
     @Override
     public String[] askUnitType(){
+        String[] units = new String[2];
         while (true) {
             System.out.println("Select your preferred unit for height. If centimeters, enter 'cm'," +
                     " if feet, enter 'f'.");
-            String[] units = new String[2];
             units[0] = in.nextLine();
             if (units[0].equals("cm") || units[0].equals("f")) {
-                System.out.println("Select your preferred unit for weight. If kilograms, enter 'kg'," +
-                        " if lbs, enter 'lbs'.");
-                units[1] = in.nextLine();
-                while(!units[1].equals("kg") && !units[1].equals("lbs")) {
-                    System.out.println("Incorrect input. Try again.");
-                    units[1] = in.nextLine();
-                }
+                break;
+            }
+            else {
+                System.out.println(Messages.INVALID_INPUT);
+            }
+        }
+        while (true) {
+            System.out.println("Select your preferred unit for weight. If kilograms, enter 'kg'," +
+                    " if lbs, enter 'lbs'.");
+            units[1] = in.nextLine();
+            if (units[1].equals("kg") || units[1].equals("lbs")) {
                 return units;
-            } else{
+            }
+            else {
                 System.out.println(Messages.INVALID_INPUT);
             }
         }
@@ -323,10 +327,8 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                     System.out.println("Value must be positive value. Please try again.");
                 }
                 return measurement;
-            } catch (InputMismatchException e) {
-                System.out.println("Incorrect input. Try again.");
-            }
-
+            } catch (InputMismatchException ignored) {}
+            System.out.println(Messages.INVALID_INPUT);
         }
     }
 
