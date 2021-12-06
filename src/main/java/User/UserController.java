@@ -15,7 +15,7 @@ public class UserController {
     /**
 
      * Constructs a controller that handles user-related actions.
-     *  @param databaseInterface the access interface to the database.
+     *  @param databaseInterface the access interface to the database
      * @param outputBoundary output boundary for User
      */
     public UserController(UserDataAccess databaseInterface, UserOutputBoundary outputBoundary) {
@@ -57,4 +57,19 @@ public class UserController {
 
     }
 
+    private boolean userInfoIsValid(String username, String password, String name, String email) {
+        String[] userInfo = {username, password, name, email};
+        for (String info : userInfo) {
+            // Could add more checks
+            if (info.isBlank())
+                return false;
+        }
+        return true;
+    }
+
+    public void viewListOfHeightWeightOvertime(String username){
+        HeightWeightOvertimeUseCase heightWeightOvertimeUseCase = new HeightWeightOvertimeUseCase(outputBoundary,
+                databaseInterface);
+        heightWeightOvertimeUseCase.displayHeightWeightOvertime(username);
+    }
 }
