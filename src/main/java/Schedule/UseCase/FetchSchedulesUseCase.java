@@ -37,6 +37,9 @@ public class FetchSchedulesUseCase {
      */
     public Schedule getActiveSchedule(String username){
         ScheduleDataAccess.ScheduleInfo schedule = databaseInterface.loadActiveSchedule(username);
+        if (schedule == null){
+            return null;
+        }
         return stringToSchedule(schedule.getId(), schedule.getName(), schedule.getDetails());
     }
 

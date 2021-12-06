@@ -2,12 +2,11 @@ package Schedule.UseCase;
 import Schedule.Boundary.ScheduleOutputBoundary;
 import Schedule.Entities.*;
 import Schedule.ScheduleDataAccess;
+import java.time.DayOfWeek;
 
 /**
  * A reminder of the day's activities for the user upon login.
  */
-
-import java.time.DayOfWeek;
 
 public class ReminderPromptUseCase {
 
@@ -28,6 +27,10 @@ public class ReminderPromptUseCase {
     public String remind(String username, DayOfWeek dayOfWeek) {
         FetchSchedulesUseCase activeSchedule = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
         Schedule currentSchedule = activeSchedule.getActiveSchedule(username);
+        if (currentSchedule == null) {
+            outputBoundary.print("You don't have an active schedule yet :(");
+            return null;
+        }
         Day scheduledDay = currentSchedule.getDay(dayOfWeek); // assign this value to scheduled workout
         outputBoundary.print(scheduledDay.printDay(dayOfWeek.getValue()));
         return scheduledDay.printDay(dayOfWeek.getValue());
