@@ -202,9 +202,9 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
-    public int viewSpecificSchedule(int size) {
-        return scheduleList(size, "Enter the number of the schedule that you would like to " +
-                "view or -1 to go back.");
+    public int chooseScheduleFromList(int size) {
+        return scheduleList(size, "To view, delete, or activate a schedule, input its number. " +
+                "Otherwise, -1 to go back.");
     }
 
     private int scheduleList(int size, String message){
