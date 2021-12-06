@@ -6,8 +6,8 @@ package Schedule.Entities;
 
 public class Meal extends AbstractScheduleEntity implements ScheduleEntity{
 
-    private final String name;
-    private final int calories;
+    private String name;
+    private int calories;
 
     /**
      * Constructs a Meal with the given name and the calories in it.
@@ -16,7 +16,5 @@ public class Meal extends AbstractScheduleEntity implements ScheduleEntity{
      */
     public Meal(String name, int calories) {
         super(name, calories);
-        this.name = name;
-        this.calories = calories;
     }
 }

@@ -1,8 +1,8 @@
 package Schedule.Entities;
 
 abstract class AbstractScheduleEntity implements ScheduleEntity {
-    private final String name;
-    private final int calories;
+    private String name;
+    private int calories;
 
     public AbstractScheduleEntity(String name, int calories){
         this.name = name;
@@ -10,14 +10,14 @@ abstract class AbstractScheduleEntity implements ScheduleEntity {
     }
 
     /**
-     * Return the name of this item.
-     * @return item name
+     * Return the name of this schedule item.
+     * @return schedule item name
      */
     public String getName() {return name;}
 
     /**
-     * Return the amount of calories for this item.
-     * @return the calories of the item
+     * Return the amount of calories for this schedule item.
+     * @return the calories of the schedule item
      */
     public int getCalories() {return calories;}
 
