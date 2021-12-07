@@ -1,17 +1,18 @@
 import Adapters.Presenter;
-import Database.UserDataAccess.UserInfo;
+import Database.UserDataAccess;
 import Domain.User.Entities.User;
 import Domain.User.UseCase.CreateUserUseCase;
 import Domain.User.UseCase.UserDoesNotExistException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mindrot.jbcrypt.BCrypt;
+
 import static org.junit.Assert.assertThrows;
 
 class CreateUserUseCaseTest {
 
-    private final MockDatabase database = new MockDatabase();
-
+    private MockDatabase db = new MockDatabase();
     @BeforeEach
     void setUp() {
     }
@@ -26,13 +27,12 @@ class CreateUserUseCaseTest {
         String expectedPassword = "438892.04";
         String expectedName = "Meric Gertler";
         String expectedEmail = "president@utoronto.ca";
-        CreateUserUseCase create = new CreateUserUseCase(database, new Presenter());
+        CreateUserUseCase create = new CreateUserUseCase(db, new Presenter());
         create.createUser(expectedUsername, expectedPassword, expectedName, expectedEmail);
-        UserInfo userinfo = database.loadUserWithUsername(expectedUsername);
-        User user = new User(expectedUsername, expectedPassword, expectedName, expectedEmail);
+        UserDataAccess.UserInfo userinfo = db.loadUserWithUsername(expectedUsername);
+        db.saveUser(expectedUsername, expectedPassword, expectedName, expectedEmail);
         assert userinfo.getUsername().equals(expectedUsername);
-        // TODO: Look up how to do assertion with hashed passwords
-        // assert BCrypt.hashpw(expectedPassword, BCrypt.gensalt(10)).equals(userinfo.getPassword());
+        assert BCrypt.checkpw(expectedPassword, userinfo.getPassword());
         assert userinfo.getName().equals(expectedName);
         assert userinfo.getEmail().equals(expectedEmail);
     }
@@ -40,6 +40,7 @@ class CreateUserUseCaseTest {
     @Test
     void noUser() {
         String unexpectedUsername = "YourMom";
-        assertThrows(UserDoesNotExistException.class, () -> database.loadUserWithUsername(unexpectedUsername));
+        UserDoesNotExistException thrown = assertThrows(UserDoesNotExistException.class,
+                () -> db.loadUserWithUsername(unexpectedUsername));
     }
 }
