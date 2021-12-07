@@ -41,27 +41,26 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public Object[] loadUserWithUsername(String username) throws UserDoesNotExistException {
+    public UserInfo loadUserWithUsername(String username) throws UserDoesNotExistException {
         Document doc = findData("User", eq("username", username)).first();
         Document doc2 = findData("User_WH", eq("username", username)).first();
         if (doc == null || doc2 == null) {
             throw new UserDoesNotExistException(username);
         }
-        Object[] userInfo = new Object[6];
-        userInfo[0] = doc.getString("username");
-        userInfo[1] = doc.getString("password");
-        userInfo[2] = doc.getString("name");
-        userInfo[3] = doc.getString("email");
+        username = doc.getString("username");
+        String password = doc.getString("password");
+        String name = doc.getString("name");
+        String email = doc.getString("email");
+        List<Double> weights = doc2.getList("weight", Double.class);
+        List<Double> heights = doc2.getList("height", Double.class);
 
-        List<Double> weight = doc2.getList("weight", Double.class);
-        List<Double> height = doc2.getList("height", Double.class);
-        if (height.isEmpty()||weight.isEmpty()){
-            return userInfo;
+        if (heights.isEmpty() || weights.isEmpty()){
+            return new UserInfo(username, name, email, password);
         } else {
-            userInfo[4] = height.get(height.size()-1);
-            userInfo[5] = weight.get(weight.size()-1);
+            Double height = heights.get(heights.size() - 1);
+            Double weight = weights.get(weights.size() - 1);
+            return new UserInfo(username, name, email, password, height, weight);
         }
-        return userInfo;
     }
 
     @Override

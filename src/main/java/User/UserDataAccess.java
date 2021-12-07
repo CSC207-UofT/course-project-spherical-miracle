@@ -14,7 +14,7 @@ public interface UserDataAccess {
      * In the order of username, password, name, email.
      * @throws UserDoesNotExistException when no existing users have the specified username.
      */
-    Object[] loadUserWithUsername(String username) throws UserDoesNotExistException;
+    UserInfo loadUserWithUsername(String username) throws UserDoesNotExistException;
 
     /**
      * Save the user information to the database.
@@ -55,4 +55,52 @@ public interface UserDataAccess {
         }
 
     }
+
+    class UserInfo {
+        private String username;
+        private String name;
+        private String email;
+        private String password;
+        private Double height;
+        private Double weight;
+
+        public UserInfo(String username, String name, String email, String password) {
+            this(username, name, email, password, -1.0, -1.0);
+        }
+
+        public UserInfo(String username, String name, String email, String password, Double height, Double weight) {
+            this.height = height;
+            this.weight = weight;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public Double getHeight() {
+            return height;
+        }
+
+        public Double getWeight() {
+            return weight;
+        }
+
+        public boolean hasBodyMeasurements() {
+            return height != -1.0;
+        }
+
+    }
+
 }

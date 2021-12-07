@@ -38,10 +38,10 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public Object[] loadUserWithUsername(String username) throws UserDoesNotExistException {
+    public UserInfo loadUserWithUsername(String username) throws UserDoesNotExistException {
         for (User user: users) {
             if (user.getUsername().equals(username)) {
-                return new Object[] {user.getUsername(), user.getPassword(), user.getName(), user.getEmail()};
+                return new UserInfo(user.getUsername(), user.getPassword(), user.getName(), user.getEmail());
             }
         }
         throw new UserDoesNotExistException(username);
