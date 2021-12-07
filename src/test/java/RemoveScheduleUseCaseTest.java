@@ -1,5 +1,6 @@
-import Schedule.Entities.Schedule;
-import Schedule.UseCase.RemoveScheduleUseCase;
+import Adapters.Presenter;
+import Domain.Schedule.Entities.Schedule;
+import Domain.Schedule.UseCase.RemoveScheduleUseCase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

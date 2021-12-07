@@ -1,6 +1,6 @@
-import Schedule.Boundary.ScheduleOutputBoundary;
-import Schedule.ScheduleDataAccess;
-import Schedule.UseCase.FetchSchedulesUseCase;
+import Domain.Schedule.Boundary.ScheduleOutputBoundary;
+import Database.ScheduleDataAccess;
+import Domain.Schedule.UseCase.FetchSchedulesUseCase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

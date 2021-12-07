@@ -1,11 +1,10 @@
-import Schedule.Entities.Day;
-import Schedule.Entities.Meal;
-import Schedule.Entities.Schedule;
-import Schedule.Entities.Workout;
-import User.*;
-import Schedule.ScheduleDataAccess;
-import User.Entities.User;
-import User.UseCase.UserDoesNotExistException;
+import Domain.Schedule.Entities.Day;
+import Domain.Schedule.Entities.Meal;
+import Domain.Schedule.Entities.Schedule;
+import Domain.Schedule.Entities.Workout;
+import Database.*;
+import Domain.User.Entities.User;
+import Domain.User.UseCase.UserDoesNotExistException;
 import org.mindrot.jbcrypt.BCrypt;
 
 
@@ -38,10 +37,10 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public Object[] loadUserWithUsername(String username) throws UserDoesNotExistException {
+    public UserInfo loadUserWithUsername(String username) throws UserDoesNotExistException {
         for (User user: users) {
             if (user.getUsername().equals(username)) {
-                return new Object[] {user.getUsername(), user.getPassword(), user.getName(), user.getEmail()};
+                return new UserInfo(user.getUsername(), user.getPassword(), user.getName(), user.getEmail());
             }
         }
         throw new UserDoesNotExistException(username);
@@ -49,16 +48,16 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
 
 
     @Override
-    public ScheduleInfo loadScheduleWith(String scheduleID) {
+    public ScheduleInfo loadScheduleWithID(String scheduleID) {
         return schedules.get(scheduleID);
     }
 
     @Override
-    public List<ScheduleInfo> loadSchedulesAssociatedWith(String username) {
+    public List<ScheduleInfo> loadSchedulesFor(String username) {
         List<ScheduleInfo> scheduleInfos = new ArrayList<>();
         List<String> scheduleIDs = userScheduleMap.get(username);
         for (String scheduleID: scheduleIDs) {
-            scheduleInfos.add(loadScheduleWith(scheduleID));
+            scheduleInfos.add(loadScheduleWithID(scheduleID));
         }
         return scheduleInfos;
     }
@@ -74,7 +73,7 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     }
 
     public ScheduleInfo loadActiveSchedule(String username) {
-        ScheduleInfo s = loadScheduleWith(activeScheduleID);
+        ScheduleInfo s = loadScheduleWithID(activeScheduleID);
         return s;
     }
 
@@ -114,7 +113,7 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public BodyMeasurementRecord getHWListWith(String username) {
+    public BodyMeasurementRecord getHeightsWeightsFor(String username) {
         return null;
     }
 

@@ -1,5 +1,5 @@
-import Schedule.Entities.Meal;
-import Schedule.Entities.Workout;
+import Domain.Schedule.Entities.Meal;
+import Domain.Schedule.Entities.Workout;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
