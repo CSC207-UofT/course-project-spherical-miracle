@@ -1,10 +1,10 @@
-import Schedule.Entities.Day;
-import Schedule.Entities.Meal;
-import Schedule.Entities.Schedule;
-import Schedule.Entities.Workout;
+import Domain.Schedule.Entities.Day;
+import Domain.Schedule.Entities.Meal;
+import Domain.Schedule.Entities.Schedule;
+import Domain.Schedule.Entities.Workout;
 import Database.*;
-import User.Entities.User;
-import User.UseCase.UserDoesNotExistException;
+import Domain.User.Entities.User;
+import Domain.User.UseCase.UserDoesNotExistException;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.time.DayOfWeek;

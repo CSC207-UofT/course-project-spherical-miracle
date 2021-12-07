@@ -1,8 +1,8 @@
 package Adapters;
 
 import Database.UserDataAccess;
-import User.Boundary.*;
-import User.UseCase.*;
+import Domain.User.Boundary.*;
+import Domain.User.UseCase.*;
 
 /**
  * A controller that delegates management of a user's session upon logging in and out.

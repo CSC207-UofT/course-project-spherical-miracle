@@ -5,8 +5,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-import Schedule.Boundary.ScheduleOutputBoundary;
-import User.Boundary.UserOutputBoundary;
+import Domain.Schedule.Boundary.ScheduleOutputBoundary;
+import Domain.User.Boundary.UserOutputBoundary;
 
 public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
