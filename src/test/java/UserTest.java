@@ -11,9 +11,10 @@ class UserTest {
 
     @BeforeEach
     void setUp() {
-
-        user = new User("bob123", "password123", "Bob", "bob@gmail.com", 173, 66);
-        user2 = new User("pirooz321", "password321", "Pirooz", "pirooz@gmail.com");
+        String pwHash = BCrypt.hashpw("password123", BCrypt.gensalt(10));
+        String pwHash2 = BCrypt.hashpw("password321", BCrypt.gensalt(10));
+        user = new User("bob123", pwHash, "Bob", "bob@gmail.com", 173, 66);
+        user2 = new User("pirooz321", pwHash2, "Pirooz", "pirooz@gmail.com");
     }
 
     @Test
@@ -50,8 +51,8 @@ class UserTest {
     void passwordMatches() {
         String pwHash = BCrypt.hashpw("password123", BCrypt.gensalt(10));
         String wrongHash = BCrypt.hashpw("password456", BCrypt.gensalt(10));
-        assert user.passwordMatches(pwHash);
-        assert !(user.passwordMatches(wrongHash));
+        assert user.passwordMatches("password123");
+        assert !(user.passwordMatches("password456"));
     }
 
     @Test
