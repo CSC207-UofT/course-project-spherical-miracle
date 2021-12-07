@@ -1,7 +1,7 @@
 package User.UseCase;
 
 import User.Boundary.UserOutputBoundary;
-import User.UserDataAccess;
+import Database.UserDataAccess;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

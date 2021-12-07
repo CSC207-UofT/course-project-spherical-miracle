@@ -3,7 +3,7 @@ import Schedule.Entities.Meal;
 import Schedule.Entities.Schedule;
 import Schedule.Entities.Workout;
 import User.*;
-import Schedule.ScheduleDataAccess;
+import Database.*;
 import User.Entities.User;
 import User.UseCase.UserDoesNotExistException;
 import org.mindrot.jbcrypt.BCrypt;

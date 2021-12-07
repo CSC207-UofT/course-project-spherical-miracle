@@ -1,4 +1,6 @@
-import User.*;
+package Adapters;
+
+import Database.UserDataAccess;
 import User.Boundary.*;
 import User.UseCase.*;
 
@@ -18,7 +20,7 @@ public class SessionController {
     private String workingScheduleID = "";
 
     /**
-     * Constructs a SessionController with a given database of users to access.
+     * Constructs a Controller.SessionController with a given database of users to access.
      *
      * @param databaseInterface Interface to access database
      */

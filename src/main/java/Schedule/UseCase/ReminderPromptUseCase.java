@@ -1,7 +1,7 @@
 package Schedule.UseCase;
 import Schedule.Boundary.ScheduleOutputBoundary;
 import Schedule.Entities.*;
-import Schedule.ScheduleDataAccess;
+import Database.ScheduleDataAccess;
 import java.time.DayOfWeek;
 
 /**

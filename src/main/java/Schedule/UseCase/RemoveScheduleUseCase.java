@@ -3,7 +3,7 @@ package Schedule.UseCase;
 import Schedule.Entities.Schedule;
 import Schedule.Boundary.RemoveScheduleInputBoundary;
 import Schedule.Boundary.ScheduleOutputBoundary;
-import Schedule.ScheduleDataAccess;
+import Database.ScheduleDataAccess;
 
 public class RemoveScheduleUseCase implements RemoveScheduleInputBoundary {
 

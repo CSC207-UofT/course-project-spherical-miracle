@@ -1,9 +1,10 @@
-package Schedule;
+package Adapters;
 
 import java.time.DayOfWeek;
 import java.util.List;
 
 import Schedule.Boundary.*;
+import Database.ScheduleDataAccess;
 import Schedule.UseCase.*;
 
 /**

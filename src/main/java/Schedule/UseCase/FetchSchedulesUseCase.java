@@ -5,8 +5,8 @@ import Schedule.Entities.Day;
 import Schedule.Entities.Meal;
 import Schedule.Entities.Schedule;
 import Schedule.Entities.Workout;
-import Schedule.ScheduleDataAccess;
-import Schedule.ScheduleDataAccess.ScheduleInfo;
+import Database.ScheduleDataAccess;
+import Database.ScheduleDataAccess.ScheduleInfo;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;

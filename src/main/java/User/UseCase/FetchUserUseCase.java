@@ -1,8 +1,8 @@
 package User.UseCase;
 
 import User.Entities.User;
-import User.UserDataAccess;
-import User.UserDataAccess.UserInfo;
+import Database.UserDataAccess;
+import Database.UserDataAccess.UserInfo;
 
 public class FetchUserUseCase {
 
