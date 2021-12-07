@@ -6,7 +6,7 @@ import User.ConvertStrategies.HeightStrategies.FtAndInStrategy;
 import User.ConvertStrategies.HeightStrategies.HeightConverter;
 import User.ConvertStrategies.WeightStrategies.LbsStrategy;
 import User.ConvertStrategies.WeightStrategies.WeightConverter;
-import User.UserDataAccess;
+import Database.UserDataAccess;
 
 public class AddHeightWeightUseCase {
 

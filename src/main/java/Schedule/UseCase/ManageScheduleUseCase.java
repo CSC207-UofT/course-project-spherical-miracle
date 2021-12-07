@@ -6,8 +6,8 @@ import java.util.*;
 import Schedule.Boundary.CreateScheduleInputBoundary;
 import Schedule.Boundary.ScheduleOutputBoundary;
 import Schedule.Entities.*;
-import Schedule.ScheduleDataAccess;
-import Schedule.ScheduleDataAccess.ScheduleInfo;
+import Database.ScheduleDataAccess;
+import Database.ScheduleDataAccess.ScheduleInfo;
 import Schedule.Entities.Day.addWorkoutResult;
 
 /**

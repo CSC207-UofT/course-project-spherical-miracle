@@ -1,8 +1,7 @@
 package Schedule.UseCase;
 
 import Schedule.Boundary.ScheduleOutputBoundary;
-import Schedule.Entities.Schedule;
-import Schedule.ScheduleDataAccess;
+import Database.ScheduleDataAccess;
 
 public class AddPublicScheduleUseCase {
 

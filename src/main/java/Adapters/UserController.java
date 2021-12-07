@@ -1,7 +1,8 @@
-package User;
+package Adapters;
 
 import User.Boundary.*;
 import User.UseCase.*;
+import Database.UserDataAccess;
 
 /**
  * A controller that delegates actions for managing a database of users.

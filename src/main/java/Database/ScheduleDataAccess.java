@@ -1,4 +1,4 @@
-package Schedule;
+package Database;
 
 import java.util.List;
 import java.util.Map;

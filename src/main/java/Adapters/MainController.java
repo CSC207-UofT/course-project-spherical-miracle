@@ -1,5 +1,6 @@
-import Schedule.ScheduleController;
-import User.UserController;
+package Adapters;
+
+import Database.DataAccess;
 
 import java.time.DayOfWeek;
 import java.util.*;

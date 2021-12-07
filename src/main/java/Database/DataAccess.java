@@ -1,11 +1,13 @@
-import Schedule.ScheduleDataAccess;
+package Database;
+
+import Database.ScheduleDataAccess;
 import com.mongodb.DBObject;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Updates;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import static com.mongodb.client.model.Filters.*;
-import User.UserDataAccess;
+import Database.UserDataAccess;
 import User.UseCase.UserDoesNotExistException;
 
 import java.time.LocalDate;

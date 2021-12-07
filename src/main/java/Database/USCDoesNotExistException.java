@@ -1,3 +1,5 @@
+package Database;
+
 public class USCDoesNotExistException extends Exception {
 
     /**

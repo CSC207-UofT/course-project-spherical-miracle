@@ -1,4 +1,4 @@
-package User;
+package Database;
 
 import User.UseCase.UserDoesNotExistException;
 

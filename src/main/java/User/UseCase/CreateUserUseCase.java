@@ -1,6 +1,6 @@
 package User.UseCase;
 
-import User.UserDataAccess;
+import Database.UserDataAccess;
 import User.Boundary.*;
 import User.Entities.User;
 
