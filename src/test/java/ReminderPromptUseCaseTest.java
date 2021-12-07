@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-class ReminderPromptTest {
+class ReminderPromptUseCaseTest {
 
     private MockDatabase mockDatabase;
     @BeforeEach
