@@ -3,7 +3,7 @@ import Adapters.SessionController;
 class SessionControllerTest {
 
     private UserDatabase users;
-    private SessionController sessionController;
+    private Adapters.SessionController sessionController;
 
 //    @BeforeEach
 //    void setUp() {

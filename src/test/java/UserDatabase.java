@@ -1,4 +1,4 @@
-import User.Entities.User;
+import Domain.User.Entities.User;
 
 import java.util.HashMap;
 /**

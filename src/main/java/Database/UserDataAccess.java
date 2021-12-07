@@ -1,6 +1,6 @@
 package Database;
 
-import User.UseCase.UserDoesNotExistException;
+import Domain.User.UseCase.UserDoesNotExistException;
 
 import java.time.LocalDate;
 import java.util.List;

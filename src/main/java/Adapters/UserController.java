@@ -1,7 +1,7 @@
 package Adapters;
 
-import User.Boundary.*;
-import User.UseCase.*;
+import Domain.User.Boundary.*;
+import Domain.User.UseCase.*;
 import Database.UserDataAccess;
 
 /**

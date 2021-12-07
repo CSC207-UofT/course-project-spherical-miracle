@@ -3,9 +3,11 @@ package Adapters;
 import java.time.DayOfWeek;
 import java.util.List;
 
-import Schedule.Boundary.*;
+import Domain.Schedule.Boundary.CreateScheduleInputBoundary;
+import Domain.Schedule.Boundary.RemoveScheduleInputBoundary;
+import Domain.Schedule.Boundary.ScheduleOutputBoundary;
 import Database.ScheduleDataAccess;
-import Schedule.UseCase.*;
+import Domain.Schedule.UseCase.*;
 
 /**
  * A controller that manages a schedule for a user.

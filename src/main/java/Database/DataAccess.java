@@ -6,8 +6,7 @@ import com.mongodb.client.model.Updates;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import static com.mongodb.client.model.Filters.*;
-
-import User.UseCase.UserDoesNotExistException;
+import Domain.User.UseCase.UserDoesNotExistException;
 
 import java.time.LocalDate;
 import java.util.*;

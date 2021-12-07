@@ -1,8 +1,8 @@
-import User.UseCase.CreateUserUseCase;
-import User.UseCase.UserDoesNotExistException;
-import User.Entities.User;
 import Adapters.Presenter;
 import Database.UserDataAccess.UserInfo;
+import Domain.User.Entities.User;
+import Domain.User.UseCase.CreateUserUseCase;
+import Domain.User.UseCase.UserDoesNotExistException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,6 @@ class CreateUserUseCaseTest {
         // assert BCrypt.hashpw(expectedPassword, BCrypt.gensalt(10)).equals(userinfo.getPassword());
         assert userinfo.getName().equals(expectedName);
         assert userinfo.getEmail().equals(expectedEmail);
-
     }
 
     @Test
