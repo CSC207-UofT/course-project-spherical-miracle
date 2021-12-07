@@ -25,7 +25,7 @@ public class AddHeightWeightUseCase {
         databaseInterface.addHeightWeight(username, heightConverter(height,units[0]), weightConverter(weight, units[1]));
     }
 
-        private double heightConverter(double height, String unit){
+    private double heightConverter(double height, String unit){
         HeightConverter heightConverter = null;
         if (unit.equalsIgnoreCase("cm")){
             heightConverter = new CmStrategy();

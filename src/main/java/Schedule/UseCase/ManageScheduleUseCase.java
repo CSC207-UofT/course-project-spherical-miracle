@@ -1,5 +1,8 @@
 package Schedule.UseCase;
 
+import java.time.DayOfWeek;
+import java.util.*;
+
 import Schedule.Boundary.CreateScheduleInputBoundary;
 import Schedule.Boundary.ScheduleOutputBoundary;
 import Schedule.Entities.*;
@@ -7,9 +10,9 @@ import Schedule.ScheduleDataAccess;
 import Schedule.ScheduleDataAccess.ScheduleInfo;
 import Schedule.Entities.Day.addWorkoutResult;
 
-import java.time.DayOfWeek;
-import java.util.*;
-
+/**
+ * A use case that handles the creation and changes to any schedule.
+ */
 public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
 
     private final ScheduleDataAccess databaseInterface;
@@ -24,6 +27,7 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
         this.outputBoundary = outputBoundary;
     }
 
+    @Override
     /**
      * Creates a schedule and prompts the user for the necessary details.
      * @param name - specified name of the schedule
@@ -60,10 +64,6 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
         databaseInterface.createSchedule(scheduleToString(schedule), username, isPublic);
     }
 
-    /**
-     *
-     * @param schedule
-     */
     private void editSchedule(Schedule schedule) {
         String option = outputBoundary.selectEditOptions();
         while (!option.equalsIgnoreCase("s")) {
@@ -80,11 +80,6 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
         }
     }
 
-    /**
-     *
-     * @param day
-     * @return
-     */
     private Day getEditedDay(Day day) {
         String option;
         ScheduleEntityFactory factory = new ScheduleEntityFactory();
@@ -138,19 +133,6 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
                     break;
             }
         }
-    }
-
-    /**
-     *
-     * @param name - the desired name of the schedule
-     * @param username - the username of the User creating the schedule
-     * @param isPublic - whether this schedule is public
-     * @param days - the details of this schedule
-     */
-    @Override
-    public void createSchedule(String name, String username, boolean isPublic, List<List<List<Map<String, String>>>> days) {
-        Schedule schedule = new Schedule(name);
-        databaseInterface.createSchedule(scheduleToString(schedule), username, isPublic);
     }
 
     private ScheduleInfo scheduleToString(Schedule schedule) {

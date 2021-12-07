@@ -31,7 +31,7 @@ public class ScheduleController {
      * Otherwise, return false.
      **/
     public String createSchedule(String scheduleName, String username) {
-        ManageScheduleUseCase c = new ManageScheduleUseCase(databaseInterface, outputBoundary);
+        CreateScheduleInputBoundary c = new ManageScheduleUseCase(databaseInterface, outputBoundary);
         System.out.println("For each of the 7 days in your schedule, you can have up to five different workouts.");
         return c.createSchedule(scheduleName, username);
     }
@@ -62,7 +62,7 @@ public class ScheduleController {
             while (true) {
                 String option = outputBoundary.viewEditDeleteActivateOptions();
                 if (option.equalsIgnoreCase("delete")) {
-                    RemoveScheduleUseCase removeScheduleUseCase = new RemoveScheduleUseCase(databaseInterface, outputBoundary);
+                    RemoveScheduleInputBoundary removeScheduleUseCase = new RemoveScheduleUseCase(databaseInterface, outputBoundary);
                     removeScheduleUseCase.removeSchedule(username, schedulesIDs.get(index));
                 } else if (option.equalsIgnoreCase("view")) {
                     DisplayScheduleUseCase display = new DisplayScheduleUseCase(outputBoundary);
