@@ -8,14 +8,11 @@ repositories {
 
 dependencies {
     implementation 'junit:junit:4.13.2'
-    testImplementation('org.junit.jupiter:junit-jupiter:5.8.1')
-    implementation('org.mongodb:mongodb-driver-sync:4.3.2')
-    implementation  ('io.github.cdimascio:dotenv-java:2.2.0')
-    implementation 'ch.qos.logback:logback-classic:1.2.6'
+    testImplementation('org.junit.jupiter:junit-jupiter:5.8.2')
+    implementation('org.mongodb:mongodb-driver-sync:4.4.0')
+    implementation  ('io.github.cdimascio:dotenv-java:2.2.3')
+    implementation 'ch.qos.logback:logback-classic:1.2.7'
     implementation("org.mindrot:jbcrypt:0.4")
-
-
-    //TODO: check if new versions work
 }
 
 test {
