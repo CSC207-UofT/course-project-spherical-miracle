@@ -10,7 +10,7 @@ public class ManageDataUseCase {
         this.currentUser = user;
     }
     /**
-     * Change this User.Entities.User's password to newPassword if the oldPassword matches the user's current password.
+     * Change this User's password to newPassword if the oldPassword matches the user's current password.
      * Return true iff password is successfully changed.
      * @param newPassword the new password for this User.Entities.User
      * @return whether the password was successfully changed or not

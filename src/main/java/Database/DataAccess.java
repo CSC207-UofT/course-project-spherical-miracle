@@ -1,13 +1,12 @@
 package Database;
 
-import Database.ScheduleDataAccess;
 import com.mongodb.DBObject;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Updates;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import static com.mongodb.client.model.Filters.*;
-import Database.UserDataAccess;
+
 import User.UseCase.UserDoesNotExistException;
 
 import java.time.LocalDate;
@@ -33,12 +32,14 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         MongoCollection<Document> usc = database.getCollection("User_Schedule");
         MongoCollection<Document> uWH = database.getCollection("User_WH");
         String pwHash = BCrypt.hashpw(password, BCrypt.gensalt(10));
-        Document newUser = new Document("name", name).append("username", username).append("email", email).append("password", pwHash);
+        Document newUser = new Document("name", name).append("username", username)
+                        .append("email", email).append("password", pwHash);
         Objects.requireNonNull(uc.insertOne(newUser).getInsertedId()).asObjectId();
         List<DBObject> array = new ArrayList<>();
         Document newUs = new Document("username",username).append("active_schedule", "").append("schedules", array);
         Objects.requireNonNull(usc.insertOne(newUs).getInsertedId()).asObjectId();
-        Document newUWH = new Document("username",username).append("height", array).append("weight", array).append("date", array);
+        Document newUWH = new Document("username",username).append("height", array)
+                .append("weight", array).append("date", array);
         Objects.requireNonNull(uWH.insertOne(newUWH).getInsertedId()).asObjectId();
     }
 
@@ -57,11 +58,11 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         List<Double> heights = doc2.getList("height", Double.class);
 
         if (heights.isEmpty() || weights.isEmpty()){
-            return new UserInfo(username, name, email, password);
+            return new UserInfo(username, password, name, email);
         } else {
             Double height = heights.get(heights.size() - 1);
             Double weight = weights.get(weights.size() - 1);
-            return new UserInfo(username, name, email, password, height, weight);
+            return new UserInfo(username, password, name, email, height, weight);
         }
     }
 
@@ -73,12 +74,11 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         uWH.updateOne(equalComparison,Updates.combine(Updates.push("height", height),
                 Updates.push("weight",weight),
                 Updates.push("date",date.toString()))
-        ); // username is unique
-
+        );
     }
 
     @Override
-    public BodyMeasurementRecord getHWListWith(String username){
+    public BodyMeasurementRecord getHeightsWeightsFor(String username){
         Document doc2 = findData("User_WH", eq("username", username)).first();
         assert doc2 != null;
         List<Double> weight = doc2.getList("weight", Double.class);
@@ -94,7 +94,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 
     @Override
     @SuppressWarnings("unchecked")
-    public ScheduleInfo loadScheduleWith(String id) {
+    public ScheduleInfo loadScheduleWithID(String id) {
         Document doc = findData("Schedule", eq("UUID", id)).first();
         List<List<List<Map<String,String>>>> days = new ArrayList<>();
         assert doc != null;
@@ -122,7 +122,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public List<ScheduleInfo> loadSchedulesAssociatedWith(String username) {
+    public List<ScheduleInfo> loadSchedulesFor(String username) {
         Document doc = findData("User_Schedule", eq("username", username)).first();
         if (doc == null) {
             try { // temp solution
@@ -135,7 +135,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         List<String> scheduleIDs = doc.getList("schedules", String.class);
         List<ScheduleInfo> schedules = new ArrayList<>();
         for(String scheduleID: scheduleIDs) {
-            schedules.add(loadScheduleWith(scheduleID));
+            schedules.add(loadScheduleWithID(scheduleID));
         }
         return schedules;
     }
@@ -181,7 +181,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         }
         List<ScheduleInfo> publicSchedules = new ArrayList<>();
         for (String scheduleID: publicSchedulesIDs) {
-            publicSchedules.add(loadScheduleWith(scheduleID));
+            publicSchedules.add(loadScheduleWithID(scheduleID));
         }
         return publicSchedules;
     }
@@ -210,7 +210,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         if (activeSchedule.equals("")){
             return null;
         }
-        return loadScheduleWith(doc.getString("active_schedule"));
+        return loadScheduleWithID(doc.getString("active_schedule"));
     }
 
     @Override

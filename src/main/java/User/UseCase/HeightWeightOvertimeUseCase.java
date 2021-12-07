@@ -26,7 +26,7 @@ public class HeightWeightOvertimeUseCase {
      */
     public void displayHeightWeightOvertime(String username){
         LocalDate date = outputBoundary.askDate(); // the desired start date
-        UserDataAccess.BodyMeasurementRecord bmr= databaseInterface.getHWListWith(username);
+        UserDataAccess.BodyMeasurementRecord bmr= databaseInterface.getHeightsWeightsFor(username);
         List<LocalDate> dates = bmr.getDate();
         List<Double> heights = bmr.getHeight();
         List<Double> weights = bmr.getWeight();

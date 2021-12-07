@@ -27,7 +27,7 @@ public interface UserDataAccess {
     void editUser(String key, String change, String username);
     void addHeightWeight(String username, double height, double weight);
 
-    BodyMeasurementRecord getHWListWith(String username);
+    BodyMeasurementRecord getHeightsWeightsFor(String username);
 
     class BodyMeasurementRecord{
         private String username;
@@ -64,11 +64,15 @@ public interface UserDataAccess {
         private Double height;
         private Double weight;
 
-        public UserInfo(String username, String name, String email, String password) {
-            this(username, name, email, password, -1.0, -1.0);
+        public UserInfo(String username, String password, String name, String email) {
+            this(username, password, name, email, -1.0, -1.0);
         }
 
-        public UserInfo(String username, String name, String email, String password, Double height, Double weight) {
+        public UserInfo(String username, String password, String name, String email, Double height, Double weight) {
+            this.username = username;
+            this.password = password;
+            this.name = name;
+            this.email = email;
             this.height = height;
             this.weight = weight;
         }

@@ -14,7 +14,7 @@ public class AddPublicScheduleUseCase {
     }
 
     public void addPublicSchedule(String username, String scheduleID){
-        ScheduleDataAccess.ScheduleInfo scheduleInfo = databaseInterface.loadScheduleWith(scheduleID);
+        ScheduleDataAccess.ScheduleInfo scheduleInfo = databaseInterface.loadScheduleWithID(scheduleID);
         scheduleInfo.randomizeId();
         boolean isPublic = outputBoundary.isPublic();
         databaseInterface.createSchedule(scheduleInfo,username,isPublic);

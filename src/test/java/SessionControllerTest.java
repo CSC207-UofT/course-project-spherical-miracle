@@ -1,3 +1,5 @@
+import Adapters.SessionController;
+
 class SessionControllerTest {
 
     private UserDatabase users;

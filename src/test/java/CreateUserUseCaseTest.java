@@ -1,10 +1,16 @@
 import User.UseCase.CreateUserUseCase;
 import User.UseCase.UserDoesNotExistException;
+import User.Entities.User;
+import Adapters.Presenter;
+import Database.UserDataAccess.UserInfo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertThrows;
 
 class CreateUserUseCaseTest {
+
+    private final MockDatabase database = new MockDatabase();
 
     @BeforeEach
     void setUp() {
@@ -20,13 +26,22 @@ class CreateUserUseCaseTest {
         String expectedPassword = "438892.04";
         String expectedName = "Meric Gertler";
         String expectedEmail = "president@utoronto.ca";
-        MockDatabase db = new MockDatabase();
-        CreateUserUseCase create = new CreateUserUseCase(db, new Presenter());
+        CreateUserUseCase create = new CreateUserUseCase(database, new Presenter());
         create.createUser(expectedUsername, expectedPassword, expectedName, expectedEmail);
-        Object[] userInfo = db.loadUserWithUsername(expectedUsername);
-        assert userInfo[0].equals(expectedUsername);
-        assert userInfo[1].equals(expectedPassword);
-        assert userInfo[2].equals(expectedName);
-        assert userInfo[3].equals(expectedEmail);
+        UserInfo userinfo = database.loadUserWithUsername(expectedUsername);
+        User user = new User(expectedUsername, expectedPassword, expectedName, expectedEmail);
+        assert userinfo.getUsername().equals(expectedUsername);
+        // TODO: Look up how to do assertion with hashed passwords
+        // assert BCrypt.hashpw(expectedPassword, BCrypt.gensalt(10)).equals(userinfo.getPassword());
+        assert userinfo.getName().equals(expectedName);
+        assert userinfo.getEmail().equals(expectedEmail);
+
+    }
+
+    @Test
+    void noUser() {
+        String unexpectedUsername = "YourMom";
+        UserDoesNotExistException thrown = assertThrows(UserDoesNotExistException.class,
+                () -> database.loadUserWithUsername(unexpectedUsername));
     }
 }

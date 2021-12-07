@@ -2,7 +2,6 @@ import Schedule.Entities.Day;
 import Schedule.Entities.Meal;
 import Schedule.Entities.Schedule;
 import Schedule.Entities.Workout;
-import User.*;
 import Database.*;
 import User.Entities.User;
 import User.UseCase.UserDoesNotExistException;
@@ -49,16 +48,16 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
 
 
     @Override
-    public ScheduleInfo loadScheduleWith(String scheduleID) {
+    public ScheduleInfo loadScheduleWithID(String scheduleID) {
         return schedules.get(scheduleID);
     }
 
     @Override
-    public List<ScheduleInfo> loadSchedulesAssociatedWith(String username) {
+    public List<ScheduleInfo> loadSchedulesFor(String username) {
         List<ScheduleInfo> scheduleInfos = new ArrayList<>();
         List<String> scheduleIDs = userScheduleMap.get(username);
         for (String scheduleID: scheduleIDs) {
-            scheduleInfos.add(loadScheduleWith(scheduleID));
+            scheduleInfos.add(loadScheduleWithID(scheduleID));
         }
         return scheduleInfos;
     }
@@ -74,7 +73,7 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     }
 
     public ScheduleInfo loadActiveSchedule(String username) {
-        ScheduleInfo s = loadScheduleWith(activeScheduleID);
+        ScheduleInfo s = loadScheduleWithID(activeScheduleID);
         return s;
     }
 
@@ -114,7 +113,7 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     }
 
     @Override
-    public BodyMeasurementRecord getHWListWith(String username) {
+    public BodyMeasurementRecord getHeightsWeightsFor(String username) {
         return null;
     }
 
