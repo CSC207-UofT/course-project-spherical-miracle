@@ -23,20 +23,19 @@ class RemoveScheduleUseCaseTest {
     }
 
     @Test
-    void remove() {
-        Schedule s = new Schedule("s");
-        mock.createSchedule(mock.scheduleToString(s), username, false);
-        remover.removeSchedule(username, "s");
-        assert mock.schedules.isEmpty();
-    }
-
-    @Test
-    void remove1() {
+    void removeSchedule() {
         Schedule s1 = new Schedule("s");
         Schedule s2 = new Schedule("s");
         mock.createSchedule(mock.scheduleToString(s1), username, false);
         mock.createSchedule(mock.scheduleToString(s2), username, false);
         remover.removeSchedule(username, "s");
         assert mock.schedules.size() == 1;
+        remover.removeSchedule(username, "s");
+        assert mock.schedules.isEmpty();
+    }
+
+    @Test
+    void editRemoveSchedule() {
+
     }
 }

@@ -2,7 +2,6 @@ import Adapters.SessionController;
 
 class SessionControllerTest {
 
-    private UserDatabase users;
     private Adapters.SessionController sessionController;
 
 //    @BeforeEach
