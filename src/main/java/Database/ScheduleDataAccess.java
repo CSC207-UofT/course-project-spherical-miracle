@@ -53,8 +53,6 @@ public interface ScheduleDataAccess {
 
     List<ScheduleInfo> loadPublicSchedules();
 
-    void deleteSchedule(String username);
-
     void deleteUserSchedule(String username, String scheduleId);
 
     /**

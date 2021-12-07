@@ -31,27 +31,27 @@ public interface UserDataAccess {
 
     class BodyMeasurementRecord{
         private String username;
-        private List<Double> weight;
-        private List<Double> height;
-        private List<LocalDate> date;
+        private List<Double> weights;
+        private List<Double> heights;
+        private List<LocalDate> dates;
 
-        public BodyMeasurementRecord(String username, List<Double> weight, List<Double> height, List<LocalDate> date){
+        public BodyMeasurementRecord(String username, List<Double> weights, List<Double> heights, List<LocalDate> dates){
             this.username = username;
-            this.weight = weight;
-            this.height = height;
-            this.date = date;
+            this.weights = weights;
+            this.heights = heights;
+            this.dates = dates;
         }
 
-        public List<Double> getWeight(){
-            return weight;
+        public List<Double> getWeights(){
+            return weights;
         }
 
-        public  List<Double> getHeight(){
-            return height;
+        public  List<Double> getHeights(){
+            return heights;
         }
 
-        public  List<LocalDate> getDate(){
-            return date;
+        public  List<LocalDate> getDates(){
+            return dates;
         }
 
     }

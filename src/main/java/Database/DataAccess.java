@@ -234,10 +234,9 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         deleteSchedule(scheduleId);
     }
 
-    @Override
-    public void deleteSchedule(String scheduleId){
+    private void deleteSchedule(String scheduleID){
         MongoCollection<Document> sc = database.getCollection("Schedule");
-        Bson equalComparison = eq("UUID", scheduleId);
+        Bson equalComparison = eq("UUID", scheduleID);
         sc.deleteOne(equalComparison);
     }
 

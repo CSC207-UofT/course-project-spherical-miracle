@@ -7,8 +7,8 @@ import User.Entities.User;
 import User.UseCase.UserDoesNotExistException;
 import org.mindrot.jbcrypt.BCrypt;
 
-
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,16 +16,19 @@ import java.util.Map;
 
 public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     private final List<User> users;
-    public final Map<String, ScheduleDataAccess.ScheduleInfo> schedules;
-    private final Map<String, List<String>> userScheduleMap;
-    private final List<String> publicSchedules;
-    private String activeScheduleID ;
+    public final Map<String, ScheduleInfo> ScheduleIDInfoMap;
+    private final Map<String, List<String>> usernameScheduleIDMap;
+    private final List<String> publicScheduleIDs;
+    private final Map<String, String> usernameActiveIDMap;
+    private final Map<String, BodyMeasurementRecord> usernameBodyInfoMap;
 
     public MockDatabase() {
         users = new ArrayList<>();
-        schedules = new HashMap<>();
-        userScheduleMap = new HashMap<>();
-        publicSchedules = new ArrayList<>();
+        ScheduleIDInfoMap = new HashMap<>();
+        usernameScheduleIDMap = new HashMap<>();
+        publicScheduleIDs = new ArrayList<>();
+        usernameActiveIDMap = new HashMap<>();
+        usernameBodyInfoMap = new HashMap<>();
     }
 
     @Override
@@ -33,7 +36,9 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
         String pwHash = BCrypt.hashpw(password, BCrypt.gensalt(10));
         User user = new User(username, pwHash, name, email);
         users.add(user);
-        userScheduleMap.put(username, new ArrayList<>());
+        usernameScheduleIDMap.put(username, new ArrayList<>());
+        usernameBodyInfoMap.put(username, new BodyMeasurementRecord(username, new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>()));
     }
 
     @Override
@@ -49,13 +54,13 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
 
     @Override
     public ScheduleInfo loadScheduleWithID(String scheduleID) {
-        return schedules.get(scheduleID);
+        return ScheduleIDInfoMap.get(scheduleID);
     }
 
     @Override
     public List<ScheduleInfo> loadSchedulesFor(String username) {
         List<ScheduleInfo> scheduleInfos = new ArrayList<>();
-        List<String> scheduleIDs = userScheduleMap.get(username);
+        List<String> scheduleIDs = usernameScheduleIDMap.get(username);
         for (String scheduleID: scheduleIDs) {
             scheduleInfos.add(loadScheduleWithID(scheduleID));
         }
@@ -65,40 +70,40 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     @Override
     public void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic) {
         String id = scheduleInfo.getId();
-        schedules.put(id, scheduleInfo);
-        if (!userScheduleMap.get(username).contains(id))
-            userScheduleMap.get(username).add(id);
+        ScheduleIDInfoMap.put(id, scheduleInfo);
+        if (!usernameScheduleIDMap.get(username).contains(id))
+            usernameScheduleIDMap.get(username).add(id);
         if (isPublic)
-            publicSchedules.add(id);
+            publicScheduleIDs.add(id);
     }
 
     public ScheduleInfo loadActiveSchedule(String username) {
-        ScheduleInfo s = loadScheduleWithID(activeScheduleID);
-        return s;
+        return loadScheduleWithID(usernameActiveIDMap.get(username));
     }
 
     @Override
-    public void updateCurrentSchedule(String username, String scheduleId) {};
+    public void updateCurrentSchedule(String username, String scheduleId) {
+        usernameActiveIDMap.put(username, scheduleId);
+    }
 
     @Override
     public List<ScheduleInfo> loadPublicSchedules() {
         List<ScheduleInfo> schedules = new ArrayList<>();
-        for (String scheduleID: publicSchedules) {
-            schedules.add(this.schedules.get(scheduleID));
+        for (String scheduleID: publicScheduleIDs) {
+            schedules.add(this.ScheduleIDInfoMap.get(scheduleID));
         }
         return schedules;
     }
 
-    @Override
-    public void deleteSchedule(String username) {
-
+    private void deleteSchedule(String scheduleID) {
+        ScheduleIDInfoMap.remove(scheduleID);
     }
 
     @Override
     public void deleteUserSchedule(String username, String scheduleId) {
-        schedules.remove(scheduleId);
-        if (publicSchedules.contains(scheduleId))
-            publicSchedules.remove(scheduleId);
+        publicScheduleIDs.remove(scheduleId);
+        usernameScheduleIDMap.get(username).remove(scheduleId);
+        deleteSchedule(scheduleId);
     }
 
 
@@ -109,12 +114,16 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
 
     @Override
     public void addHeightWeight(String username, double height, double weight) {
-
+        BodyMeasurementRecord b = usernameBodyInfoMap.get(username);
+        b.getHeights().add(height);
+        b.getWeights().add(weight);
+        LocalDate now = LocalDate.now();
+        b.getDates().add(now);
     }
 
     @Override
     public BodyMeasurementRecord getHeightsWeightsFor(String username) {
-        return null;
+        return usernameBodyInfoMap.get(username);
     }
 
     public Schedule stringToSchedule(ScheduleInfo scheduleInfo) {
