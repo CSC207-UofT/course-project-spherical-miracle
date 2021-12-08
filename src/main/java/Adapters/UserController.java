@@ -1,6 +1,7 @@
 package Adapters;
 
 import Domain.User.Boundary.*;
+import Domain.User.Entities.User;
 import Domain.User.UseCase.*;
 import Database.UserDataAccess;
 
@@ -33,8 +34,17 @@ public class UserController {
      * @return whether the user's info was valid and the user was added to the database or not
      **/
     public boolean createUser(String username, String password, String name, String email) {
-        CreateUserInputBoundary createUserInputBoundary = new CreateUserUseCase(databaseInterface, outputBoundary);
-        return createUserInputBoundary.createUser(username, password, name, email);
+        FetchUserUseCase fetch = new FetchUserUseCase(databaseInterface);
+        try {
+            fetch.getUser(username);
+            outputBoundary.signupMessage(false);
+            return false;
+        } catch (UserDoesNotExistException e) {
+            CreateUserInputBoundary createUserInputBoundary = new CreateUserUseCase(databaseInterface, outputBoundary);
+            createUserInputBoundary.createUser(username, password, name, email);
+            outputBoundary.signupMessage(true);
+            return true;
+        }
     }
 
     /**
@@ -42,8 +52,6 @@ public class UserController {
      * @param username the user's username
      */
     public void removeUser(String username) {
-        //TODO: validating inputs
-        // users.remove(username);
     }
 
     public void getCurrentWeightHeightBMI(String username){

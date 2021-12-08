@@ -15,7 +15,7 @@ public interface UserOutputBoundary {
     String createDayPrompt();
     String[] askUnitType();
     Double askMeasurements(String message);
-    void noBMI(String message);
+    void print(String message);
     LocalDate askDate();
     boolean printListOfHeightWeight(List<Map<String,Object>> days);
     void noScheduleFoundMessage(Object lastDate);
