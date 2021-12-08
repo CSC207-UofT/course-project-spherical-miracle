@@ -1,4 +1,4 @@
-import User.*;
+import Domain.User.Entities.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,14 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
     User user;
-    UserDatabase users;
 
     @BeforeEach
     void setUp() {
 
-        users = new UserDatabase();
         user = new User("bob123", "password123", "Bob", "bob@gmail.com");
-        users.save(user);
     }
 
     @AfterEach
@@ -41,6 +38,6 @@ class UserTest {
     void changePassword() {
         user.changePassword("password123", "123password");
         assert user.passwordMatches("123password");
-        assert users.getUserWithUsername("bob123").passwordMatches("123password");
+        assert user.passwordMatches("123password");
     }
 }

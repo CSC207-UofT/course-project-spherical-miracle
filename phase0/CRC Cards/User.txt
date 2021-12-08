@@ -1,4 +1,4 @@
-Class name: User.User
+Class name: User.Entities.User
 
 Responsibilities:
 * Store username, password, email, and name of user
@@ -9,4 +9,4 @@ Responsibilities:
 
 Collaborators:
 * UserManager
-* Schedule.Schedule
+* Schedule.Entities.Schedule

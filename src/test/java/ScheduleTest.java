@@ -1,7 +1,10 @@
-import Schedule.*;
+import Domain.Schedule.Entities.Day;
+import Domain.Schedule.Entities.Schedule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.DayOfWeek;
 
 class ScheduleTest {
     Schedule week1;
@@ -29,7 +32,9 @@ class ScheduleTest {
 
     @Test
     void addWorkout() {
-        week1.addWorkout(1, new Workout("ass", 500));
+        Day day = new Day();
+        week1.setDay(DayOfWeek.MONDAY, day);
+        assert week1.getDay(DayOfWeek.MONDAY) == day;
     }
 
 

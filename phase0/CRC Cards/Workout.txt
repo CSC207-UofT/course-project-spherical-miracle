@@ -1,8 +1,8 @@
-Class name: Schedule.Schedule
+Class name: Schedule.Entities.Schedule
 
 Responsibilities:
 * Store name of workout
 * How many estimated kcal will be burnt
 
 Collaborators:
-* Schedule.Schedule
+* Schedule.Entities.Schedule
