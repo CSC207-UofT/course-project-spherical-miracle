@@ -2,6 +2,7 @@ import Adapters.Presenter;
 import Domain.Schedule.Entities.Schedule;
 import Domain.Schedule.Entities.Day;
 import Domain.Schedule.Entities.Workout;
+import Domain.Schedule.UseCase.FetchSchedulesUseCase;
 import Domain.Schedule.UseCase.ReminderPromptUseCase;
 
 import Domain.Schedule.UseCase.ManageScheduleUseCase;
@@ -11,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-class ReminderPromptTest {
+class ReminderPromptUseCaseTest {
 
     private MockDatabase mockDatabase;
     @BeforeEach
@@ -32,12 +33,9 @@ class ReminderPromptTest {
         Day otherDay = new Day();
         otherDay.addWorkout(new Workout("NotThisWorkout", 130));
         s.setDay(LocalDate.now().getDayOfWeek().plus(1), otherDay);
-
         Presenter p = new Presenter();
-        ManageScheduleUseCase c = new ManageScheduleUseCase(mockDatabase, p);
-//        c.createSchedule(s, "michael", true);
         ReminderPromptUseCase reminder = new ReminderPromptUseCase(mockDatabase, p);
-        assert reminder.remind("michael", LocalDate.now().getDayOfWeek()).
+        assert reminder.remind(LocalDate.now().getDayOfWeek(), s).
                 equals(expectedDay.printDay(LocalDate.now().getDayOfWeek().getValue()));
     }
 
