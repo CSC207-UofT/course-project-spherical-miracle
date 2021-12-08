@@ -20,18 +20,16 @@ public class ReminderPromptUseCase {
 
     /**
      * Returns the string representation of the reminder for the given day.
-     * @param username username of the user
+     * @param activeSchedule the schedule to check for a reminder on
      * @param dayOfWeek day to remind user
      * @return a String representation of a User's day.
      */
-    public String remind(String username, DayOfWeek dayOfWeek) {
-        FetchSchedulesUseCase activeSchedule = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
-        Schedule currentSchedule = activeSchedule.getActiveSchedule(username);
-        if (currentSchedule == null) {
+    public String remind(DayOfWeek dayOfWeek, Schedule activeSchedule) {
+        if (activeSchedule == null) {
             outputBoundary.print("You don't have an active schedule yet :(");
             return null;
         }
-        Day scheduledDay = currentSchedule.getDay(dayOfWeek); // assign this value to scheduled workout
+        Day scheduledDay = activeSchedule.getDay(dayOfWeek); // assign this value to scheduled workout
         outputBoundary.print(scheduledDay.printDay(dayOfWeek.getValue()));
         return scheduledDay.printDay(dayOfWeek.getValue());
     }
