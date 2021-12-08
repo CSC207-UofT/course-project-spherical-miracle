@@ -21,7 +21,7 @@ public class BMIUseCase {
         this.fetchUserUseCase = fetchUserUseCase;
     }
     /**
-     * Returns wether or not the BMI message was successfully returned.
+     * Returns whether or not the BMI message was successfully returned.
      */
     public boolean BMIMessage(String username) {
         try {
@@ -43,7 +43,7 @@ public class BMIUseCase {
                 outputBoundary.printHeightWeight(user.getHeight(),user.getWeight());
                 outputBoundary.bmiMessage((Double) userBMI, weightCategory);
             } else {
-                outputBoundary.noBMI((String) userBMI);
+                outputBoundary.print((String) userBMI);
             }
             return true;
         } catch (UserDoesNotExistException e) {

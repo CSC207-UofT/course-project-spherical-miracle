@@ -92,7 +92,7 @@ public class User {
     public Object getBMI(){
         double output = this.weight / Math.pow(this.height, 2);
         if (Double.isNaN(output)) {
-            return "Incalculable. You have to have to add your Height/Weight in order to calculate your BMI.";
+            return "Invalid entry. You have to add your Height/Weight in order to calculate your BMI.";
         }else{
             return output;
         }
@@ -113,20 +113,6 @@ public class User {
      */
     public boolean passwordMatches(String tryPassword) {
         return BCrypt.checkpw(tryPassword, password);
-    }
-
-    /**
-     * Changes this User's password to newPassword if the oldPassword matches the user's current password.
-     * Return true iff password is successfully changed.
-     * @param newPassword the new password for this User
-     * @return whether the password was successfully changed or not
-     **/
-    public boolean changePassword(String oldPassword, String newPassword) {
-        if (this.passwordMatches(oldPassword)) {
-            password = newPassword;
-            return true;
-        }
-        return false;
     }
 
     public String getPassword() {

@@ -25,16 +25,8 @@ public class CreateUserUseCase implements CreateUserInputBoundary {
 
     @Override
     public boolean createUser(String username, String password, String name, String email) {
-        FetchUserUseCase fetch = new FetchUserUseCase(databaseInterface);
-        try {
-            fetch.getUser(username);
-            outputBoundary.signupMessage(false);
-            return false;
-        } catch (UserDoesNotExistException e) {
-            SaveUserUseCase save = new SaveUserUseCase(databaseInterface);
-            save.saveUser(new User(username, password, name, email));
-            outputBoundary.signupMessage(true);
-            return true;
-        }
+        databaseInterface.saveUser(username, password, name, email);
+        outputBoundary.signupMessage(true);
+        return true;
     }
 }

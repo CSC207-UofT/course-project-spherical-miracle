@@ -36,7 +36,7 @@ public class FetchSchedulesUseCase {
      * @return active schedule associated with the given username
      */
     public Schedule getActiveSchedule(String username){
-        ScheduleDataAccess.ScheduleInfo schedule = databaseInterface.loadActiveSchedule(username);
+        ScheduleInfo schedule = databaseInterface.loadActiveSchedule(username);
         if (schedule == null){
             return null;
         }
@@ -65,8 +65,8 @@ public class FetchSchedulesUseCase {
         List<Schedule> schedules = new ArrayList<>();
         List<ScheduleDataAccess.ScheduleInfo> schedulesInfos = databaseInterface.loadSchedulesFor(username);
         List<String> scheduleNames = new ArrayList<>();
-        ScheduleDataAccess.ScheduleInfo activeInfo = databaseInterface.loadActiveSchedule(username);
-        for (ScheduleDataAccess.ScheduleInfo scheduleString: schedulesInfos) {
+        ScheduleInfo activeInfo = databaseInterface.loadActiveSchedule(username);
+        for (ScheduleInfo scheduleString: schedulesInfos) {
             schedules.add(stringToSchedule(scheduleString.getId(), scheduleString.getName(), scheduleString.getDetails()));
             scheduleNames.add(scheduleString.getName());
         }

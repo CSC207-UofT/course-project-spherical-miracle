@@ -10,17 +10,14 @@ import Domain.User.Entities.User;
 public class LoginUseCase implements LoginInputBoundary {
 
 
-    private final FetchUserUseCase fetchUserUseCase;
     private final UserOutputBoundary outputBoundary;
 
     /**
      * Constructs a use case that can log a user in.
+     *  @param outputBoundary output boundary for User
      *
-     * @param outputBoundary output boundary for User
-     * @param fetchUserUseCase Use case that enables fetching of users.
      */
-    public LoginUseCase(UserOutputBoundary outputBoundary, FetchUserUseCase fetchUserUseCase){
-        this.fetchUserUseCase = fetchUserUseCase;
+    public LoginUseCase(UserOutputBoundary outputBoundary){
         this.outputBoundary = outputBoundary;
     }
 
@@ -32,18 +29,10 @@ public class LoginUseCase implements LoginInputBoundary {
     }
 
     @Override
-    public LoginResult login(String username, String password) {
-        try {
-            User user = fetchUserUseCase.getUser(username);
-            if (user.passwordMatches(password)) {
-                outputBoundary.loginMessage(true);
-                return LoginResult.SUCCESS;
-            }
-            outputBoundary.loginMessage(false);
-            return LoginResult.INCORRECT_PASSWORD;
-        } catch (UserDoesNotExistException e) {
-            outputBoundary.loginMessage(false);
-            return LoginResult.NO_SUCH_USER;
+    public LoginResult login(User user, String password) {
+        if (user.passwordMatches(password)) {
+            return LoginResult.SUCCESS;
         }
+        return LoginResult.INCORRECT_PASSWORD;
     }
 }
