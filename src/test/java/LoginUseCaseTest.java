@@ -1,4 +1,3 @@
-import Adapters.Presenter;
 import Domain.User.Entities.User;
 import Domain.User.UseCase.FetchUserUseCase;
 import Domain.User.UseCase.LoginUseCase;
@@ -26,7 +25,7 @@ class LoginUseCaseTest {
         MockDatabase db = new MockDatabase();
         db.saveUser(username, expectedPassword, "Jacob", "Jacob@mail.uk");
         FetchUserUseCase fetch = new FetchUserUseCase(db);
-        LoginUseCase login = new LoginUseCase(new Presenter());
+        LoginUseCase login = new LoginUseCase();
         User u1 = fetch.getUser(username);
         assert login.login(u1, expectedPassword) == LoginUseCase.LoginResult.SUCCESS;
         assert login.login(u1, wrongPassword) == LoginUseCase.LoginResult.INCORRECT_PASSWORD;

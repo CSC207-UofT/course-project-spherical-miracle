@@ -15,11 +15,20 @@ public class AddHeightWeightUseCase {
     private final UserDataAccess databaseInterface;
     private final UserOutputBoundary outputBoundary;
 
+    /**
+     * Instantiate a use case that adds height and weight to user's database
+     * @param databaseInterface the access interface boundary between the database and the use case
+     * @param outputBoundary output boundary for use case and presenter
+     */
     public AddHeightWeightUseCase(UserDataAccess databaseInterface, UserOutputBoundary outputBoundary){
         this.databaseInterface = databaseInterface;
         this.outputBoundary = outputBoundary;
     }
 
+    /**
+     * adds height and weight information to the corresponding username's data
+     * @param username - username
+     */
     public void addHeightWeight(String username){
         String[] units  = outputBoundary.askUnitType();
         double height = outputBoundary.askMeasurements("height");
