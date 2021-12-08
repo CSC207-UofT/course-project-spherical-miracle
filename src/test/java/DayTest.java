@@ -157,12 +157,12 @@ class DayTest {
     @Test
     void printDay() {
         System.out.println(day.printDay(1));
-        assert day.printDay(1).equals("This is your plan(s) for " + (DayOfWeek.of(1)) + ": \n Workouts: "
-                + "Rest Day" + "\n" + " Meal: " + "No meals" + "\n ");
+        assert day.printDay(1).equals("This is your plan(s) for " + (DayOfWeek.of(1)) + ":\n Workouts: "
+                + "Rest Day" + "\n" + " Meal: " + "No meals" + "\n");
         addToDay();
-        assert day.printDay(3).equals("This is your plan(s) for " + (DayOfWeek.of(3)) + ": \n Workouts: "
+        assert day.printDay(3).equals("This is your plan(s) for " + (DayOfWeek.of(3)) + ":\n Workouts: "
                 + "Hip Thrusts: 103 kcal, Eating: 0 kcal, Running: 342 kcal, Deadlift: 59 kcal, Bench Press: 68 kcal" +
-                "\n" + " Meal: " + "Coffee: 103 kcal, Salt: 0 kcal, Steak: 342 kcal" + "\n ");
+                "\n" + " Meal: " + "Coffee: 103 kcal, Salt: 0 kcal, Steak: 342 kcal" + "\n");
     }
 
     @Test

@@ -49,14 +49,13 @@ class UserTest {
 
     @Test
     void passwordMatches() {
-        String pwHash = BCrypt.hashpw("password123", BCrypt.gensalt(10));
-        String wrongHash = BCrypt.hashpw("password456", BCrypt.gensalt(10));
         assert user.passwordMatches("password123");
-        assert !(user.passwordMatches("password456"));
+        assert !user.passwordMatches("password456");
     }
 
     @Test
     void getPassword() {
-        assert user.getPassword().equals("password123");
+        assert BCrypt.checkpw("password123", user.getPassword());
+        assert !BCrypt.checkpw("password456", user.getPassword());
     }
 }
