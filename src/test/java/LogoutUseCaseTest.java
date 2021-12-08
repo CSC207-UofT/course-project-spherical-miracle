@@ -10,7 +10,8 @@ class LogoutUseCaseTest {
 
     private MockDatabase db = new MockDatabase();
     private FetchUserUseCase fetch = new FetchUserUseCase(db);
-    private LogoutUseCase logoutUseCase = new LogoutUseCase(new Presenter(), fetch);
+    private Presenter p = new Presenter();
+    private LogoutUseCase logoutUseCase = new LogoutUseCase(p);
     @BeforeEach
     void setUp() {
         db.saveUser("username", "pass", "user name1", "username@username.ca");
