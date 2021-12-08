@@ -1,7 +1,7 @@
 package Domain.Schedule.UseCase;
 import Domain.Schedule.Boundary.ScheduleOutputBoundary;
 import Domain.Schedule.Entities.*;
-import Database.ScheduleDataAccess;
+
 import java.time.DayOfWeek;
 
 /**
@@ -10,11 +10,13 @@ import java.time.DayOfWeek;
 
 public class ReminderPromptUseCase {
 
-    private final ScheduleDataAccess databaseInterface;
     private final ScheduleOutputBoundary outputBoundary;
 
-    public ReminderPromptUseCase(ScheduleDataAccess databaseInterface, ScheduleOutputBoundary outputBoundary) {
-        this.databaseInterface = databaseInterface;
+    /**
+     * Instantiate a use case that prompts a reminder from the active schedule.
+     * @param outputBoundary output boundary for use case and presenter
+     */
+    public ReminderPromptUseCase(ScheduleOutputBoundary outputBoundary) {
         this.outputBoundary = outputBoundary;
     }
 

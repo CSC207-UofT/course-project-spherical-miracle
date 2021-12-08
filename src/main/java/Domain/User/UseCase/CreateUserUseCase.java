@@ -2,7 +2,6 @@ package Domain.User.UseCase;
 
 import Database.UserDataAccess;
 import Domain.User.Boundary.*;
-import Domain.User.Entities.User;
 
 /**
  * Creates a new user account.

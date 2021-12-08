@@ -13,17 +13,17 @@ public class BMIUseCase {
 
     /**
      * Constructs a use case that calculates and returns User's BMI.
-     * @param outputBoundary
-     * @param fetchUserUseCase
+     * @param outputBoundary output boundary for use case and presenter
+     * @param fetchUserUseCase use case for getting a user information
      */
     public BMIUseCase(FetchUserUseCase fetchUserUseCase, UserOutputBoundary outputBoundary) {
         this.outputBoundary = outputBoundary;
         this.fetchUserUseCase = fetchUserUseCase;
     }
     /**
-     * Returns whether or not the BMI message was successfully returned.
+     * Displays a BMI message.
      */
-    public boolean BMIMessage(String username) {
+    public void BMIMessage(String username) {
         try {
             User user = fetchUserUseCase.getUser(username);
             Object userBMI = user.getBMI();
@@ -45,9 +45,7 @@ public class BMIUseCase {
             } else {
                 outputBoundary.print((String) userBMI);
             }
-            return true;
-        } catch (UserDoesNotExistException e) {
-            return false;
+        } catch (UserDoesNotExistException ignored) {
         }
     }
 }
