@@ -1,18 +1,14 @@
 import Adapters.MainController;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Pattern;
+
 /**
  * The user interface for scheduling workout session in a user's schedule.
  */
-
-//To Disable the commandline logs
-
-
 public class SchedulerUI {
-    private final class Commands {
+    private static final class Commands {
         static final String QUIT = "0";
         static final String LOGOUT = "1";
         static final String CREATE_SCHEDULE = "2";
@@ -38,6 +34,9 @@ public class SchedulerUI {
         return commands;
     }
 
+    /**
+     * Constructs a SchedulerUI object.
+     */
     public SchedulerUI(Scanner in, MainController mainController) {
         this.mainController = mainController;
         this.in = in;
@@ -77,7 +76,6 @@ public class SchedulerUI {
         while (true) {
             switch (option) {
                 case Commands.QUIT:
-                    // TODO: Bad design, should let main function quit
                     System.exit(0);
                 case Commands.LOGOUT:
                     mainController.logout();
@@ -95,7 +93,6 @@ public class SchedulerUI {
                     DayOfWeek today = LocalDate.now().getDayOfWeek();
                     mainController.sendReminderForDay(today);
                     break;
-                    // TODO: Edit schedule menu
                 case Commands.WEIGHT_HEIGHT_BMI:
                     weightHeightBMIMenu();
                     break;
@@ -109,7 +106,6 @@ public class SchedulerUI {
         String scheduleName = in.nextLine();
         mainController.createSchedule(scheduleName);
     }
-
 
     private String selectOption(Map<String, String> commands) {
         System.out.println("Select an option from the list:");
@@ -128,6 +124,7 @@ public class SchedulerUI {
      * Returns a Map of user account details that were inputted.
      *
      * @param isLogin whether the user is logging in or not
+     * @return a map of the user's inputted username and password
      */
     private Map<String, String> getUserInfo(boolean isLogin) {
         Map<String, String> userInput = new HashMap<>();
@@ -191,17 +188,14 @@ public class SchedulerUI {
                 default:
                     System.out.println("Incorrect input. Try again.");
             }
-
-
         }
     }
-
 
     /**
      * Returns if the information is valid.
      *
      * @param email the information submitted by the user
-     * @return if the email is valid (any alphanumeric + special chars with an @ and then alphanumeric chars.
+     * @return if the email is valid (any alphanumeric + special chars with an @ and then alphanumeric chars)
      */
     private boolean validateEmail(String email) {
         return Pattern.matches("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.]+$", email);
