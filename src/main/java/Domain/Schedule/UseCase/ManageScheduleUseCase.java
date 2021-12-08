@@ -45,15 +45,11 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
 
     /**
      * Edits a specific schedule for a user.
-     * @param scheduleID the schedule ID of the schedule to be edited
+     * @param schedule the schedule to be edited
      * @param username the user that the schedule belongs to
      */
-    public void editSchedule(String scheduleID, String username) {
-        FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
-        RemoveScheduleUseCase remove = new RemoveScheduleUseCase(databaseInterface, outputBoundary);
-        Schedule schedule = fetch.getScheduleWithID(scheduleID);
+    public void editSchedule(Schedule schedule, String username) {
         editSchedule(schedule);
-        remove.editRemoveSchedule(username, scheduleID);
         saveSchedule(schedule, username);
     }
 
@@ -62,7 +58,7 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
      * @param schedule the schedule to be saved
      * @param username the user that the schedule belongs to
      */
-    protected void saveSchedule(Schedule schedule, String username) {
+    void saveSchedule(Schedule schedule, String username) {
         boolean isPublic = outputBoundary.isPublic();
         databaseInterface.createSchedule(scheduleToString(schedule), username, isPublic);
     }

@@ -38,9 +38,7 @@ class RemoveScheduleUseCaseTest {
         mock.createSchedule(mock.scheduleToString(s2), username, false);
         remover.removeSchedule(username, "s");
         assert mock.ScheduleIDInfoMap.size() == 1;
-        assert mock.schedules.size() == 1;
         remover.removeSchedule(username, "s");
-        assert mock.schedules.isEmpty();
     }
 
     @Test

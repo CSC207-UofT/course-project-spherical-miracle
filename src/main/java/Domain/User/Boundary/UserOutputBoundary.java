@@ -12,7 +12,7 @@ public interface UserOutputBoundary {
     void bmiMessage(double bmi, String weightCategory);
     String[] askUnitType();
     Double askMeasurements(String message);
-    void noBMI(String message);
+    void print(String message);
     LocalDate askDate();
     boolean printListOfHeightWeight(List<Map<String,Object>> days);
     void noEntryFoundMessage(Object lastDate);

@@ -319,7 +319,6 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
         return selectedName;
     }
 
-
     /**
      * Prints out a string message when there's no current BMI for a user.
      */

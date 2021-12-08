@@ -2,6 +2,7 @@ package Adapters;
 
 import Database.UserDataAccess;
 import Domain.User.Boundary.*;
+import Domain.User.Entities.User;
 import Domain.User.UseCase.*;
 
 /**
@@ -11,6 +12,8 @@ public class SessionController {
 
     private final LoginInputBoundary loginInputBoundary;
     private final LogoutInputBoundary logoutInputBoundary;
+    private final UserOutputBoundary outputBoundary;
+    private final UserDataAccess databaseInterface;
     private boolean loggedIn;
 
     /**
@@ -25,9 +28,10 @@ public class SessionController {
      * @param outputBoundary outputBoundary
      */
     public SessionController(UserDataAccess databaseInterface, UserOutputBoundary outputBoundary) {
-        FetchUserUseCase fetch = new FetchUserUseCase(databaseInterface);
-        this.loginInputBoundary = new LoginUseCase(outputBoundary, fetch);
-        this.logoutInputBoundary = new LogoutUseCase(outputBoundary, fetch);
+        this.databaseInterface = databaseInterface;
+        this.outputBoundary = outputBoundary;
+        this.loginInputBoundary = new LoginUseCase(outputBoundary);
+        this.logoutInputBoundary = new LogoutUseCase(outputBoundary);
     }
 
     /**
@@ -45,14 +49,22 @@ public class SessionController {
      * @return whether the user was able to successfully log in or not
      */
     public boolean login(String username, String password) {
-        LoginUseCase.LoginResult result = loginInputBoundary.login(username, password);
+        FetchUserUseCase fetcher = new FetchUserUseCase(databaseInterface);
+        LoginUseCase.LoginResult result;
+        try {
+            result = loginInputBoundary.login(fetcher.getUser(username), password);
+        } catch (UserDoesNotExistException e) {
+            result = LoginUseCase.LoginResult.NO_SUCH_USER;
+        }
         switch (result) {
             case SUCCESS:
                 changeLoginStatus();
                 usernameOfLoggedInUser = username;
+                outputBoundary.loginMessage(true);
                 return true;
             case INCORRECT_PASSWORD:
             case NO_SUCH_USER:
+                outputBoundary.loginMessage(false);
                 return false;
             default:
                 throw new IllegalArgumentException();
@@ -63,9 +75,15 @@ public class SessionController {
      * Logs user out from the current session.
      */
     public void logout() {
-        logoutInputBoundary.logout(usernameOfLoggedInUser);
-        changeLoginStatus();
-        usernameOfLoggedInUser = "";
+        FetchUserUseCase fetcher = new FetchUserUseCase(databaseInterface);
+        try {
+            User user = fetcher.getUser(usernameOfLoggedInUser);
+            logoutInputBoundary.logout(user.getName());
+            changeLoginStatus();
+            usernameOfLoggedInUser = "";
+        } catch (UserDoesNotExistException e) {
+            outputBoundary.print("No such user.");
+        }
     }
 
     /**

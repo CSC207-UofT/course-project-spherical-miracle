@@ -1,5 +1,6 @@
 package Domain.User.Boundary;
 
+import Domain.User.Entities.User;
 import Domain.User.UseCase.LoginUseCase;
 
 /**
@@ -9,12 +10,12 @@ public interface LoginInputBoundary {
 
     /**
      * Returns if a login with the given credentials is successful.
-     * @param username - username of the user
+     * @param user - username of the user
      * @param password - password of the user.
      * @return an enum LoginResult describing the login result.
      * SUCCESS - login was successful
      * INCORRECT_PASSWORD - incorrect credentials
      * NO_SUCH_USER - no user with given username
      */
-    LoginUseCase.LoginResult login(String username, String password);
+    LoginUseCase.LoginResult login(User user, String password);
 }
