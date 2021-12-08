@@ -43,7 +43,7 @@ public class BMIUseCase {
                 outputBoundary.printHeightWeight(user.getHeight(),user.getWeight());
                 outputBoundary.bmiMessage((Double) userBMI, weightCategory);
             } else {
-                outputBoundary.noBMI((String) userBMI);
+                outputBoundary.print((String) userBMI);
             }
             return true;
         } catch (UserDoesNotExistException e) {

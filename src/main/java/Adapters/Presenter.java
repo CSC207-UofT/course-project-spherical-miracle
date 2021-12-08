@@ -346,10 +346,6 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
         return selectedName;
     }
 
-    public void noBMI(String message){
-        System.out.println(message);
-    }
-
     @Override
     public String[] askUnitType(){
         String[] units = new String[2];

@@ -2,6 +2,7 @@ package Adapters;
 
 import Database.UserDataAccess;
 import Domain.User.Boundary.*;
+import Domain.User.Entities.User;
 import Domain.User.UseCase.*;
 
 /**
@@ -11,13 +12,14 @@ public class SessionController {
 
     private final LoginInputBoundary loginInputBoundary;
     private final LogoutInputBoundary logoutInputBoundary;
+    private final UserOutputBoundary outputBoundary;
+    private final UserDataAccess databaseInterface;
     private boolean loggedIn;
 
     /**
      * The username of the user that is logged in. Non-empty if and only if LoggedIn is true.
      */
     private String usernameOfLoggedInUser = "";
-    private String workingScheduleID = "";
 
     /**
      * Constructs a Controller.SessionController with a given database of users to access.
@@ -25,17 +27,10 @@ public class SessionController {
      * @param databaseInterface Interface to access database
      */
     public SessionController(UserDataAccess databaseInterface, UserOutputBoundary outputBoundary) {
-        FetchUserUseCase fetch = new FetchUserUseCase(databaseInterface);
-        this.loginInputBoundary = new LoginUseCase(outputBoundary, fetch);
-        this.logoutInputBoundary = new LogoutUseCase(outputBoundary, fetch);
-    }
-
-    public void setWorkingScheduleID(String scheduleID) {
-        this.workingScheduleID = scheduleID;
-    }
-
-    public String getWorkingScheduleID() {
-        return workingScheduleID;
+        this.databaseInterface = databaseInterface;
+        this.outputBoundary = outputBoundary;
+        this.loginInputBoundary = new LoginUseCase(outputBoundary);
+        this.logoutInputBoundary = new LogoutUseCase(outputBoundary);
     }
 
     /**
@@ -53,37 +48,41 @@ public class SessionController {
      * @return whether the user was able to successfully log in or not
      */
     public boolean login(String username, String password) {
-        LoginUseCase.LoginResult result = loginInputBoundary.login(username, password);
-        // TODO: maybe throw exceptions when it fails?
+        FetchUserUseCase fetcher = new FetchUserUseCase(databaseInterface);
+        LoginUseCase.LoginResult result;
+        try {
+            result = loginInputBoundary.login(fetcher.getUser(username), password);
+        } catch (UserDoesNotExistException e) {
+            result = LoginUseCase.LoginResult.NO_SUCH_USER;
+        }
         switch (result) {
             case SUCCESS:
                 changeLoginStatus();
                 usernameOfLoggedInUser = username;
+                outputBoundary.loginMessage(true);
                 return true;
             case INCORRECT_PASSWORD:
             case NO_SUCH_USER:
+                outputBoundary.loginMessage(false);
                 return false;
             default:
                 throw new IllegalArgumentException();
         }
-        // usernameOfCurrentUser = username;
     }
 
     /**
      * Logs user out from the current session.
      */
     public void logout() {
-        logoutInputBoundary.logout(usernameOfLoggedInUser);
-        changeLoginStatus();
-        usernameOfLoggedInUser = "";
-    }
-
-    /**
-     * Returns whether a user is logged in.
-     * @return whether user is logged in
-     */
-    public boolean loggedIn() {
-        return loggedIn;
+        FetchUserUseCase fetcher = new FetchUserUseCase(databaseInterface);
+        try {
+            User user = fetcher.getUser(usernameOfLoggedInUser);
+            logoutInputBoundary.logout(user.getName());
+            changeLoginStatus();
+            usernameOfLoggedInUser = "";
+        } catch (UserDoesNotExistException e) {
+            outputBoundary.print("No such user.");
+        }
     }
 
     /**

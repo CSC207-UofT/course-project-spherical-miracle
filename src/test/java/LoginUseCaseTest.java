@@ -1,6 +1,8 @@
 import Adapters.Presenter;
+import Domain.User.Entities.User;
 import Domain.User.UseCase.FetchUserUseCase;
 import Domain.User.UseCase.LoginUseCase;
+import Domain.User.UseCase.UserDoesNotExistException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +18,7 @@ class LoginUseCaseTest {
     }
 
     @Test
-    void login() {
+    void login() throws UserDoesNotExistException {
         String username = "Jacob123";
         String nonexistentUsername = "Asif";
         String expectedPassword = "Matrix";
@@ -24,9 +26,9 @@ class LoginUseCaseTest {
         MockDatabase db = new MockDatabase();
         db.saveUser(username, expectedPassword, "Jacob", "Jacob@mail.uk");
         FetchUserUseCase fetch = new FetchUserUseCase(db);
-        LoginUseCase login = new LoginUseCase(new Presenter(), fetch);
-        assert login.login(username, expectedPassword) == LoginUseCase.LoginResult.SUCCESS;
-        assert login.login(username, wrongPassword) == LoginUseCase.LoginResult.INCORRECT_PASSWORD;
-        assert login.login(nonexistentUsername, expectedPassword) == LoginUseCase.LoginResult.NO_SUCH_USER;
+        LoginUseCase login = new LoginUseCase(new Presenter());
+        User u1 = fetch.getUser(username);
+        assert login.login(u1, expectedPassword) == LoginUseCase.LoginResult.SUCCESS;
+        assert login.login(u1, wrongPassword) == LoginUseCase.LoginResult.INCORRECT_PASSWORD;
     }
 }
