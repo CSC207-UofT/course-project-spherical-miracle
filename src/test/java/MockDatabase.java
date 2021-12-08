@@ -37,7 +37,7 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
         User user = new User(username, pwHash, name, email);
         users.add(user);
         usernameScheduleIDMap.put(username, new ArrayList<>());
-        usernameBodyInfoMap.put(username, new BodyMeasurementRecord(username, new ArrayList<>(),
+        usernameBodyInfoMap.put(username, new BodyMeasurementRecord(new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>()));
     }
 
@@ -77,6 +77,7 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
             publicScheduleIDs.add(id);
     }
 
+    @Override
     public ScheduleInfo loadActiveSchedule(String username) {
         return loadScheduleWithID(usernameActiveIDMap.get(username));
     }
@@ -106,12 +107,6 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
         deleteSchedule(scheduleId);
     }
 
-
-    @Override
-    public void editUser(String key, String change, String username) {
-
-    }
-
     @Override
     public void addHeightWeight(String username, double height, double weight) {
         BodyMeasurementRecord b = usernameBodyInfoMap.get(username);
@@ -124,28 +119,6 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
     @Override
     public BodyMeasurementRecord getHeightsWeightsFor(String username) {
         return usernameBodyInfoMap.get(username);
-    }
-
-    public Schedule stringToSchedule(ScheduleInfo scheduleInfo) {
-        Schedule s = new Schedule(scheduleInfo.getName(), scheduleInfo.getId());
-        for (List<List<Map<String, String>>> day: scheduleInfo.getDetails()) {
-            Day d = new Day();
-
-            for (Map<String, String> workout: day.get(0)) {
-                Workout w = new Workout(workout.get(ScheduleDataAccess.workoutName),
-                        Integer.parseInt(workout.get(ScheduleDataAccess.calories)));
-                d.addWorkout(w);
-            }
-
-            for (Map<String, String> meal: day.get(1)) {
-                Meal m = new Meal(meal.get(ScheduleDataAccess.mealName),
-                        Integer.parseInt(meal.get(ScheduleDataAccess.calories)));
-                d.addMeal(m);
-            }
-
-            s.setDay(DayOfWeek.of(scheduleInfo.getDetails().indexOf(day)+1), d);// index of day + 1 because set day does -1
-        }
-        return s;
     }
 
     public ScheduleInfo scheduleToString(Schedule schedule) {

@@ -40,7 +40,6 @@ class CreateUserUseCaseTest {
     @Test
     void noUser() {
         String unexpectedUsername = "YourMom";
-        UserDoesNotExistException thrown = assertThrows(UserDoesNotExistException.class,
-                () -> db.loadUserWithUsername(unexpectedUsername));
+        assertThrows(UserDoesNotExistException.class, () -> db.loadUserWithUsername(unexpectedUsername));
     }
 }

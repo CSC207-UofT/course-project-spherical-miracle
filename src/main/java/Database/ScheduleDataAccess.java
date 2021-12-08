@@ -25,15 +25,15 @@ public interface ScheduleDataAccess {
     List<ScheduleInfo> loadSchedulesFor(String username);
 
     /**
-     * 
-     * @param username
-     * @return
+     * Returns the detail of the user's active schedule.
+     * @param username - the username of the user
+     * @return return a ScheduleInfo, containing the information of the active schedule.
      */
     ScheduleInfo loadActiveSchedule(String username);
     
     /**
      * Saves the given schedule into the database.
-     * @param scheduleInfo
+     * @param scheduleInfo - a class containing information of the schedule
      * @param username - the username associated with the given schedule
      * @param isPublic - whether the schedule is public
      */
@@ -50,9 +50,13 @@ public interface ScheduleDataAccess {
      * Returns a list of the details of all public schedules.
      * @return list of ScheduleInfo, each containing the details of a schedule
      */
-
     List<ScheduleInfo> loadPublicSchedules();
 
+    /**
+     * Deletes the schedule from the user's list of schedule.
+     * @param username user that the schedule being deleted belongs to
+     * @param scheduleId id of the schedule being deleted
+     */
     void deleteUserSchedule(String username, String scheduleId);
 
     /**
@@ -75,16 +79,30 @@ public interface ScheduleDataAccess {
             this.details = details;
         }
 
+        /**
+         * Get the id of the scheduleInfo.
+         * @return a String representation for the id of the schedule
+         */
         public String getId() {
             return id;
         }
-
+        /**
+         * Randomise the id of the scheduleInfo.
+         */
         public void randomizeId(){ id = UUID.randomUUID().toString();}
 
+        /**
+         * Get the name of the scheduleInfo.
+         * @return a String of name for the schedule.
+         */
         public String getName() {
             return name;
         }
 
+        /**
+         * Get the information of the days, contained in scheduleInfo
+         * @return list of days containing a list Workout and Meal information in a Map, for each day.
+         */
         public List<List<List<Map<String, String>>>> getDetails() {
             return details;
         }
