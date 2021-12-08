@@ -20,7 +20,7 @@ public class LogoutUseCase implements LogoutInputBoundary {
 
     /**
      * Returns true iff the user is successfully logged out.
-     * @param name
+     * @param name - the name of the user
      */
     @Override
     public boolean logout(String name) {

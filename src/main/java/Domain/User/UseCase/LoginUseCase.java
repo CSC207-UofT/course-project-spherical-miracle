@@ -10,16 +10,11 @@ import Domain.User.Entities.User;
 public class LoginUseCase implements LoginInputBoundary {
 
 
-    private final UserOutputBoundary outputBoundary;
 
     /**
      * Constructs a use case that can log a user in.
-     *  @param outputBoundary output boundary for User
-     *
      */
-    public LoginUseCase(UserOutputBoundary outputBoundary){
-        this.outputBoundary = outputBoundary;
-    }
+    public LoginUseCase(){}
 
     /**
      * The resulting "output" of the LoginResult use case.

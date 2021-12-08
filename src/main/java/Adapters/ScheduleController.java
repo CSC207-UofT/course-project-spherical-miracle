@@ -103,7 +103,7 @@ public class ScheduleController {
      * Sends a user a reminder for the day they specified.
      **/
     public void reminderFor(String username, DayOfWeek dayOfWeek) {
-        ReminderPromptUseCase reminder = new ReminderPromptUseCase(databaseInterface, outputBoundary);
+        ReminderPromptUseCase reminder = new ReminderPromptUseCase(outputBoundary);
         FetchSchedulesUseCase fetcher = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
         reminder.remind(dayOfWeek, fetcher.getActiveSchedule(username));
     }

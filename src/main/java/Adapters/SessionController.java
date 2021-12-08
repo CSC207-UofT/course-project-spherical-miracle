@@ -30,7 +30,7 @@ public class SessionController {
     public SessionController(UserDataAccess databaseInterface, UserOutputBoundary outputBoundary) {
         this.databaseInterface = databaseInterface;
         this.outputBoundary = outputBoundary;
-        this.loginInputBoundary = new LoginUseCase(outputBoundary);
+        this.loginInputBoundary = new LoginUseCase();
         this.logoutInputBoundary = new LogoutUseCase(outputBoundary);
     }
 

@@ -14,6 +14,11 @@ public class HeightWeightOvertimeUseCase {
     private final UserDataAccess databaseInterface;
     private final UserOutputBoundary outputBoundary;
 
+    /**
+     * Instantiate a use case that displays the heights and weights overtime for a user
+     * @param databaseInterface the access interface boundary between the database and the use case
+     * @param outputBoundary output boundary for use case and presenter
+     */
     public HeightWeightOvertimeUseCase(UserOutputBoundary outputBoundary, UserDataAccess databaseInterface){
         this.outputBoundary = outputBoundary;
         this.databaseInterface = databaseInterface;
