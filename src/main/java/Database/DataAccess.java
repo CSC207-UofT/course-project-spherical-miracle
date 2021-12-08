@@ -91,7 +91,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         for (String s : date){
             localDates.add(LocalDate.parse(s));
         }
-        return new BodyMeasurementRecord(username, weight, height, localDates);
+        return new BodyMeasurementRecord(weight, height, localDates);
     }
 
     @Override
@@ -142,9 +142,8 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         return schedules;
     }
 
-    /**
-     * Creates a schedule with the desired details given by the User.
-     */
+
+    @Override
     public void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic) {
         MongoCollection<Document> sc = database.getCollection("Schedule");
         ArrayList<Object> dayArray = new ArrayList<>();
@@ -190,21 +189,6 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         return publicSchedules;
     }
 
-    /**
-     * Saves a schedule ID into user's list of schedules.
-     */
-    public void saveUserScheduleCollection(String username, String scheduleId) {
-        MongoCollection<Document> suc = database.getCollection("User_Schedule");
-        Bson equalComparison = eq("username", username);
-        suc.updateOne(equalComparison, Updates.addToSet("schedules",scheduleId)); // username is unique
-    }
-
-    @Override
-    public void editUser(String key, String change, String username) {
-        MongoCollection<Document> uc = database.getCollection("User");
-        Bson equalComparison = eq("username", username);
-        uc.updateOne(equalComparison, Updates.addToSet(key, change)); // username is unique
-    }
 
     @Override
     public ScheduleInfo loadActiveSchedule(String username) {
@@ -239,6 +223,12 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         Bson equalComparison = eq("username", username);
         suc.updateOne(equalComparison, Updates.pull("schedules",scheduleId));
         deleteSchedule(scheduleId);
+    }
+
+    private void saveUserScheduleCollection(String username, String scheduleId) {
+        MongoCollection<Document> suc = database.getCollection("User_Schedule");
+        Bson equalComparison = eq("username", username);
+        suc.updateOne(equalComparison, Updates.addToSet("schedules",scheduleId)); // username is unique
     }
 
     private void deleteSchedule(String scheduleID){
