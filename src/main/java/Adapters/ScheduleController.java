@@ -99,8 +99,8 @@ public class ScheduleController {
     /**
      * Sends a user a reminder for the day they specified.
      **/
-    public String reminderFor(String username, DayOfWeek dayOfWeek) {
+    public void reminderFor(String username, DayOfWeek dayOfWeek) {
         ReminderPromptUseCase reminder = new ReminderPromptUseCase(databaseInterface, outputBoundary);
-        return reminder.remind(username, dayOfWeek);
+        reminder.remind(username, dayOfWeek);
     }
 }

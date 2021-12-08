@@ -12,7 +12,6 @@ public class MainController {
     private final UserController userController;
     private final ScheduleController scheduleController;
     private final SessionController sessionController;
-    private final Presenter presenter;
 
     /**
      * Constructs a MainController object.
@@ -21,7 +20,6 @@ public class MainController {
         userController = new UserController(databaseGateway, presenter);
         scheduleController = new ScheduleController(databaseGateway, presenter);
         sessionController = new SessionController(databaseGateway, presenter);
-        this.presenter = presenter;
     }
 
     /**
