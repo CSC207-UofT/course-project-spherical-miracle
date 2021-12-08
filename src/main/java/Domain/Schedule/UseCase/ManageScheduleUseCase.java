@@ -20,19 +20,22 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
 
     /**
      * Instantiate a use case that creates a schedule.
-     * @param databaseInterface - the access interface boundary between the database and the use case.
+     * @param databaseInterface the access interface boundary between the database and the use case
+     * @param outputBoundary output boundary for use case and presenter
      */
     public ManageScheduleUseCase(ScheduleDataAccess databaseInterface, ScheduleOutputBoundary outputBoundary) {
         this.databaseInterface = databaseInterface;
         this.outputBoundary = outputBoundary;
     }
 
-    @Override
+
     /**
      * Creates a schedule and prompts the user for the necessary details.
      * @param name - specified name of the schedule
      * @param username - username of the user creating a schedule
+     * @return the ID of the schedule being created
      */
+    @Override
     public String createSchedule(String name, String username) {
         Schedule schedule = new Schedule(name);
         editSchedule(schedule);
@@ -41,9 +44,9 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
     }
 
     /**
-     *
-     * @param scheduleID
-     * @param username
+     * Edits a specific schedule for a user.
+     * @param scheduleID the schedule ID of the schedule to be edited
+     * @param username the user that the schedule belongs to
      */
     public void editSchedule(String scheduleID, String username) {
         FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
@@ -55,9 +58,9 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
     }
 
     /**
-     *
-     * @param schedule
-     * @param username
+     * Saves a given schedule to be associated with a user.
+     * @param schedule the schedule to be saved
+     * @param username the user that the schedule belongs to
      */
     protected void saveSchedule(Schedule schedule, String username) {
         boolean isPublic = outputBoundary.isPublic();
@@ -105,7 +108,6 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
                             Integer.parseInt(nameAndCalories.get("calories"))));
                     break;
                 case "rw":
-                    // TODO: is there a way to make this better code?
                     for (Workout workout : day.getWorkouts()) {
                         names.add(workout.getName());
                     }

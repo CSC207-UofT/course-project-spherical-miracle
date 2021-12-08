@@ -3,10 +3,9 @@ import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Map;
 
+
 public interface ScheduleOutputBoundary {
-    void scheduleMadeMessage(String returnMessage);
     void scheduleInfoMessage(String name);
-    void something(boolean signedUp);
     void listSchedules(List<String> schedules);
     void currentActiveSchedule(String scheduleName);
     void setActive(String scheduleName);
@@ -20,17 +19,18 @@ public interface ScheduleOutputBoundary {
      * Returns the number corresponding to the schedule that the user would like to view.
      * If they do not want to view, returns -1.
      * @return - number corresponding to the desired schedule
-     * @param size
+     * @param size of the list of schedule IDs to choose from
      */
     int chooseScheduleFromList(int size);
-    int chooseWorkoutFromList(int size);
 
-    int activeSchedulePrompt(int size);
-
-
+    /**
+     * Returns the number corresponding to the schedule that the user would like to view.
+     * If they do not want to view, returns -1.
+     */
     String selectEditOptions();
-    DayOfWeek selectDay();
 
+
+    DayOfWeek selectDay();
     String getName();
     void showNameChange(String oldName, String newName);
     Map<String, String> getNameAndCalories(String meal);
@@ -44,6 +44,7 @@ public interface ScheduleOutputBoundary {
      * @param name Workout name
      */
     void showAddWorkoutResult(int result, String name);
+
     String createDayPrompt();
 
     String selectByName(List<String> names);

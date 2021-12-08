@@ -25,6 +25,7 @@ public class SessionController {
      * Constructs a Controller.SessionController with a given database of users to access.
      *
      * @param databaseInterface Interface to access database
+     * @param outputBoundary outputBoundary
      */
     public SessionController(UserDataAccess databaseInterface, UserOutputBoundary outputBoundary) {
         this.databaseInterface = databaseInterface;

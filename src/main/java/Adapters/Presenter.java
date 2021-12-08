@@ -4,18 +4,22 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
-
 import Domain.Schedule.Boundary.ScheduleOutputBoundary;
 import Domain.User.Boundary.UserOutputBoundary;
 
+/**
+ * The presenter for showing appropriate prompts to the user.
+ */
 public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     private final double LBS_CONVERTER = 2.205;
     private final double FT_CONVERTER = 3.281;
     private final Scanner in = new Scanner(System.in);
 
+    /**
+     * Global variables to represent prompts that are used more than once.
+     */
     public static class Messages {
-        static final String WELCOME_MESSAGE = "Welcome! Here are your options:";
         static final String INVALID_INPUT = "Invalid input. Try again.";
         static final String EDIT_SCHEDULE_OPTIONS = "Type: \n" +
                 "'n' to change the name of this schedule \n" +
@@ -52,16 +56,6 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
-    public void scheduleList(String listSchedules) {
-
-    }
-
-    @Override
-    public void addWeightHeightPrompt() {
-
-    }
-
-    @Override
     public boolean printListOfHeightWeight(List<Map<String,Object>> days){
         if (days.size() == 0){
             return false;
@@ -90,12 +84,15 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
         }
     }
 
-    public void noScheduleFoundMessage(Object lastDate){
+    /**
+     * Prints out a string message when there is no previous entry found for heights and weight record.
+     */
+    public void noEntryFoundMessage(Object lastDate){
         if (lastDate instanceof LocalDate) {
             System.out.println("There was no data found in your selected date. The latest entry is done on: "
                     + lastDate);
         } else if (lastDate instanceof Boolean){
-            System.out.println("There is no previous entry. Add records everyday to see your change overtime!");
+            System.out.println("There is no previous entry. Add records everyday to see your change over time!");
         }
     }
 
@@ -110,18 +107,8 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
     }
 
     @Override
-    public void scheduleMadeMessage(String returnMessage) {
-
-    }
-
-    @Override
     public void scheduleInfoMessage(String info) {
         System.out.println(info);
-    }
-
-    @Override
-    public void something(boolean signedUp) {
-        
     }
 
     @Override
@@ -192,25 +179,12 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                 return false;
             System.out.println(Messages.INVALID_INPUT);
         }
-
-    }
-
-    @Override
-    public int activeSchedulePrompt(int size) {
-        return chooseObjectFromList(size,
-                "Enter the # for the schedule that you want to activate. Enter -1 to go back.",
-                "schedules");
     }
 
     @Override
     public int chooseScheduleFromList(int size) {
         return chooseObjectFromList(size, "Enter the # for the schedule that you want to view, edit, delete, or activate.\n" +
                 "Enter -1 to go back.", "schedules");
-    }
-
-    public int chooseWorkoutFromList(int size) {
-        return chooseObjectFromList(size, "Enter the # for the workout that you want to remove.\n" +
-                "Enter -1 to go back", "workouts");
     }
 
     private int chooseObjectFromList(int size, String message, String objectType){
@@ -328,7 +302,6 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                 return option;
             System.out.println(Messages.INVALID_INPUT);
         }
-
     }
 
     @Override
@@ -344,6 +317,13 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
             selectedName = in.nextLine();
         }
         return selectedName;
+    }
+
+    /**
+     * Prints out a string message when there's no current BMI for a user.
+     */
+    public void noBMI(String message){
+        System.out.println(message);
     }
 
     @Override
@@ -400,7 +380,6 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
             } catch (DateTimeParseException e) {
                 System.out.println("Incorrect input. Try again.");
             }
-
         }
     }
 }

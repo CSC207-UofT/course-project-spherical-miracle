@@ -8,15 +8,12 @@ public interface UserOutputBoundary {
     void loginMessage(boolean loggedIn);
     void logoutMessage(String name);
     void signupMessage(boolean signedUp);
-    void scheduleList(String listSchedules);
-    void addWeightHeightPrompt();
     void printHeightWeight(Double height, Double weight);
     void bmiMessage(double bmi, String weightCategory);
-    String createDayPrompt();
     String[] askUnitType();
     Double askMeasurements(String message);
     void print(String message);
     LocalDate askDate();
     boolean printListOfHeightWeight(List<Map<String,Object>> days);
-    void noScheduleFoundMessage(Object lastDate);
+    void noEntryFoundMessage(Object lastDate);
 }

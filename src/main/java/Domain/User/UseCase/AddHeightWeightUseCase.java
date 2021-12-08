@@ -8,6 +8,8 @@ import Domain.User.ConvertStrategies.WeightStrategies.LbsStrategy;
 import Domain.User.ConvertStrategies.WeightStrategies.WeightConverter;
 import Database.UserDataAccess;
 
+import java.util.List;
+
 public class AddHeightWeightUseCase {
 
     private final UserDataAccess databaseInterface;
@@ -22,7 +24,18 @@ public class AddHeightWeightUseCase {
         String[] units  = outputBoundary.askUnitType();
         double height = outputBoundary.askMeasurements("height");
         double weight = outputBoundary.askMeasurements("weight");
-        databaseInterface.addHeightWeight(username, heightConverter(height,units[0]), weightConverter(weight, units[1]));
+        UserDataAccess.BodyMeasurementRecord bodyMeasurementRecord = databaseInterface.getHeightsWeightsFor(username);
+        List<Double> heights = bodyMeasurementRecord.getHeights();
+        List<Double> weights = bodyMeasurementRecord.getWeights();
+        if (height == -1 && weight == -1 && heights.size() != 0 && weights.size() != 0){
+            databaseInterface.addHeightWeight(username, heights.get(heights.size() - 1), weights.get(weights.size() - 1));
+        } else if (height == -1 && heights.size() != 0){
+            databaseInterface.addHeightWeight(username, heights.get(heights.size() - 1), weightConverter(weight, units[1]));
+        } else if (weight == -1 && weights.size() != 0){
+            databaseInterface.addHeightWeight(username, heightConverter(height,units[0]), weights.get(weights.size() - 1));
+        } else {
+            databaseInterface.addHeightWeight(username, heightConverter(height,units[0]), weightConverter(weight, units[1]));
+        }
     }
 
     private double heightConverter(double height, String unit){

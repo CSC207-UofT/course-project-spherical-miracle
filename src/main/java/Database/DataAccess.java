@@ -7,18 +7,22 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import static com.mongodb.client.model.Filters.*;
 import Domain.User.UseCase.UserDoesNotExistException;
-
 import java.time.LocalDate;
 import java.util.*;
-
 import org.mindrot.jbcrypt.BCrypt;
-// TODO DOCUMENTATION FOR THIS
+
+/**
+ * Gateway that inserts and gets information from the MongoDatabase database.
+ */
 public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 
     private final MongoDatabase database;
     private final int workoutNum;
     private final int mealNum;
 
+    /**
+     * Constructs a DataAccess object.
+     */
     public DataAccess(MongoClient mongo) {
         database = mongo.getDatabase( "Application" );
         workoutNum = 0;
@@ -90,7 +94,6 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         return new BodyMeasurementRecord(username, weight, height, localDates);
     }
 
-
     @Override
     @SuppressWarnings("unchecked")
     public ScheduleInfo loadScheduleWithID(String id) {
@@ -139,7 +142,9 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         return schedules;
     }
 
-
+    /**
+     * Creates a schedule with the desired details given by the User.
+     */
     public void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic) {
         MongoCollection<Document> sc = database.getCollection("Schedule");
         ArrayList<Object> dayArray = new ArrayList<>();
@@ -185,6 +190,9 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         return publicSchedules;
     }
 
+    /**
+     * Saves a schedule ID into user's list of schedules.
+     */
     public void saveUserScheduleCollection(String username, String scheduleId) {
         MongoCollection<Document> suc = database.getCollection("User_Schedule");
         Bson equalComparison = eq("username", username);

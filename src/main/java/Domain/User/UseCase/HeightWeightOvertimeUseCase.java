@@ -32,7 +32,7 @@ public class HeightWeightOvertimeUseCase {
         List<Double> weights = bmr.getWeights();
         List<Map<String, Object>> record = new ArrayList<>();
         if (dates.size() == 0) {
-            outputBoundary.noScheduleFoundMessage(true);
+            outputBoundary.noEntryFoundMessage(true);
             return;
         }
         int curr = 0;
@@ -50,7 +50,7 @@ public class HeightWeightOvertimeUseCase {
         boolean bool = outputBoundary.printListOfHeightWeight(record);
         if (!bool){
             if (dates.size() != 0) {
-                outputBoundary.noScheduleFoundMessage(dates.get(dates.size() - 1));
+                outputBoundary.noEntryFoundMessage(dates.get(dates.size() - 1));
             }
         }
     }
