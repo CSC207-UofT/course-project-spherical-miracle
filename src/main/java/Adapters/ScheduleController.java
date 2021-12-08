@@ -58,19 +58,21 @@ public class ScheduleController {
         if (schedulesIDs.size() == 0)
             return;
         if (index != -1) {
+            FetchSchedulesUseCase fetcher = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
             while (true) {
                 String option = outputBoundary.viewEditDeleteActivateOptions();
                 if (option.equalsIgnoreCase("delete")) {
                     RemoveScheduleInputBoundary removeScheduleUseCase = new RemoveScheduleUseCase(databaseInterface, outputBoundary);
-                    FetchSchedulesUseCase fetcher = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
-                    removeScheduleUseCase.removeSchedule(username, schedulesIDs.get(index), fetcher.getScheduleWithID(schedulesIDs.get(index)));
+                    removeScheduleUseCase.removeSchedule(username, fetcher.getScheduleWithID(schedulesIDs.get(index)));
                 } else if (option.equalsIgnoreCase("view")) {
                     DisplayScheduleUseCase display = new DisplayScheduleUseCase(outputBoundary);
                     display.displaySchedule(fetch.getScheduleWithID(schedulesIDs.get(index)));
                 }
                 else if (option.equalsIgnoreCase("edit")){
                     ManageScheduleUseCase manager = new ManageScheduleUseCase(databaseInterface, outputBoundary);
-                    manager.editSchedule(schedulesIDs.get(index), username);
+                    RemoveScheduleUseCase remove = new RemoveScheduleUseCase(databaseInterface, outputBoundary);
+                    remove.removeWithoutOutput(username, schedulesIDs.get(index));
+                    manager.editSchedule(fetcher.getScheduleWithID(schedulesIDs.get(index)), username);
                 }
                 else if (option.equalsIgnoreCase("activate")){
                     SetActiveScheduleUseCase setActiveScheduleUseCase = new SetActiveScheduleUseCase(databaseInterface, outputBoundary);
