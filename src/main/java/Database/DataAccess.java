@@ -7,18 +7,22 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import static com.mongodb.client.model.Filters.*;
 import Domain.User.UseCase.UserDoesNotExistException;
-
 import java.time.LocalDate;
 import java.util.*;
-
 import org.mindrot.jbcrypt.BCrypt;
-// TODO DOCUMENTATION FOR THIS
+
+/**
+ * Gateway that inserts and gets information from the MongoDatabase database.
+ */
 public class DataAccess implements UserDataAccess, ScheduleDataAccess {
 
     private final MongoDatabase database;
     private final int workoutNum;
     private final int mealNum;
 
+    /**
+     * Constructs a DataAccess object.
+     */
     public DataAccess(MongoClient mongo) {
         database = mongo.getDatabase( "Application" );
         workoutNum = 0;
@@ -87,9 +91,8 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         for (String s : date){
             localDates.add(LocalDate.parse(s));
         }
-        return new BodyMeasurementRecord(username, weight, height, localDates);
+        return new BodyMeasurementRecord(weight, height, localDates);
     }
-
 
     @Override
     @SuppressWarnings("unchecked")
@@ -140,6 +143,7 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
     }
 
 
+    @Override
     public void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic) {
         MongoCollection<Document> sc = database.getCollection("Schedule");
         ArrayList<Object> dayArray = new ArrayList<>();
@@ -185,18 +189,6 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         return publicSchedules;
     }
 
-    public void saveUserScheduleCollection(String username, String scheduleId) {
-        MongoCollection<Document> suc = database.getCollection("User_Schedule");
-        Bson equalComparison = eq("username", username);
-        suc.updateOne(equalComparison, Updates.addToSet("schedules",scheduleId)); // username is unique
-    }
-
-    @Override
-    public void editUser(String key, String change, String username) {
-        MongoCollection<Document> uc = database.getCollection("User");
-        Bson equalComparison = eq("username", username);
-        uc.updateOne(equalComparison, Updates.addToSet(key, change)); // username is unique
-    }
 
     @Override
     public ScheduleInfo loadActiveSchedule(String username) {
@@ -231,6 +223,12 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         Bson equalComparison = eq("username", username);
         suc.updateOne(equalComparison, Updates.pull("schedules",scheduleId));
         deleteSchedule(scheduleId);
+    }
+
+    private void saveUserScheduleCollection(String username, String scheduleId) {
+        MongoCollection<Document> suc = database.getCollection("User_Schedule");
+        Bson equalComparison = eq("username", username);
+        suc.updateOne(equalComparison, Updates.addToSet("schedules",scheduleId)); // username is unique
     }
 
     private void deleteSchedule(String scheduleID){
