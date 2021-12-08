@@ -1,9 +1,9 @@
 package Domain.Schedule.UseCase;
 
-import Domain.Schedule.Entities.Schedule;
 import Domain.Schedule.Boundary.RemoveScheduleInputBoundary;
 import Domain.Schedule.Boundary.ScheduleOutputBoundary;
 import Database.ScheduleDataAccess;
+import Domain.Schedule.Entities.Schedule;
 
 public class RemoveScheduleUseCase implements RemoveScheduleInputBoundary {
 
@@ -21,15 +21,13 @@ public class RemoveScheduleUseCase implements RemoveScheduleInputBoundary {
     }
 
     @Override
-    public void removeSchedule(String username, String scheduleID) {
+    public void removeSchedule(String username, String scheduleID, Schedule schedule) {
         databaseInterface.updateCurrentSchedule(username, "");
         databaseInterface.deleteUserSchedule(username, scheduleID);
-        FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
-        Schedule schedule = fetch.getScheduleWithID(scheduleID);
         outputBoundary.deleteSchedule(username, schedule.getName());
     }
 
-    protected void editRemoveSchedule(String username, String scheduleID) {
+    void editRemoveSchedule(String username, String scheduleID) {
         databaseInterface.updateCurrentSchedule(username, "");
         databaseInterface.deleteUserSchedule(username, scheduleID);
     }

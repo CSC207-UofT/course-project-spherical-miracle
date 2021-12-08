@@ -21,7 +21,7 @@ public class BMIUseCase {
         this.fetchUserUseCase = fetchUserUseCase;
     }
     /**
-     * Returns wether or not the BMI message was successfully returned.
+     * Returns whether or not the BMI message was successfully returned.
      */
     public boolean BMIMessage(String username) {
         try {

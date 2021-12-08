@@ -62,7 +62,8 @@ public class ScheduleController {
                 String option = outputBoundary.viewEditDeleteActivateOptions();
                 if (option.equalsIgnoreCase("delete")) {
                     RemoveScheduleInputBoundary removeScheduleUseCase = new RemoveScheduleUseCase(databaseInterface, outputBoundary);
-                    removeScheduleUseCase.removeSchedule(username, schedulesIDs.get(index));
+                    FetchSchedulesUseCase fetcher = new FetchSchedulesUseCase(databaseInterface, outputBoundary);
+                    removeScheduleUseCase.removeSchedule(username, schedulesIDs.get(index), fetcher.getScheduleWithID(schedulesIDs.get(index)));
                 } else if (option.equalsIgnoreCase("view")) {
                     DisplayScheduleUseCase display = new DisplayScheduleUseCase(outputBoundary);
                     display.displaySchedule(fetch.getScheduleWithID(schedulesIDs.get(index)));
