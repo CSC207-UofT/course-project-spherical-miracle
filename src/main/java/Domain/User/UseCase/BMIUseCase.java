@@ -22,8 +22,9 @@ public class BMIUseCase {
     }
     /**
      * Displays a BMI message.
+     * @return true if BMI message is displayed, otherwise return false
      */
-    public void BMIMessage(String username) {
+    public boolean BMIMessage(String username) {
         try {
             User user = fetchUserUseCase.getUser(username);
             Object userBMI = user.getBMI();
@@ -45,7 +46,9 @@ public class BMIUseCase {
             } else {
                 outputBoundary.print((String) userBMI);
             }
+            return true;
         } catch (UserDoesNotExistException ignored) {
+        return false;
         }
     }
 }
