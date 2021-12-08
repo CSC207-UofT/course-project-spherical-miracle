@@ -1,5 +1,12 @@
 package Domain.User.ConvertStrategies.HeightStrategies;
 
+/**
+ * Interface for all height conversion to meters strategies
+ */
+
 public interface HeightConverter {
-    double getM(double ftAndIn);
+    /**
+     * Returns the meters equivalent of height input
+     */
+    double getM(double height);
 }

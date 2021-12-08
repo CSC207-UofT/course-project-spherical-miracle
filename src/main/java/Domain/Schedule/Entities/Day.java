@@ -33,7 +33,6 @@ public class Day {
      * Returns an array of workouts.
      * @return array of workouts
      */
-    //TODO: Perhaps return an iterator instead of the Array itself to prevent mutations outside of the class.
     public List<Workout> getWorkouts(){
         return workouts;
     }
