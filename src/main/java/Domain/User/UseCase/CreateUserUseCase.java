@@ -23,8 +23,7 @@ public class CreateUserUseCase implements CreateUserInputBoundary {
     }
 
     @Override
-    public boolean createUser(String username, String password, String name, String email) {
+    public void createUser(String username, String password, String name, String email) {
         databaseInterface.saveUser(username, password, name, email);
-        return true;
     }
 }

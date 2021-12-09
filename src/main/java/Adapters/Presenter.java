@@ -81,9 +81,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
         }
     }
 
-    /**
-     * Prints out a string message when there is no previous entry found for heights and weight record.
-     */
+    @Override
     public void noEntryFoundMessage(Object lastDate){
         if (lastDate instanceof LocalDate) {
             System.out.println("There was no data found in your selected date. The latest entry is done on: "

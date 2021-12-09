@@ -3,7 +3,9 @@ import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Output boundary for the ScheduleController calling use cases.
+ */
 public interface ScheduleOutputBoundary {
     void scheduleInfoMessage(String name);
     void listSchedules(List<String> schedules);
@@ -18,8 +20,8 @@ public interface ScheduleOutputBoundary {
     /**
      * Returns the number corresponding to the schedule that the user would like to view.
      * If they do not want to view, returns -1.
-     * @return number corresponding to the desired schedule
      * @param size of the list of schedule IDs to choose from
+     * @return number corresponding to the desired schedule
      */
     int chooseScheduleFromList(int size);
 
