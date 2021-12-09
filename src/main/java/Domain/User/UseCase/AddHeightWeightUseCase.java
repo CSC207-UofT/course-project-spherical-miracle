@@ -10,6 +10,9 @@ import Database.UserDataAccess;
 
 import java.util.List;
 
+/**
+ * A use case which adds height and weight to users information on database.
+ */
 public class AddHeightWeightUseCase {
 
     private final UserDataAccess databaseInterface;

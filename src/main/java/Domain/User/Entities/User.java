@@ -1,10 +1,5 @@
 package Domain.User.Entities;
 
-import Domain.User.ConvertStrategies.HeightStrategies.CmStrategy;
-import Domain.User.ConvertStrategies.HeightStrategies.FtAndInStrategy;
-import Domain.User.ConvertStrategies.HeightStrategies.HeightConverter;
-import Domain.User.ConvertStrategies.WeightStrategies.LbsStrategy;
-import Domain.User.ConvertStrategies.WeightStrategies.WeightConverter;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**

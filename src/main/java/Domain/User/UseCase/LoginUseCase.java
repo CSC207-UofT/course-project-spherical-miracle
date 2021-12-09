@@ -7,7 +7,6 @@ import Domain.User.Boundary.LoginResult;
 /**
  * Logs a user into their account when given the correct account information.
  */
-
 public class LoginUseCase implements LoginInputBoundary {
 
     /**

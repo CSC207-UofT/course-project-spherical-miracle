@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Displays a user's height and weight record over time.
+ */
 public class HeightWeightOvertimeUseCase {
 
     private final UserDataAccess databaseInterface;

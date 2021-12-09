@@ -4,6 +4,9 @@ import Domain.Schedule.Boundary.ScheduleOutputBoundary;
 import Domain.Schedule.Entities.Schedule;
 import Database.ScheduleDataAccess;
 
+/**
+ * A use case which selects a schedule from user's list and make it active
+ */
 public class SetActiveScheduleUseCase {
 
     private final ScheduleDataAccess databaseInterface;

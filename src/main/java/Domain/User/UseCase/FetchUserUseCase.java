@@ -4,6 +4,9 @@ import Domain.User.Entities.User;
 import Database.UserDataAccess;
 import Database.UserDataAccess.UserInfo;
 
+/**
+ * A use case which gets information about the user from database
+ */
 public class FetchUserUseCase {
 
     private final UserDataAccess databaseInterface;

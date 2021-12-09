@@ -6,11 +6,9 @@ import Domain.User.Boundary.*;
 /**
  * Creates a new user account.
  */
-
 public class CreateUserUseCase implements CreateUserInputBoundary {
 
     private final UserDataAccess databaseInterface;
-    private final UserOutputBoundary outputBoundary;
 
     /**
      * Constructs a use case that can create a user.
@@ -19,7 +17,6 @@ public class CreateUserUseCase implements CreateUserInputBoundary {
      */
     public CreateUserUseCase(UserDataAccess databaseInterface) {
         this.databaseInterface = databaseInterface;
-        this.outputBoundary = outputBoundary;
     }
 
     @Override

@@ -5,6 +5,9 @@ import Domain.Schedule.Boundary.ScheduleOutputBoundary;
 import Database.ScheduleDataAccess;
 import Domain.Schedule.Entities.Schedule;
 
+/**
+ * A use case which removes an associated schedule from a user
+ */
 public class RemoveScheduleUseCase implements RemoveScheduleInputBoundary {
 
     private final ScheduleDataAccess databaseInterface;

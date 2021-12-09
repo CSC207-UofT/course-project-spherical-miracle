@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 /**
  * The user interface for scheduling workout session in a user's schedule.
  */
+@SuppressWarnings("SpellCheckingInspection")
 public class SchedulerUI {
     private static final class Commands {
         static final String QUIT = "0";
