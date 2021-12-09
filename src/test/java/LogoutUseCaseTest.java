@@ -22,12 +22,7 @@ class LogoutUseCaseTest {
     }
 
     @Test
-    void logoutExists() {
+    void logout() {
         assert logoutUseCase.logout("username");
-    }
-
-    @Test
-    void logoutNotExists() {
-        assert !logoutUseCase.logout("hi");
     }
 }

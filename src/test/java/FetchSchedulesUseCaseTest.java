@@ -21,50 +21,28 @@ class FetchSchedulesUseCaseTest {
     void setUp() {
         mockDatabase = new MockDatabase();
         mockDatabase.saveUser("username", "password", "name", "email@email.com");
-        mockDatabase.saveUser("username2", "password", "name", "email@email.com");
-        mockDatabase.createSchedule(new ScheduleDataAccess.ScheduleInfo("1", "U1", new ArrayList<>()),
-                "username", false);
-        mockDatabase.createSchedule(new ScheduleDataAccess.ScheduleInfo("2", "P1", new ArrayList<>()),
-                "username", true);
-        mockDatabase.createSchedule(new ScheduleDataAccess.ScheduleInfo("2", "P2", new ArrayList<>()),
-                "username2", true);
+        uuid = UUID.randomUUID().toString();
+        schedule1 = new Schedule("U1", uuid);
     }
 
-    @AfterEach
-    void tearDown() {
+    void setSchedule() {
+        SetActiveScheduleUseCase active = new SetActiveScheduleUseCase(mockDatabase, presenter);
+        mockDatabase.createSchedule(new ScheduleDataAccess.ScheduleInfo(uuid, "U1", new ArrayList<>()),
+                "username", false);
+        active.setAsActiveSchedule("username", schedule1);
     }
 
     @Test
     void getActiveSchedule() {
         assert fetch.getActiveSchedule("username") == null;
-        SetActiveScheduleUseCase active = new SetActiveScheduleUseCase(mockDatabase, presenter);
-        String uuid = UUID.randomUUID().toString();
-        Schedule schedule1 = new Schedule("U1", uuid);
-        active.setAsActiveSchedule("username", schedule1);
-        assert fetch.getActiveSchedule("username") == schedule1;
+        setSchedule();
+        assert fetch.getActiveSchedule("username").getId().equals(schedule1.getId());
     }
 
     @Test
     void getScheduleAssociatedWith() {
-    }
-
-    @Test
-    void getPublicSchedules() {
-    }
-
-    @Test
-    void testGetActiveSchedule() {
-    }
-
-    @Test
-    void testGetScheduleAssociatedWith() {
-    }
-
-    @Test
-    void testGetPublicSchedules() {
-    }
-
-    @Test
-    void getScheduleWithID() {
+        assert fetch.getScheduleAssociatedWith("username").isEmpty();
+        setSchedule();
+        assert fetch.getScheduleAssociatedWith("username").get(0).equals(uuid);
     }
 }
