@@ -3,6 +3,7 @@ package Domain.Schedule.UseCase;
 import java.time.DayOfWeek;
 import java.util.*;
 
+import Domain.Schedule.Boundary.RemoveScheduleInputBoundary;
 import Domain.Schedule.Boundary.CreateScheduleInputBoundary;
 import Domain.Schedule.Boundary.ScheduleOutputBoundary;
 import Domain.Schedule.Entities.*;
@@ -47,9 +48,11 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
      * Edits a specific schedule for a user.
      * @param schedule the schedule to be edited
      * @param username the user that the schedule belongs to
+     * @param remover
      */
-    public void editSchedule(Schedule schedule, String username) {
+    public void editSchedule(Schedule schedule, String username, RemoveScheduleInputBoundary remover) {
         editSchedule(schedule);
+        remover.removeWithoutOutput(username, schedule.getId());
         saveSchedule(schedule, username);
     }
 

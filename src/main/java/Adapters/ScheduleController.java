@@ -70,9 +70,8 @@ public class ScheduleController {
                 }
                 else if (option.equalsIgnoreCase("edit")){
                     ManageScheduleUseCase manager = new ManageScheduleUseCase(databaseInterface, outputBoundary);
-                    RemoveScheduleUseCase remove = new RemoveScheduleUseCase(databaseInterface, outputBoundary);
-                    remove.removeWithoutOutput(username, schedulesIDs.get(index));
-                    manager.editSchedule(fetcher.getScheduleWithID(schedulesIDs.get(index)), username);
+                    RemoveScheduleInputBoundary remover = new RemoveScheduleUseCase(databaseInterface, outputBoundary);
+                    manager.editSchedule(fetcher.getScheduleWithID(schedulesIDs.get(index)), username, remover);
                 }
                 else if (option.equalsIgnoreCase("activate")){
                     SetActiveScheduleUseCase setActiveScheduleUseCase = new SetActiveScheduleUseCase(databaseInterface, outputBoundary);
