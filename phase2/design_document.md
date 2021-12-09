@@ -1,6 +1,72 @@
 
 # Phase 2 Documentation
 
+## Functionality
+
+### Updated Specifications (Progress Report)
+
+UseCases
+
+-   ListScheduleUseCase
+    
+
+    -   Displays a list of public/the user’s schedules
+    
+
+-   ReminderPromptUseCase
+    
+
+    -   Gives users their schedule for the day upon login.
+    
+
+-   SetActiveUseCase
+    
+-   removeScheduleUseCase
+    
+-   BMIUseCase
+    
+
+    -   Allows users to get their current BMI and health range.
+    
+
+-   AddHeightWeightUseCase
+    
+-   HeightWeightOvertimeUseCase
+    
+
+    -   Gives users’ height and weight history from a date they give to the current day
+    
+
+-   AddPublicScheduleUseCase
+    
+-   editSchedule
+    
+
+    -   Users can modify the name of their schedules, and add and remove workouts/meals
+    
+
+Design patterns
+
+-   Strategy pattern
+    
+
+    -   cm/ft, kg/lbs
+    
+
+-   Factory pattern
+    
+
+    -   Meal, Workouts
+    
+
+-   Facade
+    
+    
+### Major Decisions
+
+The User can now keep track of their weight and height on a daily basis. To keep track of these records along with the date of any changes, we created a new database (“User_HW”) collection that is linked with their unique username.
+
+
 ## Individual contributions since Phase 1
 
 Jayson
@@ -170,72 +236,7 @@ Tianji
 -   Co-lead discussion on how and which design patterns to incorporate.
     
 
-## Functionality
-
-### Updated Specifications (Progress Report)
-
-UseCases
-
--   ListScheduleUseCase
-    
-
-    -   Displays a list of public/the user’s schedules
-    
-
--   ReminderPromptUseCase
-    
-
-    -   Gives users their schedule for the day upon login.
-    
-
--   SetActiveUseCase
-    
--   removeScheduleUseCase
-    
--   BMIUseCase
-    
-
-    -   Allows users to get their current BMI and health range.
-    
-
--   AddHeightWeightUseCase
-    
--   HeightWeightOvertimeUseCase
-    
-
-    -   Gives users’ height and weight history from a date they give to the current day
-    
-
--   AddPublicScheduleUseCase
-    
--   editSchedule
-    
-
-    -   Users can modify the name of their schedules, and add and remove workouts/meals
-    
-
-Design patterns
-
--   Strategy pattern
-    
-
-    -   cm/ft, kg/lbs
-    
-
--   Factory pattern
-    
-
-    -   Meal, Workouts
-    
-
--   Facade
-    
-
   
-
-### Major Decisions
-
-The User can now keep track of their weight and height on a daily basis. To keep track of these records along with the date of any changes, we created a new database (“User_HW”) collection that is linked with their unique username.
 
 ## SOLID DESIGN
 
