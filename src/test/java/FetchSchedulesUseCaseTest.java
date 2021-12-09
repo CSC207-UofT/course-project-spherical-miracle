@@ -15,11 +15,14 @@ class FetchSchedulesUseCaseTest {
 
     private MockDatabase mockDatabase;
     private Presenter presenter = new Presenter();
-    private FetchSchedulesUseCase fetch = new FetchSchedulesUseCase(mockDatabase, presenter);
+    private FetchSchedulesUseCase fetch;
+    private String uuid;
+    private Schedule schedule1;
 
     @BeforeEach
     void setUp() {
         mockDatabase = new MockDatabase();
+        fetch = new FetchSchedulesUseCase(mockDatabase, presenter);
         mockDatabase.saveUser("username", "password", "name", "email@email.com");
         uuid = UUID.randomUUID().toString();
         schedule1 = new Schedule("U1", uuid);
