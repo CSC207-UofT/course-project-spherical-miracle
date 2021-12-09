@@ -12,14 +12,12 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 public class User {
 
-    private String name;
-    private String username;
-    private String password;
-    private String email;
-    private double weight;
-    private double height;
-    private HeightConverter heightConverter;
-    private WeightConverter weightConverter;
+    private final String name;
+    private final String username;
+    private final String password;
+    private final String email;
+    private final double weight;
+    private final double height;
 
     /**
      * Constructs a User, giving them the name, username, email, and password.
