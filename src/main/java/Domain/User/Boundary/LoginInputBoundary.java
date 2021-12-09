@@ -1,7 +1,6 @@
 package Domain.User.Boundary;
 
 import Domain.User.Entities.User;
-import Domain.User.UseCase.LoginUseCase;
 
 /**
  * Input boundary for the login use case.
@@ -17,5 +16,5 @@ public interface LoginInputBoundary {
      * INCORRECT_PASSWORD - incorrect credentials
      * NO_SUCH_USER - no user with given username
      */
-    LoginUseCase.LoginResult login(User user, String password);
+    LoginResult login(User user, String password);
 }

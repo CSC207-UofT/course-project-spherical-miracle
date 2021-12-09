@@ -50,11 +50,11 @@ public class SessionController {
      */
     public boolean login(String username, String password) {
         FetchUserUseCase fetcher = new FetchUserUseCase(databaseInterface);
-        LoginUseCase.LoginResult result;
+        LoginResult result;
         try {
             result = loginInputBoundary.login(fetcher.getUser(username), password);
         } catch (UserDoesNotExistException e) {
-            result = LoginUseCase.LoginResult.NO_SUCH_USER;
+            result = LoginResult.NO_SUCH_USER;
         }
         switch (result) {
             case SUCCESS:
