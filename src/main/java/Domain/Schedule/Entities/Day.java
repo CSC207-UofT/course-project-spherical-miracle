@@ -38,7 +38,7 @@ public class Day {
     }
 
     /**
-     * Return array of meals
+     * Return array of meals.
      * @return array of meals
      */
     public List<Meal> getMeals(){
@@ -96,7 +96,7 @@ public class Day {
     }
 
     /**
-     * Add a meal to the list of meals and return true as long as the list isn't already filled.
+     * Add a meal for the list of meals and return true as long as the list isn't already filled.
      *
      * @param meal meal to be added for the day
      * @return if adding the meal was successful or not
@@ -223,8 +223,8 @@ public class Day {
             workout = this.getWorkoutString();
             meal = this.getMealString();
         }
-        outputMsg += "This is your plan(s) for " + (DayOfWeek.of(day)) + ": \n Workouts: " + workout + "\n" +
-                " Meal: " + meal + "\n ";
+        outputMsg += "This is your plan(s) for " + (DayOfWeek.of(day)) + ":\n Workouts: " + workout + "\n" +
+                " Meal: " + meal + "\n";
         return outputMsg;
         }
 

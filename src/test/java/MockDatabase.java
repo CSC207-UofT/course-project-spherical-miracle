@@ -39,13 +39,20 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
         usernameScheduleIDMap.put(username, new ArrayList<>());
         usernameBodyInfoMap.put(username, new BodyMeasurementRecord(new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>()));
+        usernameActiveIDMap.put(username, "");
     }
 
     @Override
     public UserInfo loadUserWithUsername(String username) throws UserDoesNotExistException {
         for (User user: users) {
             if (user.getUsername().equals(username)) {
-                return new UserInfo(user.getUsername(), user.getPassword(), user.getName(), user.getEmail());
+                if (usernameBodyInfoMap.get(username).getWeights().isEmpty() || usernameBodyInfoMap.get(username).getHeights().isEmpty()){
+                    return new UserInfo(username, user.getPassword(), user.getName(), user.getEmail());
+                } else {
+                    Double height = usernameBodyInfoMap.get(username).getHeights().get(usernameBodyInfoMap.get(username).getHeights().size() -1 );
+                    Double weight = usernameBodyInfoMap.get(username).getWeights().get(usernameBodyInfoMap.get(username).getWeights().size() -1 );
+                    return new UserInfo(username, user.getPassword(), user.getName(), user.getEmail(), height, weight);
+                }
             }
         }
         throw new UserDoesNotExistException(username);
@@ -79,7 +86,11 @@ public class MockDatabase implements UserDataAccess, ScheduleDataAccess {
 
     @Override
     public ScheduleInfo loadActiveSchedule(String username) {
-        return loadScheduleWithID(usernameActiveIDMap.get(username));
+        if (usernameActiveIDMap.get(username).equals("")){
+            return null;
+        } else {
+            return loadScheduleWithID(usernameActiveIDMap.get(username));
+        }
     }
 
     @Override
