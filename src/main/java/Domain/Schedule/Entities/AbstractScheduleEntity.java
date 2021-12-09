@@ -1,7 +1,7 @@
 package Domain.Schedule.Entities;
 
 /**
- * An abstract class for everytype of schedule entity/item
+ * An abstract class for every type of schedule entity/item
  * Currently this includes:
  * - Meal
  * - Workout
@@ -11,6 +11,9 @@ abstract class AbstractScheduleEntity implements ScheduleEntity {
     private String name;
     private int calories;
 
+    /**
+     * Constructs an AbstractScheduleEntity object.
+     */
     public AbstractScheduleEntity(String name, int calories){
         this.name = name;
         this.calories = calories;
@@ -27,5 +30,4 @@ abstract class AbstractScheduleEntity implements ScheduleEntity {
      * @return the calories of the schedule item
      */
     public int getCalories() {return calories;}
-
 }

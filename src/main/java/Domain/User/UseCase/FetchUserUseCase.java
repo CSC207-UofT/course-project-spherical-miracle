@@ -31,6 +31,4 @@ public class FetchUserUseCase {
             return new User(username, userInfo.getPassword(), userInfo.getName(), userInfo.getEmail());
         }
     }
-
-
 }

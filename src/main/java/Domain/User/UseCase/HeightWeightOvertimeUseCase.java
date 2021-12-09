@@ -2,7 +2,6 @@ package Domain.User.UseCase;
 
 import Domain.User.Boundary.UserOutputBoundary;
 import Database.UserDataAccess;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;

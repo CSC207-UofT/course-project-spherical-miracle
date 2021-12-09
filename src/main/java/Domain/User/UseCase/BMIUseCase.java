@@ -20,6 +20,7 @@ public class BMIUseCase {
         this.outputBoundary = outputBoundary;
         this.fetchUserUseCase = fetchUserUseCase;
     }
+
     /**
      * Displays a BMI message.
      * @return true if BMI message is displayed, otherwise return false

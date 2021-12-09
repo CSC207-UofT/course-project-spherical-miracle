@@ -9,9 +9,9 @@ import java.util.UUID;
 public class Schedule {
 
     private String name;
-    private UUID id;
+    private final UUID id;
 
-    private Day[] plan = new Day[7];
+    private final Day[] plan = new Day[7];
 
     /**
      * Constructs a Schedule with the specified name.
@@ -20,6 +20,7 @@ public class Schedule {
     public Schedule(String name) {
         this(name, UUID.randomUUID().toString());
     }
+
     /**
      * Construct a Schedule with the specified name and id.
      * @param name name of the Schedule
@@ -32,7 +33,6 @@ public class Schedule {
             plan[i] = new Day();
         }
     }
-
 
     /**
      * Returns the name of this Schedule.

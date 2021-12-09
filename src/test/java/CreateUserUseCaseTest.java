@@ -1,6 +1,4 @@
-import Adapters.Presenter;
 import Database.UserDataAccess;
-import Domain.User.Entities.User;
 import Domain.User.UseCase.CreateUserUseCase;
 import Domain.User.UseCase.UserDoesNotExistException;
 import org.junit.jupiter.api.AfterEach;
@@ -27,7 +25,7 @@ class CreateUserUseCaseTest {
         String expectedPassword = "438892.04";
         String expectedName = "Meric Gertler";
         String expectedEmail = "president@utoronto.ca";
-        CreateUserUseCase create = new CreateUserUseCase(db, new Presenter());
+        CreateUserUseCase create = new CreateUserUseCase(db);
         create.createUser(expectedUsername, expectedPassword, expectedName, expectedEmail);
         UserDataAccess.UserInfo userinfo = db.loadUserWithUsername(expectedUsername);
         db.saveUser(expectedUsername, expectedPassword, expectedName, expectedEmail);

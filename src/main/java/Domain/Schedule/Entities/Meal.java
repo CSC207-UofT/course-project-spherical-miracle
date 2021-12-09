@@ -1,7 +1,7 @@
 package Domain.Schedule.Entities;
 
 /**
- * A Meal.
+ * A Meal that has a name and contains calories.
  */
 
 public class Meal extends AbstractScheduleEntity implements ScheduleEntity{

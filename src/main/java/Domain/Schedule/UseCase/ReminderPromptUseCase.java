@@ -1,13 +1,11 @@
 package Domain.Schedule.UseCase;
 import Domain.Schedule.Boundary.ScheduleOutputBoundary;
 import Domain.Schedule.Entities.*;
-
 import java.time.DayOfWeek;
 
 /**
  * A reminder of the day's activities for the user upon login.
  */
-
 public class ReminderPromptUseCase {
 
     private final ScheduleOutputBoundary outputBoundary;

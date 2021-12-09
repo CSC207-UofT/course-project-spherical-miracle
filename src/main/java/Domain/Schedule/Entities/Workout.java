@@ -3,7 +3,6 @@ package Domain.Schedule.Entities;
 /**
  * A workout session.
  */
-
 public class Workout extends AbstractScheduleEntity implements ScheduleEntity{
     /**
      * Constructs a Workout with the given name and amount of calories burnt

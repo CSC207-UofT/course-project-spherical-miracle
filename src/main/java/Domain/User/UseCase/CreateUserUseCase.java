@@ -15,9 +15,9 @@ public class CreateUserUseCase implements CreateUserInputBoundary {
     /**
      * Constructs a use case that can create a user.
      * @param databaseInterface - the access interface to the database
-     * @param outputBoundary - the output boundary
+     *
      */
-    public CreateUserUseCase(UserDataAccess databaseInterface, UserOutputBoundary outputBoundary) {
+    public CreateUserUseCase(UserDataAccess databaseInterface) {
         this.databaseInterface = databaseInterface;
         this.outputBoundary = outputBoundary;
     }

@@ -7,7 +7,6 @@ import Domain.Schedule.Entities.Schedule;
 import Domain.Schedule.Entities.Workout;
 import Database.ScheduleDataAccess;
 import Database.ScheduleDataAccess.ScheduleInfo;
-
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;

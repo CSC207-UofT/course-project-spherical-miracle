@@ -2,7 +2,6 @@ package Domain.Schedule.UseCase;
 
 import java.time.DayOfWeek;
 import java.util.*;
-
 import Domain.Schedule.Boundary.RemoveScheduleInputBoundary;
 import Domain.Schedule.Boundary.CreateScheduleInputBoundary;
 import Domain.Schedule.Boundary.ScheduleOutputBoundary;
@@ -29,7 +28,6 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
         this.outputBoundary = outputBoundary;
     }
 
-
     /**
      * Creates a schedule and prompts the user for the necessary details.
      * @param name - specified name of the schedule
@@ -48,7 +46,7 @@ public class ManageScheduleUseCase implements CreateScheduleInputBoundary {
      * Edits a specific schedule for a user.
      * @param schedule the schedule to be edited
      * @param username the user that the schedule belongs to
-     * @param remover
+     * @param remover the input boundary
      */
     public void editSchedule(Schedule schedule, String username, RemoveScheduleInputBoundary remover) {
         editSchedule(schedule);

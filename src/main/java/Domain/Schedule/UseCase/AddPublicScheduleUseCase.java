@@ -3,6 +3,9 @@ package Domain.Schedule.UseCase;
 import Domain.Schedule.Boundary.ScheduleOutputBoundary;
 import Database.ScheduleDataAccess;
 
+/**
+ * Adds a public schedule to a user's associated schedules.
+ */
 public class AddPublicScheduleUseCase {
 
     private final ScheduleDataAccess databaseInterface;
@@ -28,7 +31,5 @@ public class AddPublicScheduleUseCase {
         scheduleInfo.randomizeId();
         boolean isPublic = outputBoundary.isPublic();
         databaseInterface.createSchedule(scheduleInfo,username,isPublic);
-
     }
-
 }

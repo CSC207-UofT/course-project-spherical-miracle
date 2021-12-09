@@ -3,7 +3,6 @@ package Domain.User.Boundary;
 /**
  * Input boundary for the createUser use case.
  */
-
 public interface CreateUserInputBoundary {
 
     /**

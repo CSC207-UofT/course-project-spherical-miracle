@@ -104,6 +104,7 @@ public interface UserDataAccess {
         public UserInfo(String username, String password, String name, String email) {
             this(username, password, name, email, -1.0, -1.0);
         }
+
         /**
          * Constructs a UserInfo object when there is at least one height and weight record.
          * @param username - the username of the user
@@ -177,7 +178,5 @@ public interface UserDataAccess {
         public boolean hasBodyMeasurements() {
             return height != -1.0;
         }
-
     }
-
 }

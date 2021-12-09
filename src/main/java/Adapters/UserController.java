@@ -37,7 +37,7 @@ public class UserController {
             outputBoundary.signupMessage(false);
             return false;
         } catch (UserDoesNotExistException e) {
-            CreateUserInputBoundary createUserInputBoundary = new CreateUserUseCase(databaseInterface, outputBoundary);
+            CreateUserInputBoundary createUserInputBoundary = new CreateUserUseCase(databaseInterface);
             createUserInputBoundary.createUser(username, password, name, email);
             outputBoundary.signupMessage(true);
             return true;

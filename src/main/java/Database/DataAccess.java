@@ -142,7 +142,6 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         return schedules;
     }
 
-
     @Override
     public void createSchedule(ScheduleInfo scheduleInfo, String username, boolean isPublic) {
         MongoCollection<Document> sc = database.getCollection("Schedule");
@@ -188,7 +187,6 @@ public class DataAccess implements UserDataAccess, ScheduleDataAccess {
         }
         return publicSchedules;
     }
-
 
     @Override
     public ScheduleInfo loadActiveSchedule(String username) {

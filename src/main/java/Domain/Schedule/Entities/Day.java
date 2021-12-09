@@ -10,14 +10,18 @@ import java.util.List;
 
 public class Day {
 
-    private List<Workout> workouts;
-    private List<Meal> meals;
+    private final List<Workout> workouts;
+    private final List<Meal> meals;
     private int intake;
     private int calBurnt;
 
+    /**
+     * Global variables to represent the result of adding a Workout to a Schedule.
+     */
     public enum addWorkoutResult {
-        SUCCESS, TOO_MANY, DUPLICATE_NAME;
+        SUCCESS, TOO_MANY, DUPLICATE_NAME
     }
+
     /**
      * Construct a Day object.
      */
@@ -27,7 +31,6 @@ public class Day {
         intake = 0;
         calBurnt = 0;
     }
-
 
     /**
      * Returns an array of workouts.
@@ -172,8 +175,7 @@ public class Day {
 
             }
         }
-
-        // remove the last comma
+        // this code chunk removes the last comma in a list of Workouts
         if (stringWorkouts.length() != 0) {
             stringWorkouts = new StringBuilder(stringWorkouts.substring(0, stringWorkouts.length() - 2));
         }
@@ -227,7 +229,6 @@ public class Day {
                 " Meal: " + meal + "\n";
         return outputMsg;
         }
-
 
     /**
      * Return if this instance of the Day is empty

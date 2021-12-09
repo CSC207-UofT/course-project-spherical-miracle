@@ -1,5 +1,8 @@
 package Domain.User.UseCase;
 
+/**
+ * A special exception for when a user with the given username does not exist.
+ */
 public class UserDoesNotExistException extends Exception {
 
     /**

@@ -3,6 +3,9 @@ package Domain.Schedule.UseCase;
 import Domain.Schedule.Boundary.ScheduleOutputBoundary;
 import Domain.Schedule.Entities.*;
 
+/**
+ * Displays a user's schedules with details.
+ */
 public class DisplayScheduleUseCase {
 
     private final ScheduleOutputBoundary outputBoundary;
@@ -21,5 +24,4 @@ public class DisplayScheduleUseCase {
     public void displaySchedule(Schedule schedule) {
          outputBoundary.scheduleInfoMessage(schedule.toString());
     }
-
 }

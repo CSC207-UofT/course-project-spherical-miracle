@@ -6,7 +6,6 @@ package Domain.Schedule.Entities;
  * - Meal
  * - Workout
  */
-
 public class ScheduleEntityFactory {
 
     /**
@@ -15,7 +14,7 @@ public class ScheduleEntityFactory {
      * @param entityType the type of schedule entity desired
      * @param name the name for a specific instance of the schedule entity
      * @param calories the calories for a specific instance of the schedule entity
-     * @returns ScheduleEntity
+     * @return ScheduleEntity
      */
     public ScheduleEntity getScheduleEntity(String entityType, String name, int calories){
         if (entityType.equalsIgnoreCase("m")) {

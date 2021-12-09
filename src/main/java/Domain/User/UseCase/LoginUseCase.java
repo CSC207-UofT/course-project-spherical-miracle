@@ -10,8 +10,6 @@ import Domain.User.Boundary.LoginResult;
 
 public class LoginUseCase implements LoginInputBoundary {
 
-
-
     /**
      * Constructs a use case that can log a user in.
      */

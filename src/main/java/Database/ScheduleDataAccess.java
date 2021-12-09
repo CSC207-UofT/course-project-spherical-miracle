@@ -86,6 +86,7 @@ public interface ScheduleDataAccess {
         public String getId() {
             return id;
         }
+
         /**
          * Randomise the id of the scheduleInfo.
          */
