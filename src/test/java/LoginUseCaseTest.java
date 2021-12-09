@@ -2,6 +2,7 @@ import Domain.User.Entities.User;
 import Domain.User.UseCase.FetchUserUseCase;
 import Domain.User.UseCase.LoginUseCase;
 import Domain.User.UseCase.UserDoesNotExistException;
+import Domain.User.Boundary.LoginResult;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,7 @@ class LoginUseCaseTest {
         FetchUserUseCase fetch = new FetchUserUseCase(db);
         LoginUseCase login = new LoginUseCase();
         User u1 = fetch.getUser(username);
-        assert login.login(u1, expectedPassword) == LoginUseCase.LoginResult.SUCCESS;
-        assert login.login(u1, wrongPassword) == LoginUseCase.LoginResult.INCORRECT_PASSWORD;
+        assert login.login(u1, expectedPassword) == LoginResult.SUCCESS;
+        assert login.login(u1, wrongPassword) == LoginResult.INCORRECT_PASSWORD;
     }
 }
