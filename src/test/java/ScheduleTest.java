@@ -85,29 +85,27 @@ class ScheduleTest {
         Day day = new Day();
         day.addWorkout(new Workout("Bench Press", 130));
         week1.setDay(DayOfWeek.MONDAY, day);
-        String plan = """
-                This is your plan(s) for MONDAY:
-                 Workouts: Bench Press: 130 kcal
-                 Meal: No meals
-                This is your plan(s) for TUESDAY:
-                 Workouts: Rest Day
-                 Meal: No meals
-                This is your plan(s) for WEDNESDAY:
-                 Workouts: Rest Day
-                 Meal: No meals
-                This is your plan(s) for THURSDAY:
-                 Workouts: Rest Day
-                 Meal: No meals
-                This is your plan(s) for FRIDAY:
-                 Workouts: Rest Day
-                 Meal: No meals
-                This is your plan(s) for SATURDAY:
-                 Workouts: Rest Day
-                 Meal: No meals
-                This is your plan(s) for SUNDAY:
-                 Workouts: Rest Day
-                 Meal: No meals
-                """;
+        String plan = "This is your plan(s) for MONDAY:\n" +
+                " Workouts: Bench Press: 130 kcal\n" +
+                " Meal: No meals\n" +
+                "This is your plan(s) for TUESDAY:\n" +
+                " Workouts: Rest Day\n" +
+                " Meal: No meals\n" +
+                "This is your plan(s) for WEDNESDAY:\n" +
+                " Workouts: Rest Day\n" +
+                " Meal: No meals\n" +
+                "This is your plan(s) for THURSDAY:\n" +
+                " Workouts: Rest Day\n" +
+                " Meal: No meals\n" +
+                "This is your plan(s) for FRIDAY:\n" +
+                " Workouts: Rest Day\n" +
+                " Meal: No meals\n" +
+                "This is your plan(s) for SATURDAY:\n" +
+                " Workouts: Rest Day\n" +
+                " Meal: No meals\n" +
+                "This is your plan(s) for SUNDAY:\n" +
+                " Workouts: Rest Day\n" +
+                " Meal: No meals\n";
         System.out.println(week1.toString());
         assert week1.toString().equals(plan);
     }
