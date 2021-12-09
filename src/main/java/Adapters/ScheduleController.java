@@ -85,7 +85,7 @@ public class ScheduleController {
 
     /**
      * Displays the list of public schedules
-     * @param username the user who the public schedules belongs to
+     * @param username the user who the public schedules belong to
      */
     public void viewPublicSchedules(String username) {
         List<String> schedulesIDs = fetch.getPublicSchedules();

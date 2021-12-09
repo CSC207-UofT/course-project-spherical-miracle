@@ -1,7 +1,6 @@
 package Adapters;
 
 import Domain.User.Boundary.*;
-import Domain.User.Entities.User;
 import Domain.User.UseCase.*;
 import Database.UserDataAccess;
 
@@ -13,11 +12,9 @@ public class UserController {
     private final UserDataAccess databaseInterface;
     private final UserOutputBoundary outputBoundary;
 
-
     /**
-
      * Constructs a controller that handles user-related actions.
-     *  @param databaseInterface the access interface to the database
+     * @param databaseInterface the access interface to the database
      * @param outputBoundary output boundary for User
      */
     public UserController(UserDataAccess databaseInterface, UserOutputBoundary outputBoundary) {
@@ -48,24 +45,25 @@ public class UserController {
     }
 
     /**
-     * Remove the user from the UserDatabase.
-     * @param username the user's username
+     * Gets the current body measurements for a specific user.
      */
-    public void removeUser(String username) {
-    }
-
     public void getCurrentWeightHeightBMI(String username){
         FetchUserUseCase fetch = new FetchUserUseCase(databaseInterface);
         BMIUseCase bmiUseCase = new BMIUseCase(fetch, outputBoundary);
         bmiUseCase.BMIMessage(username);
     }
 
+    /**
+     * Adds a new entry for height and weight measurements to a user's record.
+     */
     public void addHeightWeight(String username){
         AddHeightWeightUseCase addHeightWeightUseCase = new AddHeightWeightUseCase(databaseInterface, outputBoundary);
         addHeightWeightUseCase.addHeightWeight(username);
-
     }
 
+    /**
+     * Displays a list of the user's history of heights and weights.
+     */
     public void viewListOfHeightWeightOvertime(String username){
         HeightWeightOvertimeUseCase heightWeightOvertimeUseCase = new HeightWeightOvertimeUseCase(outputBoundary,
                 databaseInterface);

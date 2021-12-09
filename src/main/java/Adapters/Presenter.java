@@ -11,9 +11,6 @@ import Domain.User.Boundary.UserOutputBoundary;
  * The presenter for showing appropriate prompts to the user.
  */
 public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
-
-    private final double LBS_CONVERTER = 2.205;
-    private final double FT_CONVERTER = 3.281;
     private final Scanner in = new Scanner(System.in);
 
     /**
@@ -25,8 +22,6 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                 "'n' to change the name of this schedule \n" +
                 "'c' to make changes to a day\n" +
                 "'s' to save and return to the main menu";
-        static final String CREATE_SCHEDULE_OPTIONS = "Type 'c' to make changes to a day or 's' to save and " +
-                "return to the main menu.";
     }
 
     @Override
@@ -70,6 +65,8 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
 
     @Override
     public void printHeightWeight(Double height, Double weight){
+        double LBS_CONVERTER = 2.205;
+        double FT_CONVERTER = 3.281;
         double roundedHeight = Math.round(height * FT_CONVERTER * 100.0) / 100.0;
         double roundedWeight = Math.round(weight * LBS_CONVERTER * 100.0) / 100.0;
         if (height == 0.0 && weight ==0.0) {
@@ -187,6 +184,7 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
                 "Enter -1 to go back.", "schedules");
     }
 
+    @SuppressWarnings("SameParameterValue")
     private int chooseObjectFromList(int size, String message, String objectType){
         Scanner in = new Scanner(System.in);
         if (size == 0) {
@@ -317,13 +315,6 @@ public class Presenter implements UserOutputBoundary, ScheduleOutputBoundary {
             selectedName = in.nextLine();
         }
         return selectedName;
-    }
-
-    /**
-     * Prints out a string message when there's no current BMI for a user.
-     */
-    public void noBMI(String message){
-        System.out.println(message);
     }
 
     @Override
